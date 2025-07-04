@@ -11,4 +11,14 @@ namely how to fetch the entire collection, how to add/update/remove an item in t
 
 For now, this first proof-of-concept only specifies which path retrieves the full collection, and which field in the response contains the retrieved items.
 
+```yaml
+collections:
+  calendarList:
+    description: |-
+      Calendars of the currently authenticated user.
+    get:
+      path: /users/me/calendarList
+      field: items
+```
+
 This work is [sponsored by NLNet](https://nlnet.nl/project/TUBS/)
