@@ -20,5 +20,39 @@ collections:
       path: /users/me/calendarList
       field: items
 ```
+## Usage
+```sh
+pnpm install
+pnpm build
+pnpm start
+```
+Output:
+```
+Resolved components in OpenAPI spec.
+Creating collection: calendarList
+
+CREATE TABLE data(
+  accessRole TEXT,
+  backgroundColor TEXT,
+  colorId TEXT,
+  
+  
+  deleted BOOLEAN,
+  description TEXT,
+  etag TEXT,
+  foregroundColor TEXT,
+  hidden BOOLEAN,
+  id TEXT,
+  kind TEXT,
+  location TEXT,
+  
+  primary BOOLEAN,
+  selected BOOLEAN,
+  summary TEXT,
+  summaryOverride TEXT,
+  timeZone TEXT,
+) STRICT
+```
+This is just a first example of how it would create an SQL database schema. We plan to extend this repo with a fully functional sync engine that can act as a reference implementation of OpenAPI Collections.
 
 This work is [sponsored by NLNet](https://nlnet.nl/project/TUBS/)
