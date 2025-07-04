@@ -1,0 +1,1 @@
+{"version":3,"file":"lens.js","sourceRoot":"","sources":["../../src/lens.ts"],"names":[],"mappings":"AAKA,MAAM,OAAO,QAAQ;IACnB,OAAO,CAAC,CAAS;QACf,OAAO,IAAI,IAAI,CAAC,CAAC,CAAC,CAAC;IACrB,CAAC;IACD,QAAQ,CAAC,CAAO;QACd,OAAO,CAAC,CAAC,QAAQ,EAAE,CAAC;IACtB,CAAC;CACF"}
