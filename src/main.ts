@@ -106,7 +106,9 @@ CREATE TABLE data(
 async function createCollections(specFile: string): Promise<void> {
   const openApiSpec = await getSpec(specFile);
   Object.keys(openApiSpec.syncables).forEach((syncableName) => {
-    console.log(`Creating syncable ${openApiSpec.syncables[syncableName].type}: ${syncableName}`);
+    console.log(
+      `Creating syncable ${openApiSpec.syncables[syncableName].type}: ${syncableName}`,
+    );
     createSqlTable(
       openApiSpec,
       openApiSpec.syncables[syncableName].get.path,
