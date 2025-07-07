@@ -12,10 +12,11 @@ namely how to fetch the entire collection, how to add/update/remove an item in t
 For now, this first proof-of-concept only specifies which path retrieves the full collection, and which field in the response contains the retrieved items.
 
 ```yaml
-collections:
+syncables:
   calendarList:
     description: |-
       Calendars of the currently authenticated user.
+    type: collection
     get:
       path: /users/me/calendarList
       field: items
@@ -29,7 +30,7 @@ pnpm start
 Output:
 ```
 Resolved components in OpenAPI spec.
-Creating collection: calendarList
+Creating syncable collection: calendarList
 
 CREATE TABLE data(
   accessRole TEXT,

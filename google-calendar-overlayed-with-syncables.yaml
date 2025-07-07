@@ -3243,10 +3243,11 @@ components:
             https://www.googleapis.com/auth/calendar.settings.readonly: View your Calendar settings
           tokenUrl: https://accounts.google.com/o/oauth2/token
       type: oauth2
-collections:
+syncables:
   calendarList:
     description: |-
       Calendars of the currently authenticated user.
+    type: collection
     get:
       path: /users/me/calendarList
       field: items

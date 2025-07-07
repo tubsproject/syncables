@@ -105,15 +105,15 @@ CREATE TABLE data(
 
 async function createCollections(specFile: string): Promise<void> {
   const openApiSpec = await getSpec(specFile);
-  Object.keys(openApiSpec.collections).forEach((collectionName) => {
-    console.log(`Creating collection: ${collectionName}`);
+  Object.keys(openApiSpec.syncables).forEach((syncableName) => {
+    console.log(`Creating syncable ${openApiSpec.syncables[syncableName].type}: ${syncableName}`);
     createSqlTable(
       openApiSpec,
-      openApiSpec.collections[collectionName].get.path,
-      openApiSpec.collections[collectionName].get.field,
+      openApiSpec.syncables[syncableName].get.path,
+      openApiSpec.syncables[syncableName].get.field,
     );
   });
 }
 
 // ...
-await createCollections('./google-calendar-overlayed-with-collections.yaml');
+await createCollections('./google-calendar-overlayed-with-syncables.yaml');
