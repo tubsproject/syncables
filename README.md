@@ -1,4 +1,4 @@
-# OpenAPI Collections
+# Syncables
 
 Access to data collections is one important functionality of many APIs. Sync engines require quite some boilerplate to keep an up-to-date local copy of a collection that the API exposes.
 
