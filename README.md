@@ -30,7 +30,9 @@ With that, the demo implementation in the `src` folder of this repo can generate
 pnpm install
 pnpm generate
 pnpm build
+docker compose up -d
 pnpm start
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables
 ```
 Output:
 ```
