@@ -9,6 +9,12 @@ actions:
         description: |-
           Calendars of the currently authenticated user.
         type: collection
+        schema:
+        $ref: "#/components/schemas/CalendarListEntry"
         get:
           path: /users/me/calendarList
+          operation: get
           field: items
+        add:
+          path: /users/me/calendarList
+          operation: post

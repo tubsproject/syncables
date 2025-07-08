@@ -11,8 +11,8 @@ namely how to fetch the entire collection, how to add/update/remove an item in t
 
 For now, this first proof-of-concept only specifies which path retrieves the full collection, and which field in the response contains the retrieved items.
 
-The `openapi/oad/google-calendar.yml` file in this repo is an OpenAPI Document (OAD) for Google's Calendar API.
-The `openapi/overlay/google-calendar-overlay.yml` is a small OpenAPI Overlay that adds the following information into the root of the OAD:
+The `openapi/oad/google-calendar.yaml` file in this repo is an OpenAPI Document (OAD) for Google's Calendar API.
+The `openapi/overlay/google-calendar-overlay.yaml` is a small OpenAPI Overlay that adds the following information into the root of the OAD:
 ```yaml
 syncables:
   calendarList:

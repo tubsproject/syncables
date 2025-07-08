@@ -118,4 +118,4 @@ async function createCollections(specFile: string): Promise<void> {
 }
 
 // ...
-await createCollections('generated.yml');
+await createCollections('generated.yaml');
