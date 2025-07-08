@@ -26,6 +26,12 @@ syncables:
 With that, the demo implementation in the `src` folder of this repo can generate an SQL table schema.
 
 ## Usage
+Here is a demo of the syncables for Google Calendar API.
+* Go to [Google API Explorer](https://developers.google.com/workspace/calendar/api/v3/reference/calendarList/list), open the browser's developer tools, and execute the query using the APIs Explorer on the right.
+* On the network tab of the browser developer tools, find the request that went to calendarList?key=..., copy the bearer token from the Authorization request header, and run `export GOOGLE_ACCESS_TOKEN=ya29.a0AS3...`
+* Get the API key from the url query parameter and run `export GOOGLE_API_KEY=AIzaSyBeo4NGA__U6Xxy-aBE6yFm19pgq8TY-TM`.
+* Run `echo $GOOGLE_API_KEY and $GOOGLE_ACCESS_TOKEN` to check.
+
 ```sh
 pnpm install
 pnpm generate
@@ -40,6 +46,6 @@ Output:
 ------------+-----------------+---------+---------+-------------+------+-----------------+--------+----+------+----------+----------+----------+---------+-----------------+----------
 (0 rows)
 ```
-This is just a first example of how it would create an SQL database schema. We plan to extend this repo with a fully functional sync engine that can act as a reference implementation of OpenAPI Syncables.
+This is just a first example of how it would create an SQL database schema and populate it with some data from an API. We plan to extend this repo with a fully functional sync engine that can act as a reference implementation of OpenAPI Syncables.
 
 This work is [sponsored by NLNet](https://nlnet.nl/project/TUBS/)
