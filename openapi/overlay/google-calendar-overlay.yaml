@@ -10,7 +10,7 @@ actions:
           Calendars of the currently authenticated user.
         type: collection
         schema:
-        $ref: "#/components/schemas/CalendarListEntry"
+          $ref: "#/components/schemas/CalendarListEntry"
         get:
           path: /users/me/calendarList
           operation: get
