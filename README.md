@@ -32,34 +32,13 @@ pnpm generate
 pnpm build
 docker compose up -d
 pnpm start
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from data;"
 ```
 Output:
 ```
-Resolved components in OpenAPI spec.
-Creating syncable collection: calendarList
-
-CREATE TABLE data(
-  accessRole TEXT,
-  backgroundColor TEXT,
-  colorId TEXT,
-  
-  
-  deleted BOOLEAN,
-  description TEXT,
-  etag TEXT,
-  foregroundColor TEXT,
-  hidden BOOLEAN,
-  id TEXT,
-  kind TEXT,
-  location TEXT,
-  
-  primary BOOLEAN,
-  selected BOOLEAN,
-  summary TEXT,
-  summaryOverride TEXT,
-  timeZone TEXT,
-) STRICT
+ accessrole | backgroundcolor | colorid | deleted | description | etag | foregroundcolor | hidden | id | kind | location | primary_ | selected | summary | summaryoverride | timezone 
+------------+-----------------+---------+---------+-------------+------+-----------------+--------+----+------+----------+----------+----------+---------+-----------------+----------
+(0 rows)
 ```
 This is just a first example of how it would create an SQL database schema. We plan to extend this repo with a fully functional sync engine that can act as a reference implementation of OpenAPI Syncables.
 
