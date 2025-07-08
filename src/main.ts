@@ -118,4 +118,4 @@ async function createCollections(specFile: string): Promise<void> {
 }
 
 // ...
-await createCollections('./google-calendar-overlayed-with-syncables.yaml');
+await createCollections('generated.yml');

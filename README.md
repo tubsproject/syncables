@@ -24,6 +24,7 @@ syncables:
 ## Usage
 ```sh
 pnpm install
+pnpm generate
 pnpm build
 pnpm start
 ```

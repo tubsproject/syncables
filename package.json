@@ -24,6 +24,7 @@
     "vitest": "^3.0.8"
   },
   "scripts": {
+    "generate": "overlayjs --openapi ./openapi/oad/google-calendar.yml --overlay ./openapi/overlay/google-calendar-overlay.yml > generated.yml",
     "start": "node build/src/main.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
@@ -48,6 +49,7 @@
     "@slack/bolt": "^4.2.1",
     "@types/ws": "^8.18.0",
     "dotenv": "^16.5.0",
+    "openapi-overlays-js": "^0.2.0",
     "sqlite3": "^5.1.7",
     "tslib": "~2.8",
     "ws": "^8.18.1",

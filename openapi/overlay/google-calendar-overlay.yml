@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+  description: Add syncables to the Google Calendar API.
+actions:
+- target: $
+  update:
+    syncables:
+      calendarList:
+        description: |-
+          Calendars of the currently authenticated user.
+        type: collection
+        get:
+          path: /users/me/calendarList
+          field: items
