@@ -111,7 +111,7 @@ CREATE TABLE data(
 `;
   console.log(createTableQuery);
   const client = await getPostgresClient();
-  // await client.query(createTableQuery);
+  await client.query(createTableQuery);
   const url = openApiSpec.servers[0].url + endPoint + '?key=' + process.env.GOOGLE_API_KEY;
   const res = await fetch(url, {
     headers: {

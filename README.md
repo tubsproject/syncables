@@ -4,7 +4,7 @@ Access to data objects and collections is one important functionality of many AP
 
 To make this easier, we introduce a new field in OpenAPI specs, apart from `paths` and `components`, named `syncables`.
 
-Whereas existing use of OpenAPI is mostly syntactical and human-readable (it specifies the schemas of API endpoints but the information on how to use them is only in the human-readable descriptions), OpenAPI Syncables aim to provide all the machine-readable information needed by a sync engine.
+Whereas existing use of OpenAPI is mostly at the request and response body level (it specifies their schemas but the information on how to use them is only in the human-readable descriptions), Syncables aim to provide all the machine-readable information needed by a sync engine.
 
 A collection specifies details about a collection of data items that is available through the API in question,
 namely how to fetch the entire collection, how to add/update/remove an item in the collection, which merge type to use in case of conflicts, etc.
@@ -23,14 +23,15 @@ syncables:
       path: /users/me/calendarList
       field: items
 ```
-With that, the demo implementation in the `src` folder of this repo can generate an SQL table schema.
+With that, the demo implementation in the `src` folder of this repo can create an SQL table and do a one-sweep sync of the collection from the remote API to this local database table.
+It's still a work in progress and very brittle.
 
 ## Usage
 Here is a demo of the syncables for Google Calendar API.
 * Go to [Google API Explorer](https://developers.google.com/workspace/calendar/api/v3/reference/calendarList/list), open the browser's developer tools, and execute the query using the APIs Explorer on the right.
 * On the network tab of the browser developer tools, find the request that went to calendarList?key=..., copy the bearer token from the Authorization request header, and run `export GOOGLE_ACCESS_TOKEN=ya29.a0AS3...`
 * Get the API key from the url query parameter and run `export GOOGLE_API_KEY=AIzaSyBeo4NGA__U6Xxy-aBE6yFm19pgq8TY-TM`.
-* Run `echo $GOOGLE_API_KEY and $GOOGLE_ACCESS_TOKEN` to check.
+* Run `echo $GOOGLE_ACCESS_TOKEN and $GOOGLE_API_KEY` to check.
 
 ```sh
 pnpm install
