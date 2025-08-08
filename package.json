@@ -41,7 +41,11 @@
   "author": "Michiel de Jong <michiel@unhosted.org>",
   "license": "Apache-2.0",
   "dependencies": {
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
     "openapi-overlays-js": "^0.2.0",
+    "passport": "^0.7.0",
+    "passport-oauth": "^1.0.0",
     "pg": "^8.16.3",
     "yaml": "^2.8.0"
   },

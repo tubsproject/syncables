@@ -28,10 +28,9 @@ It's still a work in progress and very brittle.
 
 ## Usage
 Here is a demo of the syncables for Google Calendar API.
-* Go to [Google API Explorer](https://developers.google.com/workspace/calendar/api/v3/reference/calendarList/list), open the browser's developer tools, and execute the query using the APIs Explorer on the right.
-* On the network tab of the browser developer tools, find the request that went to calendarList?key=..., copy the bearer token from the Authorization request header, and run `export GOOGLE_ACCESS_TOKEN=ya29.a0AS3...`
-* Get the API key from the url query parameter and run `export GOOGLE_API_KEY=AIzaSyBeo4NGA__U6Xxy-aBE6yFm19pgq8TY-TM`.
-* Run `echo $GOOGLE_ACCESS_TOKEN and $GOOGLE_API_KEY` to check.
+* In the [Google Cloud Dashboard](https://console.cloud.google.com/apis/credentials) create an OAuth 2.0 Client ID with http://localhost:8000 as an authorized JavaScript origin and http://localhost:8000/callback as an authorized redirect URI.
+* Run `export GOOGLE_CLIENT_ID=...` and `export GOOGLE_CLIENT_SECRET=...`.
+
 
 ```sh
 pnpm install

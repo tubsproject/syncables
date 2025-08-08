@@ -1,5 +1,6 @@
 import { getSpec } from './openApi.js';
 import { createSqlTable } from './db.js';
+import { runOAuthClient } from './oauth.js';
 
 async function createCollections(specFile: string): Promise<void> {
   const openApiSpec = await getSpec(specFile);
@@ -16,4 +17,7 @@ async function createCollections(specFile: string): Promise<void> {
 }
 
 // ...
-await createCollections('generated.yaml');
+void createCollections;
+// await createCollections('generated.yaml');
+
+runOAuthClient(8000); // Start the OAuth client on port 8000
