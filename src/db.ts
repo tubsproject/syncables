@@ -1,5 +1,6 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 import { Client } from 'pg';
+const client = await getPostgresClient();
 
 async function getPostgresClient(): Promise<Client> {
   const client = new Client({
@@ -44,12 +45,17 @@ CREATE TABLE IF NOT EXISTS data(
 );
 `;
   console.log(createTableQuery);
-  const client = await getPostgresClient();
   await client.query(createTableQuery);
-  const url = openApiSpec.servers[0].url + endPoint + '?key=' + process.env.GOOGLE_API_KEY;
+}
+export async function fetchAndInsertData(
+  openApiSpec: any,
+  endPoint: string,
+  token: string,
+): Promise<void> {
+  const url = openApiSpec.servers[0].url + endPoint; // + '?key=' + process.env.GOOGLE_API_KEY;
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.GOOGLE_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${token}`,
       'x-referer': 'https://explorer.apis.google.com',
     },
   });
