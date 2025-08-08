@@ -1,5 +1,6 @@
 import { getSpec } from './openApi.js';
-import { createSqlTable, fetchAndInsertData } from './db.js';
+import { createSqlTable, insertData, closeClient } from './db.js';
+import { fetchData } from './client.js';
 import { runOAuthClient } from './oauth.js';
 
 async function createCollections(specFile: string, token: string): Promise<void> {
@@ -13,11 +14,13 @@ async function createCollections(specFile: string, token: string): Promise<void>
       openApiSpec.syncables[syncableName].get.path,
       openApiSpec.syncables[syncableName].get.field,
     );
-    await fetchAndInsertData(
+    const data = await fetchData(
       openApiSpec,
       openApiSpec.syncables[syncableName].get.path,
       token,
     );
+    await insertData(data);
+    await closeClient();
 
   }));
 }

@@ -47,31 +47,17 @@ CREATE TABLE IF NOT EXISTS data(
   console.log(createTableQuery);
   await client.query(createTableQuery);
 }
-export async function fetchAndInsertData(
-  openApiSpec: any,
-  endPoint: string,
-  token: string,
+export async function insertData(
+  data: any,
 ): Promise<void> {
-  const url = openApiSpec.servers[0].url + endPoint; // + '?key=' + process.env.GOOGLE_API_KEY;
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'x-referer': 'https://explorer.apis.google.com',
-    },
-  });
-  const data = await res.json();
-  console.log(`Fetched data from ${endPoint}:`, data);
+  console.log(`Fetched data:`, data);
   await Promise.all(data.items.map((item: any) => {
     // const insertQuery = `INSERT INTO data (${Object.keys(item).join(', ')}) VALUES (${Object.values(item).map(v => `'${v}'`).join(', ')}`;
     const insertQuery = `INSERT INTO data (id, summary, description) VALUES ('${item.id}', '${item.summary}', '${item.description}')`;
     console.log(`Executing insert query: ${insertQuery}`);
     return client.query(insertQuery);
   }));
-  await client.end()
-
-  // Execute SQL statements from strings.
-  // const database = new sqlite.Database(':memory:');
-  // database.serialize(() => {
-  //   database.run(createTableQuery);
-  // });
+}
+export async function closeClient(): Promise<void> {
+  await client.end();
 }

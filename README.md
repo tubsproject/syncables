@@ -29,6 +29,7 @@ It's still a work in progress and very brittle.
 ## Usage
 Here is a demo of the syncables for Google Calendar API.
 * In the [Google Cloud Dashboard](https://console.cloud.google.com/apis/credentials) create an OAuth 2.0 Client ID with http://localhost:8000 as an authorized JavaScript origin and http://localhost:8000/callback as an authorized redirect URI.
+* Set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` environment variables. Check: `echo $GOOGLE_CLIENT_ID and $GOOGLE_CLIENT_SECRET`
 * Enable the [calendar API](https://console.cloud.google.com/apis/api/calendar-json.googleapis.com/overview?project=tubs-468405&inv=1&invt=Ab46Tw)
 
 
