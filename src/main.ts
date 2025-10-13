@@ -22,7 +22,7 @@ async function createCollections(openApiSpec: any, token: string): Promise<void>
         endPoint,
         token,
       );
-      await insertData(syncableName, data[openApiSpec.syncables[syncableName].get.field], Object.keys(fields));
+      await insertData(syncableName, data[openApiSpec.syncables[syncableName].get.field], Object.keys(fields).filter(x => ['string', 'integer', 'boolean'].includes(fields[x].type)));
     } else if (openApiSpec.syncables[syncableName].hydra !== undefined) {
       const fields = getFields(openApiSpec, endPoint, 'hydra:member');
       fields['@context'] = { type: 'string' };
@@ -35,7 +35,7 @@ async function createCollections(openApiSpec: any, token: string): Promise<void>
         openApiSpec.syncables[syncableName].hydra,
         token,
       );
-      await insertData(syncableName, data['hydra:member'], Object.keys(fields));
+      await insertData(syncableName, data['hydra:member'], Object.keys(fields).filter(x => ['string', 'integer', 'boolean'].includes(fields[x].type)));
     }
   }));
 }
@@ -58,5 +58,5 @@ async function createCollections(openApiSpec: any, token: string): Promise<void>
 const openApiSpecAcube = await getSpec('acube-peppol-generated.yaml');
 await createCollections(openApiSpecAcube, process.env.ACUBE_TOKEN);
 
-// const openApiSpecPeppyrus = await getSpec('peppyrus-peppol-generated.yaml');
-// await createCollections(openApiSpecPeppyrus, process.env.PEPPYRUS_TOKEN);
+const openApiSpecPeppyrus = await getSpec('peppyrus-peppol-generated.yaml');
+await createCollections(openApiSpecPeppyrus, process.env.PEPPYRUS_TOKEN);
