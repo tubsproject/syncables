@@ -35,7 +35,7 @@ async function createCollections(openApiSpecFilename: string, authHeaders: { [ke
         openApiSpec.syncables[syncableName].hydra,
         authHeaders,
       );
-      await insertData(syncableName, data['hydra:member'], Object.keys(fields).filter(x => ['string', 'integer', 'boolean'].includes(fields[x].type)));
+      await insertData(syncableName, data['hydra:member'], Object.keys(fields).filter(x => ['string', 'integer', /*'boolean'*/].includes(fields[x].type)));
     }
   }));
 }
