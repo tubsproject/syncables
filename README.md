@@ -40,7 +40,8 @@ pnpm install
 pnpm build
 docker compose up -d
 pnpm start
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from data;"
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from calendarList;"
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from incomingInvoice;"
 ```
 Output:
 ```

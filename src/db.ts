@@ -14,14 +14,15 @@ async function getPostgresClient(): Promise<Client> {
 }
 
 export async function createSqlTable(
+  tableName: string,
   openApiSpec: any,
   endPoint: string,
   rowsFrom: string,
 ): Promise<void> {
+  const successResponseProperties =
+    openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
   const schema =
-    openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content?.[
-      'application/ld+json'
-    ]?.schema;
+    successResponseProperties?.['application/ld+json']?.schema || successResponseProperties?.['application/json']?.schema;
   console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
   // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
   const whatWeWant = schema?.properties?.[rowsFrom]?.items?.properties;
@@ -41,19 +42,19 @@ export async function createSqlTable(
     }
   });
   const createTableQuery = `
-CREATE TABLE IF NOT EXISTS data(
+CREATE TABLE IF NOT EXISTS ${tableName} (
   ${rowSpecs.join(',\n  ')}\n
 );
 `;
   console.log(createTableQuery);
   await client.query(createTableQuery);
 }
-export async function insertData(
+export async function insertData(tableName: string,
   items: any[], fields: string[] = ['id', 'summary', 'description'],
 ): Promise<void> {
   console.log(`Fetched data:`, items);
   await Promise.all(items.map((item: any) => {
-    const insertQuery = `INSERT INTO data (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
+    const insertQuery = `INSERT INTO ${tableName} (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
     console.log(`Executing insert query: ${insertQuery}`);
     return client.query(insertQuery);
   }));
