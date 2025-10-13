@@ -23,7 +23,7 @@ export async function createSqlTable(
     openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
   const schema =
     successResponseProperties?.['application/ld+json']?.schema || successResponseProperties?.['application/json']?.schema;
-  console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
+  // console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
   // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
   const whatWeWant = schema?.properties?.[rowsFrom]?.items?.properties;
   // console.log(`What we want:`, JSON.stringify(whatWeWant, null, 2));
@@ -52,10 +52,10 @@ CREATE TABLE IF NOT EXISTS ${tableName} (
 export async function insertData(tableName: string,
   items: any[], fields: string[] = ['id', 'summary', 'description'],
 ): Promise<void> {
-  console.log(`Fetched data:`, items);
+  // console.log(`Fetched data:`, items);
   await Promise.all(items.map((item: any) => {
     const insertQuery = `INSERT INTO ${tableName} (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
-    console.log(`Executing insert query: ${insertQuery}`);
+    // console.log(`Executing insert query: ${insertQuery}`);
     return client.query(insertQuery);
   }));
 }

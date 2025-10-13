@@ -5,10 +5,13 @@ actions:
 - target: $
   update:
     syncables:
-      incomingInvoice:
+      invoice:
         description: |-
-          Invoice Documents received by the authenticated user.
+          Invoice Documents received or sent by the authenticated user.
         type: collection
-        schema:
-          $ref: "#/components/schemas/Invoice.InvoiceOutput"
         hydra: /invoices
+      creditNote:
+        description: |-
+          Credit Notes received or sent by the authenticated user.
+        type: collection
+        hydra: /credit-notes
