@@ -52,12 +52,9 @@ runOAuthClient(oauth2Config, 8000, async (token) => {
   console.log(`Received OAuth token: ${token}`);
 }); // Start the OAuth client on port 8000
 
-// await createCollections('acube-peppol-generated.yaml', { 'Authorization': `Bearer ${process.env.ACUBE_TOKEN }` });
-await createCollections('peppyrus-peppol-generated.yaml', { 'X-Api-Key': process.env.PEPPYRUS_TOKEN_TEST });
+await createCollections('acube-peppol-generated.yaml', { 'Authorization': `Bearer ${process.env.ACUBE_TOKEN }` });
+// await createCollections('peppyrus-peppol-generated.yaml', { 'X-Api-Key': process.env.PEPPYRUS_TOKEN_TEST });
 // await createCollections('ion-peppol-generated.yaml', { Authorization: `Token ${process.env.ION_API_KEY}` });
-await createCollections('google-calendar-generated.yaml', {
-  Authorization: `Bearer ${process.env.GOOGLE_OAUTH_TOKEN}`,
-  'X-Referer': 'https://explorer.apis.google.com',
-});
+// await createCollections('google-calendar-generated.yaml', { Authorization: `Bearer ${process.env.GOOGLE_OAUTH_TOKEN}`, 'X-Referer': 'https://explorer.apis.google.com' });
 
 console.log('Data fetched and inserted. Visit http://localhost:8000/ if you need to renew the GOOGLE_OAUTH_TOKEN env var.');
