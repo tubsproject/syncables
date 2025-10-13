@@ -20,10 +20,11 @@ export async function createSqlTable(
 ): Promise<void> {
   const schema =
     openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content?.[
-      'application/json'
+      'application/ld+json'
     ]?.schema;
-  // console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
-  const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
+  console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
+  // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
+  const whatWeWant = schema?.properties?.[rowsFrom]?.items?.properties;
   // console.log(`What we want:`, JSON.stringify(whatWeWant, null, 2));
   const rowSpecs = [];
   Object.entries(whatWeWant).forEach(([key, value]) => {
@@ -32,11 +33,11 @@ export async function createSqlTable(
     }
     const type = (value as { type: string }).type;
     if (type === 'string') {
-      rowSpecs.push(`${key} TEXT`);
+      rowSpecs.push(`"S${key}" TEXT`);
     } else if (type === 'integer') {
-      rowSpecs.push(`${key} INTEGER`);
+      rowSpecs.push(`"S${key}" INTEGER`);
     } else if (type === 'boolean') {
-      rowSpecs.push(`${key} BOOLEAN`);
+      rowSpecs.push(`"S${key}" BOOLEAN`);
     }
   });
   const createTableQuery = `
@@ -48,12 +49,11 @@ CREATE TABLE IF NOT EXISTS data(
   await client.query(createTableQuery);
 }
 export async function insertData(
-  data: any,
+  items: any[], fields: string[] = ['id', 'summary', 'description'],
 ): Promise<void> {
-  console.log(`Fetched data:`, data);
-  await Promise.all(data.items.map((item: any) => {
-    // const insertQuery = `INSERT INTO data (${Object.keys(item).join(', ')}) VALUES (${Object.values(item).map(v => `'${v}'`).join(', ')}`;
-    const insertQuery = `INSERT INTO data (id, summary, description) VALUES ('${item.id}', '${item.summary}', '${item.description}')`;
+  console.log(`Fetched data:`, items);
+  await Promise.all(items.map((item: any) => {
+    const insertQuery = `INSERT INTO data (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
     console.log(`Executing insert query: ${insertQuery}`);
     return client.query(insertQuery);
   }));

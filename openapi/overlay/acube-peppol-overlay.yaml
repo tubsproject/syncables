@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+  description: Add syncables to the A-Cube Peppol API.
+actions:
+- target: $
+  update:
+    syncables:
+      incomingInvoice:
+        description: |-
+          Invoice Documents received by the authenticated user.
+        type: collection
+        schema:
+          $ref: "#/components/schemas/Invoice.InvoiceOutput"
+        hydra: /invoices
