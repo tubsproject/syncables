@@ -3,14 +3,8 @@ import session from 'express-session';
 import passport from 'passport';
 import { OAuth2Strategy } from 'passport-oauth';
 
-export function runOAuthClient(port: number, cb: (token: string) => void): void {
-  passport.use('provider', new OAuth2Strategy({
-      authorizationURL: 'https://accounts.google.com/o/oauth2/v2/auth',
-      tokenURL: 'https://oauth2.googleapis.com/token',
-      clientID: process.env.GOOGLE_CLIENT_ID || 'your-client-id.apps.googleusercontent.com',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'shhh-its-a-secret',
-      callbackURL: 'http://localhost:8000/callback'
-    },
+export function runOAuthClient(oauth2Config: any, port: number, cb: (token: string) => void): void {
+  passport.use('provider', new OAuth2Strategy(oauth2Config,
     function(accessToken, refreshToken, profile, done) {
     //   console.log('Access Token:', accessToken);
     //   console.log('Refresh Token:', refreshToken);

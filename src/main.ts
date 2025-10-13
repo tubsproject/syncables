@@ -3,8 +3,8 @@ import { createSqlTable, insertData, closeClient } from './db.js';
 import { fetchData } from './client.js';
 import { runOAuthClient } from './oauth.js';
 
-async function createCollections(specFile: string, token: string): Promise<void> {
-  const openApiSpec = await getSpec(specFile);
+async function createCollections(openApiSpec: any, token: string): Promise<void> {
+  
   await Promise.all(Object.keys(openApiSpec.syncables).map(async (syncableName) => {
     console.log(
       `Creating syncable ${openApiSpec.syncables[syncableName].type}: ${syncableName}`,
@@ -26,8 +26,16 @@ async function createCollections(specFile: string, token: string): Promise<void>
 }
 
 // ...
-runOAuthClient(8000, async (token) => {
+const openApiSpec = await getSpec('generated.yaml');
+const oauth2Config = {
+  authorizationURL: 'https://accounts.google.com/o/oauth2/v2/auth',
+  tokenURL: 'https://oauth2.googleapis.com/token',
+  clientID: process.env.GOOGLE_CLIENT_ID || 'your-client-id.apps.googleusercontent.com',
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'shhh-its-a-secret',
+  callbackURL: 'http://localhost:8000/callback'
+};
+runOAuthClient(oauth2Config, 8000, async (token) => {
   console.log(`Received OAuth token: ${token}`);
-  await createCollections('generated.yaml', token);
+  await createCollections(openApiSpec, token);
   console.log('Data fetched and inserted successfully.');
 }); // Start the OAuth client on port 8000
