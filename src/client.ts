@@ -8,7 +8,8 @@ export async function fetchData(
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,
-      'x-referer': 'https://explorer.apis.google.com',
+      'X-Referer': 'https://explorer.apis.google.com',
+      'X-Api-Key': openApiSpec.components?.securitySchemes?.[0]?.apiKey || process.env.PEPPYRUS_TOKEN_TEST!, // FIXME: make this configurable in spec
     },
   });
   return await res.json();

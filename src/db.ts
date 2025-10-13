@@ -13,20 +13,21 @@ async function getPostgresClient(): Promise<Client> {
   return client;
 }
 
-export async function createSqlTable(
-  tableName: string,
-  openApiSpec: any,
-  endPoint: string,
-  rowsFrom: string,
-): Promise<void> {
-  const successResponseProperties =
-    openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
+export function getFields(openApiSpec: any, endPoint: string, rowsFrom: string): { [key: string]: { type: string } } | undefined {
+  const successResponseProperties = openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
+  console.log(openApiSpec.paths, endPoint);
   const schema =
     successResponseProperties?.['application/ld+json']?.schema || successResponseProperties?.['application/json']?.schema;
   // console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
   // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
   const whatWeWant = schema?.properties?.[rowsFrom]?.items?.properties;
-  // console.log(`What we want:`, JSON.stringify(whatWeWant, null, 2));
+  console.log(`What we want (getFields ${endPoint} ${rowsFrom}):`, JSON.stringify(whatWeWant, null, 2));
+  return whatWeWant;
+}
+export async function createSqlTable(
+  tableName: string,
+  whatWeWant: { [key: string]: { type: string } },
+): Promise<void> {
   const rowSpecs = [];
   Object.entries(whatWeWant).forEach(([key, value]) => {
     if (key === 'primary') {
@@ -50,9 +51,9 @@ CREATE TABLE IF NOT EXISTS ${tableName} (
   await client.query(createTableQuery);
 }
 export async function insertData(tableName: string,
-  items: any[], fields: string[] = ['id', 'summary', 'description'],
+  items: any[], fields: string[],
 ): Promise<void> {
-  // console.log(`Fetched data:`, items);
+  console.log(`Fetched data:`, items);
   await Promise.all(items.map((item: any) => {
     const insertQuery = `INSERT INTO ${tableName} (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
     // console.log(`Executing insert query: ${insertQuery}`);
