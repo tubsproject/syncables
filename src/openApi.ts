@@ -64,4 +64,4 @@ export function getSpec(specFile: string): Promise<any> {
       resolve(openApiSpec);
     });
   });
-}
+};
