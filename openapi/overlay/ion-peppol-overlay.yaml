@@ -4,6 +4,10 @@ info:
 actions:
 - target: $
   update:
+    servers:
+    - url: https://test.ion-ap.net
+- target: $
+  update:
     syncables:
       sendTransactions:
         description: |-
