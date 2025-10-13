@@ -15,13 +15,13 @@ async function getPostgresClient(): Promise<Client> {
 
 export function getFields(openApiSpec: any, endPoint: string, rowsFrom: string): { [key: string]: { type: string } } | undefined {
   const successResponseProperties = openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
-  console.log(openApiSpec.paths, endPoint);
+  // console.log(openApiSpec.paths, endPoint);
   const schema =
     successResponseProperties?.['application/ld+json']?.schema || successResponseProperties?.['application/json']?.schema;
   // console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
   // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
   const whatWeWant = schema?.properties?.[rowsFrom]?.items?.properties;
-  console.log(`What we want (getFields ${endPoint} ${rowsFrom}):`, JSON.stringify(whatWeWant, null, 2));
+  // console.log(`What we want (getFields ${endPoint} ${rowsFrom}):`, JSON.stringify(whatWeWant, null, 2));
   return whatWeWant;
 }
 export async function createSqlTable(
@@ -30,16 +30,13 @@ export async function createSqlTable(
 ): Promise<void> {
   const rowSpecs = [];
   Object.entries(whatWeWant).forEach(([key, value]) => {
-    if (key === 'primary') {
-      key = 'primary_';
-    }
     const type = (value as { type: string }).type;
     if (type === 'string') {
       rowSpecs.push(`"S${key}" TEXT`);
     } else if (type === 'integer') {
       rowSpecs.push(`"S${key}" INTEGER`);
-    } else if (type === 'boolean') {
-      rowSpecs.push(`"S${key}" BOOLEAN`);
+    // } else if (type === 'boolean') {
+    //   rowSpecs.push(`"S${key}" BOOLEAN`);
     }
   });
   const createTableQuery = `
@@ -53,7 +50,7 @@ CREATE TABLE IF NOT EXISTS ${tableName} (
 export async function insertData(tableName: string,
   items: any[], fields: string[],
 ): Promise<void> {
-  console.log(`Fetched data:`, items);
+  // console.log(`Fetched data:`, items);
   await Promise.all(items.map((item: any) => {
     const insertQuery = `INSERT INTO ${tableName} (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
     // console.log(`Executing insert query: ${insertQuery}`);

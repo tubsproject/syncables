@@ -60,7 +60,7 @@ export function getSpec(specFile: string): Promise<any> {
         return;
       }
       openApiSpec = resolveComponents(openApiSpec);
-      console.log(`Resolved components in OpenAPI spec.`);
+      // console.log(`Resolved components in OpenAPI spec.`);
       resolve(openApiSpec);
     });
   });

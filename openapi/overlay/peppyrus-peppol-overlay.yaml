@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  description: Add syncables to the A-Cube Peppol API.
+  description: Add syncables to the Peppyrus Peppol API.
 actions:
 - target: servers[0]
   update:
