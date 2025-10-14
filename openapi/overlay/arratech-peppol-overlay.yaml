@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  description: Add syncables to the Ion Peppol API.
+actions:
+- target: $
+  update:
+    servers:
+    - url: https://test.ion-ap.net
+- target: $
+  update:
+    syncables:
+      toNetwork:
+        description: |-
+          Invoice and Credit Note Documents sent by the authenticated user.
+        type: collection
+        get:
+          path: /orgs/{orgId}/transactions/to_network
+          field: items
+      fromNetwork:
+        description: |-
+          Invoice and Credit Note Documents received by the authenticated user.
+        type: collection
+        get:
+          path: /orgs/{orgId}/transactions/from_network
+          field: results
+
+curl -X POST https://cognito-idp.eu-central-1.amazonaws.com/ \
+  -H "Content-Type: application/x-amz-json-1.1" \
+  -H "X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth" \
+  -d "{
+    \"AuthFlow\": \"USER_PASSWORD_AUTH\",
+    \"AuthParameters\": {
+      \"USERNAME\": \"$ARRATECH_USERNAME\",
+      \"PASSWORD\": \"$ARRATECH_PASSWORD\"
+    },
+    \"ClientId\": \"5rbbg79c6q9010deju24kf0vq4\"
+  }"
+curl -X POST https://api.arratech.com/orgs \
+  -H "Authorization: Bearer $ARRATECH_BEARER_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "legalIdentifier": "0607.778.343",
+    "legalName": "A.B.C DE LA FERRAILLE",
+    "countryCode": "BE",
+    "legalIdentifierCode": "0208:0607778343"
+  }'

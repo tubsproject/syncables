@@ -4,6 +4,7 @@ export async function fetchData(
   endPoint: string,
   authHeaders: { [key: string]: string },
 ): Promise<object> {
+  endPoint = endPoint.replace('{orgId}', process.env.ARRATECH_ORG_ID || '{orgId}');
   console.log(`Fetching data from ${openApiSpec.servers[0].url + endPoint} with headers:`, authHeaders);
   const url = openApiSpec.servers[0].url + endPoint; // + '?key=' + process.env.GOOGLE_API_KEY;
   const res = await fetch(url, {

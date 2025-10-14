@@ -49,10 +49,22 @@ export function getSpec(specFile: string): Promise<any> {
         throw err;
       }
       let openApiSpec;
-      try {
-        openApiSpec = parse(data.toString());
-      } catch (parseErr) {
-        console.error('Failed to parse YAML:', parseErr.message);
+      if (specFile.endsWith('.json')) {
+        try {
+          openApiSpec = JSON.parse(data.toString());
+        } catch (parseErr) {
+          console.error('Failed to parse JSON:', parseErr.message);
+          return;
+        }
+      } else if (specFile.endsWith('.yaml') || specFile.endsWith('.yml')) {
+        try {
+          openApiSpec = parse(data.toString());
+        } catch (parseErr) {
+          console.error('Failed to parse YAML:', parseErr.message);
+          return;
+        }
+      } else {
+        console.error('Spec file must be .json or .yaml/.yml');
         return;
       }
       if (!openApiSpec.paths) {

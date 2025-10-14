@@ -11,7 +11,7 @@ actions:
     syncables:
       sendTransactions:
         description: |-
-          Invoice and Credit Note Documents received by the authenticated user.
+          Invoice and Credit Note Documents sent by the authenticated user.
         type: collection
         get:
           path: /api/v2/send-transactions
