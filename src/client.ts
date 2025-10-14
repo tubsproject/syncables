@@ -5,13 +5,16 @@ export async function fetchData(
   authHeaders: { [key: string]: string },
 ): Promise<object> {
   endPoint = endPoint.replace('{orgId}', process.env.ARRATECH_ORG_ID || '{orgId}');
-  console.log(`Fetching data from ${openApiSpec.servers[0].url + endPoint} with headers:`, authHeaders);
-  const url = openApiSpec.servers[0].url + endPoint; // + '?key=' + process.env.GOOGLE_API_KEY;
+  let url = openApiSpec.servers[0].url + endPoint; // + '?key=' + process.env.GOOGLE_API_KEY;
+  if (url.startsWith('//')) {
+    url = `https:${url}`;
+  }
+  console.log(`Fetching data from ${url} with headers:`, authHeaders);
   const res = await fetch(url, {
     headers: Object.assign({}, authHeaders, {
       'Content-Type': 'application/json',
     }),
   });
-  // console.log(`Response status: ${res.status}`, await res.text());
+  console.log(`Response status: ${res.status}`, await res.text());
   return await res.json();
 }

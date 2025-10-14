@@ -13,14 +13,14 @@ async function getPostgresClient(): Promise<Client> {
   return client;
 }
 
-export function getFields(openApiSpec: any, endPoint: string, rowsFrom: string): { [key: string]: { type: string } } | undefined {
+export function getFields(openApiSpec: any, endPoint: string, rowsFrom: string | undefined): { [key: string]: { type: string } } | undefined {
   const successResponseProperties = openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
   console.log(openApiSpec.paths, endPoint);
   const schema =
     successResponseProperties?.['application/ld+json']?.schema || successResponseProperties?.['application/json']?.schema;
   console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
   // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
-  const whatWeWant = schema?.properties?.[rowsFrom]?.items?.properties;
+  const whatWeWant = (typeof rowsFrom === 'string' ? schema?.properties?.[rowsFrom]?.items?.properties : schema?.items?.properties);
   console.log(`What we want (getFields ${endPoint} ${rowsFrom}):`, JSON.stringify(whatWeWant, null, 2));
   return whatWeWant;
 }
