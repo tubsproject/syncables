@@ -71,9 +71,11 @@ pnpm build
 docker compose up -d
 pnpm start
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from calendarList;"
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from incomingInvoice;"
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from message;"
+docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from recommand_documents limit 1;"
+docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from acube_invoice limit 1;"
+docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from ion_receivetransactions limit 1;"
+docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from peppyrus_message limit 1;"
+
 ```
 Output:
 ```
