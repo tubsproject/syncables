@@ -13,48 +13,48 @@ async function getPostgresClient(): Promise<Client> {
   return client;
 }
 
-export async function createSqlTable(
-  openApiSpec: any,
-  endPoint: string,
-  rowsFrom: string,
-): Promise<void> {
+export function getFields(openApiSpec: any, endPoint: string, rowsFrom: string | undefined): { [key: string]: { type: string } } | undefined {
+  const successResponseProperties = openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
+  // console.log(openApiSpec.paths, endPoint);
   const schema =
-    openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content?.[
-      'application/json'
-    ]?.schema;
+    successResponseProperties?.['application/ld+json']?.schema || successResponseProperties?.['application/json']?.schema;
   // console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
-  const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
-  // console.log(`What we want:`, JSON.stringify(whatWeWant, null, 2));
+  // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
+  const whatWeWant = (typeof rowsFrom === 'string' ? schema?.properties?.[rowsFrom]?.items?.properties : schema?.items?.properties);
+  // console.log(`What we want (getFields ${endPoint} ${rowsFrom}):`, JSON.stringify(whatWeWant, null, 2));
+  return whatWeWant;
+}
+export async function createSqlTable(
+  tableName: string,
+  whatWeWant: { [key: string]: { type: string } },
+): Promise<void> {
   const rowSpecs = [];
+  // console.log(`What we want (createSqlTable ${tableName}):`, JSON.stringify(whatWeWant, null, 2));
   Object.entries(whatWeWant).forEach(([key, value]) => {
-    if (key === 'primary') {
-      key = 'primary_';
-    }
     const type = (value as { type: string }).type;
     if (type === 'string') {
-      rowSpecs.push(`${key} TEXT`);
+      rowSpecs.push(`"S${key}" TEXT`);
     } else if (type === 'integer') {
-      rowSpecs.push(`${key} INTEGER`);
-    } else if (type === 'boolean') {
-      rowSpecs.push(`${key} BOOLEAN`);
+      rowSpecs.push(`"S${key}" INTEGER`);
+    // } else if (type === 'boolean') {
+    //   rowSpecs.push(`"S${key}" BOOLEAN`);
     }
   });
   const createTableQuery = `
-CREATE TABLE IF NOT EXISTS data(
+CREATE TABLE IF NOT EXISTS ${tableName} (
   ${rowSpecs.join(',\n  ')}\n
 );
 `;
   console.log(createTableQuery);
   await client.query(createTableQuery);
 }
-export async function insertData(
-  data: any,
+export async function insertData(tableName: string,
+  items: any[], fields: string[],
 ): Promise<void> {
-  console.log(`Fetched data:`, data);
-  await Promise.all(data.items.map((item: any) => {
-    // const insertQuery = `INSERT INTO data (${Object.keys(item).join(', ')}) VALUES (${Object.values(item).map(v => `'${v}'`).join(', ')}`;
-    const insertQuery = `INSERT INTO data (id, summary, description) VALUES ('${item.id}', '${item.summary}', '${item.description}')`;
-    console.log(`Executing insert query: ${insertQuery}`);
+  console.log(`Fetched data:`, items);
+  await Promise.all(items.map((item: any) => {
+    const insertQuery = `INSERT INTO ${tableName} (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
+    // console.log(`Executing insert query: ${insertQuery}`);
     return client.query(insertQuery);
   }));
 }

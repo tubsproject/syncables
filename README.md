@@ -32,14 +32,48 @@ Here is a demo of the syncables for Google Calendar API.
 * Set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` environment variables. Check: `echo $GOOGLE_CLIENT_ID and $GOOGLE_CLIENT_SECRET`
 * Enable the [calendar API](https://console.cloud.google.com/apis/api/calendar-json.googleapis.com/overview?project=tubs-468405&inv=1&invt=Ab46Tw)
 
+Some one-liners to obtain some of the API access tokens:
+```sh
+export $(xargs < ./.env)
+curl -X POST https://ax-stage.maventa.com/oauth2/token -H "Content-Type: application/json" -d "{
+  \"client_id\": \"$MAVENTA_CLIENT_ID\",
+  \"client_secret\": \"$MAVENTA_CLIENT_SECRET\",
+  \"vendor_api_key\": \"$MAVENTA_VENDOR_API_KEY\",
+  \"grant_type\": \"client_credentials\"
+}" | json
+
+export ARRATECH_BEARER_TOKEN=`curl -X POST https://cognito-idp.eu-central-1.amazonaws.com/ -H "Content-Type: application/x-amz-json-1.1" -H "X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth" -d "{                                 
+  \"AuthFlow\": \"USER_PASSWORD_AUTH\",
+  \"AuthParameters\": {
+    \"USERNAME\": \"$ARRATECH_USERNAME\",
+    \"PASSWORD\": \"$ARRATECH_PASSWORD\"
+  },                                          
+  \"ClientId\": \"5rbbg79c6q9010deju24kf0vq4\"
+}" | json AuthenticationResult.AccessToken`
+
+export ACUBE_TOKEN=`curl -X POST \
+  https://common-sandbox.api.acubeapi.com/login \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "'"${ACUBE_USR}"'", "password": "'"${ACUBE_PWD}"'"}' | json token`
+```
 
 ```sh
 pnpm install
-pnpm generate
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/google-calendar.yaml --overlay ./openapi/overlay/google-calendar-overlay.yaml > google-calendar-generated.yaml
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/acube-peppol.yaml --overlay ./openapi/overlay/acube-peppol-overlay.yaml > acube-peppol-generated.yaml
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/peppyrus-peppol.yaml --overlay ./openapi/overlay/peppyrus-peppol-overlay.yaml > peppyrus-peppol-generated.yaml
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/ion-peppol.yaml --overlay ./openapi/overlay/ion-peppol-overlay.yaml > ion-peppol-generated.yaml
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/arratech-peppol.json --overlay ./openapi/overlay/arratech-peppol-overlay.yaml > arratech-peppol-generated.yaml
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/maventa-peppol.yaml --overlay ./openapi/overlay/maventa-peppol-overlay.yaml > maventa-peppol-generated.yaml
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/recommand-peppol.yaml --overlay ./openapi/overlay/recommand-peppol-overlay.yaml > recommand-peppol-generated.yaml
 pnpm build
 docker compose up -d
 pnpm start
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from data;"
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from calendarList;"
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from incomingInvoice;"
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from message;"
 ```
 Output:
 ```

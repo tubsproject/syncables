@@ -8,8 +8,10 @@ function resolveInSpec(spec: any, refPath: string, component: any): any {
     // console.log(`Resolving reference: ${refPath}`);
     spec = component;
     // console.log(`Resolved to:`, spec);
+  } else if (spec === null || spec === undefined) {
+    // Do nothing
   } else if (typeof spec === 'object') {
-    // console.log(`Checking object for reference: ${refPath}`);
+    // console.log(`Checking object for reference: ${refPath}`, spec);
     Object.keys(spec).forEach((key) => {
       // console.log(`Checking key: ${key}`);
       spec[key] = resolveInSpec(spec[key], refPath, component);
@@ -49,10 +51,22 @@ export function getSpec(specFile: string): Promise<any> {
         throw err;
       }
       let openApiSpec;
-      try {
-        openApiSpec = parse(data.toString());
-      } catch (parseErr) {
-        console.error('Failed to parse YAML:', parseErr.message);
+      if (specFile.endsWith('.json')) {
+        try {
+          openApiSpec = JSON.parse(data.toString());
+        } catch (parseErr) {
+          console.error('Failed to parse JSON:', parseErr.message);
+          return;
+        }
+      } else if (specFile.endsWith('.yaml') || specFile.endsWith('.yml')) {
+        try {
+          openApiSpec = parse(data.toString());
+        } catch (parseErr) {
+          console.error('Failed to parse YAML:', parseErr.message);
+          return;
+        }
+      } else {
+        console.error('Spec file must be .json or .yaml/.yml');
         return;
       }
       if (!openApiSpec.paths) {
@@ -60,8 +74,8 @@ export function getSpec(specFile: string): Promise<any> {
         return;
       }
       openApiSpec = resolveComponents(openApiSpec);
-      console.log(`Resolved components in OpenAPI spec.`);
+      // console.log(`Resolved components in OpenAPI spec.`);
       resolve(openApiSpec);
     });
   });
-}
+};

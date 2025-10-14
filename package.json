@@ -24,7 +24,6 @@
     "vitest": "^3.0.8"
   },
   "scripts": {
-    "generate": "overlayjs --openapi ./openapi/oad/google-calendar.yaml --overlay ./openapi/overlay/google-calendar-overlay.yaml > generated.yaml",
     "start": "node build/src/main.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
