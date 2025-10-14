@@ -8,8 +8,10 @@ function resolveInSpec(spec: any, refPath: string, component: any): any {
     // console.log(`Resolving reference: ${refPath}`);
     spec = component;
     // console.log(`Resolved to:`, spec);
+  } else if (spec === null || spec === undefined) {
+    // Do nothing
   } else if (typeof spec === 'object') {
-    // console.log(`Checking object for reference: ${refPath}`);
+    // console.log(`Checking object for reference: ${refPath}`, spec);
     Object.keys(spec).forEach((key) => {
       // console.log(`Checking key: ${key}`);
       spec[key] = resolveInSpec(spec[key], refPath, component);
