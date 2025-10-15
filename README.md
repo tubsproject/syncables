@@ -60,6 +60,7 @@ export ACUBE_TOKEN=`curl -X POST \
 
 ```sh
 pnpm install
+npx openapi-typescript ./openapi/oad/front.yaml -o ./src/front.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/google-calendar.yaml --overlay ./openapi/overlay/google-calendar-overlay.yaml > google-calendar-generated.yaml
 npx openapi-typescript ./google-calendar-generated.yaml -o ./src/google-calendar.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/acube-peppol.yaml --overlay ./openapi/overlay/acube-peppol-overlay.yaml > acube-peppol-generated.yaml
@@ -75,7 +76,7 @@ npx openapi-typescript ./maventa-peppol-generated.yaml -o ./src/maventa.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/recommand-peppol.yaml --overlay ./openapi/overlay/recommand-peppol-overlay.yaml > recommand-peppol-generated.yaml
 npx openapi-typescript ./recommand-peppol-generated.yaml -o ./src/recommand.d.ts
 pnpm build
-docker compose up -d
+docker compose up -dt
 pnpm start
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from recommand_documents limit 1;"
