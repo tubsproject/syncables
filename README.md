@@ -61,12 +61,19 @@ export ACUBE_TOKEN=`curl -X POST \
 ```sh
 pnpm install
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/google-calendar.yaml --overlay ./openapi/overlay/google-calendar-overlay.yaml > google-calendar-generated.yaml
+npx openapi-typescript ./google-calendar-generated.yaml -o ./src/google-calendar.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/acube-peppol.yaml --overlay ./openapi/overlay/acube-peppol-overlay.yaml > acube-peppol-generated.yaml
+npx openapi-typescript ./acube-peppol-generated.yaml -o ./src/acube.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/peppyrus-peppol.yaml --overlay ./openapi/overlay/peppyrus-peppol-overlay.yaml > peppyrus-peppol-generated.yaml
+npx openapi-typescript ./peppyrus-peppol-generated.yaml -o ./src/peppyrus.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/ion-peppol.yaml --overlay ./openapi/overlay/ion-peppol-overlay.yaml > ion-peppol-generated.yaml
+npx openapi-typescript ./ion-peppol-generated.yaml -o ./src/ion.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/arratech-peppol.json --overlay ./openapi/overlay/arratech-peppol-overlay.yaml > arratech-peppol-generated.yaml
+// FIXME  npx openapi-typescript ./arratech-peppol-generated.yaml -o ./src/arratech.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/maventa-peppol.yaml --overlay ./openapi/overlay/maventa-peppol-overlay.yaml > maventa-peppol-generated.yaml
+npx openapi-typescript ./maventa-peppol-generated.yaml -o ./src/maventa.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/recommand-peppol.yaml --overlay ./openapi/overlay/recommand-peppol-overlay.yaml > recommand-peppol-generated.yaml
+npx openapi-typescript ./recommand-peppol-generated.yaml -o ./src/recommand.d.ts
 pnpm build
 docker compose up -d
 pnpm start
