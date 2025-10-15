@@ -23,11 +23,11 @@ const DIRECTION_MAP: { [key: string]: 'incoming' | 'outgoing' } = {
   'IN': 'incoming',
 };
 
-export function fromAcube(docType: 'invoice' | 'creditnote', item: AcubeDocument): FrontDocument {
+export function fromAcube(item: AcubeDocument, context: { docType: 'invoice' | 'creditnote' }): FrontDocument {
   console.log('Inserting Acube document...', item);
   return {
     platformId: `acube:${item.uuid}`,
-    docType,
+    docType: context.docType,
     direction: item.direction,
     senderId: item.sender.identifier,
     receiverId: item.recipient.identifier,
@@ -35,7 +35,7 @@ export function fromAcube(docType: 'invoice' | 'creditnote', item: AcubeDocument
   };
 }
 
-export function fromPeppyrus(item: PeppyrusDocument): FrontDocument {
+function fromPeppyrus(item: PeppyrusDocument): FrontDocument {
   return {
     platformId: `peppyrus:${item.id}`,
     docType: DOC_TYPE_MAP[item.documentType],
@@ -46,24 +46,37 @@ export function fromPeppyrus(item: PeppyrusDocument): FrontDocument {
   };
 }
 
-export function fromIon(direction: 'incoming' | 'outgoing', item: IonDocument): FrontDocument {
+export function fromIon(item: IonDocument, context: { direction: 'incoming' | 'outgoing' }): FrontDocument {
   return {
     platformId: `ion:${item.id}`,
     docType: DOC_TYPE_MAP[item.document_element],
-    direction,
+    direction: context.direction,
     senderId: item.sender_identifier,
     receiverId: item.receiver_identifier,
     createdAt: item.created_on,
   };
 }
 
-export function fromRecommand(direction: 'incoming' | 'outgoing', item: RecommandDocument): FrontDocument {
+export function fromRecommand(item: RecommandDocument, context: { direction: 'incoming' | 'outgoing' }): FrontDocument {
   return {
     platformId: `recommand:${item.id}`,
     docType: DOC_TYPE_MAP[item.docTypeId],
-    direction,
+    direction: context.direction,
     senderId: item.senderId,
     receiverId: item.receiverId,
     createdAt: item.createdAt,
   };
 }
+
+export const translationFunctions = {
+  'acube_invoice': { fn: fromAcube, context: { docType: 'invoice' } },
+  'acube_creditnote': { fn: fromAcube, context: { docType: 'creditnote' } },
+  'peppyrus_message': { fn: fromPeppyrus },
+  'ion_sendTransactions': { fn: fromIon, context: { direction: 'outgoing' } },
+  'ion_receiveTransactions': { fn: fromIon, context: { direction: 'incoming' } },
+  'arratech_fromnetwork': null, // No translation function, handled separately
+  'arratech_tonetwork': null,   // No translation function, handled separately
+  'maventa_invoices': null,     // No translation function, handled separately
+  'recommand_documents': { fn: fromRecommand, context: { direction: 'outgoing' } },
+  'recommand_inbox': { fn: fromRecommand, context: { direction: 'incoming' } },
+};
