@@ -14,5 +14,5 @@ actions:
           paging:
             pageParam: page
             pageSizeParam: per_page
-            minDate: created_at_start
-            maxDate: created_at_end
+            minDateIncl: created_at_start
+            maxDateIncl: created_at_end
