@@ -41,7 +41,7 @@ export async function createSqlTable(
     }
   });
   const createTableQuery = `
-CREATE TABLE IF NOT EXISTS ${tableName} (
+CREATE TABLE IF NOT EXISTS ${tableName.replace('-', '_')} (
   ${rowSpecs.join(',\n  ')}\n
 );
 `;
@@ -53,7 +53,7 @@ export async function insertData(tableName: string,
 ): Promise<void> {
   console.log(`Fetched data:`, items);
   await Promise.all(items.map((item: any) => {
-    const insertQuery = `INSERT INTO ${tableName} (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
+    const insertQuery = `INSERT INTO ${tableName.replace('-', '_')} (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
     // console.log(`Executing insert query: ${insertQuery}`);
     return client.query(insertQuery);
   }));

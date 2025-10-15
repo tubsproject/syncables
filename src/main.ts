@@ -5,7 +5,7 @@ import { fetchData } from './client.js';
 // import { runOAuthClient } from './oauth.js';
 
 async function createCollections(collectionName: string): Promise<void> {
-  const openApiSpecFilename = `${collectionName}-peppol-generated.yaml`;
+  const openApiSpecFilename = `${collectionName}-generated.yaml`;
   const authHeaders: { [key: string]: string } = {
     [process.env[`${collectionName.toUpperCase().replace('-', '_')}_AUTH_HEADER_NAME`]]: process.env[`${collectionName.toUpperCase()}_AUTH_HEADER_VALUE`],
   };
@@ -58,14 +58,9 @@ async function createCollections(collectionName: string): Promise<void> {
 // }); // Start the OAuth client on port 8000
 // console.log('Data fetched and inserted. Visit http://localhost:8000/ if you need to renew the GOOGLE_OAUTH_TOKEN env var.');
 
-await Promise.all([
-  'acube',
-  'peppyrus',
-  'ion',
-  'arratech',
-  'maventa',
-  'recommand',
-  'google-calendar',
-].map((platform) => createCollections(platform)));
+// get list of backend platforms from env vars
+const platformsList = Object.keys(process.env).filter(x => x.endsWith('_AUTH_HEADER_NAME')).map(x => x.substring(0, x.length-'_AUTH_HEADER_NAME'.length).toLowerCase().replace('_', '-'));
+console.log('Platforms to sync:', platformsList);
+await Promise.all(platformsList.map((platform) => createCollections(platform)));
 
 closeClient();
