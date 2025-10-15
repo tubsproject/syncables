@@ -188,3 +188,40 @@ components:
         createdAt:
           type: string
           format: date-time
+syncables:
+  IncomingInvoices:
+    description: |-
+      Invoice Documents received by the authenticated user.
+    type: collection
+    get:
+      path: /v1/invoices/incoming
+      paging:
+        pageParam: page # optional for first page, >=1 for subsequent pages
+        pageSizeParam: perPage
+  OutgoingInvoices:
+    description: |-
+      Invoice Documents sent by the authenticated user.
+    type: collection
+    get:
+      path: /v1/invoices/outgoing
+      paging:
+        pageParam: page # optional for first page, >=1 for subsequent pages
+        pageSizeParam: perPage
+  IncomingCreditNotes:
+    description: |-
+      Credit Note Documents received by the authenticated user.
+    type: collection
+    get:
+      path: /v1/credit-notes/incoming
+      paging:
+        pageParam: page # optional for first page, >=1 for subsequent pages
+        pageSizeParam: perPage
+  OutgoingCreditNotes:
+    description: |-
+      Credit Note Documents sent by the authenticated user.
+    type: collection
+    get:
+      path: /v1/credit-notes/outgoing
+      paging:
+        pageParam: page # optional for first page, >=1 for subsequent pages
+        pageSizeParam: perPage
