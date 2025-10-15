@@ -53,8 +53,8 @@ export async function insertData(tableName: string, items: any[], _fields: any):
         console.log('Inserting Peppyrus message..', item);
         return insertFrontDocument({
           platformId: `peppyrus:${item.uuid}`,
-          docType: DOC_TYPE_MAP[item.documentType] || 'invoice',
-          direction: DIRECTION_MAP[item.direction] || 'incoming',
+          docType: DOC_TYPE_MAP[item.documentType],
+          direction: DIRECTION_MAP[item.direction],
           senderId: item.sender,
           receiverId: item.recipient,
           createdAt: new Date(item.created),
@@ -63,7 +63,7 @@ export async function insertData(tableName: string, items: any[], _fields: any):
         console.log('Inserting Ion send transaction.', item);
         return insertFrontDocument({
           platformId: `ion:${item.id}`,
-          docType: DOC_TYPE_MAP[item.documentType] || 'invoice',
+          docType: DOC_TYPE_MAP[item.document_element],
           direction: 'outgoing',
           senderId: item.sender_identifier,
           receiverId: item.receiver_identifier,
@@ -73,7 +73,7 @@ export async function insertData(tableName: string, items: any[], _fields: any):
         console.log('Inserting Ion receive transaction.', item);
         return insertFrontDocument({
           platformId: `ion:${item.id}`,
-          docType: DOC_TYPE_MAP[item.documentType] || 'invoice',
+          docType: DOC_TYPE_MAP[item.document_element],
           direction: 'incoming',
           senderId: item.sender_identifier,
           receiverId: item.receiver_identifier,
@@ -95,7 +95,7 @@ export async function insertData(tableName: string, items: any[], _fields: any):
         console.log('Inserting Recommand document.', item);
         return insertFrontDocument({
           platformId: `recommand:${item.id}`,
-          docType: DOC_TYPE_MAP[item.docTypeId] || 'invoice',
+          docType: DOC_TYPE_MAP[item.docTypeId],
           direction: 'outgoing',
           senderId: item.senderId,
           receiverId: item.receiverId,
@@ -105,7 +105,7 @@ export async function insertData(tableName: string, items: any[], _fields: any):
         console.log('Inserting Recommand document.', item);
         return insertFrontDocument({
           platformId: `recommand:${item.id}`,
-          docType: DOC_TYPE_MAP[item.docTypeId] || 'invoice',
+          docType: DOC_TYPE_MAP[item.docTypeId],
           direction: 'incoming',
           senderId: item.senderId,
           receiverId: item.receiverId,
