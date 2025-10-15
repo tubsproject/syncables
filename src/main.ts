@@ -4,7 +4,11 @@ import { insertData } from './devonian.js';
 import { fetchData } from './client.js';
 // import { runOAuthClient } from './oauth.js';
 
-async function createCollections(collectionName: string, openApiSpecFilename: string, authHeaders: { [key: string]: string }): Promise<void> {
+async function createCollections(collectionName: string): Promise<void> {
+  const openApiSpecFilename = `${collectionName}-peppol-generated.yaml`;
+  const authHeaders: { [key: string]: string } = {
+    [process.env[`${collectionName.toUpperCase().replace('-', '_')}_AUTH_HEADER_NAME`]]: process.env[`${collectionName.toUpperCase()}_AUTH_HEADER_VALUE`],
+  };
   console.log(`Creating collections from ${openApiSpecFilename}`);
   const openApiSpec = await getSpec(openApiSpecFilename);
   await Promise.all(Object.keys(openApiSpec.syncables).map(async (syncableName) => {
@@ -54,12 +58,14 @@ async function createCollections(collectionName: string, openApiSpecFilename: st
 // }); // Start the OAuth client on port 8000
 // console.log('Data fetched and inserted. Visit http://localhost:8000/ if you need to renew the GOOGLE_OAUTH_TOKEN env var.');
 
-// await createCollections('acube', 'acube-peppol-generated.yaml', { 'Authorization': `Bearer ${process.env.ACUBE_TOKEN }` });
-// await createCollections('peppyrus', 'peppyrus-peppol-generated.yaml', { 'X-Api-Key': process.env.PEPPYRUS_TOKEN_TEST });
-// await createCollections('ion', 'ion-peppol-generated.yaml', { Authorization: `Token ${process.env.ION_API_KEY}` });
-// await createCollections('arratech', 'arratech-peppol-generated.yaml', { Authorization: `Bearer ${process.env.ARRATECH_BEARER_TOKEN}` });
-// await createCollections('maventa', 'maventa-peppol-generated.yaml', { Authorization: `Bearer ${process.env.MAVENTA_BEARER_TOKEN}` });
-await createCollections('recommand', 'recommand-peppol-generated.yaml', { Authorization: `Basic ${Buffer.from(`${process.env.RECOMMAND_API_KEY}:${process.env.RECOMMAND_API_SECRET}`).toString("base64")}` });
-// await createCollections('google_calendar', 'google-calendar-generated.yaml', { Authorization: `Bearer ${process.env.GOOGLE_OAUTH_TOKEN}`, 'X-Referer': 'https://explorer.apis.google.com' });
+await Promise.all([
+  'acube',
+  'peppyrus',
+  'ion',
+  'arratech',
+  'maventa',
+  'recommand',
+  'google-calendar',
+].map((platform) => createCollections(platform)));
 
 closeClient();

@@ -76,7 +76,23 @@ npx openapi-typescript ./maventa-peppol-generated.yaml -o ./src/maventa.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/recommand-peppol.yaml --overlay ./openapi/overlay/recommand-peppol-overlay.yaml > recommand-peppol-generated.yaml
 npx openapi-typescript ./recommand-peppol-generated.yaml -o ./src/recommand.d.ts
 pnpm build
-docker compose up -dt
+docker compose up -d
+export ACUBE_AUTH_HEADER_NAME="Authorization"
+export ACUBE_AUTH_HEADER_VALUE="Bearer ${ACUBE_TOKEN}"
+export PEPPYRUS_AUTH_HEADER_NAME="X-Api-Key"
+export PEPPYRUS_AUTH_HEADER_VALUE="$PEPPYRUS_TOKEN_TEST"
+export ION_AUTH_HEADER_NAME="Authorization"
+export ION_AUTH_HEADER_VALUE="Token $ION_API_KEY"
+export ARRATECH_AUTH_HEADER_NAME="Authorization"
+export ARRATECH_AUTH_HEADER_VALUE="Bearer $_BEARER_TOKEN"
+export MAVENTA_AUTH_HEADER_NAME="Authorization"
+export MAVENTA_AUTH_HEADER_VALUE="Basic `echo $RECOMMAND_API_KEY:$RECOMMAND_API_SECRET | base64`"
+export RECOMMAND_AUTH_HEADER_NAME="Authorization"
+export RECOMMAND_AUTH_HEADER_VALUE="Bearer $RECOMMAND_API_KEY"
+export GOOGLE_CALENDAR_AUTH_HEADER_NAME="Authorization"
+export GOOGLE_CALENDAR_AUTH_HEADER_VALUE="Bearer $GOOGLE_OAUTH_TOKEN"
+
+
 pnpm start
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from recommand_documents limit 1;"
