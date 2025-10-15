@@ -15,3 +15,6 @@ actions:
         get:
           path: /message/list
           field: items
+          paging:
+            pageParam: page # optional for first page, >=1 for subsequent pages
+            pageSizeParam: perPage

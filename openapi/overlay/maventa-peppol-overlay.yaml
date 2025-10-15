@@ -11,3 +11,8 @@ actions:
         type: collection
         get:
           path: /v1/invoices
+          paging:
+            pageParam: page
+            pageSizeParam: per_page
+            minDate: created_at_start
+            maxDate: created_at_end

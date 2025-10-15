@@ -15,6 +15,10 @@ actions:
           path: /users/me/calendarList
           operation: get
           field: items
+          paging:
+            pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
+            syncTokenParam: nextSyncToken # keep polling after last page to get updates
+            pageSizeParam: maxResults
         add:
           path: /users/me/calendarList
           operation: post

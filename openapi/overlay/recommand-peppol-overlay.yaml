@@ -16,6 +16,9 @@ actions:
         get:
           path: /api/peppol/{teamId}/documents
           field: documents
+        paging:
+          pageParam: page
+          pageSizeParam: limit
       inbox:
         description: |-
           Invoice and Credit Note Documents received by the authenticated user.
@@ -23,3 +26,6 @@ actions:
         get:
           path: /api/peppol/{teamId}/inbox
           field: documents
+          paging:
+            pageParam: page
+            pageSizeParam: limit

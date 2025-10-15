@@ -16,6 +16,10 @@ actions:
         get:
           path: /orgs/{orgId}/transactions/to_network
           field: items
+          paging:
+            pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
+            pageSizeParam: limit
+
       fromNetwork:
         description: |-
           Invoice and Credit Note Documents received by the authenticated user.
@@ -23,3 +27,6 @@ actions:
         get:
           path: /orgs/{orgId}/transactions/from_network
           field: items
+          paging:
+            pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
+            pageSizeParam: limit
