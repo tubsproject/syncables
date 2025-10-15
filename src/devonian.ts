@@ -1,3 +1,4 @@
+import { components } from './acube.d.js';
 export type FrontDoc = {
     docType: 'invoice' | 'creditnote',
     direction: 'incoming' | 'outgoing',
@@ -29,9 +30,8 @@ export async function insertData(tableName: string, items: any[], _fields: any):
   await Promise.all(items.map((item: any): Promise<void> => {
     switch (tableName) {
       case 'acube_invoice':
-        console.log('Inserting Acube invoice..', item);
+        console.log('Inserting Acube invoice..', item as components["schemas"]["Invoice.InvoiceOutput.jsonld"]);
         return insertFrontDocument({
-            
           platformId: `acube:${item.uuid}`,
           docType: 'invoice',
           direction: item.direction,
