@@ -27,10 +27,7 @@ With that, the demo implementation in the `src` folder of this repo can create a
 It's still a work in progress and very brittle.
 
 ## Usage
-Here is a demo of the syncables for Google Calendar API.
-* In the [Google Cloud Dashboard](https://console.cloud.google.com/apis/credentials) create an OAuth 2.0 Client ID with http://localhost:8000 as an authorized JavaScript origin and http://localhost:8000/callback as an authorized redirect URI.
-* Set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` environment variables. Check: `echo $GOOGLE_CLIENT_ID and $GOOGLE_CLIENT_SECRET`
-* Enable the [calendar API](https://console.cloud.google.com/apis/api/calendar-json.googleapis.com/overview?project=tubs-468405&inv=1&invt=Ab46Tw)
+Here is a demo of the syncables we use in the Let's Peppol proxy service.
 
 Some one-liners to obtain some of the API access tokens:
 ```sh
@@ -77,21 +74,13 @@ npx openapi-typescript ./maventa-peppol-generated.yaml -o ./src/maventa.d.ts
 npx openapi-typescript ./recommand-peppol-generated.yaml -o ./src/recommand.d.ts
 pnpm build
 docker compose up -d
-export ACUBE_PEPPOL_AUTH_HEADER_NAME="Authorization"
-export ACUBE_PEPPOL_AUTH_HEADER_VALUE="Bearer ${ACUBE_TOKEN}"
-export PEPPYRUS_PEPPOL_AUTH_HEADER_NAME="X-Api-Key"
-export PEPPYRUS_PEPPOL_AUTH_HEADER_VALUE="$PEPPYRUS_TOKEN_TEST"
-export ION_PEPPOL_AUTH_HEADER_NAME="Authorization"
-export ION_PEPPOL_AUTH_HEADER_VALUE="Token $ION_API_KEY"
-export ARRATECH_PEPPOL_AUTH_HEADER_NAME="Authorization"
-export ARRATECH_PEPPOL_AUTH_HEADER_VALUE="Bearer $_BEARER_TOKEN"
-export MAVENTA_PEPPOL_AUTH_HEADER_NAME="Authorization"
-export MAVENTA_PEPPOL_AUTH_HEADER_VALUE="Basic `echo $RECOMMAND_API_KEY:$RECOMMAND_API_SECRET | base64`"
-export RECOMMAND_PEPPOL_AUTH_HEADER_NAME="Authorization"
-export RECOMMAND_PEPPOL_AUTH_HEADER_VALUE="Bearer $RECOMMAND_API_KEY"
-export GOOGLE_CALENDAR_AUTH_HEADER_NAME="Authorization"
-export GOOGLE_CALENDAR_AUTH_HEADER_VALUE="Bearer $GOOGLE_OAUTH_TOKEN"
 
+export ACUBE_AUTH_HEADERS="{\"Authorization\":\"Bearer ${ACUBE_TOKEN}\"}"
+export PEPPYRUS_AUTH_HEADERS="{\"X-Api-Key\":\"$PEPPYRUS_TOKEN_TEST\"}"
+export ION_AUTH_HEADERS="{\"Authorization\":\"Token $ION_API_KEY\"}"
+# export ARRATECH_AUTH_HEADERS="{\"Authorization\":\"Bearer $_BEARER_TOKEN\"}"
+# export MAVENTA_AUTH_HEADERS="{\"Authorization\":\"Basic `echo $RECOMMAND_API_KEY:$RECOMMAND_API_SECRET | base64`\"}"
+# export RECOMMAND_AUTH_HEADERS="{\"Authorization\":\"Bearer $RECOMMAND_API_KEY\"}"
 
 pnpm start
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"

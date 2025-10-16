@@ -22,12 +22,17 @@ export type FrontDocument = front['schemas']['Document'];
 const DOC_TYPE_MAP: { [key: string]: 'invoice' | 'credit-note' } = {
   'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1':
     'invoice',
-  'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2::CreditNote##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1':
-    'credit-note',
+  'Invoice': 'invoice',
+  'invoice': 'invoice',
+  'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2::CreditNote##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1': 'credit-note',
+  'CreditNote': 'credit-note',
+  'credit-note': 'credit-note',
 };
 const DIRECTION_MAP: { [key: string]: 'incoming' | 'outgoing' } = {
   OUT: 'outgoing',
   IN: 'incoming',
+  incoming: 'incoming',
+  outgoing: 'outgoing',
 };
 
 function mapDocType(docType: string | undefined): 'invoice' | 'credit-note' {
@@ -99,7 +104,7 @@ export function fromRecommand(
 
 export const translationFunctions = {
   acube_invoice: { fn: fromAcube, context: { docType: 'invoice' } },
-  acube_creditnote: { fn: fromAcube, context: { docType: 'creditnote' } },
+  acube_creditNote: { fn: fromAcube, context: { docType: 'credit-note' } },
   peppyrus_message: { fn: fromPeppyrus, context: {} },
   ion_sendTransactions: { fn: fromIon, context: { direction: 'outgoing' } },
   ion_receiveTransactions: { fn: fromIon, context: { direction: 'incoming' } },

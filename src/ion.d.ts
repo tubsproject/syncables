@@ -1797,9 +1797,9 @@ export interface components {
       identifier: string;
       /** @description Set this value to true when KYC procedures have been followed, and this identifier has been verified for this organization. Must be set to true in order for this identifier to be usable when sending documents. */
       verified?: boolean;
-      /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for Peppol BIS invoice and creditnote documents */
+      /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for Peppol BIS invoice and credit-note documents */
       publish_receive_peppolbis?: boolean;
-      /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for SI-UBL-2.0 (NLCIUS) invoice and creditnote documents */
+      /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for SI-UBL-2.0 (NLCIUS) invoice and credit-note documents */
       publish_receive_nlcius?: boolean;
       /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for Invoice Response documents */
       publish_receive_invoice_response?: boolean;
@@ -2418,9 +2418,9 @@ export interface components {
       identifier?: string;
       /** @description Set this value to true when KYC procedures have been followed, and this identifier has been verified for this organization. Must be set to true in order for this identifier to be usable when sending documents. */
       verified?: boolean;
-      /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for Peppol BIS invoice and creditnote documents */
+      /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for Peppol BIS invoice and credit-note documents */
       publish_receive_peppolbis?: boolean;
-      /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for SI-UBL-2.0 (NLCIUS) invoice and creditnote documents */
+      /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for SI-UBL-2.0 (NLCIUS) invoice and credit-note documents */
       publish_receive_nlcius?: boolean;
       /** @description Set this value to true to publish this identifier in ion-SMP with receiving capability for Invoice Response documents */
       publish_receive_invoice_response?: boolean;

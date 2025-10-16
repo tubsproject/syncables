@@ -29,6 +29,9 @@ export async function insertData(
   await Promise.all(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
     items.map(async (item: any): Promise<void> => {
+      if (typeof translationFunctions[tableName] === 'undefined' || translationFunctions[tableName] === null) {
+        throw new Error(`No translation function for table: ${tableName}`);
+      }
       const frontItem = translationFunctions[tableName].fn(
         item,
         translationFunctions[tableName].context,

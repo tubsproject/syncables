@@ -3521,11 +3521,11 @@ components:
         publish_receive_peppolbis:
           type: boolean
           description: Set this value to true to publish this identifier in ion-SMP
-            with receiving capability for Peppol BIS invoice and creditnote documents
+            with receiving capability for Peppol BIS invoice and credit-note documents
         publish_receive_nlcius:
           type: boolean
           description: Set this value to true to publish this identifier in ion-SMP
-            with receiving capability for SI-UBL-2.0 (NLCIUS) invoice and creditnote
+            with receiving capability for SI-UBL-2.0 (NLCIUS) invoice and credit-note
             documents
         publish_receive_invoice_response:
           type: boolean
@@ -4419,11 +4419,11 @@ components:
         publish_receive_peppolbis:
           type: boolean
           description: Set this value to true to publish this identifier in ion-SMP
-            with receiving capability for Peppol BIS invoice and creditnote documents
+            with receiving capability for Peppol BIS invoice and credit-note documents
         publish_receive_nlcius:
           type: boolean
           description: Set this value to true to publish this identifier in ion-SMP
-            with receiving capability for SI-UBL-2.0 (NLCIUS) invoice and creditnote
+            with receiving capability for SI-UBL-2.0 (NLCIUS) invoice and credit-note
             documents
         publish_receive_invoice_response:
           type: boolean

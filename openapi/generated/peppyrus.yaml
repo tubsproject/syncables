@@ -757,4 +757,7 @@ syncables:
     get:
       path: /message/list
       field: items
+      paging:
+        pageParam: page
+        pageSizeParam: perPage
 
