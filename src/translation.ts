@@ -87,12 +87,12 @@ export function fromRecommand(
 export const translationFunctions = {
   acube_invoice: { fn: fromAcube, context: { docType: 'invoice' } },
   acube_creditnote: { fn: fromAcube, context: { docType: 'creditnote' } },
-  peppyrus_message: { fn: fromPeppyrus },
+  peppyrus_message: { fn: fromPeppyrus, context: {} },
   ion_sendTransactions: { fn: fromIon, context: { direction: 'outgoing' } },
   ion_receiveTransactions: { fn: fromIon, context: { direction: 'incoming' } },
-  arratech_fromnetwork: null, // No translation function, handled separately
-  arratech_tonetwork: null, // No translation function, handled separately
-  maventa_invoices: null, // No translation function, handled separately
+  // arratech_fromnetwork: null, // No translation function, handled separately
+  // arratech_tonetwork: null, // No translation function, handled separately
+  // maventa_invoices: null, // No translation function, handled separately
   recommand_documents: {
     fn: fromRecommand,
     context: { direction: 'outgoing' },

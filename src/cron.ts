@@ -1,5 +1,6 @@
 import { getPostgresClient, Client } from './db.js';
 import { Syncable } from './main.js';
+import { translationFunctions } from './translation.js';
 
 async function createCollections(
   collectionName: string,
@@ -18,6 +19,7 @@ async function createCollections(
     openApiSpecFilename,
     authHeaders,
     client,
+    translationFunctions,
   );
   await syncable.init();
   await syncable.run();

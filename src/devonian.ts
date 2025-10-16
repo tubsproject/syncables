@@ -1,5 +1,5 @@
 import { Client } from './db.js';
-import { translationFunctions, FrontDocument } from './translation.js';
+import { FrontDocument } from './translation.js';
 
 async function insertFrontDocument(
   client: Client,
@@ -17,6 +17,7 @@ async function insertFrontDocument(
 
 export async function insertData(
   client: Client,
+  translationFunctions, 
   tableName: string,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[],
