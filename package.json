@@ -1,6 +1,6 @@
 {
   "name": "syncables",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Generate sync engine code from OpenAPI specifications",
   "main": "build/src/main.js",
   "type": "module",
