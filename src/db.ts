@@ -1,8 +1,8 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 import { Client } from 'pg';
-const client = await getPostgresClient();
+export { Client } from 'pg';
 
-async function getPostgresClient(): Promise<Client> {
+export async function getPostgresClient(): Promise<Client> {
   const client = new Client({
     user: process.env.POSTGRES_APP_USER || 'syncables',
     password: process.env.POSTGRES_APP_PASSWORD || 'syncables',
@@ -24,7 +24,7 @@ export function getFields(openApiSpec: any, endPoint: string, rowsFrom: string |
   // console.log(`What we want (getFields ${endPoint} ${rowsFrom}):`, JSON.stringify(whatWeWant, null, 2));
   return whatWeWant;
 }
-export async function createSqlTable(
+export async function createSqlTable(client: Client,
   tableName: string,
   whatWeWant: { [key: string]: { type: string } },
 ): Promise<void> {
@@ -48,16 +48,11 @@ CREATE TABLE IF NOT EXISTS ${tableName.replace('-', '_')} (
   console.log(createTableQuery);
   await client.query(createTableQuery);
 }
-export async function insertData(tableName: string,
-  items: any[], fields: string[],
-): Promise<void> {
+export async function insertData(client: Client, tableName: string, items: any[], fields: string[]): Promise<void> {
   console.log(`Fetched data:`, items);
   await Promise.all(items.map((item: any) => {
     const insertQuery = `INSERT INTO ${tableName.replace('-', '_')} (${fields.map(x => `"S${x}"`).join(', ')}) VALUES (${fields.map(field => `'${item[field]}'`).join(', ')})`;
     // console.log(`Executing insert query: ${insertQuery}`);
     return client.query(insertQuery);
   }));
-}
-export async function closeClient(): Promise<void> {
-  await client.end();
 }
