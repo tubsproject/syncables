@@ -1,0 +1,8 @@
+__tests__
+src
+node_modules
+openapi
+.github
+.git
+docker
+
