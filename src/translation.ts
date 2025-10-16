@@ -19,40 +19,53 @@ export type RecommandDocument =
   recommand['getDocuments']['responses'][200]['content']['application/json']['documents'][number];
 export type FrontDocument = front['schemas']['Document'];
 
-const DOC_TYPE_MAP: { [key: string]: 'invoice' | 'creditnote' } = {
+const DOC_TYPE_MAP: { [key: string]: 'invoice' | 'credit-note' } = {
   'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1':
     'invoice',
   'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2::CreditNote##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1':
-    'creditnote',
+    'credit-note',
 };
 const DIRECTION_MAP: { [key: string]: 'incoming' | 'outgoing' } = {
   OUT: 'outgoing',
   IN: 'incoming',
 };
 
+function mapDocType(docType: string | undefined): 'invoice' | 'credit-note' {
+  if (typeof DOC_TYPE_MAP[docType || ''] === 'undefined') {
+    throw new Error(`Unknown docType: ${docType}`);
+  }
+  return DOC_TYPE_MAP[docType || ''];
+}
+function mapDirection(direction: string | undefined): 'incoming' | 'outgoing' {
+  if (typeof DIRECTION_MAP[direction || ''] === 'undefined') {
+    throw new Error(`Unknown direction: ${direction}`);
+  }
+  return DIRECTION_MAP[direction || ''];
+}
+
 export function fromAcube(
   item: AcubeDocument,
-  context: { docType: 'invoice' | 'creditnote' },
+  context: { docType: 'invoice' | 'credit-note' },
 ): FrontDocument {
   console.log('Inserting Acube document...', item);
   return {
     platformId: `acube:${item.uuid}`,
-    docType: context.docType,
-    direction: item.direction,
-    senderId: item.sender.identifier,
-    receiverId: item.recipient.identifier,
-    createdAt: item.createdAt,
+    docType: mapDocType(context.docType),
+    direction: mapDirection(item.direction),
+    senderId: item.sender?.identifier!,
+    receiverId: item.recipient?.identifier!,
+    createdAt: item.createdAt!,
   };
 }
 
 function fromPeppyrus(item: PeppyrusDocument): FrontDocument {
   return {
     platformId: `peppyrus:${item.id}`,
-    docType: DOC_TYPE_MAP[item.documentType],
-    direction: DIRECTION_MAP[item.direction],
-    senderId: item.sender,
-    receiverId: item.recipient,
-    createdAt: item.created,
+    docType: mapDocType(item.documentType),
+    direction: mapDirection(item.direction),
+    senderId: item.sender!,
+    receiverId: item.recipient!,
+    createdAt: item.created!,
   };
 }
 
@@ -62,7 +75,7 @@ export function fromIon(
 ): FrontDocument {
   return {
     platformId: `ion:${item.id}`,
-    docType: DOC_TYPE_MAP[item.document_element],
+    docType: mapDocType(item.document_element),
     direction: context.direction,
     senderId: item.sender_identifier,
     receiverId: item.receiver_identifier,
@@ -76,7 +89,7 @@ export function fromRecommand(
 ): FrontDocument {
   return {
     platformId: `recommand:${item.id}`,
-    docType: DOC_TYPE_MAP[item.docTypeId],
+    docType: DOC_TYPE_MAP[item.docTypeId] || 'unknown',
     direction: context.direction,
     senderId: item.senderId,
     receiverId: item.receiverId,
