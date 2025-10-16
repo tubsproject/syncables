@@ -6,24 +6,34 @@ import { components as peppyrus } from './peppyrus.d.js';
 import { operations as recommand } from './recommand.d.js';
 import { components as front } from './front.d.js';
 
-export type AcubeDocument = acube["schemas"]["Invoice.InvoiceOutput.jsonld"] | acube["schemas"]["CreditNote.CreditNoteOutput.jsonld"];
-export type PeppyrusDocument = peppyrus["schemas"]["Message"];
-export type IonDocument = ion["schemas"]["SendTransaction"] | ion["schemas"]["ReceiveTransaction"];
+export type AcubeDocument =
+  | acube['schemas']['Invoice.InvoiceOutput.jsonld']
+  | acube['schemas']['CreditNote.CreditNoteOutput.jsonld'];
+export type PeppyrusDocument = peppyrus['schemas']['Message'];
+export type IonDocument =
+  | ion['schemas']['SendTransaction']
+  | ion['schemas']['ReceiveTransaction'];
 // export type ArratechDocument = arratech["schemas"]["FromNetwork"] | arratech["schemas"]["ToNetwork"];
 // export type MaventaDocument = maventa["schemas"]["Invoice"];
-export type RecommandDocument = recommand["getDocuments"]["responses"][200]["content"]["application/json"]["documents"][number];
-export type FrontDocument = front["schemas"]["Document"];
+export type RecommandDocument =
+  recommand['getDocuments']['responses'][200]['content']['application/json']['documents'][number];
+export type FrontDocument = front['schemas']['Document'];
 
 const DOC_TYPE_MAP: { [key: string]: 'invoice' | 'creditnote' } = {
-  'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1': 'invoice',
-  'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2::CreditNote##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1': 'creditnote',
+  'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1':
+    'invoice',
+  'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2::CreditNote##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1':
+    'creditnote',
 };
 const DIRECTION_MAP: { [key: string]: 'incoming' | 'outgoing' } = {
-  'OUT': 'outgoing',
-  'IN': 'incoming',
+  OUT: 'outgoing',
+  IN: 'incoming',
 };
 
-export function fromAcube(item: AcubeDocument, context: { docType: 'invoice' | 'creditnote' }): FrontDocument {
+export function fromAcube(
+  item: AcubeDocument,
+  context: { docType: 'invoice' | 'creditnote' },
+): FrontDocument {
   console.log('Inserting Acube document...', item);
   return {
     platformId: `acube:${item.uuid}`,
@@ -46,7 +56,10 @@ function fromPeppyrus(item: PeppyrusDocument): FrontDocument {
   };
 }
 
-export function fromIon(item: IonDocument, context: { direction: 'incoming' | 'outgoing' }): FrontDocument {
+export function fromIon(
+  item: IonDocument,
+  context: { direction: 'incoming' | 'outgoing' },
+): FrontDocument {
   return {
     platformId: `ion:${item.id}`,
     docType: DOC_TYPE_MAP[item.document_element],
@@ -57,7 +70,10 @@ export function fromIon(item: IonDocument, context: { direction: 'incoming' | 'o
   };
 }
 
-export function fromRecommand(item: RecommandDocument, context: { direction: 'incoming' | 'outgoing' }): FrontDocument {
+export function fromRecommand(
+  item: RecommandDocument,
+  context: { direction: 'incoming' | 'outgoing' },
+): FrontDocument {
   return {
     platformId: `recommand:${item.id}`,
     docType: DOC_TYPE_MAP[item.docTypeId],
@@ -69,14 +85,17 @@ export function fromRecommand(item: RecommandDocument, context: { direction: 'in
 }
 
 export const translationFunctions = {
-  'acube_invoice': { fn: fromAcube, context: { docType: 'invoice' } },
-  'acube_creditnote': { fn: fromAcube, context: { docType: 'creditnote' } },
-  'peppyrus_message': { fn: fromPeppyrus },
-  'ion_sendTransactions': { fn: fromIon, context: { direction: 'outgoing' } },
-  'ion_receiveTransactions': { fn: fromIon, context: { direction: 'incoming' } },
-  'arratech_fromnetwork': null, // No translation function, handled separately
-  'arratech_tonetwork': null,   // No translation function, handled separately
-  'maventa_invoices': null,     // No translation function, handled separately
-  'recommand_documents': { fn: fromRecommand, context: { direction: 'outgoing' } },
-  'recommand_inbox': { fn: fromRecommand, context: { direction: 'incoming' } },
+  acube_invoice: { fn: fromAcube, context: { docType: 'invoice' } },
+  acube_creditnote: { fn: fromAcube, context: { docType: 'creditnote' } },
+  peppyrus_message: { fn: fromPeppyrus },
+  ion_sendTransactions: { fn: fromIon, context: { direction: 'outgoing' } },
+  ion_receiveTransactions: { fn: fromIon, context: { direction: 'incoming' } },
+  arratech_fromnetwork: null, // No translation function, handled separately
+  arratech_tonetwork: null, // No translation function, handled separately
+  maventa_invoices: null, // No translation function, handled separately
+  recommand_documents: {
+    fn: fromRecommand,
+    context: { direction: 'outgoing' },
+  },
+  recommand_inbox: { fn: fromRecommand, context: { direction: 'incoming' } },
 };
