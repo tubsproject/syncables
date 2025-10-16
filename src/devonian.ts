@@ -10,17 +10,18 @@ async function insertFrontDocument(
   // Here you would add the logic to insert the document into the Front system
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function insertData(
   client: Client,
   tableName: string,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[],
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   _fields: any,
 ): Promise<void> {
   void _fields;
   console.log(`Fetched data:`, items);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await Promise.all(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
     items.map(async (item: any): Promise<void> => {
       const frontItem = translationFunctions[tableName].fn(
         item,

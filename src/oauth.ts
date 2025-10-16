@@ -4,8 +4,8 @@ import passport from 'passport';
 import { OAuth2Strategy } from 'passport-oauth';
 
 // FIXME: use https://github.com/openapi-ts/openapi-typescript here
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function runOAuthClient(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   oauth2Config: any,
   port: number,
   cb: (token: string) => void,
