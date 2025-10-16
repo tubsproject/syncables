@@ -177,7 +177,7 @@ components:
           type: string
           enum:
             - invoice
-            - creditnote
+            - credit-note
         direction:
           type: string
           enum:

@@ -52,8 +52,8 @@ export function fromAcube(
     platformId: `acube:${item.uuid}`,
     docType: mapDocType(context.docType),
     direction: mapDirection(item.direction),
-    senderId: item.sender?.identifier!,
-    receiverId: item.recipient?.identifier!,
+    senderId: item.sender.identifier!,
+    receiverId: item.recipient.identifier!,
     createdAt: item.createdAt!,
   };
 }
@@ -89,7 +89,7 @@ export function fromRecommand(
 ): FrontDocument {
   return {
     platformId: `recommand:${item.id}`,
-    docType: DOC_TYPE_MAP[item.docTypeId] || 'unknown',
+    docType: mapDocType(item.docTypeId),
     direction: context.direction,
     senderId: item.senderId,
     receiverId: item.receiverId,
