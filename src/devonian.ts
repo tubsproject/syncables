@@ -11,7 +11,7 @@ async function insertFrontDocument(
   const values = fields.map((field) => `'${frontDoc[field]}'`).join(', ');
   // Here you would add the logic to insert the document into the Front system
   const insertQuery = `INSERT INTO FrontDocs (${keys}) VALUES (${values}) ON CONFLICT DO NOTHING`;
-  // console.log(`Executing insert query: ${insertQuery}`);
+  console.log(`Executing insert query: ${insertQuery}`);
   return client.query(insertQuery);
 }
 

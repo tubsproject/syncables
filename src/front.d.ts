@@ -90,8 +90,6 @@ export interface components {
             issueDate?: string;
             /** Format: date-time */
             dueDate?: string;
-            /** Format: date-time */
-            paid?: string;
             ubl?: string;
             paymentTermsNote?: string;
         };

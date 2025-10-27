@@ -194,9 +194,6 @@ components:
         dueDate:
           type: string
           format: date-time
-        paid:
-          type: string
-          format: date-time
         ubl:
           type: string
         paymentTermsNote:
