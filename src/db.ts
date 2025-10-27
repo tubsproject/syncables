@@ -10,7 +10,7 @@ export async function getPostgresClient(): Promise<Client> {
     connectionString: process.env.DATABASE_URL,
     ssl: {
       rejectUnauthorized: process.env.NODE_ENV === 'production',
-    }
+    },
   });
   await client.connect();
   return client;

@@ -12,18 +12,20 @@ export class Syncable {
   specObject: { syncables: { [key: string]: any } } | undefined;
   authHeaders: { [key: string]: string };
   client: Client;
-  translationFunctions: { [key: string]:{
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-    context: any;
-  } };
+  translationFunctions: {
+    [key: string]: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      [key: string]: any;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      context: any;
+    };
+  };
   constructor(
     collectionName: string,
     specFilename: string,
     authHeaders: { [key: string]: string },
     client: Client,
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     translationFunctions: { [key: string]: { fn: any; context: any } },
   ) {
     this.collectionName = collectionName;
@@ -92,7 +94,6 @@ export class Syncable {
   }
 }
 
-
 async function createCollections(
   collectionName: string,
   client: Client,
@@ -103,8 +104,12 @@ async function createCollections(
     console.warn(`Skipping ${collectionName} because ${envKey} is not set`);
     return;
   }
-  console.log(`Creating collection for ${collectionName} using ${openApiSpecFilename}`);
-  const authHeaders: { [key: string]: string } = JSON.parse(process.env[envKey]);
+  console.log(
+    `Creating collection for ${collectionName} using ${openApiSpecFilename}`,
+  );
+  const authHeaders: { [key: string]: string } = JSON.parse(
+    process.env[envKey],
+  );
   const syncable = new Syncable(
     collectionName,
     openApiSpecFilename,

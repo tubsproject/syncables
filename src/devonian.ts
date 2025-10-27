@@ -17,19 +17,22 @@ async function insertFrontDocument(
 
 export async function insertData(
   client: Client,
-  translationFunctions, 
+  translationFunctions,
   tableName: string,
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[],
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _fields: any,
 ): Promise<void> {
   void _fields;
   console.log(`Fetched data:`, items);
   await Promise.all(
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     items.map(async (item: any): Promise<void> => {
-      if (typeof translationFunctions[tableName] === 'undefined' || translationFunctions[tableName] === null) {
+      if (
+        typeof translationFunctions[tableName] === 'undefined' ||
+        translationFunctions[tableName] === null
+      ) {
         throw new Error(`No translation function for table: ${tableName}`);
       }
       const frontItem = translationFunctions[tableName].fn(
