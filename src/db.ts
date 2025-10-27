@@ -3,11 +3,14 @@ import { Client } from 'pg';
 export { Client } from 'pg';
 
 export async function getPostgresClient(): Promise<Client> {
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL not set');
+  }
   const client = new Client({
-    user: process.env.POSTGRES_APP_USER || 'syncables',
-    password: process.env.POSTGRES_APP_PASSWORD || 'syncables',
-    host: process.env.POSTGRES_HOST || 'localhost',
-    database: process.env.POSTGRES_APP_DB || 'syncables',
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: process.env.NODE_ENV === 'production',
+    }
   });
   await client.connect();
   return client;
