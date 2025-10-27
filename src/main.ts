@@ -60,10 +60,14 @@ export class Syncable {
             this.authHeaders,
           );
           // call fetchXmlDoc on each item if needed
-          if (typeof this.specObject.syncables[syncableName]['get-doc'] !==
-            'undefined') {
+          if (
+            typeof this.specObject.syncables[syncableName]['get-doc'] !==
+            'undefined'
+          ) {
             console.log(`Fetching XML document for ${syncableName}`);
-            for (const item of data[this.specObject.syncables[syncableName].get.field]) {
+            for (const item of data[
+              this.specObject.syncables[syncableName].get.field
+            ]) {
               const xmlDoc = await getXmlDoc(
                 this.specObject,
                 this.specObject.syncables[syncableName]['get-doc'].path.replace(
