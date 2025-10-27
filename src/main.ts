@@ -1,7 +1,7 @@
 import { getSpec } from './openApi.js';
 import { createSqlTable, getFields, Client, getPostgresClient } from './db.js';
 import { insertData } from './devonian.js';
-import { fetchData } from './client.js';
+import { fetchData, getXmlDoc } from './client.js';
 import { translationFunctions } from './translation.js';
 // import { runOAuthClient } from './oauth.js';
 
@@ -59,6 +59,23 @@ export class Syncable {
             endPoint,
             this.authHeaders,
           );
+          // call fetchXmlDoc on each item if needed
+          if (typeof this.specObject.syncables[syncableName]['get-doc'] !==
+            'undefined') {
+            console.log(`Fetching XML document for ${syncableName}`);
+            for (const item of data[this.specObject.syncables[syncableName].get.field]) {
+              const xmlDoc = await getXmlDoc(
+                this.specObject,
+                this.specObject.syncables[syncableName]['get-doc'].path.replace(
+                  '{id}',
+                  item.id,
+                ),
+                this.authHeaders,
+              );
+              // Do something with xmlDoc
+              void xmlDoc;
+            }
+          }
           await insertData(
             this.client,
             translationFunctions,

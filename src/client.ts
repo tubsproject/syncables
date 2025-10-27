@@ -1,9 +1,10 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
-export async function fetchData(
+export async function fetchFromApi(
   openApiSpec: any,
   endPoint: string,
   authHeaders: { [key: string]: string },
-): Promise<object> {
+  contentType: string,
+): Promise<Response> {
   // FIXME: do this URL templating from env vars in a nicer way
   endPoint = endPoint.replace(
     '{orgId}',
@@ -20,7 +21,7 @@ export async function fetchData(
   // console.log(`Fetching data from ${url} with headers:`, authHeaders);
   const res = await fetch(url, {
     headers: Object.assign({}, authHeaders, {
-      'Content-Type': 'application/json',
+      'Content-Type': contentType,
     }),
   });
   if (!res.ok) {
@@ -28,5 +29,33 @@ export async function fetchData(
       `Failed to fetch data from ${url}: ${res.status} ${res.statusText}`,
     );
   }
+  return res;
+}
+
+export async function fetchData(
+  openApiSpec: any,
+  endPoint: string,
+  authHeaders: { [key: string]: string },
+): Promise<object> {
+  const res = await fetchFromApi(
+    openApiSpec,
+    endPoint,
+    authHeaders,
+    'application/ld+json',
+  );
   return await res.json();
+}
+
+export async function getXmlDoc(
+  openApiSpec: any,
+  endPoint: string,
+  authHeaders: { [key: string]: string },
+): Promise<string> {
+  const res = await fetchFromApi(
+    openApiSpec,
+    endPoint,
+    authHeaders,
+    'text/xml',
+  );
+  return await res.text();
 }
