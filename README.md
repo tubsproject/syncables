@@ -82,13 +82,16 @@ export ION_AUTH_HEADERS="{\"Authorization\":\"Token $ION_API_KEY\"}"
 # export MAVENTA_AUTH_HEADERS="{\"Authorization\":\"Basic `echo $RECOMMAND_API_KEY:$RECOMMAND_API_SECRET | base64`\"}"
 # export RECOMMAND_AUTH_HEADERS="{\"Authorization\":\"Bearer $RECOMMAND_API_KEY\"}"
 
-pnpm start
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type direction as enum ('incoming', 'outgoing');"
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type docType as enum ('invoice', 'credit-note');"
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create table FrontDocs (senderId text, senderName text, receiverId text, receiverName text, docType docType, direction direction, docId text, amount numeric, platformId text primary key, createdAt timestamp, issueDate timestamp, dueDate timestamp, paid timestamp, paymentTermsNote text, ubl text);"
+
+node build/src/cron.js
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from recommand_documents limit 1;"
 docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from acube_invoice limit 1;"
 docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from ion_receivetransactions limit 1;"
 docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from peppyrus_message limit 1;"
-
 ```
 Output:
 ```

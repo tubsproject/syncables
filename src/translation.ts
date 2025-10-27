@@ -5,6 +5,7 @@ import { components as ion } from './ion.d.js';
 import { components as peppyrus } from './peppyrus.d.js';
 import { operations as recommand } from './recommand.d.js';
 import { components as front } from './front.d.js';
+import { parseDocument } from './parse.js';
 
 export type AcubeDocument =
   | acube['schemas']['Invoice.InvoiceOutput.jsonld']
@@ -65,6 +66,8 @@ export function fromAcube(
 }
 
 function fromPeppyrus(item: PeppyrusDocument): FrontDocument {
+  const ubl = Buffer.from(item.fileContent, 'base64').toString('utf-8');
+  const { issueDate, dueDate, paymentTermsNote } = parseDocument(ubl);
   return {
     platformId: `peppyrus:${item.id}`,
     docType: mapDocType(item.documentType),
@@ -72,6 +75,10 @@ function fromPeppyrus(item: PeppyrusDocument): FrontDocument {
     senderId: item.sender!,
     receiverId: item.recipient!,
     createdAt: item.created!,
+    ubl,
+    issueDate: issueDate.toISOString() || undefined,
+    dueDate: dueDate?.toISOString() || undefined,
+    paymentTermsNote,
   };
 }
 

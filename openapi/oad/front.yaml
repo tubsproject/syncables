@@ -188,6 +188,19 @@ components:
         createdAt:
           type: string
           format: date-time
+        issueDate:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date-time
+        paid:
+          type: string
+          format: date-time
+        ubl:
+          type: string
+        paymentTermsNote:
+          type: string
 syncables:
   IncomingInvoices:
     description: |-
