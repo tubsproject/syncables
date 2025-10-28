@@ -16,5 +16,7 @@ npx openapi-typescript openapi/generated/ion.yaml -o ./src/ion.d.ts
 npx openapi-typescript openapi/generated/maventa.yaml -o ./src/maventa.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/recommand-peppol.yaml --overlay ./openapi/overlay/recommand-peppol-overlay.yaml > openapi/generated/recommand.yaml
 npx openapi-typescript openapi/generated/recommand.yaml -o ./src/recommand.d.ts
-./node_modules/.bin/overlayjs --openapi ./openapi/oad/scrada-peppol.yaml --overlay ./openapi/overlay/scrada-peppol-overlay.yaml > openapi/generated/scrada.yaml
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/scrada-peppol.json --overlay ./openapi/overlay/scrada-peppol-overlay.yaml > openapi/generated/scrada.yaml
 npx openapi-typescript openapi/generated/scrada.yaml -o ./src/scrada.d.ts
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/netfly-peppol.yaml --overlay ./openapi/overlay/netfly-peppol-overlay.yaml > openapi/generated/netfly.yaml
+npx openapi-typescript openapi/generated/netfly.yaml -o ./src/netfly.d.ts
