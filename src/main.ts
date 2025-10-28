@@ -166,14 +166,14 @@ export class Syncable {
       );
     }).map(async (syncableName: string): Promise<void> => {
       const testAccounts = {
-        // arratech: '0208:0607778343', // works
-        // acube: '9915:asdffbddsf', // works
+        // arratech: '0208:0607778343', // works (waiting for SMP on test infra to come through)
+        acube: '9915:asdffbddsf', // works
         ion: '0106:test-12345678', // works
         // peppyrus: '9944:nl862637223B02',  // 422 Unprocessable entity "Incorrect sender: nl862637223B02"
         // recommand: '0208:123454321', Error: No translation function named toRecommandDocumentBody found
         // netfly: '0208:1023290711', todo
         // maventa: '0208:0628374655', todo
-        scrada: '0208:0654321876', // callstack exceeded while parsing spec
+        // scrada: '0208:0654321876', // callstack exceeded while parsing spec
         // recipient: '9944:nl862637223B03',
       };
       if (typeof testAccounts[this.collectionName] !== 'string') {

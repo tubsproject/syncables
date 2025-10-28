@@ -80,7 +80,7 @@ export function genDoc(
       <cac:Party>
           <cbc:EndpointID schemeID="${receiverScheme}">${receiverSubId}</cbc:EndpointID>
           <cac:PartyIdentification>
-              <cbc:ID schemeID="${receiverScheme}">${receiverSubId}</cbc:ID>
+              <cbc:ID>${receiverSubId}</cbc:ID>
           </cac:PartyIdentification>
           <cac:PartyName>
               <cbc:Name>Ponder Source Three</cbc:Name>
