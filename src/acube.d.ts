@@ -2346,7 +2346,12 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/xml": string;
+                "application/json": string;
+            };
+        };
         responses: {
             /** @description Invoice resource created */
             202: {

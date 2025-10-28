@@ -128,10 +128,15 @@ export class Syncable {
       );
 
       const testAccounts = {
-        ion: '0208:0636984350',
-        peppyrus: '9944:nl862637223B02',
+        // acube: '0208:0734825676',
+        // ion: '0208:0636984350',
+        // peppyrus: '9944:nl862637223B02',
         recipient: '9944:nl862637223B03',
       };
+      if (typeof testAccounts[this.collectionName] !== 'string') {
+        console.log(`No test account defined for ${this.collectionName}, skipping test document send`);
+        return;
+      }
       let testInvoice = genDoc('invoice', testAccounts[this.collectionName], testAccounts['recipient'], 'asdf');
       const translationsFunctions = {
         toPeppyrusMessageBody,
