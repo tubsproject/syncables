@@ -5794,15 +5794,30 @@ components:
 security__notNeeded:
   - bearer: []
 syncables:
-  sendTransactions:
+  outbound:
+    description: Invoice and Credit Note Documents sent by the authenticated user.
+    type: collection
+    get-doc:
+      path: '/v1/company/{companyID}/peppol/outbound/document/{documentID}/ubl'
+      method: get
+    get-meta:
+      path: '/v1/company/{companyID}/peppol/outbound/document/{documentID}/info'
+      method: get
+    add-doc:
+      path: '/v1/company/{companyID}/peppol/outbound/document'
+      method: post
+      headerGeneration: toScradaHeaders
+  inbound:
     description: Invoice and Credit Note Documents received by the authenticated user.
     type: collection
-    get:
+    list-meta:
       path: '/v1/company/{companyID}/peppol/inbound/document/unconfirmed'
       field: results
       paging:
-        countResponse: __count
-    confirm:
-      path: '/v1/company/{companyID}/peppol/inbound/document/{documentID}/confirm'
-      method: PUT
+        confirm:
+          path: '/v1/company/{companyID}/peppol/inbound/document/{documentID}/confirm'
+          method: put
+    get-doc:
+      path: '/v1/company/{companyID}/peppol/inbound/document/{documentID}'
+      method: get
 

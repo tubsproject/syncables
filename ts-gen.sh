@@ -16,3 +16,5 @@ npx openapi-typescript openapi/generated/ion.yaml -o ./src/ion.d.ts
 npx openapi-typescript openapi/generated/maventa.yaml -o ./src/maventa.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/recommand-peppol.yaml --overlay ./openapi/overlay/recommand-peppol-overlay.yaml > openapi/generated/recommand.yaml
 npx openapi-typescript openapi/generated/recommand.yaml -o ./src/recommand.d.ts
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/scrada-peppol.yaml --overlay ./openapi/overlay/scrada-peppol-overlay.yaml > openapi/generated/scrada.yaml
+npx openapi-typescript openapi/generated/scrada.yaml -o ./src/scrada.d.ts
