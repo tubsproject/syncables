@@ -68,3 +68,24 @@ export function parseDocument(documentXml: string): {
       jObj[docType]?.['cac:PaymentTerms']?.['cbc:Note'] || undefined,
   };
 }
+
+const INVOICES = {
+  documentTypeScheme: 'busdox-docid-qns',
+  documentType:
+    'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1',
+
+  processScheme: 'cenbii-procid-ubl',
+  process: 'urn:fdc:peppol.eu:2017:poacc:billing:01:1.0',
+};
+
+export function toPeppyrusMessageBody(ubl: string): string {
+  const parsed = parseDocument(ubl);
+  return JSON.stringify({
+    sender: parsed.sender,
+    recipient: parsed.recipient,
+    processType: `${INVOICES.processScheme}::${INVOICES.process}`,
+    documentType: `${INVOICES.documentTypeScheme}::${INVOICES.documentType}`,
+    fileName: 'invoice.xml',
+    fileContent: Buffer.from(ubl).toString('base64'),
+  });
+}

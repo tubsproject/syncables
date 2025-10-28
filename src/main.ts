@@ -4,6 +4,7 @@ import { insertData } from './devonian.js';
 import { fetchData, getXmlDoc, sendXmlDoc } from './client.js';
 import { translationFunctions } from './translation.js';
 import { genDoc } from './genDoc.js';
+import { toPeppyrusMessageBody } from './parse.js';
 // import { runOAuthClient } from './oauth.js';
 
 export class Syncable {
@@ -129,9 +130,20 @@ export class Syncable {
       const testAccounts = {
         ion: '0208:0636984350',
         peppyrus: '9944:nl862637223B02',
-        recipient: '9944:nl862637223B02',
+        recipient: '9944:nl862637223B03',
       };
-      const testInvoice = genDoc('invoice', testAccounts[this.collectionName], testAccounts['recipient'], 'asdf');
+      let testInvoice = genDoc('invoice', testAccounts[this.collectionName], testAccounts['recipient'], 'asdf');
+      const translationsFunctions = {
+        toPeppyrusMessageBody,
+      }
+      if (typeof this.specObject?.syncables[syncableName]['add-doc'].translation !== 'undefined') {
+        const translationFunctionName = this.specObject?.syncables[syncableName]['add-doc'].translation;
+        if (typeof translationsFunctions[translationFunctionName] === 'undefined') {
+          throw new Error(`No translation function named ${translationFunctionName} found`);
+        }
+        console.log(`Translating test document using ${translationFunctionName}`);
+        testInvoice = translationsFunctions[translationFunctionName](testInvoice);
+      }
       sendXmlDoc(
         this.specObject as unknown as { servers: { url: string }[] },
         this.specObject.syncables[syncableName]['add-doc'].path,

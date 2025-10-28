@@ -760,4 +760,8 @@ syncables:
       paging:
         pageParam: page
         pageSizeParam: perPage
+    add-doc:
+      path: /message
+      method: POST
+      translation: toPeppyrusMessageBody
 
