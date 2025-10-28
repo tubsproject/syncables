@@ -174,21 +174,25 @@ export class Syncable {
         // netfly: '0208:1023290711', todo
         // maventa: '0208:0628374655', todo
         // scrada: '0208:0654321876', callstack exceeded while parsing spec
-        recipient: '9944:nl862637223B03',
+        // recipient: '9944:nl862637223B03',
       };
       if (typeof testAccounts[this.collectionName] !== 'string') {
         console.log(`No test account defined for ${this.collectionName}, skipping test document send`);
         return;
       }
-      console.log(
-        `Sending test document to ${this.collectionName} ${syncableName} using ${this.specFilename}`,
-        this.specObject?.syncables[syncableName]['add-doc'],
-      );
-      await this.sendTestDocument(
-        testAccounts[this.collectionName],
-        testAccounts['recipient'],
-        this.specObject?.syncables[syncableName]['add-doc'],
-      );
+      await Promise.all(Object.keys(testAccounts).map(async (key) => {
+        if (key !== this.collectionName) {
+          console.log(
+            `Sending test document from ${this.collectionName} to ${key}`,
+            this.specObject?.syncables[syncableName]['add-doc'],
+          );
+          await this.sendTestDocument(
+            testAccounts[this.collectionName],
+            testAccounts[key],
+            this.specObject?.syncables[syncableName]['add-doc'],
+          );
+        }
+      }));
     });
     await Promise.all(promises);
   }
@@ -223,28 +227,6 @@ async function getSyncable(
   );
 }
 
-async function createCollections(
-  collectionName: string,
-  client: Client,
-): Promise<void> {
-  const syncable = await getSyncable(collectionName, client);
-  await syncable.init();
-  await syncable.run();
-}
-
-async function sendTestDocument(
-  collectionName: string,
-  client: Client,
-): Promise<void> {
-  console.log('calling getSyncable', collectionName);
-  const syncable = await getSyncable(collectionName, client);
-  console.log('syncable created, calling init', collectionName);
-  // void syncable;
-  await syncable.init();
-  console.log('syncable initialized, calling sendTestDocument', collectionName);
-  await syncable.sendTestDocuments();
-}
-
 export async function run(): Promise<void> {
   const client = await getPostgresClient();
   // get list of backend platforms from env vars
@@ -258,10 +240,15 @@ export async function run(): Promise<void> {
     );
   console.log('Platforms to sync:', platformsList);
   await Promise.all(
-    platformsList.map((platform) => {
-      void createCollections;
-      // createCollections(platform, client);
-      sendTestDocument(platform, client);
+    platformsList.map(async (platform) => {
+      const collectionName = platform;
+      console.log('calling getSyncable', collectionName);
+      const syncable = await getSyncable(collectionName, client);
+      console.log('syncable created, calling init', collectionName);
+      // void syncable;
+      await syncable.init();
+      console.log('syncable initialized, calling sendTestDocument', collectionName);
+      await syncable.sendTestDocuments();
     }),
   );
   await client.end();

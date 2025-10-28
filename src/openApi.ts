@@ -3,8 +3,8 @@ import { readFile } from 'fs';
 import { parse } from 'yaml';
 
 function resolveInSpec(spec: any, refPath: string, component: any, trace: string = ''): any {
-  if (trace.split('/').length > 10) {
-    console.warn(`Maximum recursion depth reached while resolving ${refPath} at trace ${trace}`);
+  if (trace.split('/').length > 8) {
+    // console.warn(`Maximum recursion depth reached while resolving ${refPath} at trace ${trace}`);
     return spec;
   }
   // console.log(`Comparing: ${refPath}`, spec?.$ref);
