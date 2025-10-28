@@ -89,3 +89,13 @@ export function toPeppyrusMessageBody(ubl: string): string {
     fileContent: Buffer.from(ubl).toString('base64'),
   });
 }
+
+export function toMaventaInvoiceBody(ubl: string): string {
+  void ubl;
+  throw new Error('Maventa translation not yet implemented');
+}
+
+export function toRecommandInvoiceBody(ubl: string): string {
+  void ubl;
+  throw new Error('Recommand translation not yet implemented');
+}

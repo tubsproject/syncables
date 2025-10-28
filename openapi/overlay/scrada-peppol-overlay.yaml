@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  description: Add syncables to the Scrada Peppol API.
+actions:
+- target: $
+  update:
+    syncables:
+      outbound:
+        description: |-
+          Invoice and Credit Note Documents sent by the authenticated user.
+        type: collection
+        # list-meta is not available for this collection, but get-doc is:
+        get-doc:
+          path: /v1/company/{companyID}/peppol/outbound/document/{documentID}/ubl
+          method: get
+        get-meta:
+          path: /v1/company/{companyID}/peppol/outbound/document/{documentID}/info
+          method: get
+        add-doc:
+          path: /v1/company/{companyID}/peppol/outbound/document
+          method: post
+          headerGeneration: toScradaHeaders
+      inbound:
+        description: |-
+          Invoice and Credit Note Documents received by the authenticated user.
+        type: collection
+        list-meta:
+          path: /v1/company/{companyID}/peppol/inbound/document/unconfirmed
+          field: results
+          paging:
+            confirm:
+              path: /v1/company/{companyID}/peppol/inbound/document/{documentID}/confirm
+              method: put
+        get-doc:
+          path: /v1/company/{companyID}/peppol/inbound/document/{documentID}
+          method: get

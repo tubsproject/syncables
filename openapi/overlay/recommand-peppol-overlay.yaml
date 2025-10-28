@@ -19,6 +19,10 @@ actions:
         paging:
           pageParam: page
           pageSizeParam: limit
+        add-doc:
+          path: /api/peppol/{companyId}/sendDocument
+          method: post
+          translation: toRecommandDocumentBody
       inbox:
         description: |-
           Invoice and Credit Note Documents received by the authenticated user.

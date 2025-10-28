@@ -4,7 +4,7 @@ import { insertData } from './devonian.js';
 import { fetchData, getXmlDoc, sendXmlDoc } from './client.js';
 import { translationFunctions } from './translation.js';
 import { genDoc } from './genDoc.js';
-import { toPeppyrusMessageBody } from './parse.js';
+import { toPeppyrusMessageBody, toMaventaInvoiceBody, toRecommandInvoiceBody } from './parse.js';
 // import { runOAuthClient } from './oauth.js';
 
 export class Syncable {
@@ -131,6 +131,7 @@ export class Syncable {
         // acube: '0208:0734825676',
         // ion: '0208:0636984350',
         // peppyrus: '9944:nl862637223B02',
+        recommand: '0208:123454321',
         recipient: '9944:nl862637223B03',
       };
       if (typeof testAccounts[this.collectionName] !== 'string') {
@@ -140,6 +141,8 @@ export class Syncable {
       let testInvoice = genDoc('invoice', testAccounts[this.collectionName], testAccounts['recipient'], 'asdf');
       const translationsFunctions = {
         toPeppyrusMessageBody,
+        toMaventaInvoiceBody,
+        toRecommandInvoiceBody,
       }
       if (typeof this.specObject?.syncables[syncableName]['add-doc'].translation !== 'undefined') {
         const translationFunctionName = this.specObject?.syncables[syncableName]['add-doc'].translation;
