@@ -75,6 +75,7 @@ export ARRATECH_AUTH_HEADERS="{\"Authorization\":\"Bearer "$ARRATECH_BEARER_TOKE
 export MAVENTA_AUTH_HEADERS="{\"Authorization\":\"Basic "`echo $RECOMMAND_API_KEY:$RECOMMAND_API_SECRET | base64`"\"}"
 export RECOMMAND_AUTH_HEADERS="{\"Authorization\":\"Bearer "$RECOMMAND_API_KEY"\"}"
 export NETFLY_AUTH_HEADERS="{\"Authorization\":\"Bearer "$NETFLY_TOKEN"\"}"
+export SCRADA_AUTH_HEADERS="{\"X-API-KEY\":\""$SCRADA_API_KEY"\",\"X-PASSWORD\":\""$SCRADA_API_PWD"\"}"
 
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type direction as enum ('incoming', 'outgoing');"
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type docType as enum ('invoice', 'credit-note');"

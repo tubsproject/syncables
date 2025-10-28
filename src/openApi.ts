@@ -2,7 +2,11 @@
 import { readFile } from 'fs';
 import { parse } from 'yaml';
 
-function resolveInSpec(spec: any, refPath: string, component: any): any {
+function resolveInSpec(spec: any, refPath: string, component: any, trace: string = ''): any {
+  if (trace.split('/').length > 10) {
+    console.warn(`Maximum recursion depth reached while resolving ${refPath} at trace ${trace}`);
+    return spec;
+  }
   // console.log(`Comparing: ${refPath}`, spec?.$ref);
   if (spec?.$ref === refPath) {
     // console.log(`Resolving reference: ${refPath}`);
@@ -11,10 +15,10 @@ function resolveInSpec(spec: any, refPath: string, component: any): any {
   } else if (spec === null || spec === undefined) {
     // Do nothing
   } else if (typeof spec === 'object') {
-    // console.log(`Checking object for reference: ${refPath}`, spec);
+    // console.log(`Checking object for reference: ${refPath}`);
     Object.keys(spec).forEach((key) => {
-      // console.log(`Checking key: ${key}`);
-      spec[key] = resolveInSpec(spec[key], refPath, component);
+      // console.log(`Checking key: ${trace + '/' + key}`);
+      spec[key] = resolveInSpec(spec[key], refPath, component, trace + '/' + key);
     });
   }
   return spec;

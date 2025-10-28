@@ -125,60 +125,70 @@ export class Syncable {
     //   }),
     // );
   }
-  async sendTestDocument(): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async sendTestDocument(senderId: string, receiverId: string, addDocSpec: any): Promise<void> {
+    let testInvoice = genDoc('invoice', senderId, receiverId, 'asdf');
+    const translationsFunctions = {
+      toPeppyrusMessageBody,
+      toMaventaInvoiceBody,
+      toRecommandInvoiceBody,
+    }
+    if (typeof addDocSpec.translation !== 'undefined') {
+      const translationFunctionName = addDocSpec.translation;
+      if (typeof translationsFunctions[translationFunctionName] === 'undefined') {
+        throw new Error(`No translation function named ${translationFunctionName} found`);
+      }
+      console.log(`Translating test document using ${translationFunctionName}`);
+      testInvoice = translationsFunctions[translationFunctionName](testInvoice);
+    }
+    await sendXmlDoc(
+      this.specObject as unknown as { servers: { url: string }[] },
+      addDocSpec.path,
+      this.authHeaders,
+      testInvoice,
+    ).then((responseXml: string): void => {
+      console.log(
+        `Received response from ${this.collectionName}:`,
+        responseXml,
+      );
+    }).catch((error: Error): void => {
+      console.error(
+        `Error sending document to ${this.collectionName}:`,
+        error,
+      );
+    });
+  }
+  async sendTestDocuments(): Promise<void> {
     const promises = Object.keys(this.specObject.syncables).filter((syncableName: string): boolean => {
       return (
         typeof this.specObject.syncables[syncableName]['add-doc'] !==
         'undefined'
       );
     }).map(async (syncableName: string): Promise<void> => {
-      console.log(
-        `Sending test document to ${this.collectionName} ${syncableName} using ${this.specFilename}`,
-        this.specObject?.syncables[syncableName]['add-doc'],
-      );
-
       const testAccounts = {
-        // acube: '0208:0734825676',
-        // ion: '0208:0636984350',
-        // peppyrus: '9944:nl862637223B02',
-        // recommand: '0208:123454321',
-        netfly: '0208:1023290711',
+        arratech: '0208:0607778343', // works
+        peppyrus: '9944:nl862637223B02',  // works
+        // acube: '0208:0734825676', unprocessable entity, probably since they use scheme ID in the wrong way?
+        // ion: '0106:test-12345678', pending support request
+        // recommand: '0208:123454321', Error: No translation function named toRecommandDocumentBody found
+        // netfly: '0208:1023290711', todo
+        // maventa: '0208:0628374655', todo
+        // scrada: '0208:0654321876', callstack exceeded while parsing spec
         recipient: '9944:nl862637223B03',
       };
       if (typeof testAccounts[this.collectionName] !== 'string') {
         console.log(`No test account defined for ${this.collectionName}, skipping test document send`);
         return;
       }
-      let testInvoice = genDoc('invoice', testAccounts[this.collectionName], testAccounts['recipient'], 'asdf');
-      const translationsFunctions = {
-        toPeppyrusMessageBody,
-        toMaventaInvoiceBody,
-        toRecommandInvoiceBody,
-      }
-      if (typeof this.specObject?.syncables[syncableName]['add-doc'].translation !== 'undefined') {
-        const translationFunctionName = this.specObject?.syncables[syncableName]['add-doc'].translation;
-        if (typeof translationsFunctions[translationFunctionName] === 'undefined') {
-          throw new Error(`No translation function named ${translationFunctionName} found`);
-        }
-        console.log(`Translating test document using ${translationFunctionName}`);
-        testInvoice = translationsFunctions[translationFunctionName](testInvoice);
-      }
-      sendXmlDoc(
-        this.specObject as unknown as { servers: { url: string }[] },
-        this.specObject.syncables[syncableName]['add-doc'].path,
-        this.authHeaders,
-        testInvoice,
-      ).then((responseXml: string): void => {
-        console.log(
-          `Received response from ${this.collectionName} ${syncableName}:`,
-          responseXml,
-        );
-      }).catch((error: Error): void => {
-        console.error(
-          `Error sending document to ${this.collectionName} ${syncableName}:`,
-          error,
-        );
-      });
+      console.log(
+        `Sending test document to ${this.collectionName} ${syncableName} using ${this.specFilename}`,
+        this.specObject?.syncables[syncableName]['add-doc'],
+      );
+      await this.sendTestDocument(
+        testAccounts[this.collectionName],
+        testAccounts['recipient'],
+        this.specObject?.syncables[syncableName]['add-doc'],
+      );
     });
     await Promise.all(promises);
   }
@@ -193,12 +203,17 @@ async function getSyncable(
   if (!process.env[envKey]) {
     throw new Error(`Skipping ${collectionName} because ${envKey} is not set`);
   }
-  console.log(
-    `Creating Syncable for ${collectionName} using ${openApiSpecFilename}`,
-  );
-  const authHeaders: { [key: string]: string } = JSON.parse(
-    process.env[envKey],
-  );
+  // console.log(
+  //   `Creating Syncable for ${collectionName} using ${openApiSpecFilename}`,
+  // );
+  let authHeaders: { [key: string]: string };
+  try {
+    authHeaders = JSON.parse(
+      process.env[envKey],
+    );
+  } catch (error) {
+    throw new Error(`Failed to parse ${envKey}: ${error.message}`);
+  }
   return new Syncable(
     collectionName,
     openApiSpecFilename,
@@ -224,9 +239,10 @@ async function sendTestDocument(
   console.log('calling getSyncable', collectionName);
   const syncable = await getSyncable(collectionName, client);
   console.log('syncable created, calling init', collectionName);
+  // void syncable;
   await syncable.init();
   console.log('syncable initialized, calling sendTestDocument', collectionName);
-  await syncable.sendTestDocument();
+  await syncable.sendTestDocuments();
 }
 
 export async function run(): Promise<void> {

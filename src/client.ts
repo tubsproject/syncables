@@ -44,16 +44,18 @@ export async function postToApi(
   body: string,
 ): Promise<Response> {
   const url = determineUrlFromSpec(openApiSpec, endPoint);
+  const headers =  Object.assign({}, authHeaders, {
+    'Content-Type': contentType,
+  })
+  console.log(`Posting to ${url} with headers:`, headers, 'and body:', body);
   const res = await fetch(url, {
     method: 'POST',
-    headers: Object.assign({}, authHeaders, {
-      'Content-Type': contentType,
-    }),
+    headers,
     body,
   });
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch data from ${url}: ${res.status} ${res.statusText}`,
+      `Failed to fetch data from ${url}: ${res.status} ${res.statusText} ${await res.text()}`,
     );
   }
   return res;
