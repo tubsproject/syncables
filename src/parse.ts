@@ -35,16 +35,23 @@ export function parseDocument(documentXml: string): {
   const sender = jObj[docType]?.['cac:AccountingSupplierParty']?.['cac:Party'];
   const recipient =
     jObj[docType]?.['cac:AccountingCustomerParty']?.['cac:Party'];
+  if (!sender?.['cbc:EndpointID']?.['@_schemeID']) {
+    console.log(sender);
+    throw new Error('Missing sender EndpointID @_schemeID');
+  }
   if (!sender?.['cbc:EndpointID']?.['#text']) {
     throw new Error('Missing sender EndpointID text');
+  }
+  if (!recipient?.['cbc:EndpointID']?.['@_schemeID']) {
+    throw new Error('Missing recipient EndpointID @_schemeID');
   }
   if (!recipient?.['cbc:EndpointID']?.['#text']) {
     throw new Error('Missing recipient EndpointID text');
   }
   return {
-    sender: sender?.['cbc:EndpointID']?.['#text'],
+    sender: `${sender?.['cbc:EndpointID']?.['@_schemeID']}:${sender?.['cbc:EndpointID']?.['#text']}`,
     senderName: sender?.['cac:PartyName']?.['cbc:Name'],
-    recipient: recipient?.['cbc:EndpointID']?.['#text'],
+    recipient: `${recipient?.['cbc:EndpointID']?.['@_schemeID']}:${recipient?.['cbc:EndpointID']?.['#text']}`,
     recipientName: recipient?.['cac:PartyName']?.['cbc:Name'],
     amount: parseFloat(
       jObj[docType]?.['cac:LegalMonetaryTotal']?.['cbc:PayableAmount']?.[
