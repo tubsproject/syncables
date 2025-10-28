@@ -113,17 +113,30 @@ export class Syncable {
       }),
     );
   }
+  async sendTestDocument(): Promise<void> {
+    const promises = Object.keys(this.specObject.syncables).filter((syncableName: string): boolean => {
+      return (
+        typeof this.specObject.syncables[syncableName]['add-doc'] !==
+        'undefined'
+      );
+    }).map(async (syncableName: string): Promise<void> => {
+      console.log(
+        `Sending test document to ${this.collectionName} ${syncableName} using ${this.specFilename}`,
+        this.specObject?.syncables[syncableName]['add-doc'],
+      );
+    });
+    await Promise.all(promises);
+  }
 }
 
-async function createCollections(
+async function getSyncable(
   collectionName: string,
   client: Client,
-): Promise<void> {
+): Promise<Syncable> {
   const openApiSpecFilename = `openapi/generated/${collectionName}.yaml`;
   const envKey = `${collectionName.toUpperCase().replace('-', '_')}_AUTH_HEADERS`;
   if (!process.env[envKey]) {
-    console.warn(`Skipping ${collectionName} because ${envKey} is not set`);
-    return;
+    throw new Error(`Skipping ${collectionName} because ${envKey} is not set`);
   }
   console.log(
     `Creating collection for ${collectionName} using ${openApiSpecFilename}`,
@@ -131,15 +144,31 @@ async function createCollections(
   const authHeaders: { [key: string]: string } = JSON.parse(
     process.env[envKey],
   );
-  const syncable = new Syncable(
+  return new Syncable(
     collectionName,
     openApiSpecFilename,
     authHeaders,
     client,
     translationFunctions,
   );
+}
+
+async function createCollections(
+  collectionName: string,
+  client: Client,
+): Promise<void> {
+  const syncable = await getSyncable(collectionName, client);
   await syncable.init();
   await syncable.run();
+}
+
+async function sendTestDocument(
+  collectionName: string,
+  client: Client,
+): Promise<void> {
+  const syncable = await getSyncable(collectionName, client);
+  await syncable.init();
+  await syncable.sendTestDocument();
 }
 
 export async function run(): Promise<void> {
@@ -155,7 +184,11 @@ export async function run(): Promise<void> {
     );
   console.log('Platforms to sync:', platformsList);
   await Promise.all(
-    platformsList.map((platform) => createCollections(platform, client)),
+    platformsList.map((platform) => {
+      void createCollections;
+      // createCollections(platform, client);
+      sendTestDocument(platform, client);
+    }),
   );
   await client.end();
 }

@@ -4291,7 +4291,8 @@ components:
           type: boolean
           description: >-
             Set this value to true to publish this identifier in ion-SMP with
-            receiving capability for Peppol BIS invoice and credit-note documents
+            receiving capability for Peppol BIS invoice and credit-note
+            documents
         publish_receive_nlcius:
           type: boolean
           description: >-
@@ -5501,7 +5502,8 @@ components:
           type: boolean
           description: >-
             Set this value to true to publish this identifier in ion-SMP with
-            receiving capability for Peppol BIS invoice and credit-note documents
+            receiving capability for Peppol BIS invoice and credit-note
+            documents
         publish_receive_nlcius:
           type: boolean
           description: >-
@@ -6625,10 +6627,17 @@ syncables:
     type: collection
     get:
       path: /api/v2/send-transactions
+      method: GET
       field: results
       paging:
         offsetParam: offset
         limitParam: limit
+    get-doc:
+      path: '/api/v2/send-transactions/{id}/document'
+      method: GET
+    add-doc:
+      path: /api/v2/send-document
+      method: POST
   receiveTransactions:
     description: Invoice and Credit Note Documents received by the authenticated user.
     type: collection
@@ -6638,4 +6647,6 @@ syncables:
       paging:
         offsetParam: offset
         limitParam: limit
+    get-doc:
+      path: '/receive-transactions/{id}/document'
 
