@@ -53,6 +53,13 @@ export ACUBE_TOKEN=`curl -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{"email": "'"${ACUBE_USR}"'", "password": "'"${ACUBE_PWD}"'"}' | json token`
+
+export NETFLY_TOKEN=`curl --request POST   --url https://netfly-test.eu.auth0.com/oauth/token   --header 'content-type: application/json'   --data '{
+    "client_id":"'"${NETFLY_CLIENT_ID}"'",
+    "client_secret":"'"${NETFLY_CLIENT_SECRET}"'",
+    "audience":"https://netfly-test.eu.auth0.com/api/v2/",
+    "grant_type":"client_credentials"
+  }' | json access_token`
 ```
 
 ```sh
@@ -61,12 +68,13 @@ sh ./ts-gen.sh
 pnpm build
 docker compose up -d
 
-export ACUBE_AUTH_HEADERS="{\"Authorization\":\"Bearer ${ACUBE_TOKEN}\"}"
-export PEPPYRUS_AUTH_HEADERS="{\"X-Api-Key\":\"$PEPPYRUS_TOKEN_TEST\"}"
-export ION_AUTH_HEADERS="{\"Authorization\":\"Token $ION_API_KEY\"}"
-# export ARRATECH_AUTH_HEADERS="{\"Authorization\":\"Bearer $_BEARER_TOKEN\"}"
-# export MAVENTA_AUTH_HEADERS="{\"Authorization\":\"Basic `echo $RECOMMAND_API_KEY:$RECOMMAND_API_SECRET | base64`\"}"
-# export RECOMMAND_AUTH_HEADERS="{\"Authorization\":\"Bearer $RECOMMAND_API_KEY\"}"
+export ACUBE_AUTH_HEADERS="{\"Authorization\":\"Bearer "${ACUBE_TOKEN}"\"}"
+export PEPPYRUS_AUTH_HEADERS="{\"X-Api-Key\":\""$PEPPYRUS_TOKEN_TEST"\"}"
+export ION_AUTH_HEADERS="{\"Authorization\":\"Token "$ION_API_KEY"\"}"
+export ARRATECH_AUTH_HEADERS="{\"Authorization\":\"Bearer "$ARRATECH_BEARER_TOKEN"\"}"
+export MAVENTA_AUTH_HEADERS="{\"Authorization\":\"Basic "`echo $RECOMMAND_API_KEY:$RECOMMAND_API_SECRET | base64`"\"}"
+export RECOMMAND_AUTH_HEADERS="{\"Authorization\":\"Bearer "$RECOMMAND_API_KEY"\"}"
+export NETFLY_AUTH_HEADERS="{\"Authorization\":\"Bearer "$NETFLY_TOKEN"\"}"
 
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type direction as enum ('incoming', 'outgoing');"
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type docType as enum ('invoice', 'credit-note');"

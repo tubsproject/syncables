@@ -1,7 +1,10 @@
 import { getSpec } from './openApi.js';
-import { createSqlTable, getFields, Client, getPostgresClient } from './db.js';
-import { insertData } from './devonian.js';
-import { fetchData, getXmlDoc, sendXmlDoc } from './client.js';
+// import { createSqlTable, getFields, Client, getPostgresClient } from './db.js';
+// import { insertData } from './devonian.js';
+// import { fetchData, getXmlDoc, sendXmlDoc } from './client.js';
+import { Client, getPostgresClient } from './db.js';
+import { sendXmlDoc } from './client.js';
+
 import { translationFunctions } from './translation.js';
 import { genDoc } from './genDoc.js';
 import { toPeppyrusMessageBody, toMaventaInvoiceBody, toRecommandInvoiceBody } from './parse.js';
@@ -37,83 +40,90 @@ export class Syncable {
     this.translationFunctions = translationFunctions;
   }
   async init(): Promise<void> {
-    this.specObject = await getSpec(this.specFilename);
+    try {
+      this.specObject = await getSpec(this.specFilename);
+    } catch (error) {
+      throw new Error(
+        `Failed to load OpenAPI spec from ${this.specFilename}: ${error}`,
+      );
+    }
   }
   async run(): Promise<void> {
-    await Promise.all(
-      Object.keys(this.specObject.syncables).map(async (syncableName) => {
-        const tableName = `${this.collectionName}_${syncableName}`;
-        console.log(
-          `Creating syncable ${this.specObject.syncables[syncableName].type}: ${syncableName} as ${tableName}`,
-        );
-        const endPoint =
-          this.specObject.syncables[syncableName].get?.path ||
-          this.specObject.syncables[syncableName].hydra;
-        if (this.specObject.syncables[syncableName].get !== undefined) {
-          const fields = getFields(
-            this.specObject,
-            endPoint,
-            this.specObject.syncables[syncableName].get.field,
-          );
-          await createSqlTable(this.client, tableName, fields);
-          const data = await fetchData(
-            this.specObject as unknown as { servers: { url: string }[] },
-            endPoint,
-            this.authHeaders,
-          );
-          // call fetchXmlDoc on each item if needed
-          if (
-            typeof this.specObject.syncables[syncableName]['get-doc'] !==
-            'undefined'
-          ) {
-            console.log(`Fetching XML document for ${syncableName}`);
-            for (const item of data[
-              this.specObject.syncables[syncableName].get.field
-            ]) {
-              const xmlDoc = await getXmlDoc(
-                this.specObject as unknown as { servers: { url: string }[] },
-                this.specObject.syncables[syncableName]['get-doc'].path.replace(
-                  '{id}',
-                  item.id,
-                ),
-                this.authHeaders,
-              );
-              // Do something with xmlDoc
-              void xmlDoc;
-            }
-          }
-          await insertData(
-            this.client,
-            translationFunctions,
-            tableName,
-            data[this.specObject.syncables[syncableName].get.field],
-            Object.keys(fields).filter((x) =>
-              ['string', 'integer' /*'boolean'*/].includes(fields[x].type),
-            ),
-          );
-        } else if (
-          this.specObject.syncables[syncableName].hydra !== undefined
-        ) {
-          const fields = getFields(this.specObject, endPoint, 'hydra:member');
-          fields['@context'] = { type: 'string' };
-          await createSqlTable(this.client, tableName, fields);
-          const data = await fetchData(
-            this.specObject as unknown as { servers: { url: string }[] },
-            endPoint,
-            this.authHeaders,
-          );
-          await insertData(
-            this.client,
-            translationFunctions,
-            tableName,
-            data['hydra:member'],
-            Object.keys(fields).filter((x) =>
-              ['string', 'integer' /*'boolean'*/].includes(fields[x].type),
-            ),
-          );
-        }
-      }),
-    );
+    console.log('run function needs some work, skipping');
+    // await Promise.all(
+    //   Object.keys(this.specObject.syncables).map(async (syncableName) => {
+    //     const tableName = `${this.collectionName}_${syncableName}`;
+    //     console.log(
+    //       `Creating syncable ${this.specObject.syncables[syncableName].type}: ${syncableName} as ${tableName}`,
+    //     );
+    //     const endPoint =
+    //       this.specObject.syncables[syncableName].get?.path ||
+    //       this.specObject.syncables[syncableName].hydra;
+    //     if (this.specObject.syncables[syncableName].get !== undefined) {
+    //       const fields = getFields(
+    //         this.specObject,
+    //         endPoint,
+    //         this.specObject.syncables[syncableName].get.field,
+    //       );
+    //       await createSqlTable(this.client, tableName, fields);
+    //       const data = await fetchData(
+    //         this.specObject as unknown as { servers: { url: string }[] },
+    //         endPoint,
+    //         this.authHeaders,
+    //       );
+    //       // call fetchXmlDoc on each item if needed
+    //       if (
+    //         typeof this.specObject.syncables[syncableName]['get-doc'] !==
+    //         'undefined'
+    //       ) {
+    //         console.log(`Fetching XML document for ${syncableName}`);
+    //         for (const item of data[
+    //           this.specObject.syncables[syncableName].get.field
+    //         ]) {
+    //           const xmlDoc = await getXmlDoc(
+    //             this.specObject as unknown as { servers: { url: string }[] },
+    //             this.specObject.syncables[syncableName]['get-doc'].path.replace(
+    //               '{id}',
+    //               item.id,
+    //             ),
+    //             this.authHeaders,
+    //           );
+    //           // Do something with xmlDoc
+    //           void xmlDoc;
+    //         }
+    //       }
+    //       await insertData(
+    //         this.client,
+    //         translationFunctions,
+    //         tableName,
+    //         data[this.specObject.syncables[syncableName].get.field],
+    //         Object.keys(fields).filter((x) =>
+    //           ['string', 'integer' /*'boolean'*/].includes(fields[x].type),
+    //         ),
+    //       );
+    //     } else if (
+    //       this.specObject.syncables[syncableName].hydra !== undefined
+    //     ) {
+    //       const fields = getFields(this.specObject, endPoint, 'hydra:member');
+    //       fields['@context'] = { type: 'string' };
+    //       await createSqlTable(this.client, tableName, fields);
+    //       const data = await fetchData(
+    //         this.specObject as unknown as { servers: { url: string }[] },
+    //         endPoint,
+    //         this.authHeaders,
+    //       );
+    //       await insertData(
+    //         this.client,
+    //         translationFunctions,
+    //         tableName,
+    //         data['hydra:member'],
+    //         Object.keys(fields).filter((x) =>
+    //           ['string', 'integer' /*'boolean'*/].includes(fields[x].type),
+    //         ),
+    //       );
+    //     }
+    //   }),
+    // );
   }
   async sendTestDocument(): Promise<void> {
     const promises = Object.keys(this.specObject.syncables).filter((syncableName: string): boolean => {
@@ -131,7 +141,8 @@ export class Syncable {
         // acube: '0208:0734825676',
         // ion: '0208:0636984350',
         // peppyrus: '9944:nl862637223B02',
-        recommand: '0208:123454321',
+        // recommand: '0208:123454321',
+        netfly: '0208:1023290711',
         recipient: '9944:nl862637223B03',
       };
       if (typeof testAccounts[this.collectionName] !== 'string') {
@@ -183,7 +194,7 @@ async function getSyncable(
     throw new Error(`Skipping ${collectionName} because ${envKey} is not set`);
   }
   console.log(
-    `Creating collection for ${collectionName} using ${openApiSpecFilename}`,
+    `Creating Syncable for ${collectionName} using ${openApiSpecFilename}`,
   );
   const authHeaders: { [key: string]: string } = JSON.parse(
     process.env[envKey],
@@ -210,8 +221,11 @@ async function sendTestDocument(
   collectionName: string,
   client: Client,
 ): Promise<void> {
+  console.log('calling getSyncable', collectionName);
   const syncable = await getSyncable(collectionName, client);
+  console.log('syncable created, calling init', collectionName);
   await syncable.init();
+  console.log('syncable initialized, calling sendTestDocument', collectionName);
   await syncable.sendTestDocument();
 }
 
