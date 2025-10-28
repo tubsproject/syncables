@@ -165,12 +165,15 @@ export class Syncable {
         // arratech: '0208:0607778343', // works (waiting for SMP on test infra to come through)
         acube: '9915:asdffbddsf', // works
         ion: '0106:test-12345678', // works
-        peppyrus: '9944:nl862637223B02',  // 422 Unprocessable entity "Incorrect sender: nl862637223B02"
-        // recommand: '0208:123454321', Error: No translation function named toRecommandDocumentBody found
-        // netfly: '0208:1023290711', todo
-        // maventa: '0208:0628374655', todo
-        // scrada: '0208:0654321876', // callstack exceeded while parsing spec
-        // recipient: '9944:nl862637223B03',
+        peppyrus: '9944:nl862637223B02', // works
+        // recommand: '0208:123454321', // todo
+        // netfly: '0208:1023290711', // todo
+        // maventa: '0208:0628374655', // todo
+        // scrada: '0208:0654321876', // todo
+        // billberry: todo
+        // dokapi: todo
+        // e-invoice-be: todo
+        // primexchange: todo
       };
       if (typeof testAccounts[this.collectionName] !== 'string') {
         console.log(`No test account defined for ${this.collectionName}, skipping test document send`);
@@ -233,7 +236,7 @@ export async function run(): Promise<void> {
         .substring(0, x.length - '_AUTH_HEADERS'.length)
         .toLowerCase()
         .replace('_', '-'),
-    );
+    ).filter(name => !['ion', 'peppyrus', 'arratech', 'maventa', 'acube', 'recommand'].includes(name));
   console.log('Platforms to sync:', platformsList);
   await Promise.all(
     platformsList.map(async (platform) => {
@@ -244,8 +247,8 @@ export async function run(): Promise<void> {
       // void syncable;
       await syncable.init();
       console.log('syncable initialized, calling sendTestDocument', collectionName);
-      await syncable.sendTestDocuments();
-      // await syncable.run();
+      // await syncable.sendTestDocuments();
+      await syncable.run();
     }),
   );
   await client.end();
