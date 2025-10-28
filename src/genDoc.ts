@@ -45,7 +45,7 @@ export function genDoc(
       <cac:Party>
           <cbc:EndpointID schemeID="${senderScheme}">${senderSubId}</cbc:EndpointID>
           <cac:PartyIdentification>
-              <cbc:ID schemeID="${senderScheme}">${senderSubId}</cbc:ID>
+              <cbc:ID>${senderScheme}:${senderSubId}</cbc:ID>
           </cac:PartyIdentification>
           <cac:PartyName>
               <cbc:Name>Softwareoplossing.be</cbc:Name>
