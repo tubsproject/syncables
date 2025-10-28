@@ -1,10 +1,4 @@
-/* eslint @typescript-eslint/no-explicit-any: 0 */
-export async function fetchFromApi(
-  openApiSpec: any,
-  endPoint: string,
-  authHeaders: { [key: string]: string },
-  contentType: string,
-): Promise<Response> {
+function determineUrlFromSpec(openApiSpec: { servers: { url: string }[] }, endPoint: string): string {
   // FIXME: do this URL templating from env vars in a nicer way
   endPoint = endPoint.replace(
     '{orgId}',
@@ -19,6 +13,16 @@ export async function fetchFromApi(
     url = `https:${url}`;
   }
   // console.log(`Fetching data from ${url} with headers:`, authHeaders);
+  return url;
+}
+
+export async function fetchFromApi(
+  openApiSpec: { servers: { url: string }[] },
+  endPoint: string,
+  authHeaders: { [key: string]: string },
+  contentType: string,
+): Promise<Response> {
+  const url = determineUrlFromSpec(openApiSpec, endPoint);
   const res = await fetch(url, {
     headers: Object.assign({}, authHeaders, {
       'Content-Type': contentType,
@@ -32,8 +36,31 @@ export async function fetchFromApi(
   return res;
 }
 
+export async function postToApi(
+  openApiSpec: { servers: { url: string }[] },
+  endPoint: string,
+  authHeaders: { [key: string]: string },
+  contentType: string,
+  body: string,
+): Promise<Response> {
+  const url = determineUrlFromSpec(openApiSpec, endPoint);
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: Object.assign({}, authHeaders, {
+      'Content-Type': contentType,
+    }),
+    body,
+  });
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch data from ${url}: ${res.status} ${res.statusText}`,
+    );
+  }
+  return res;
+}
+
 export async function fetchData(
-  openApiSpec: any,
+  openApiSpec: { servers: { url: string }[] },
   endPoint: string,
   authHeaders: { [key: string]: string },
 ): Promise<object> {
@@ -47,7 +74,7 @@ export async function fetchData(
 }
 
 export async function getXmlDoc(
-  openApiSpec: any,
+  openApiSpec: { servers: { url: string }[] },
   endPoint: string,
   authHeaders: { [key: string]: string },
 ): Promise<string> {
@@ -56,6 +83,32 @@ export async function getXmlDoc(
     endPoint,
     authHeaders,
     'text/xml',
+  );
+  return await res.text();
+}
+
+export async function sendXmlDoc(
+  openApiSpec: { servers: { url: string }[] },
+  endPoint: string,
+  authHeaders: { [key: string]: string },
+  xmlDoc: string,
+): Promise<string> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const bodyTypes = (openApiSpec as any).paths[endPoint]?.post?.requestBody?.content;
+  if (typeof bodyTypes === 'undefined' || bodyTypes === null) {
+    throw new Error(`No request body defined for POST ${endPoint}`);
+  }
+  const contentTypes = Object.keys(bodyTypes);
+  if (contentTypes.length === 0) {
+    throw new Error(`No content types defined for POST ${endPoint}`);
+  }
+  console.log(contentTypes);
+  const res = await postToApi(
+    openApiSpec,
+    endPoint,
+    authHeaders,
+    contentTypes[0],
+    xmlDoc,
   );
   return await res.text();
 }

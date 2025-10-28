@@ -1,8 +1,9 @@
 import { getSpec } from './openApi.js';
 import { createSqlTable, getFields, Client, getPostgresClient } from './db.js';
 import { insertData } from './devonian.js';
-import { fetchData, getXmlDoc } from './client.js';
+import { fetchData, getXmlDoc, sendXmlDoc } from './client.js';
 import { translationFunctions } from './translation.js';
+import { genDoc } from './genDoc.js';
 // import { runOAuthClient } from './oauth.js';
 
 export class Syncable {
@@ -55,7 +56,7 @@ export class Syncable {
           );
           await createSqlTable(this.client, tableName, fields);
           const data = await fetchData(
-            this.specObject,
+            this.specObject as unknown as { servers: { url: string }[] },
             endPoint,
             this.authHeaders,
           );
@@ -69,7 +70,7 @@ export class Syncable {
               this.specObject.syncables[syncableName].get.field
             ]) {
               const xmlDoc = await getXmlDoc(
-                this.specObject,
+                this.specObject as unknown as { servers: { url: string }[] },
                 this.specObject.syncables[syncableName]['get-doc'].path.replace(
                   '{id}',
                   item.id,
@@ -96,7 +97,7 @@ export class Syncable {
           fields['@context'] = { type: 'string' };
           await createSqlTable(this.client, tableName, fields);
           const data = await fetchData(
-            this.specObject,
+            this.specObject as unknown as { servers: { url: string }[] },
             endPoint,
             this.authHeaders,
           );
@@ -124,6 +125,29 @@ export class Syncable {
         `Sending test document to ${this.collectionName} ${syncableName} using ${this.specFilename}`,
         this.specObject?.syncables[syncableName]['add-doc'],
       );
+
+      const testAccounts = {
+        ion: '0208:0636984350',
+        peppyrus: '9944:nl862637223B02',
+        recipient: '9944:nl862637223B02',
+      };
+      const testInvoice = genDoc('invoice', testAccounts[this.collectionName], testAccounts['recipient'], 'asdf');
+      sendXmlDoc(
+        this.specObject as unknown as { servers: { url: string }[] },
+        this.specObject.syncables[syncableName]['add-doc'].path,
+        this.authHeaders,
+        testInvoice,
+      ).then((responseXml: string): void => {
+        console.log(
+          `Received response from ${this.collectionName} ${syncableName}:`,
+          responseXml,
+        );
+      }).catch((error: Error): void => {
+        console.error(
+          `Error sending document to ${this.collectionName} ${syncableName}:`,
+          error,
+        );
+      });
     });
     await Promise.all(promises);
   }
