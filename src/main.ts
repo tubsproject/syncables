@@ -167,9 +167,9 @@ export class Syncable {
     }).map(async (syncableName: string): Promise<void> => {
       const testAccounts = {
         arratech: '0208:0607778343', // works
-        peppyrus: '9944:nl862637223B02',  // works
+        // peppyrus: '9944:nl862637223B02',  // works
         // acube: '0208:0734825676', unprocessable entity, probably since they use scheme ID in the wrong way?
-        // ion: '0106:test-12345678', pending support request
+        ion: '0106:test-12345678', // pending support request
         // recommand: '0208:123454321', Error: No translation function named toRecommandDocumentBody found
         // netfly: '0208:1023290711', todo
         // maventa: '0208:0628374655', todo

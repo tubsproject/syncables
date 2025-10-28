@@ -47,7 +47,8 @@ export async function postToApi(
   const headers =  Object.assign({}, authHeaders, {
     'Content-Type': contentType,
   })
-  console.log(`Posting to ${url} with headers:`, headers, 'and body:', body);
+  // console.log(`Posting to ${url} with headers:`, headers, 'and body:', body);
+  console.log(`Posting to ${url}`);
   const res = await fetch(url, {
     method: 'POST',
     headers,
