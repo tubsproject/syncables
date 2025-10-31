@@ -162,17 +162,17 @@ export class Syncable {
       );
     }).map(async (syncableName: string): Promise<void> => {
       const testAccounts = {
-        // arratech: '0208:0607778343', // works (waiting for SMP on test infra to come through)
         acube: '9915:asdffbddsf', // works
+        // arratech: '0208:0607778343', // works (waiting for SMP on test infra to come through)
         ion: '0106:test-12345678', // works
+        // maventa: '0208:0628374655', // todo
+        // netfly: '0208:1023290711', // todo
         peppyrus: '9944:nl862637223B02', // works
         // recommand: '0208:123454321', // todo
-        // netfly: '0208:1023290711', // todo
-        // maventa: '0208:0628374655', // todo
         // scrada: '0208:0654321876', // todo
-        // billberry: todo
-        // dokapi: todo
         // e-invoice-be: todo
+        // dokapi: todo
+        // billberry: todo
         // primexchange: todo
       };
       if (typeof testAccounts[this.collectionName] !== 'string') {
@@ -236,7 +236,7 @@ export async function run(): Promise<void> {
         .substring(0, x.length - '_AUTH_HEADERS'.length)
         .toLowerCase()
         .replace('_', '-'),
-    ).filter(name => !['ion', 'peppyrus', 'arratech', 'maventa', 'acube', 'recommand'].includes(name));
+    ).filter(name => !['ion', 'peppyrus', 'arratech', 'maventa', 'acube'].includes(name));
   console.log('Platforms to sync:', platformsList);
   await Promise.all(
     platformsList.map(async (platform) => {
