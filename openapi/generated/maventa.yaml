@@ -9189,4 +9189,8 @@ syncables:
         pageSizeParam: per_page
         minDateIncl: created_at_start
         maxDateIncl: created_at_end
+    add-doc:
+      path: /v1/invoices
+      method: post
+      translation: toMaventaInvoiceBody
 

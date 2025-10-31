@@ -25,8 +25,7 @@
     "vitest": "^3.0.8"
   },
   "scripts": {
-    "start": "node build/src/run.js",
-    "cron": "node build/src/cron.js",
+    "start": "node build/src/cron.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.json",

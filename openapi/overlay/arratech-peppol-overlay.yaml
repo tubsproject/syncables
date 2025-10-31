@@ -19,7 +19,9 @@ actions:
           paging:
             pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
             pageSizeParam: limit
-
+        add-doc:
+          path: /orgs/{orgId}/transactions
+          method: post
       fromNetwork:
         description: |-
           Invoice and Credit Note Documents received by the authenticated user.

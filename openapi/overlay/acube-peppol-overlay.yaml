@@ -2,6 +2,16 @@ openapi: 3.0.0
 info:
   description: Add syncables to the A-Cube Peppol API.
 actions:
+- target: paths['/invoices/outgoing/ubl']['post']
+  update:
+    requestBody:
+      content:
+        application/xml:
+          schema:
+            type: string
+        application/json:
+          schema:
+            type: string
 - target: $
   update:
     syncables:
@@ -10,6 +20,9 @@ actions:
           Invoice Documents received or sent by the authenticated user.
         type: collection
         hydra: /invoices
+        add-doc:
+          path: /invoices/outgoing/ubl
+          method: post
       creditNote:
         description: |-
           Credit Notes received or sent by the authenticated user.
