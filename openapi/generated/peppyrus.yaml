@@ -754,7 +754,7 @@ syncables:
       Invoice and Credit Note Documents received or sent by the authenticated
       user.
     type: collection
-    get:
+    list:
       path: /message/list
       field: items
       paging:
