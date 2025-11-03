@@ -13,7 +13,7 @@ actions:
         description: |-
           Invoice and Credit Note Documents sent by the authenticated user.
         type: collection
-        get: # list-meta
+        list:
           path: /api/v2/send-transactions
           method: GET
           field: results
@@ -30,7 +30,7 @@ actions:
         description: |-
           Invoice and Credit Note Documents received by the authenticated user.
         type: collection
-        get:
+        list:
           path: /api/v2/receive-transactions
           field: results
           paging:

@@ -9182,7 +9182,7 @@ syncables:
   invoices:
     description: Invoice Documents received or sent by the authenticated user.
     type: collection
-    get:
+    list:
       path: /v1/invoices
       paging:
         pageParam: page

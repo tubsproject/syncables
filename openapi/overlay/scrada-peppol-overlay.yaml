@@ -9,7 +9,7 @@ actions:
         description: |-
           Invoice and Credit Note Documents sent by the authenticated user.
         type: collection
-        # list-meta is not available for this collection, but get-doc is:
+        # list is not available for this collection, but get-doc is:
         get-doc:
           path: /v1/company/{companyID}/peppol/outbound/document/{documentID}/ubl
           method: get
@@ -24,7 +24,7 @@ actions:
         description: |-
           Invoice and Credit Note Documents received by the authenticated user.
         type: collection
-        list-meta:
+        list:
           path: /v1/company/{companyID}/peppol/inbound/document/unconfirmed
           field: results
           paging:

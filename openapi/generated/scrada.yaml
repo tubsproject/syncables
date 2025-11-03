@@ -5810,7 +5810,7 @@ syncables:
   inbound:
     description: Invoice and Credit Note Documents received by the authenticated user.
     type: collection
-    list-meta:
+    list:
       path: '/v1/company/{companyID}/peppol/inbound/document/unconfirmed'
       field: results
       paging:

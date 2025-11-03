@@ -1467,7 +1467,7 @@ syncables:
   documents:
     description: Invoice and Credit Note Documents sent by the authenticated user.
     type: collection
-    list-meta:
+    list:
       path: /documentsList
       method: get
     paging:

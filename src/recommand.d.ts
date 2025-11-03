@@ -1367,7 +1367,7 @@ export interface operations {
                      * @example invoice
                      * @enum {string}
                      */
-                    documentType: "invoice" | "creditNote" | "selfBillingInvoice" | "selfBillingCreditNote" | "xml";
+                    documentType: "invoice" | "creditNote" | "selfBillingInvoice" | "xml";
                     document: components["schemas"]["SendInvoice"] | components["schemas"]["SendCreditNote"] | components["schemas"]["SendSelfBillingInvoice"] | components["schemas"]["SendSelfBillingCreditNote"] | components["schemas"]["XML"];
                     /**
                      * @description The document type identifier. Not required, only used when documentType is "xml".

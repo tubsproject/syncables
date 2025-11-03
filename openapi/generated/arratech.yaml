@@ -7668,7 +7668,7 @@ syncables:
   toNetwork:
     description: Invoice and Credit Note Documents sent by the authenticated user.
     type: collection
-    get:
+    list:
       path: '/orgs/{orgId}/transactions/to_network'
       field: items
       paging:
@@ -7680,7 +7680,7 @@ syncables:
   fromNetwork:
     description: Invoice and Credit Note Documents received by the authenticated user.
     type: collection
-    get:
+    list:
       path: '/orgs/{orgId}/transactions/from_network'
       field: items
       paging:

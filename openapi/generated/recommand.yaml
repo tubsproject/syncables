@@ -1235,7 +1235,6 @@ paths:
                     - invoice
                     - creditNote
                     - selfBillingInvoice
-                    - selfBillingCreditNote
                     - xml
                   description: The type of document.
                   example: invoice
@@ -4449,7 +4448,7 @@ syncables:
   documents:
     description: Invoice and Credit Note Documents sent by the authenticated user.
     type: collection
-    get:
+    list:
       path: '/api/peppol/{teamId}/documents'
       field: documents
     paging:
@@ -4462,7 +4461,7 @@ syncables:
   inbox:
     description: Invoice and Credit Note Documents received by the authenticated user.
     type: collection
-    get:
+    list:
       path: '/api/peppol/{teamId}/inbox'
       field: documents
       paging:
