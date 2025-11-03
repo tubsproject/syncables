@@ -8,7 +8,15 @@ function determineUrlFromSpec(openApiSpec: { servers: { url: string }[] }, endPo
     '{teamId}',
     process.env.RECOMMAND_TEAM_ID || '{teamId}',
   );
+  endPoint = endPoint.replace(
+    '{companyID}',
+    process.env.SCRADA_COMPANY_ID || '{companyID}',
+  );
   let url = openApiSpec.servers[0].url + endPoint; // + '?key=' + process.env.GOOGLE_API_KEY;
+  // avoid joining to a double slash:
+  if ((openApiSpec.servers[0].url.endsWith('/') && endPoint.startsWith('/'))) {
+    url = openApiSpec.servers[0].url.slice(0, -1) + endPoint;
+  }
   if (url.startsWith('//')) {
     url = `https:${url}`;
   }
