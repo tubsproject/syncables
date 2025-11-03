@@ -1,4 +1,4 @@
-function determineUrlFromSpec(openApiSpec: { servers: { url: string }[] }, endPoint: string): string {
+function determineUrlFromSpec(openApiSpecServerUrl: string, endPoint: string): string {
   // FIXME: do this URL templating from env vars in a nicer way
   endPoint = endPoint.replace(
     '{orgId}',
@@ -12,10 +12,10 @@ function determineUrlFromSpec(openApiSpec: { servers: { url: string }[] }, endPo
     '{companyID}',
     process.env.SCRADA_COMPANY_ID || '{companyID}',
   );
-  let url = openApiSpec.servers[0].url + endPoint; // + '?key=' + process.env.GOOGLE_API_KEY;
+  let url = openApiSpecServerUrl + endPoint; // + '?key=' + process.env.GOOGLE_API_KEY;
   // avoid joining to a double slash:
-  if ((openApiSpec.servers[0].url.endsWith('/') && endPoint.startsWith('/'))) {
-    url = openApiSpec.servers[0].url.slice(0, -1) + endPoint;
+  if ((openApiSpecServerUrl.endsWith('/') && endPoint.startsWith('/'))) {
+    url = openApiSpecServerUrl.slice(0, -1) + endPoint;
   }
   if (url.startsWith('//')) {
     url = `https:${url}`;
@@ -25,12 +25,12 @@ function determineUrlFromSpec(openApiSpec: { servers: { url: string }[] }, endPo
 }
 
 export async function fetchFromApi(
-  openApiSpec: { servers: { url: string }[] },
+  openApiSpecServerUrl: string,
   endPoint: string,
   authHeaders: { [key: string]: string },
   contentType: string,
 ): Promise<Response> {
-  const url = determineUrlFromSpec(openApiSpec, endPoint);
+  const url = determineUrlFromSpec(openApiSpecServerUrl, endPoint);
   const res = await fetch(url, {
     headers: Object.assign({}, authHeaders, {
       'Content-Type': contentType,
@@ -45,13 +45,13 @@ export async function fetchFromApi(
 }
 
 export async function postToApi(
-  openApiSpec: { servers: { url: string }[] },
+  openApiSpecServerUrl: string,
   endPoint: string,
   authHeaders: { [key: string]: string },
   contentType: string,
   body: string,
 ): Promise<Response> {
-  const url = determineUrlFromSpec(openApiSpec, endPoint);
+  const url = determineUrlFromSpec(openApiSpecServerUrl, endPoint);
   const headers =  Object.assign({}, authHeaders, {
     'Content-Type': contentType,
   })
@@ -71,12 +71,12 @@ export async function postToApi(
 }
 
 export async function fetchData(
-  openApiSpec: { servers: { url: string }[] },
+  openApiSpecServerUrl: string,
   endPoint: string,
   authHeaders: { [key: string]: string },
 ): Promise<object> {
   const res = await fetchFromApi(
-    openApiSpec,
+    openApiSpecServerUrl,
     endPoint,
     authHeaders,
     'application/ld+json',
@@ -85,12 +85,12 @@ export async function fetchData(
 }
 
 export async function getXmlDoc(
-  openApiSpec: { servers: { url: string }[] },
+  openApiSpecServerUrl: string,
   endPoint: string,
   authHeaders: { [key: string]: string },
 ): Promise<string> {
   const res = await fetchFromApi(
-    openApiSpec,
+    openApiSpecServerUrl,
     endPoint,
     authHeaders,
     'text/xml',
@@ -100,6 +100,7 @@ export async function getXmlDoc(
 
 export async function sendXmlDoc(
   openApiSpec: { servers: { url: string }[] },
+  openApiSpecServerUrl: string,
   endPoint: string,
   authHeaders: { [key: string]: string },
   xmlDoc: string,
@@ -115,7 +116,7 @@ export async function sendXmlDoc(
   }
   console.log(contentTypes);
   const res = await postToApi(
-    openApiSpec,
+    openApiSpecServerUrl,
     endPoint,
     authHeaders,
     contentTypes[0],

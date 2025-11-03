@@ -60,7 +60,7 @@ export function getSpec(specFile: string): Promise<any> {
         return;
       }
       openApiSpec = resolveRefs(openApiSpec);
-      console.log('Resolved all $ref references in OpenAPI spec?', specFile, JSON.stringify(openApiSpec, null, 2));
+      console.log('Resolved all $ref references in OpenAPI spec?', specFile);
       // console.log(`Resolved components in OpenAPI spec.`);
       resolve(openApiSpec);
     });

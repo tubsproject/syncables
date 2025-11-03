@@ -12,6 +12,7 @@ export class Syncable {
   specFilename: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   specObject: { syncables: { [key: string]: any } } | undefined;
+  specObjectServerUrl: string | undefined;
   authHeaders: { [key: string]: string };
   client: Client;
   translationFunctions: {
@@ -36,9 +37,13 @@ export class Syncable {
     this.client = client;
     this.translationFunctions = translationFunctions;
   }
-  async init(): Promise<void> {
+  async init(serverIndex: number): Promise<void> {
     try {
       this.specObject = await getSpec(this.specFilename);
+      this.specObjectServerUrl =
+        (this.specObject as unknown as { servers: { url: string }[] }).servers[serverIndex]
+          .url;
+      console.log(`Using server URL ${serverIndex} for ${this.collectionName}: ${this.specObjectServerUrl}`);
     } catch (error) {
       throw new Error(
         `Failed to load OpenAPI spec from ${this.specFilename}: ${error}`,
@@ -63,7 +68,7 @@ export class Syncable {
           );
           await createSqlTable(this.client, tableName, fields);
           const data = await fetchData(
-            this.specObject as unknown as { servers: { url: string }[] },
+            this.specObjectServerUrl,
             endPoint,
             this.authHeaders,
           );
@@ -77,7 +82,7 @@ export class Syncable {
               this.specObject.syncables[syncableName].get.field
             ]) {
               const xmlDoc = await getXmlDoc(
-                this.specObject as unknown as { servers: { url: string }[] },
+                this.specObjectServerUrl,
                 this.specObject.syncables[syncableName]['get-doc'].path.replace(
                   '{id}',
                   item.id,
@@ -104,7 +109,7 @@ export class Syncable {
           fields['@context'] = { type: 'string' };
           await createSqlTable(this.client, tableName, fields);
           const data = await fetchData(
-            this.specObject as unknown as { servers: { url: string }[] },
+            this.specObjectServerUrl,
             endPoint,
             this.authHeaders,
           );
@@ -139,6 +144,7 @@ export class Syncable {
     }
     await sendXmlDoc(
       this.specObject as unknown as { servers: { url: string }[] },
+      this.specObjectServerUrl,
       addDocSpec.path,
       this.authHeaders,
       testInvoice,
@@ -245,7 +251,14 @@ export async function run(): Promise<void> {
       const syncable = await getSyncable(collectionName, client);
       console.log('syncable created, calling init', collectionName);
       // void syncable;
-      await syncable.init();
+      let serverIndex = 0;
+      if (typeof process.env[`${collectionName.toUpperCase().replace('-', '_')}_SERVER_INDEX`] !== 'undefined') {
+        const idx = parseInt(process.env[`${collectionName.toUpperCase().replace('-', '_')}_SERVER_INDEX`], 10);
+        if (!isNaN(idx)) {
+          serverIndex = idx;
+        }
+      }
+      await syncable.init(serverIndex);
       console.log('syncable initialized, calling sendTestDocument', collectionName);
       // await syncable.sendTestDocuments();
       await syncable.run();
