@@ -1207,7 +1207,7 @@ paths:
                     - invoice
                     - creditNote
                     - selfBillingInvoice
-                    - selfBillingCreditNote
+
                     - xml
                   description: The type of document.
                   example: invoice

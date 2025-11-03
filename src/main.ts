@@ -53,13 +53,13 @@ export class Syncable {
           `Creating syncable ${this.specObject.syncables[syncableName].type}: ${syncableName} as ${tableName}`,
         );
         const endPoint =
-          this.specObject.syncables[syncableName].get?.path ||
+          this.specObject.syncables[syncableName]['list-meta']?.path ||
           this.specObject.syncables[syncableName].hydra;
-        if (this.specObject.syncables[syncableName].get !== undefined) {
+        if (this.specObject.syncables[syncableName]['list-meta'] !== undefined) {
           const fields = getFields(
             this.specObject,
             endPoint,
-            this.specObject.syncables[syncableName].get.field,
+            this.specObject.syncables[syncableName]['list-meta'].field,
           );
           await createSqlTable(this.client, tableName, fields);
           const data = await fetchData(
