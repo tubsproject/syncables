@@ -18,15 +18,23 @@ function getListUrl(
     Object.assign(query, listSpec.query);
   }
   if (typeof listSpec?.paging?.startDateParam === 'string') {
+    // console.log('Adding startDateParam to query', listSpec?.paging?.startDateParam);
     query[listSpec?.paging?.startDateParam] = '20000101000000';
+    // console.log('Query after adding startDateParam:', query);
+  // } else {
+    // console.log('No startDateParam defined in paging spec', listSpec?.paging);
   }
   if (typeof listSpec?.paging?.endDateParam === 'string') {
+    // console.log('Adding endDateParam to query', listSpec?.paging?.endDateParam);
     query[listSpec?.paging?.endDateParam] = '99990101235959';
+    // console.log('Query after adding endDateParam:', query);
+  // } else {
+    // console.log('No endDateParam defined in paging spec', listSpec?.paging);
   }
 
   if( Object.keys(query).length > 0 ) {
     const queryParams = new URLSearchParams(
-      listSpec.query,
+      query,
     ).toString();
     console.log(`Using query params for list endpoint:`, queryParams);
     return endPoint.concat(`?${queryParams}`);
@@ -117,6 +125,9 @@ export class Syncable {
                 this.specObjectServerUrl,
                 this.specObject.syncables[syncableName]['get-doc'].path.replace(
                   '{id}',
+                  item.id,
+                ).replace(
+                  '{documentID}',
                   item.id,
                 ),
                 this.authHeaders,

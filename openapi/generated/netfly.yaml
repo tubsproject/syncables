@@ -12,7 +12,6 @@ servers:
     description: Staging server
   - url: 'https://service.netfly.eu.com/netfly'
     description: Production server
-  - url: 'https://test.ion-ap.net'
 components:
   securitySchemes:
     bearerAuth:

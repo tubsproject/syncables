@@ -89,6 +89,7 @@ export async function getXmlDoc(
   endPoint: string,
   authHeaders: { [key: string]: string },
 ): Promise<string> {
+  console.log('Fetching XML document from', endPoint);
   const res = await fetchFromApi(
     openApiSpecServerUrl,
     endPoint,
