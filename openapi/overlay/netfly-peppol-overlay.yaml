@@ -18,9 +18,9 @@ actions:
           query:
             flow: out
           method: get
-        paging:
-          startDateParam: startDate
-          endDateParam: endDate
+          paging:
+            startDateParam: startDate
+            endDateParam: endDate
         add-doc:
           path: /sendDocument
           method: post
@@ -33,9 +33,9 @@ actions:
           query:
             flow: in
           method: get
-        paging:
-          startDateParam: startDate
-          endDateParam: endDate
+          paging:
+            startDateParam: startDate
+            endDateParam: endDate
         get-doc:
           path: /receiveDocument
           method: get

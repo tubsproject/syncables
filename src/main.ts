@@ -9,23 +9,24 @@ import { toPeppyrusMessageBody, toMaventaInvoiceBody, toRecommandInvoiceBody } f
 
 function getListUrl(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  syncableSpec: { [key: string]: any },
+  listSpec: { [key: string]: any },
   endPoint: string,
 ): string {
   const query: { [key: string]: string } = {};
-  if (syncableSpec['list'] !== undefined && syncableSpec['list'].query !== undefined) {
-    Object.assign(query, syncableSpec['list'].query);
+  console.log('syncableSpec for getListUrl:', JSON.stringify(listSpec, null, 2));
+  if (listSpec !== undefined && listSpec.query !== undefined) {
+    Object.assign(query, listSpec.query);
   }
-  if (typeof syncableSpec?.paging?.startDateParam === 'string') {
-    query[syncableSpec?.paging?.startDateParam] = '20000101000000';
+  if (typeof listSpec?.paging?.startDateParam === 'string') {
+    query[listSpec?.paging?.startDateParam] = '20000101000000';
   }
-  if (typeof syncableSpec?.paging?.endDateParam === 'string') {
-    query[syncableSpec?.paging?.endDateParam] = '99990101235959';
+  if (typeof listSpec?.paging?.endDateParam === 'string') {
+    query[listSpec?.paging?.endDateParam] = '99990101235959';
   }
 
   if( Object.keys(query).length > 0 ) {
     const queryParams = new URLSearchParams(
-      syncableSpec['list'].query,
+      listSpec.query,
     ).toString();
     console.log(`Using query params for list endpoint:`, queryParams);
     return endPoint.concat(`?${queryParams}`);
@@ -95,7 +96,7 @@ export class Syncable {
           console.log('Found list endpoint for syncable', syncableName, 'with fields:', fields);
           await createSqlTable(this.client, tableName, fields);
           const url = getListUrl(
-            this.specObject.syncables[syncableName],
+            this.specObject.syncables[syncableName]['list'],
             endPoint,
           );
           const data = await fetchData(
@@ -108,9 +109,9 @@ export class Syncable {
             typeof this.specObject.syncables[syncableName]['get-doc'] !==
             'undefined'
           ) {
-            console.log(`Fetching XML document for ${syncableName}`);
+            console.log(`Fetching XML document for ${syncableName}`, this.specObject.syncables[syncableName]['get-doc']);
             for (const item of data[
-              this.specObject.syncables[syncableName].get.field
+              this.specObject.syncables[syncableName]['get-doc'].field
             ]) {
               const xmlDoc = await getXmlDoc(
                 this.specObjectServerUrl,
@@ -128,7 +129,7 @@ export class Syncable {
             this.client,
             translationFunctions,
             tableName,
-            data[this.specObject.syncables[syncableName].get.field],
+            data[this.specObject.syncables[syncableName]['get-doc'].field],
             Object.keys(fields).filter((x) =>
               ['string', 'integer' /*'boolean'*/].includes(fields[x].type),
             ),
@@ -139,7 +140,7 @@ export class Syncable {
           const fields = getFields(this.specObject, endPoint, 'hydra:member');
           fields['@context'] = { type: 'string' };
           await createSqlTable(this.client, tableName, fields);
-          const url = getListUrl(this.specObject.syncables[syncableName], endPoint)
+          const url = getListUrl(this.specObject.syncables[syncableName]['list'], endPoint)
           const data = await fetchData(
             this.specObjectServerUrl,
             url,
