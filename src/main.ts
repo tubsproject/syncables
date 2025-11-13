@@ -112,15 +112,23 @@ export class Syncable {
             url,
             this.authHeaders,
           );
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          let dataItems: any[] = [];
           // call fetchXmlDoc on each item if needed
           if (
             typeof this.specObject.syncables[syncableName]['get-doc'] !==
             'undefined'
           ) {
             console.log(`Fetching XML document for ${syncableName}`, this.specObject.syncables[syncableName]['get-doc']);
-            for (const item of data[
-              this.specObject.syncables[syncableName]['get-doc'].field
-            ]) {
+            console.log('iterating over items:', data, this.specObject.syncables[syncableName]['list']);
+            if (typeof this.specObject.syncables[syncableName]['list'].field === 'undefined') {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              dataItems = data[this.specObject.syncables[syncableName]['list'].field] as any[];
+            } else {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              dataItems = data as any[];
+            }
+            for (const item of dataItems) {
               const xmlDoc = await getXmlDoc(
                 this.specObjectServerUrl,
                 this.specObject.syncables[syncableName]['get-doc'].path.replace(
@@ -140,7 +148,7 @@ export class Syncable {
             this.client,
             translationFunctions,
             tableName,
-            data[this.specObject.syncables[syncableName]['get-doc'].field],
+            dataItems,
             Object.keys(fields).filter((x) =>
               ['string', 'integer' /*'boolean'*/].includes(fields[x].type),
             ),
