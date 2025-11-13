@@ -9,12 +9,12 @@ actions:
 - target: $
   update:
     syncables:
-      documents:
+      documentsOut:
         description: |-
           Invoice and Credit Note Documents sent by the authenticated user.
         type: collection
         list:
-          path: /documentsList
+          path: /documentsList?flow=out
           method: get
         paging:
           startDateParam: startDate
@@ -22,6 +22,16 @@ actions:
         add-doc:
           path: /sendDocument
           method: post
+      documentsIn:
+        description: |-
+          Invoice and Credit Note Documents received by the authenticated user.
+        type: collection
+        list:
+          path: /documentsList?flow=in
+          method: get
+        paging:
+          startDateParam: startDate
+          endDateParam: endDate
         get-doc:
           path: /receiveDocument
           method: get
