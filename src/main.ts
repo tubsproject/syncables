@@ -123,12 +123,18 @@ export class Syncable {
             console.log('iterating over items:', data, this.specObject.syncables[syncableName]['list']);
             if (typeof this.specObject.syncables[syncableName]['list'].field === 'undefined') {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              dataItems = data[this.specObject.syncables[syncableName]['list'].field] as any[];
+              dataItems = data as any[];
+              console.log('dataItems from response root:', dataItems);
             } else {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              dataItems = data as any[];
+              dataItems = data[this.specObject.syncables[syncableName]['list'].field] as any[];
+              console.log('dataItems based on field:', this.specObject.syncables[syncableName]['list'].field, dataItems);
             }
-            for (const item of dataItems) {
+            if (!Array.isArray(dataItems)) {
+              throw new Error(`Expected data items to be an array, got: ${JSON.stringify(dataItems)}`);
+            }
+            for (let i = 0; i < dataItems.length; i++) {
+              const item = dataItems[i];
               const xmlDoc = await getXmlDoc(
                 this.specObjectServerUrl,
                 this.specObject.syncables[syncableName]['get-doc'].path.replace(
