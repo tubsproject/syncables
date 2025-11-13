@@ -23,17 +23,17 @@ export function getFields(
 ): { [key: string]: { type: string } } | undefined {
   const successResponseProperties =
     openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
-  // console.log(openApiSpec.paths, endPoint);
+  console.log(openApiSpec.paths, endPoint);
   const schema =
     successResponseProperties?.['application/ld+json']?.schema ||
     successResponseProperties?.['application/json']?.schema;
-  // console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
+  console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
   // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
   const whatWeWant =
     typeof rowsFrom === 'string'
       ? schema?.properties?.[rowsFrom]?.items?.properties
       : schema?.items?.properties;
-  // console.log(`What we want (getFields ${endPoint} ${rowsFrom}):`, JSON.stringify(whatWeWant, null, 2));
+  console.log(`What we want (getFields ${endPoint} ${rowsFrom}):`, JSON.stringify(whatWeWant, null, 2));
   return whatWeWant;
 }
 export async function createSqlTable(
@@ -42,7 +42,10 @@ export async function createSqlTable(
   whatWeWant: { [key: string]: { type: string } },
 ): Promise<void> {
   const rowSpecs = [];
-  // console.log(`What we want (createSqlTable ${tableName}):`, JSON.stringify(whatWeWant, null, 2));
+  console.log(`What we want (createSqlTable ${tableName}):`, JSON.stringify(whatWeWant, null, 2));
+  if (!whatWeWant) {
+    throw new Error(`No fields found for table ${tableName}`);
+  }
   Object.entries(whatWeWant).forEach(([key, value]) => {
     const type = (value as { type: string }).type;
     if (type === 'string') {

@@ -7,6 +7,32 @@ import { genDoc } from './genDoc.js';
 import { toPeppyrusMessageBody, toMaventaInvoiceBody, toRecommandInvoiceBody } from './parse.js';
 // import { runOAuthClient } from './oauth.js';
 
+function getListUrl(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  syncableSpec: { [key: string]: any },
+  endPoint: string,
+): string {
+  const query: { [key: string]: string } = {};
+  if (syncableSpec['list'] !== undefined && syncableSpec['list'].query !== undefined) {
+    Object.assign(query, syncableSpec['list'].query);
+  }
+  if (typeof syncableSpec?.paging?.startDateParam === 'string') {
+    query[syncableSpec?.paging?.startDateParam] = '20000101000000';
+  }
+  if (typeof syncableSpec?.paging?.endDateParam === 'string') {
+    query[syncableSpec?.paging?.endDateParam] = '99990101235959';
+  }
+
+  if( Object.keys(query).length > 0 ) {
+    const queryParams = new URLSearchParams(
+      syncableSpec['list'].query,
+    ).toString();
+    console.log(`Using query params for list endpoint:`, queryParams);
+    return endPoint.concat(`?${queryParams}`);
+  }
+  return endPoint;
+}
+
 export class Syncable {
   collectionName: string;
   specFilename: string;
@@ -66,10 +92,15 @@ export class Syncable {
             endPoint,
             this.specObject.syncables[syncableName]['list'].field,
           );
+          console.log('Found list endpoint for syncable', syncableName, 'with fields:', fields);
           await createSqlTable(this.client, tableName, fields);
+          const url = getListUrl(
+            this.specObject.syncables[syncableName],
+            endPoint,
+          );
           const data = await fetchData(
             this.specObjectServerUrl,
-            endPoint,
+            url,
             this.authHeaders,
           );
           // call fetchXmlDoc on each item if needed
@@ -108,9 +139,10 @@ export class Syncable {
           const fields = getFields(this.specObject, endPoint, 'hydra:member');
           fields['@context'] = { type: 'string' };
           await createSqlTable(this.client, tableName, fields);
+          const url = getListUrl(this.specObject.syncables[syncableName], endPoint)
           const data = await fetchData(
             this.specObjectServerUrl,
-            endPoint,
+            url,
             this.authHeaders,
           );
           await insertData(

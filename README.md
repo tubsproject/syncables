@@ -32,14 +32,14 @@ Here is a demo of the syncables we use in the Let's Peppol proxy service.
 Some one-liners to obtain some of the API access tokens:
 ```sh
 export $(xargs < ./.env)
-curl -X POST https://ax-stage.maventa.com/oauth2/token -H "Content-Type: application/json" -d "{
+export MAVENTA_TOKEN=`curl -X POST https://ax-stage.maventa.com/oauth2/token -H "Content-Type: application/json" -d "{
   \"client_id\": \"$MAVENTA_CLIENT_ID\",
   \"client_secret\": \"$MAVENTA_CLIENT_SECRET\",
   \"vendor_api_key\": \"$MAVENTA_VENDOR_API_KEY\",
   \"grant_type\": \"client_credentials\"
-}" | json
+}" | json access_token`
 
-export ARRATECH_BEARER_TOKEN=`curl -X POST https://cognito-idp.eu-central-1.amazonaws.com/ -H "Content-Type: application/x-amz-json-1.1" -H "X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth" -d "{                                 
+export ARRATECH_TOKEN=`curl -X POST https://cognito-idp.eu-central-1.amazonaws.com/ -H "Content-Type: application/x-amz-json-1.1" -H "X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth" -d "{                                 
   \"AuthFlow\": \"USER_PASSWORD_AUTH\",
   \"AuthParameters\": {
     \"USERNAME\": \"$ARRATECH_USERNAME\",
@@ -77,6 +77,7 @@ export MAVENTA_AUTH_HEADERS="{\"Authorization\":\"Basic "$MAVENTA_BEARER_TOKEN"\
 export NETFLY_AUTH_HEADERS="{\"Authorization\":\"Bearer "$NETFLY_TOKEN"\"}"
 export SCRADA_AUTH_HEADERS="{\"X-API-KEY\":\""$SCRADA_API_KEY"\",\"X-PASSWORD\":\""$SCRADA_API_PWD"\"}"
 
+# FIXME: we should do this with the `createSqlTable` function from `src/db.ts`:
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type direction as enum ('incoming', 'outgoing');"
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type docType as enum ('invoice', 'credit-note');"
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create table FrontDocs (senderId text, senderName text, receiverId text, receiverName text, docType docType, direction direction, docId text, amount numeric, platformId text primary key, createdAt timestamp, issueDate timestamp, dueDate timestamp, paid timestamp, paymentTermsNote text, ubl text);"

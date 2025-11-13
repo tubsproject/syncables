@@ -1464,11 +1464,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiResult'
 syncables:
-  documents:
+  documentsOut:
     description: Invoice and Credit Note Documents sent by the authenticated user.
     type: collection
     list:
       path: /documentsList
+      query:
+        flow: out
       method: get
     paging:
       startDateParam: startDate
@@ -1476,6 +1478,17 @@ syncables:
     add-doc:
       path: /sendDocument
       method: post
+  documentsIn:
+    description: Invoice and Credit Note Documents received by the authenticated user.
+    type: collection
+    list:
+      path: /documentsList
+      query:
+        flow: in
+      method: get
+    paging:
+      startDateParam: startDate
+      endDateParam: endDate
     get-doc:
       path: /receiveDocument
       method: get

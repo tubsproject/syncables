@@ -14,7 +14,9 @@ actions:
           Invoice and Credit Note Documents sent by the authenticated user.
         type: collection
         list:
-          path: /documentsList?flow=out
+          path: /documentsList
+          query:
+            flow: out
           method: get
         paging:
           startDateParam: startDate
@@ -27,7 +29,9 @@ actions:
           Invoice and Credit Note Documents received by the authenticated user.
         type: collection
         list:
-          path: /documentsList?flow=in
+          path: /documentsList
+          query:
+            flow: in
           method: get
         paging:
           startDateParam: startDate
