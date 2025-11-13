@@ -12,9 +12,13 @@ actions:
         description: |-
           Invoice and Credit Note Documents received or sent by the authenticated user.
         type: collection
-        get:
+        list:
           path: /message/list
           field: items
           paging:
             pageParam: page # optional for first page, >=1 for subsequent pages
             pageSizeParam: perPage
+        add-doc:
+          path: /message
+          method: POST
+          translation: toPeppyrusMessageBody

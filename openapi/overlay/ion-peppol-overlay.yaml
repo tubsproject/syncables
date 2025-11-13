@@ -13,19 +13,28 @@ actions:
         description: |-
           Invoice and Credit Note Documents sent by the authenticated user.
         type: collection
-        get:
+        list:
           path: /api/v2/send-transactions
+          method: GET
           field: results
           paging:
             offsetParam: offset # optional for first page, multiple of limit for subsequent pages
             limitParam: limit
+        get-doc:
+          path: /api/v2/send-transactions/{id}/document
+          method: GET
+        add-doc:
+          path: /api/v2/send-document
+          method: POST
       receiveTransactions:
         description: |-
           Invoice and Credit Note Documents received by the authenticated user.
         type: collection
-        get:
+        list:
           path: /api/v2/receive-transactions
           field: results
           paging:
             offsetParam: offset # optional for first page, multiple of limit for subsequent pages
             limitParam: limit
+        get-doc:
+          path: /receive-transactions/{id}/document

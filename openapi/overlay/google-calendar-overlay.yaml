@@ -11,7 +11,7 @@ actions:
         type: collection
         schema:
           $ref: "#/components/schemas/CalendarListEntry"
-        get:
+        list:
           path: /users/me/calendarList
           operation: get
           field: items

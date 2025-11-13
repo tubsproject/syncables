@@ -9,10 +9,14 @@ actions:
         description: |-
           Invoice Documents received or sent by the authenticated user.
         type: collection
-        get:
+        list:
           path: /v1/invoices
           paging:
             pageParam: page
             pageSizeParam: per_page
             minDateIncl: created_at_start
             maxDateIncl: created_at_end
+        add-doc:
+          path: /v1/invoices
+          method: post
+          translation: toMaventaInvoiceBody

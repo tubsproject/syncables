@@ -13,18 +13,20 @@ actions:
         description: |-
           Invoice and Credit Note Documents sent by the authenticated user.
         type: collection
-        get:
+        list:
           path: /orgs/{orgId}/transactions/to_network
           field: items
           paging:
             pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
             pageSizeParam: limit
-
+        add-doc:
+          path: /orgs/{orgId}/transactions
+          method: post
       fromNetwork:
         description: |-
           Invoice and Credit Note Documents received by the authenticated user.
         type: collection
-        get:
+        list:
           path: /orgs/{orgId}/transactions/from_network
           field: items
           paging:

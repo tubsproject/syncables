@@ -1,0 +1,2887 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/status": {
+      "get": {
+        "description": "Gets the status of the API",
+        "operationId": "AppController_getStatus",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The API is up and running.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "The API is up and running."
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/clients/deactivate-client-registration": {
+      "post": {
+        "description": "This call deactivates registration of the calling client.<br/><br/>Feedback needs to be received on registered webhook for event \"client.cancellation\", it is required to have this webhook registered before cancelling a subscription",
+        "operationId": "ClientController_deactivateClientRegistrationForClient",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Deactivation of client registration successfully initiated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientCancellationResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No Webhook with event \"client.cancellation\" was registered for client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Deactivates the registration for the calling client",
+        "tags": [
+          "clients"
+        ]
+      }
+    },
+    "/client-counter": {
+      "get": {
+        "description": "Retrieves a list of ClientCounters indicating the amount of counted items for a given period for client",
+        "operationId": "ClientCounterController_getClientCounterForClientBetweenDates",
+        "parameters": [
+          {
+            "name": "flow",
+            "required": false,
+            "in": "query",
+            "description": "Optional flow filter for client counter data - if provided only counters that for given flow will be returned",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "toDate",
+            "required": true,
+            "in": "query",
+            "description": "The to date for the counter data in ISO format, cannot be more than 90 days ago.",
+            "schema": {
+              "example": "2023-01-02",
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromDate",
+            "required": true,
+            "in": "query",
+            "description": "The from date for the counter data in ISO format, cannot be more than 90 days ago.",
+            "schema": {
+              "example": "2023-01-01",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of client counters for specified date range",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientCounterDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Gets the client counters for client",
+        "tags": [
+          "client-counter"
+        ]
+      }
+    },
+    "/incoming-peppol-documents/{documentUlid}/generate-presigned-url": {
+      "post": {
+        "description": "Call to regenerate a pre-signed url for a given incoming Peppol document.",
+        "operationId": "IncomingPeppolDocumentController_generatePresignedUrl",
+        "parameters": [
+          {
+            "name": "documentUlid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The pre-signed URL is generated",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "your-pre-signed-url"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Generate a pre-signed url for a certain incoming Peppol document",
+        "tags": [
+          "incoming-peppol-documents"
+        ]
+      }
+    },
+    "/incoming-peppol-documents/{documentUlid}/confirm": {
+      "post": {
+        "description": "Incoming documents should be confirmed after successful download on your end. When a document is confirmed, it will removed on our end.",
+        "operationId": "IncomingPeppolDocumentController_confirmDownloadOfIncomingPeppolDocument",
+        "parameters": [
+          {
+            "name": "documentUlid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The incoming Peppol document has been acknowledged",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "The incoming Peppol document has been acknowledged"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Confirm download of an incoming Peppol document",
+        "tags": [
+          "incoming-peppol-documents"
+        ]
+      }
+    },
+    "/outgoing-peppol-documents": {
+      "post": {
+        "description": "This call initiates a new outgoing peppol document by specifying all required metadata for sending a Peppol message.<br/><br/>A pre-signed URL will be returned to which the actual XML can be uploaded.  A PUT call should be made with the XML file as binary body.  This pre-signed URL can be used only <b>once</b>.  When the upload completes, the message will be sent automatically.<br/><br/>Feedback can be received on registered webhooks for event `outgoing-peppol-documents.sent`",
+        "operationId": "OutgoingPeppolDocumentController_createOutgoingPeppolDocument",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OutgoingPeppolDocumentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The outgoing peppol document has been created successfully, send the actual peppol message via the provided presigned URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOutgoingPeppolDocumentResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create an outgoing Peppol document",
+        "tags": [
+          "outgoing-peppol-documents"
+        ]
+      }
+    },
+    "/participant-registrations/lookup": {
+      "get": {
+        "description": "This call retrieves the Peppol participant from SMK/SML (SMK when on sandbox, SML when on enterprise) via the participant identifier along with its business card.",
+        "operationId": "ParticipantRegistrationController_getPeppolParticipant",
+        "parameters": [
+          {
+            "name": "scheme",
+            "required": false,
+            "in": "query",
+            "description": "The scheme for the participant identifier. Optional",
+            "schema": {
+              "example": "iso6523-actorid-upis",
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "required": true,
+            "in": "query",
+            "description": "The participant identifier to lookup",
+            "schema": {
+              "example": "0208:0478493179",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Peppol participant along with its business card",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceGroupAndBusinessCardDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Peppol participant found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Lookup Participant",
+        "tags": [
+          "participant-registrations"
+        ]
+      }
+    },
+    "/participant-registrations/find": {
+      "get": {
+        "description": "This call retrieves the Peppol participant registered by this client. Please note that this does neither search for participants registered by other clients nor perform an SMP lookup.",
+        "operationId": "ParticipantRegistrationController_getPeppolParticipantFromDb",
+        "parameters": [
+          {
+            "name": "scheme",
+            "required": false,
+            "in": "query",
+            "description": "The scheme for the participant identifier. Optional",
+            "schema": {
+              "example": "iso6523-actorid-upis",
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "required": true,
+            "in": "query",
+            "description": "The participant identifier to lookup",
+            "schema": {
+              "example": "0208:0478493179",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Peppol participant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParticipantRegistrationResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Peppol participant found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Find Participant in database",
+        "tags": [
+          "participant-registrations"
+        ]
+      }
+    },
+    "/participant-registrations": {
+      "post": {
+        "description": "This call registers a Peppol identifier within SMP via the Dokapi SMP client. Note that it can take up to one hour before you can do the `/lookup` call for this participant because it takes a while to be actually registered due to a delay between SMP and SMK/SML (SMK when on sandbox, SML when on enterprise). Note, that it is possible the registration succeeds, but the creation of the business card does not. In that case, a status code of 207 MULTI STATUS will be returned. If that's the case, please retry creating the business card by calling the \"Create or update business card\" endpoint: /business-cards",
+        "operationId": "ParticipantRegistrationController_registerPeppolParticipant",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParticipantRegistrationRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The Peppol identifier has been registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateParticipantRegistrationResponseDto"
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "The Peppol identifier has been registered, but the creation of the business card failed. Please retry creating the business card by calling the 'Create or update business card' endpoint: /business-cards",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "SMP conflict error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                },
+                "example": {
+                  "type": "about:blank",
+                  "title": "SMP conflict error",
+                  "detail": "ServiceGroup is already registered.",
+                  "instance": "/smp/serviceGroup",
+                  "status": 409
+                }
+              }
+            }
+          }
+        },
+        "summary": "Register Participant",
+        "tags": [
+          "participant-registrations"
+        ]
+      },
+      "delete": {
+        "description": "This call deregisters a Peppol identifier within SMP via the Dokapi SMP client",
+        "operationId": "ParticipantRegistrationController_deregisterPeppolParticipant",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Peppol identifier has been deregistered",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "The Peppol identifier has been deregistered"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Peppol participant found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Deregister Participant",
+        "tags": [
+          "participant-registrations"
+        ]
+      },
+      "get": {
+        "description": "This call returns a paginated list of participant registrations for a client",
+        "operationId": "ParticipantRegistrationController_getParticipantRegistrationsForClient",
+        "parameters": [
+          {
+            "name": "lastEvaluatedKey",
+            "required": false,
+            "in": "query",
+            "description": "The pagination key from previous page to get the next page. Optional. Leave empty to start from beginning.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "The page size (number of items to retrieve per page). Optional. Default 15.",
+            "schema": {
+              "example": "15",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of participant registrations for a Client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParticipantRegistrationPageDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get participant registrations for a Client",
+        "tags": [
+          "participant-registrations"
+        ]
+      }
+    },
+    "/participant-registrations/documents": {
+      "post": {
+        "description": "This call registers documents and related process identifiers for a Peppol identifier within SMP via the Dokapi SMP client",
+        "operationId": "ParticipantRegistrationController_registerPeppolParticipantDocumentsAndProcessIdentifiers",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentTypeRegisterRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The documents and related process identifiers are registered for a Peppol identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterDocumentTypeResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Register Document Type",
+        "tags": [
+          "participant-registrations"
+        ]
+      },
+      "delete": {
+        "description": "This call deregisters documents and related process identifiers for a Peppol identifier within SMP via the Dokapi SMP client",
+        "operationId": "ParticipantRegistrationController_deregisterPeppolParticipantDocumentsAndProcessIdentifiers",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentTypeDeregisterRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Peppol identifier has been deregistered",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "The Peppol identifier has been deregistered"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Peppol participant found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Deregister Document Type",
+        "tags": [
+          "participant-registrations"
+        ]
+      }
+    },
+    "/participant-registrations/business-cards": {
+      "put": {
+        "description": "This call creates/updates the business card information associated with a specified Participant Identifier. Keep in mind, that an 'update' of the business card is actually a full replace! A client may only modify the business card details for Participant Identifiers that they own.",
+        "operationId": "ParticipantRegistrationController_createOrUpdateBusinessCard",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessCardUpdateRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Business card updated successfully",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Business card updated successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Peppol participant found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create or update business card",
+        "tags": [
+          "participant-registrations"
+        ]
+      }
+    },
+    "/participant-registrations/business-cards/push": {
+      "post": {
+        "description": "This call pushes the business card information to the Peppol Directory",
+        "operationId": "ParticipantRegistrationController_pushBusinessCard",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Business card successfully pushed to Peppol Directory",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Business card successfully pushed to Peppol Directory"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Push business card to the Peppol Directory",
+        "tags": [
+          "participant-registrations"
+        ]
+      }
+    },
+    "/validating-peppol-documents": {
+      "post": {
+        "description": "This call initiates a new validating peppol document by specifying all required metadata for uploading a Peppol message.<br/><br/>A pre-signed URL will be returned to which the actual XML can be uploaded.  A PUT call should be made with the XML file as binary body.  This pre-signed URL can be used only <b>once</b>.<br/><br/> Feedback can be received on registered webhooks for event `validating-peppol-documents.validated`",
+        "operationId": "ValidatingPeppolDocumentController_createValidatingPeppolDocument",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidatingPeppolDocumentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The validating peppol document has been created successfully, upload the actual peppol message via the provided presigned URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateValidatingPeppolDocumentResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create a validating Peppol document",
+        "tags": [
+          "validating-peppol-documents"
+        ]
+      }
+    },
+    "/webhooks": {
+      "post": {
+        "description": "Register a new webhook URL for a given list of events.<br/><br/>URL needs to be publicly accessible, accepting POST request and should return 200 OK immediatelty. Processing of the received data should happen asynchronously.  No data is expected in the response.<br/><br/>It is possible to register multiple webhooks for the same event, in that case all URLs will be called.  If no webhooks are registered for a given event, nothing will be called but processing will never be blocked.<br/><br/>A client can register a total of 10 webhooks",
+        "operationId": "WebhookController_createWebhook",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The webhook has been registered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateWebhookResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Register webhook",
+        "tags": [
+          "webhooks"
+        ]
+      },
+      "get": {
+        "description": "Lists all registered webhooks.",
+        "operationId": "WebhookController_getWebhooks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of registered webhooks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WebhookResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "List webhooks",
+        "tags": [
+          "webhooks"
+        ]
+      }
+    },
+    "/webhooks/{ulid}": {
+      "delete": {
+        "description": "Deregister a webhook based on its ulid and clientUlid.<br/><br/>",
+        "operationId": "WebhookController_deleteWebhook",
+        "parameters": [
+          {
+            "name": "ulid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The webhook has been deregistered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteWebhookResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No webhook found for provided ulid and clientUlid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Deregister webhook",
+        "tags": [
+          "webhooks"
+        ]
+      }
+    },
+    "/webhooks/secretKey": {
+      "post": {
+        "description": "Generate a webhook secret as a client. In case you need a new key, rerun this operation to invalidate the previous key and regenerate a new one",
+        "operationId": "WebhookController_generateWebhookSecretForClient",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The webhook secret has been generated for the client.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "your-webhook-secret-key"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Generate a webhook secret key",
+        "tags": [
+          "webhooks"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Peppol API",
+    "description": "Dokapi Peppol API",
+    "version": "1.5.9",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "https://peppol-api.dokapi-stg.io/v1"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "ProblemDetailDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "A URI reference that identifies the problem type.",
+            "format": "uri",
+            "example": "https://httpstatuses.com/500"
+          },
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem.",
+            "example": "Service Unavailable"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem.",
+            "example": "The service is currently unable to handle the request."
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI reference that identifies the specific occurrence of the problem.",
+            "example": "/errors/12345"
+          },
+          "status": {
+            "type": "number",
+            "description": "The HTTP status code for this occurrence of the problem.",
+            "example": 500
+          },
+          "uuid": {
+            "type": "string",
+            "description": "A UUID that uniquely identifies this specific error occurrence.",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          }
+        },
+        "required": [
+          "title",
+          "detail"
+        ]
+      },
+      "ClientCancellationFeedbackDto": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "Will always be `client.cancellation` in this case."
+          },
+          "ulid": {
+            "type": "string",
+            "description": "A unique identifier for this webhook invocation, requests with the same ULID coming in again can be ignored"
+          },
+          "body": {
+            "type": "string",
+            "description": "A message being set as feedback for client cancellation",
+            "example": "Cancellation process completed successfully!"
+          }
+        },
+        "required": [
+          "event",
+          "ulid",
+          "body"
+        ]
+      },
+      "ClientCancellationResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Client cancellation successfully initiated. Further communications will be sent to the client.cancellation webhook."
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "ClientCounterDto": {
+        "type": "object",
+        "properties": {
+          "clientUlid": {
+            "type": "string",
+            "example": "01HT00M1TBRPRPN6HT5ARZ1R2F"
+          },
+          "creationTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "lastModifiedTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "flow": {
+            "type": "string",
+            "description": "indication of for which flow we are incrementing the counter"
+          },
+          "count": {
+            "type": "number",
+            "description": "current count for the counter in context of the flow"
+          }
+        },
+        "required": [
+          "clientUlid",
+          "creationTimestamp",
+          "lastModifiedTimestamp",
+          "flow",
+          "count"
+        ]
+      },
+      "ParticipantIdentifierDto": {
+        "type": "object",
+        "properties": {
+          "scheme": {
+            "type": "string",
+            "example": "iso6523-actorid-upis",
+            "description": "The optional scheme for this participant identifier. If none is given, the default scheme value will be used (`iso6523-actorid-upis`)"
+          },
+          "value": {
+            "type": "string",
+            "pattern": "^\\d{4}(:[a-zA-Z0-9-._~]{1,50})$",
+            "example": "0208:0478493179",
+            "description": "The mandatory value for this participant identifier. For identifiers that follow the `iso6523-actorid-upis` scheme, this looks as follows: `{ICD}:{OrganisationId}`."
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "DocumentTypeIdentifierDto": {
+        "type": "object",
+        "properties": {
+          "scheme": {
+            "type": "string",
+            "example": "busdox-docid-qns",
+            "description": "The optional scheme for this documentTypeIdentifier. If none is given, the default scheme value will be used (busdox-docid-qns)."
+          },
+          "value": {
+            "type": "string",
+            "example": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1",
+            "description": "The mandatory value for this documentTypeIdentifier. Example for an identifier that follow the busdox-docid-qns scheme: urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "ProcessIdentifierDto": {
+        "type": "object",
+        "properties": {
+          "scheme": {
+            "type": "string",
+            "example": "cenbii-procid-ubl",
+            "description": "The optional scheme for this processIdentifier. If none is given, the default scheme value will be used (cenbii-procid-ubl)"
+          },
+          "value": {
+            "type": "string",
+            "example": "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0",
+            "description": "The mandatory value for this processIdentifier. Example for an identifier that follow the cenbii-procid-ubl scheme: urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "IncomingPeppolDocumentInformationDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "enum": [
+              "NEW",
+              "VALIDATING",
+              "VALIDATED",
+              "RECEIVED"
+            ],
+            "type": "string",
+            "description": "The status for the incoming document, will always be `RECEIVED` for this event type."
+          },
+          "documentCreationTimestamp": {
+            "type": "string",
+            "description": "The creation timestamp for this document. This is the timestamp at which the receiving Access Point received the incoming Peppol document."
+          },
+          "presignedUrl": {
+            "type": "string",
+            "description": "This field contains a presigned URL on which the incoming document can be downloaded, this URL is valid for 3000s."
+          },
+          "internalAccessPointID": {
+            "type": "string",
+            "description": "An internal identifier given to the document by the receiving access point when it first handled the document."
+          },
+          "c4CountryCode": {
+            "type": "string",
+            "description": "Country code of the receiver of this peppol document in `ISO 3166-1 alpha-2` format."
+          },
+          "validationStatus": {
+            "enum": [
+              "VALID",
+              "INVALID",
+              "UNABLE_TO_VALIDATE"
+            ],
+            "type": "string",
+            "description": "Describes the document's validation status."
+          },
+          "validationResultsPresignedUrl": {
+            "type": "string",
+            "description": "Contains a presigned URL that provides details of the validation results for the incoming document. The URL is valid for 3000 seconds."
+          },
+          "ulid": {
+            "type": "string",
+            "description": "A unique identifier for the incoming message within Dokapi."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "The status message will contain some additional info regarding the actual status."
+          },
+          "instanceIdentifier": {
+            "type": "string",
+            "description": "An informative unique ID created by the sending Access Point. Found in the StandardBusinessDocumentHeader (\"StandardBusinessDocumentHeader/DocumentIdentification/InstanceIdentifier\")"
+          },
+          "as4MessageId": {
+            "type": "string",
+            "description": "The AS4 message ID, also known as transmissionId, representing for each message envelope between access point a globally unique identifier conforming to Message-ID [RFC2822]."
+          },
+          "as4ConversationId": {
+            "type": "string",
+            "description": "An identifier describing the conversation between the C2 and C3 access point. This a string identifying the set of related messages that make up a conversation between Parties."
+          },
+          "sender": {
+            "description": "The `ParticipantIdentifier` for the sender of the Peppol document.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "receiver": {
+            "description": "The `ParticipantIdentifier` for the receiver of the Peppol document.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "documentTypeIdentifier": {
+            "description": "The `DocumentTypeIdentifier` of the Peppol document.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentTypeIdentifierDto"
+              }
+            ]
+          },
+          "processIdentifier": {
+            "description": "The ProcessIdentifier of the Peppol document.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessIdentifierDto"
+              }
+            ]
+          },
+          "c1CountryCode": {
+            "type": "string",
+            "description": "Country code of the sender of this peppol document in `ISO 3166-1 alpha-2` format."
+          },
+          "c2CertCommonName": {
+            "type": "string",
+            "description": "The certificate common name of the C2 access point, see the Glossary for more info."
+          },
+          "c3CertCommonName": {
+            "type": "string",
+            "description": "The certificate common name of the C3 access point, see the Glossary for more info."
+          }
+        },
+        "required": [
+          "status",
+          "documentCreationTimestamp",
+          "presignedUrl",
+          "internalAccessPointID",
+          "c4CountryCode",
+          "validationStatus",
+          "validationResultsPresignedUrl",
+          "ulid",
+          "statusMessage",
+          "sender",
+          "receiver",
+          "documentTypeIdentifier",
+          "processIdentifier",
+          "c1CountryCode"
+        ]
+      },
+      "IncomingPeppolDocumentFeedbackDto": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "enum": [
+              "outgoing-peppol-documents.sent",
+              "incoming-peppol-documents.received",
+              "validating-peppol-documents.validated"
+            ],
+            "description": "Will always be `incoming-peppol-documents.received` in this case."
+          },
+          "ulid": {
+            "type": "string",
+            "description": "A unique identifier for this webhook invocation, requests with the same ULID coming in again can be ignored"
+          },
+          "body": {
+            "$ref": "#/components/schemas/IncomingPeppolDocumentInformationDto"
+          }
+        },
+        "required": [
+          "event",
+          "ulid",
+          "body"
+        ]
+      },
+      "PeppolDocumentValidationResultsDto": {
+        "type": "object",
+        "properties": {
+          "ValidationErrorMessages": {
+            "description": "A list of detailed validation error messages encountered during document validation.Each error message includes:\n- The severity level (e.g., `fatal_error`).\n- A validation rule identifier (e.g., `PEPPOL-COMMON-R043`).\n- The XPath location in the document where the error occurred.\n- A descriptive message explaining the validation issue.",
+            "example": [
+              "[fatal_error] [PEPPOL-COMMON-R043] in [/:Invoice[1]/cac:AccountingSupplierParty[1]/cac:Party[1]/cbc:EndpointID[1]] Belgian enterprise number MUST be stated in the correct format.",
+              "[fatal_error] [PEPPOL-EN16931-R003] in [/:Invoice[1]] A buyer reference or purchase order reference MUST be provided."
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "usedVesID": {
+            "type": "string",
+            "description": "The Validation Executor Set ID used."
+          },
+          "validationStatus": {
+            "enum": [
+              "VALID",
+              "INVALID",
+              "UNABLE_TO_VALIDATE"
+            ],
+            "type": "string",
+            "description": "The result of the document validation, represented by the validationStatus enum, indicating the document's validation status."
+          },
+          "validationStatusMessage": {
+            "type": "string",
+            "description": "A human-readable message providing additional details about the validation status. This message may include error descriptions, warning notices, or confirmation of a successful validation."
+          }
+        },
+        "required": [
+          "validationStatus",
+          "validationStatusMessage"
+        ]
+      },
+      "OutgoingPeppolDocumentInformationDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "enum": [
+              "NEW",
+              "SENDING",
+              "SENT",
+              "SENDING_FAILED",
+              "VALIDATING",
+              "VALIDATED"
+            ],
+            "type": "string",
+            "description": "Status will be either `SENT` or `SENDING_FAILED` in this case."
+          },
+          "c3EndpointUrl": {
+            "type": "string",
+            "description": "The endpoint url of the C3 access point where the peppol document was sent to."
+          },
+          "creationTimestamp": {
+            "type": "string",
+            "description": "Timestamp created during the creation of this outgoing peppol document."
+          },
+          "as4ReceivedError": {
+            "type": "string",
+            "description": "A string containing the ebms error code and error detail received from the C3 access point."
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "An error containing the reason the document could not be sent (in case of failure)."
+          },
+          "validationErrorMessage": {
+            "type": "string",
+            "description": "Detailed description of the validation errors (if present)"
+          },
+          "externalReference": {
+            "type": "string",
+            "description": "Optional field provided by the API client during creation of the outgoing peppol document to identify this document."
+          },
+          "ulid": {
+            "type": "string",
+            "description": "A unique identifier for the outgoing message within Dokapi."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "The status message will contain some additional info regarding the actual status."
+          },
+          "instanceIdentifier": {
+            "type": "string",
+            "description": "An informative unique ID created by the sending Access Point. Found in the StandardBusinessDocumentHeader<br>(\"StandardBusinessDocumentHeader/DocumentIdentification/InstanceIdentifier\")"
+          },
+          "as4MessageId": {
+            "type": "string",
+            "description": "The AS4 message ID, also known as transmissionId, representing for each message envelope between access point a globally unique identifier conforming to Message-ID [RFC2822]."
+          },
+          "as4ConversationId": {
+            "type": "string",
+            "description": "An identifier describing the conversation between the C2 and C3 access point. This a string identifying the set of related messages that make up a conversation between Parties."
+          },
+          "sender": {
+            "description": "The ParticipantIdentifier for the sender of the Peppol document.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "receiver": {
+            "description": "The ParticipantIdentifier for the receiver of the Peppol document.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "documentTypeIdentifier": {
+            "description": "The `DocumentTypeIdentifier` of the Peppol document",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentTypeIdentifierDto"
+              }
+            ]
+          },
+          "processIdentifier": {
+            "description": "The `ProcessIdentifier` of the Peppol document",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessIdentifierDto"
+              }
+            ]
+          },
+          "c1CountryCode": {
+            "type": "string",
+            "description": "Country code of the sender of this peppol document in `ISO 3166-1 alpha-2` format."
+          },
+          "c2CertCommonName": {
+            "type": "string",
+            "description": "The certificate common name of the C2 access point, see the Glossary for more info."
+          },
+          "c3CertCommonName": {
+            "type": "string",
+            "description": "The certificate common name of the C3 access point, see the Glossary for more info."
+          },
+          "validationStatus": {
+            "enum": [
+              "VALID",
+              "INVALID",
+              "UNABLE_TO_VALIDATE"
+            ],
+            "type": "string",
+            "description": "Describes the document's validation status."
+          },
+          "validationResultsPresignedUrl": {
+            "type": "string",
+            "description": "Contains a presigned URL that provides details of the validation results for the outgoing document. The URL is valid for 3000 seconds."
+          }
+        },
+        "required": [
+          "status",
+          "creationTimestamp",
+          "ulid",
+          "statusMessage",
+          "sender",
+          "receiver",
+          "documentTypeIdentifier",
+          "processIdentifier",
+          "c1CountryCode",
+          "validationStatus",
+          "validationResultsPresignedUrl"
+        ]
+      },
+      "OutgoingPeppolDocumentFeedbackDto": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "enum": [
+              "outgoing-peppol-documents.sent",
+              "incoming-peppol-documents.received",
+              "validating-peppol-documents.validated"
+            ],
+            "description": "Will always be `outgoing-peppol-documents.sent` in this case."
+          },
+          "ulid": {
+            "type": "string",
+            "description": "A unique identifier for this webhook invocation, requests with the same ULID coming in again can be ignored"
+          },
+          "body": {
+            "$ref": "#/components/schemas/OutgoingPeppolDocumentInformationDto"
+          }
+        },
+        "required": [
+          "event",
+          "ulid",
+          "body"
+        ]
+      },
+      "OutgoingPeppolDocumentRequestDto": {
+        "type": "object",
+        "properties": {
+          "sender": {
+            "description": "The sender for this outgoing peppol document, the sender does not necessarily have to be registered with the Peppol network.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "receiver": {
+            "description": "The receiver for this outgoing peppol document",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "c1CountryCode": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2,
+            "description": "The sender's country code in ISO 3166-1 alpha-2 format.",
+            "example": "BE"
+          },
+          "documentTypeIdentifier": {
+            "description": "The documentTypeIdentifier for the outgoing Peppol document.  This needs to be a valid Peppol document type identifier.<br/>See <a href=\" https://docs.peppol.eu/edelivery/codelists\">Peppol Code Lists</a> &rarr; Document Types for a complete list.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentTypeIdentifierDto"
+              }
+            ]
+          },
+          "processIdentifier": {
+            "description": "The processIdentifier for the outgoing Peppol document.  This needs to be a valid Peppol process identifier.<br/>See <a href=\" https://docs.peppol.eu/edelivery/codelists\">Peppol Code Lists</a> &rarr; Processes for a complete list.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessIdentifierDto"
+              }
+            ]
+          },
+          "externalReference": {
+            "type": "string",
+            "description": "This is an external reference that can be stored on the outgoing Peppol document.  We don't do anything with it, it's purely for referencing.  This external reference will also be included when sending feedback to registered webhooks.",
+            "example": "any_reference"
+          }
+        },
+        "required": [
+          "sender",
+          "receiver",
+          "c1CountryCode",
+          "documentTypeIdentifier",
+          "processIdentifier"
+        ]
+      },
+      "OutgoingPeppolDocumentStatusHistoryItemDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "enum": [
+              "NEW",
+              "SENDING",
+              "SENT",
+              "SENDING_FAILED",
+              "VALIDATING",
+              "VALIDATED"
+            ],
+            "type": "string",
+            "description": "The status of the entity at the given time, represented by a string. One of the defined `OutgoingPeppolDocumentStatus` enum values.",
+            "example": "SENT"
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "A message providing additional context or information about the status.",
+            "example": "Document successfully delivered to recipient access point."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "The timestamp indicating when the status change occurred, in ISO 8601 format.",
+            "example": "2024-11-23T14:55:30Z"
+          }
+        },
+        "required": [
+          "status",
+          "statusMessage",
+          "timestamp"
+        ]
+      },
+      "OutgoingPeppolDocumentResponseDto": {
+        "type": "object",
+        "properties": {
+          "ulid": {
+            "type": "string",
+            "example": "01HSZZ39TECCTQ0G9DC9ZEDSV7"
+          },
+          "status": {
+            "enum": [
+              "NEW",
+              "SENDING",
+              "SENT",
+              "SENDING_FAILED",
+              "VALIDATING",
+              "VALIDATED"
+            ],
+            "type": "string",
+            "example": "NEW"
+          },
+          "statusMessage": {
+            "type": "string",
+            "example": ""
+          },
+          "creationTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "lastModifiedTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "sender": {
+            "$ref": "#/components/schemas/ParticipantIdentifierDto"
+          },
+          "receiver": {
+            "$ref": "#/components/schemas/ParticipantIdentifierDto"
+          },
+          "c1CountryCode": {
+            "type": "string",
+            "example": "BE"
+          },
+          "documentTypeIdentifier": {
+            "$ref": "#/components/schemas/DocumentTypeIdentifierDto"
+          },
+          "processIdentifier": {
+            "$ref": "#/components/schemas/ProcessIdentifierDto"
+          },
+          "externalReference": {
+            "type": "string",
+            "example": "any_reference"
+          },
+          "statusHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OutgoingPeppolDocumentStatusHistoryItemDto"
+            }
+          }
+        },
+        "required": [
+          "ulid",
+          "status",
+          "statusMessage",
+          "creationTimestamp",
+          "lastModifiedTimestamp",
+          "sender",
+          "receiver",
+          "c1CountryCode",
+          "documentTypeIdentifier",
+          "processIdentifier",
+          "statusHistory"
+        ]
+      },
+      "CreateOutgoingPeppolDocumentResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "OutgoingPeppolDocument created successfully"
+          },
+          "document": {
+            "$ref": "#/components/schemas/OutgoingPeppolDocumentResponseDto"
+          },
+          "preSignedUploadUrl": {
+            "type": "string",
+            "example": "https://s3.eu-central-1.amazonaws.com/outgoing-peppol-documents/01HSWYWYJ9ZSW8MEY1CDN8RF9Z/01HSWZ3V2702ZFE6D6Y5KP3J02/peppolMessage.xml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=localstack%2F20240326%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20240326T084801Z&X-Amz-Expires=3000&X-Amz-Signature=1068b8feea4fa0d8d2d7522a113928c5820018021eaf6f3bd892d6679ebb589a&X-Amz-SignedHeaders=host&x-amz-meta-clientulid=01HSWYWYJ9ZSW8MEY1CDN8RF9Z&x-amz-meta-documentulid=01HSWZ3V2702ZFE6D6Y5KP3J02&x-id=PutObject"
+          }
+        },
+        "required": [
+          "message",
+          "document",
+          "preSignedUploadUrl"
+        ]
+      },
+      "ServiceMetadataReferenceTypeDto": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The link to the service meta data reference",
+            "example": "http://B-c09aa2da22939300bb1a848e2e2f81c6.iso6523-actorid-upis.acc.edelivery.tech.ec.europa.eu/iso6523-actorid-upis%3A%3A0208%3A0546796324/services/busdox-docid-qns%3A%3Aurn%3Aoasis%3Anames%3Aspecification%3Aubl%3Aschema%3Axsd%3AInvoice-2%3A%3AInvoice%23%23urn%3Acen.eu%3Aen16931%3A2017%23compliant%23urn%3Afdc%3Apeppol.eu%3A2017%3Apoacc%3Abilling%3A3.0%3A%3A2.1"
+          }
+        },
+        "required": [
+          "href"
+        ]
+      },
+      "ServiceMetadataReferenceCollectionTypeDto": {
+        "type": "object",
+        "properties": {
+          "serviceMetadataReference": {
+            "description": "Holds the links to the services meta data references",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceMetadataReferenceTypeDto"
+            }
+          }
+        },
+        "required": [
+          "serviceMetadataReference"
+        ]
+      },
+      "ServiceGroupTypeDto": {
+        "type": "object",
+        "properties": {
+          "participantIdentifier": {
+            "description": "The PEPPOL participant",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "serviceMetadataReferenceCollection": {
+            "description": "Holds the service metadata reference",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceMetadataReferenceCollectionTypeDto"
+              }
+            ]
+          },
+          "extension": {
+            "type": "string",
+            "description": "The extension element may contain any XML element containing extra metadata about the service group. Clients MAY ignore this element.",
+            "example": "<ex:Test xmlns:ex=\"http://test.eu\">Test</ex:Test>"
+          }
+        },
+        "required": [
+          "participantIdentifier",
+          "serviceMetadataReferenceCollection"
+        ]
+      },
+      "EndpointReferenceTypeDto": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "example": "https://ap.dokapi.io/as4",
+            "format": "uri",
+            "description": "The URI for the endpoint address"
+          }
+        },
+        "required": [
+          "address"
+        ]
+      },
+      "EndpointTypeDto": {
+        "type": "object",
+        "properties": {
+          "endpointReferenceDto": {
+            "description": "The endpoint reference",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EndpointReferenceTypeDto"
+              }
+            ]
+          },
+          "requireBusinessLevelSignature": {
+            "type": "boolean",
+            "description": "Set to true if the recipient requires business-level signatures for the message.",
+            "example": "true/false"
+          },
+          "minimumAuthenticationLevel": {
+            "type": "string",
+            "description": "Indicates the minimum authentication level that recipient requires. The specific semantics of this field is defined in a specific instance of the BUSDOX infrastructure.",
+            "example": "2"
+          },
+          "serviceActivationDate": {
+            "type": "string",
+            "description": "Activation date of the service.",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "serviceExpirationDate": {
+            "type": "string",
+            "description": "Expiration date of the service.",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "certificate": {
+            "type": "string",
+            "description": "Holds the complete signing certificate of the recipient AP, as a PEM (base 64) encoded X509 DER formatted value.",
+            "example": "...dghosdh5872EZGsdghsd48..."
+          },
+          "serviceDescription": {
+            "type": "string",
+            "description": "A human readable description of the service.",
+            "example": "Dokapi Invoicing services"
+          },
+          "technicalContactUrl": {
+            "description": "Represents a link to human readable contact information. This might also be an email address.",
+            "oneOf": [
+              {
+                "format": "email",
+                "example": "info@dokapi.io"
+              },
+              {
+                "format": "uri",
+                "example": "https://ixordocs.be"
+              }
+            ]
+          },
+          "technicalInformationUrl": {
+            "type": "string",
+            "description": "A URI to human readable documentation of the service format. Usually a website.",
+            "format": "uri",
+            "example": "https://dokapi.io"
+          },
+          "transportProfile": {
+            "type": "string",
+            "description": "Indicates the type of transport protocol that is being used between access points.See <a href=\" https://docs.peppol.eu/edelivery/codelists\">Peppol Code Lists</a> &rarr; Transport Profiles for a complete list.",
+            "example": "peppol-transport-as4-v2_0"
+          },
+          "extension": {
+            "type": "string",
+            "description": "The extension element may contain any XML element containing extra metadata about the endpoint type. Clients MAY ignore this element.",
+            "example": "<ex:Test xmlns:ex=\"http://test.eu\">Test</ex:Test>"
+          }
+        },
+        "required": [
+          "endpointReferenceDto",
+          "certificate",
+          "serviceDescription",
+          "technicalContactUrl"
+        ]
+      },
+      "ServiceEndpointListTypeDto": {
+        "type": "object",
+        "properties": {
+          "endpoint": {
+            "description": "Endpoint represents the technical endpoint of the recipient",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EndpointTypeDto"
+            }
+          }
+        },
+        "required": [
+          "endpoint"
+        ]
+      },
+      "ProcessTypeDto": {
+        "type": "object",
+        "properties": {
+          "processIdentifier": {
+            "description": "The processIdentifier for a Peppol document. <br/>See <a href=\" https://docs.peppol.eu/edelivery/codelists\">Peppol Code Lists</a> &rarr; Processes for a complete list.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessIdentifierDto"
+              }
+            ]
+          },
+          "serviceEndpointList": {
+            "description": "List of one or more endpoints that support this process.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceEndpointListTypeDto"
+              }
+            ]
+          },
+          "extension": {
+            "type": "string",
+            "description": "The extension element may contain any XML element containing extra metadata about the process type. Clients MAY ignore this element.",
+            "example": "<ex:Test xmlns:ex=\"http://test.eu\">Test</ex:Test>"
+          }
+        },
+        "required": [
+          "processIdentifier",
+          "serviceEndpointList"
+        ]
+      },
+      "ProcessListTypeDto": {
+        "type": "object",
+        "properties": {
+          "process": {
+            "description": "A process for a document type",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProcessTypeDto"
+            }
+          }
+        },
+        "required": [
+          "process"
+        ]
+      },
+      "ServiceInformationTypeDto": {
+        "type": "object",
+        "properties": {
+          "participantIdentifier": {
+            "description": "The PEPPOL participant",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "documentIdentifier": {
+            "description": "The documentTypeIdentifier for a Peppol document.<br/>See <a href=\" https://docs.peppol.eu/edelivery/codelists\">Peppol Code Lists</a> &rarr; Document Types for a complete list.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentTypeIdentifierDto"
+              }
+            ]
+          },
+          "processList": {
+            "description": "The list of processes for a document type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessListTypeDto"
+              }
+            ]
+          },
+          "extension": {
+            "type": "string",
+            "description": "The extension element may contain any XML element containing extra metadata about the service information type. Clients MAY ignore this element.",
+            "example": "<ex:Test xmlns:ex=\"http://test.eu\">Test</ex:Test>"
+          }
+        },
+        "required": [
+          "participantIdentifier",
+          "documentIdentifier",
+          "processList"
+        ]
+      },
+      "ServiceMetadataTypeDto": {
+        "type": "object",
+        "properties": {
+          "serviceInformation": {
+            "description": "The participant identifier, plus the document identifier, plus the process list",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceInformationTypeDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "serviceInformation"
+        ]
+      },
+      "CompleteServiceGroupTypeDto": {
+        "type": "object",
+        "properties": {
+          "serviceGroup": {
+            "description": "The participant identifier, plus the service metadata references",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceGroupTypeDto"
+              }
+            ]
+          },
+          "serviceMetadata": {
+            "description": "The service metadata",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceMetadataTypeDto"
+            }
+          }
+        },
+        "required": [
+          "serviceGroup",
+          "serviceMetadata"
+        ]
+      },
+      "Pd3IdentifierTypeDto": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "The value of this name"
+          },
+          "scheme": {
+            "type": "string",
+            "description": "The optional language of this name"
+          }
+        }
+      },
+      "Pd3MultilingualNameTypeDto": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "The value of this name"
+          },
+          "language": {
+            "type": "string",
+            "description": "The optional language of this name"
+          }
+        }
+      },
+      "Pd3ContactTypeDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The type of the contact (sales, support, etc.)"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the contact (individual or organisational unit)"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The public telephone number of the contact"
+          },
+          "email": {
+            "type": "string",
+            "description": "The public email address of the contact"
+          }
+        }
+      },
+      "Pd3BusinessEntityTypeDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The multilingual name of the business entity.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pd3MultilingualNameTypeDto"
+            }
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "The mandatory ISO 3166-2 country code (e.g. \"AT\" for Austria or \"NO\" for Norway)."
+          },
+          "geographicalInformation": {
+            "type": "string",
+            "description": "This element may contain specific geographic information. It may be an address or simply a region."
+          },
+          "identifier": {
+            "description": "This element is meant to contain additional identifiers for this entity like VAT number, national organisation number etc.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pd3IdentifierTypeDto"
+            }
+          },
+          "websiteURI": {
+            "description": "This element may contain URIs linking to the business entity websites.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contact": {
+            "description": "This element is meant to contain business contact points to get in touch with the respective business entity.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pd3ContactTypeDto"
+            }
+          },
+          "additionalInformation": {
+            "type": "string",
+            "description": "This element contains all other information that might be relevant but is not necessarily be contained in a structured field."
+          },
+          "registrationDate": {
+            "type": "string",
+            "description": "The optional date when the participant was registered for Peppol."
+          }
+        },
+        "required": [
+          "name",
+          "countryCode"
+        ]
+      },
+      "Pd3BusinessCardDto": {
+        "type": "object",
+        "properties": {
+          "participantIdentifier": {
+            "description": "The Peppol participant identifier (service group) to which this business information belongs.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Pd3IdentifierTypeDto"
+              }
+            ]
+          },
+          "businessEntity": {
+            "description": "This is the unbounded list of business entities (companies or public administration bodies) that can be reached via the ServiceGroup. The reason to allow 0 occurrences is to explicitly indicate that an SMP is capable of handling business cards but does not want to provide specific information for this Peppol participant.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pd3BusinessEntityTypeDto"
+            }
+          }
+        },
+        "required": [
+          "participantIdentifier",
+          "businessEntity"
+        ]
+      },
+      "ServiceGroupAndBusinessCardDto": {
+        "type": "object",
+        "properties": {
+          "serviceGroup": {
+            "description": "The participant identifier, plus the service metadata references",
+            "deprecated": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceGroupTypeDto"
+              }
+            ]
+          },
+          "serviceMetadata": {
+            "description": "The service metadata",
+            "deprecated": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceMetadataTypeDto"
+            }
+          },
+          "completeServiceGroup": {
+            "$ref": "#/components/schemas/CompleteServiceGroupTypeDto"
+          },
+          "businessCard": {
+            "$ref": "#/components/schemas/Pd3BusinessCardDto"
+          }
+        },
+        "required": [
+          "serviceGroup",
+          "serviceMetadata",
+          "completeServiceGroup",
+          "businessCard"
+        ]
+      },
+      "ParticipantRegistrationResponseDto": {
+        "type": "object",
+        "properties": {
+          "ulid": {
+            "type": "string",
+            "example": "36efc715-0519-4a65-aa95-197c2154490d",
+            "description": "The ulid of the participant registration in our database. Can be used in case of errors."
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "BE",
+            "description": "The country code"
+          },
+          "creationTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z",
+            "description": "The date the participant was created"
+          },
+          "lastModifiedTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z",
+            "description": "The last time the participant was modified"
+          },
+          "participantIdentifier": {
+            "description": "The PEPPOL participant we want to register",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "ulid",
+          "countryCode",
+          "creationTimestamp",
+          "lastModifiedTimestamp",
+          "participantIdentifier"
+        ]
+      },
+      "BusinessCardInfoDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "IXOR",
+            "description": "The name of your company"
+          },
+          "iso3166Alpha2CountryCode": {
+            "type": "string",
+            "example": "BE",
+            "description": "The country code"
+          },
+          "registrationDate": {
+            "type": "string",
+            "example": "2025-01-31",
+            "description": "Optional ISO 8601 local date (yyyy-MM-dd). If omitted, the registrationDate in the business card will set to the current date."
+          }
+        },
+        "required": [
+          "name",
+          "iso3166Alpha2CountryCode"
+        ]
+      },
+      "ParticipantRegistrationRequestDto": {
+        "type": "object",
+        "properties": {
+          "participantIdentifier": {
+            "description": "The PEPPOL participant we want to register",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "BE",
+            "description": "The country code"
+          },
+          "businessCardInfo": {
+            "description": "The business card info for this participant",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BusinessCardInfoDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "participantIdentifier",
+          "countryCode",
+          "businessCardInfo"
+        ]
+      },
+      "CreateParticipantRegistrationResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Service group created successfully",
+            "deprecated": true
+          },
+          "participantRegistrationMessage": {
+            "type": "string",
+            "example": "Service group created successfully"
+          },
+          "participantRegistrationSuccessful": {
+            "type": "boolean",
+            "example": true
+          },
+          "businessCardMessage": {
+            "type": "string",
+            "example": "Business card updated successfully"
+          },
+          "businessCardSuccessful": {
+            "type": "boolean",
+            "example": true
+          },
+          "participantRegistration": {
+            "$ref": "#/components/schemas/ParticipantRegistrationResponseDto"
+          }
+        },
+        "required": [
+          "message",
+          "participantRegistrationMessage",
+          "participantRegistrationSuccessful",
+          "businessCardMessage",
+          "businessCardSuccessful",
+          "participantRegistration"
+        ]
+      },
+      "DocumentTypeRegisterRequestDto": {
+        "type": "object",
+        "properties": {
+          "participantIdentifier": {
+            "description": "The PEPPOL participant",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "documentTypeIdentifier": {
+            "description": "The document identifier specifies which document type a certain service accepts.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentTypeIdentifierDto"
+              }
+            ]
+          },
+          "processIdentifier": {
+            "description": "The identifier of the process. See the ‘Policy for use of identifiers’ document for a definition of process identifiers [PFUOI4].",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessIdentifierDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "participantIdentifier",
+          "documentTypeIdentifier",
+          "processIdentifier"
+        ]
+      },
+      "EndpointInformationDto": {
+        "type": "object",
+        "properties": {
+          "transportProfileIdentifier": {
+            "type": "string",
+            "enum": [
+              "AS4"
+            ]
+          },
+          "address": {
+            "type": "string"
+          },
+          "requireBusinessLevelSignature": {
+            "type": "boolean"
+          },
+          "minimumAuthenticationLevel": {
+            "type": "string"
+          },
+          "serviceDescription": {
+            "type": "string"
+          },
+          "technicalContactUrl": {
+            "type": "string"
+          },
+          "certificate": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "transportProfileIdentifier",
+          "address",
+          "requireBusinessLevelSignature",
+          "minimumAuthenticationLevel",
+          "serviceDescription",
+          "technicalContactUrl",
+          "certificate"
+        ]
+      },
+      "SmpDocumentTypeRegisterRequestDto": {
+        "type": "object",
+        "properties": {
+          "participantScheme": {
+            "type": "string"
+          },
+          "participantValue": {
+            "type": "string"
+          },
+          "documentTypeScheme": {
+            "type": "string"
+          },
+          "documentTypeValue": {
+            "type": "string"
+          },
+          "processScheme": {
+            "type": "string"
+          },
+          "processValue": {
+            "type": "string"
+          },
+          "endpointInformation": {
+            "$ref": "#/components/schemas/EndpointInformationDto"
+          }
+        },
+        "required": [
+          "participantScheme",
+          "participantValue",
+          "documentTypeScheme",
+          "documentTypeValue",
+          "processScheme",
+          "processValue",
+          "endpointInformation"
+        ]
+      },
+      "RegisterDocumentTypeResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "DocumentType registered successfully"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/SmpDocumentTypeRegisterRequestDto"
+          }
+        },
+        "required": [
+          "message",
+          "payload"
+        ]
+      },
+      "DocumentTypeDeregisterRequestDto": {
+        "type": "object",
+        "properties": {
+          "participantIdentifier": {
+            "description": "The PEPPOL participant",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "documentTypeIdentifier": {
+            "description": "The document identifier specifies which document type a certain service accepts.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentTypeIdentifierDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "participantIdentifier",
+          "documentTypeIdentifier"
+        ]
+      },
+      "BusinessCardUpdateRequestDto": {
+        "type": "object",
+        "properties": {
+          "participantIdentifier": {
+            "description": "The PEPPOL participant we want to register",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantIdentifierDto"
+              }
+            ]
+          },
+          "businessCardInfo": {
+            "description": "The business card info for this participant",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BusinessCardInfoDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "participantIdentifier",
+          "businessCardInfo"
+        ]
+      },
+      "ParticipantRegistrationPageDto": {
+        "type": "object",
+        "properties": {
+          "Items": {
+            "description": "The participant registration items from current page",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantRegistrationResponseDto"
+            }
+          },
+          "Count": {
+            "type": "number",
+            "description": "Number of items in the current page"
+          },
+          "LastEvaluatedKey": {
+            "type": "string",
+            "description": "The last pagination key. Pass this in the next call to get the next page."
+          }
+        },
+        "required": [
+          "Items",
+          "Count"
+        ]
+      },
+      "ValidatingPeppolDocumentRequestDto": {
+        "type": "object",
+        "properties": {
+          "externalReference": {
+            "type": "string",
+            "description": "This is an external reference that can be stored on the validating Peppol document. We don't do anything with it, it's purely for referencing. This external reference will also be included when sending feedback to registered webhooks.",
+            "example": "any_reference"
+          }
+        }
+      },
+      "ValidatingPeppolDocumentStatusHistoryItemDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "enum": [
+              "NEW",
+              "VALIDATING",
+              "VALIDATED",
+              "VALIDATION_COMPLETE",
+              "SENDING_FAILED"
+            ],
+            "type": "string",
+            "description": "The status of the entity at the given time, represented by a string. One of the defined `ValidatingPeppolDocumentStatus` enum values.",
+            "example": "VALIDATED"
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "A message providing additional context or information about the status.",
+            "example": "Document successfully delivered to recipient access point."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "The timestamp indicating when the status change occurred, in ISO 8601 format.",
+            "example": "2024-11-23T14:55:30Z"
+          }
+        },
+        "required": [
+          "status",
+          "statusMessage",
+          "timestamp"
+        ]
+      },
+      "ValidatingPeppolDocumentResponseDto": {
+        "type": "object",
+        "properties": {
+          "ulid": {
+            "type": "string",
+            "example": "01HSZZ39TECCTQ0G9DC9ZEDSV7"
+          },
+          "creationTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "lastModifiedTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "externalReference": {
+            "type": "string",
+            "example": "any_reference"
+          },
+          "status": {
+            "enum": [
+              "NEW",
+              "VALIDATING",
+              "VALIDATED",
+              "VALIDATION_COMPLETE",
+              "SENDING_FAILED"
+            ],
+            "type": "string",
+            "example": "NEW"
+          },
+          "statusMessage": {
+            "type": "string",
+            "example": ""
+          },
+          "statusHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidatingPeppolDocumentStatusHistoryItemDto"
+            }
+          }
+        },
+        "required": [
+          "ulid",
+          "creationTimestamp",
+          "lastModifiedTimestamp",
+          "status",
+          "statusMessage",
+          "statusHistory"
+        ]
+      },
+      "CreateValidatingPeppolDocumentResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "ValidatingPeppolDocument created successfully"
+          },
+          "document": {
+            "$ref": "#/components/schemas/ValidatingPeppolDocumentResponseDto"
+          },
+          "preSignedUploadUrl": {
+            "type": "string",
+            "example": "https://s3.eu-central-1.amazonaws.com/outgoing-peppol-documents/01HSWYWYJ9ZSW8MEY1CDN8RF9Z/01HSWZ3V2702ZFE6D6Y5KP3J02/peppolMessage.xml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=localstack%2F20240326%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20240326T084801Z&X-Amz-Expires=3000&X-Amz-Signature=1068b8feea4fa0d8d2d7522a113928c5820018021eaf6f3bd892d6679ebb589a&X-Amz-SignedHeaders=host&x-amz-meta-clientulid=01HSWYWYJ9ZSW8MEY1CDN8RF9Z&x-amz-meta-documentulid=01HSWZ3V2702ZFE6D6Y5KP3J02&x-id=PutObject"
+          }
+        },
+        "required": [
+          "message",
+          "document",
+          "preSignedUploadUrl"
+        ]
+      },
+      "WebhookRequestDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "A valid HTTPS Webhook URL.",
+            "format": "url",
+            "example": "https://webhook-test.com/004818c78eecacef393fee5822991234"
+          },
+          "events": {
+            "description": "A list of event identifiers to be received on this webhook.<br/><br/>",
+            "example": [
+              "outgoing-peppol-documents.sent",
+              "incoming-peppol-documents.received",
+              "client.cancellation"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "url",
+          "events"
+        ]
+      },
+      "WebhookResponseDto": {
+        "type": "object",
+        "properties": {
+          "ulid": {
+            "type": "string",
+            "example": "01HT00M1TBRPRPN6HT5ARZ1R2F"
+          },
+          "clientUlid": {
+            "type": "string",
+            "example": "01HT00M1TBRPRPN6HT5ARZ1R2F"
+          },
+          "creationTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "lastModifiedTimestamp": {
+            "type": "string",
+            "example": "2024-03-08T15:34:18.242Z"
+          },
+          "url": {
+            "type": "string",
+            "format": "url",
+            "example": "https://webhook-test.com/004818c78eecacef393fee5822991234"
+          },
+          "events": {
+            "example": [
+              "outgoing-peppol-documents.sent",
+              "incoming-peppol-documents.received",
+              "client.cancellation"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "ulid",
+          "clientUlid",
+          "creationTimestamp",
+          "lastModifiedTimestamp",
+          "url",
+          "events"
+        ]
+      },
+      "CreateWebhookResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Info about the webhook being created or not",
+            "example": "Webhook created successfully"
+          },
+          "webhook": {
+            "description": "Info about the webhook",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WebhookResponseDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "message",
+          "webhook"
+        ]
+      },
+      "DeleteWebhookResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Info about the webhook being deleted or not",
+            "example": "Webhook deleted successfully"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "oauth2-cc": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://dev-portal.dokapi.io/api/oauth2/token",
+            "scopes": {}
+          }
+        },
+        "description": "This API uses OAuth2 Client Credentials. Client credentials can be retrieved from the subscription details.<br/><br/>The endpoints to which you have access depend on your subscription. If an endpoint does not appear to be available, it might not be included in your current subscription.",
+        "x-receive-token-in": "request-body",
+        "x-client-id": "",
+        "x-client-secret": ""
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2-cc": []
+    }
+  ]
+}

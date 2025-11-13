@@ -35,16 +35,23 @@ export function parseDocument(documentXml: string): {
   const sender = jObj[docType]?.['cac:AccountingSupplierParty']?.['cac:Party'];
   const recipient =
     jObj[docType]?.['cac:AccountingCustomerParty']?.['cac:Party'];
+  if (!sender?.['cbc:EndpointID']?.['@_schemeID']) {
+    console.log(sender);
+    throw new Error('Missing sender EndpointID @_schemeID');
+  }
   if (!sender?.['cbc:EndpointID']?.['#text']) {
     throw new Error('Missing sender EndpointID text');
+  }
+  if (!recipient?.['cbc:EndpointID']?.['@_schemeID']) {
+    throw new Error('Missing recipient EndpointID @_schemeID');
   }
   if (!recipient?.['cbc:EndpointID']?.['#text']) {
     throw new Error('Missing recipient EndpointID text');
   }
   return {
-    sender: sender?.['cbc:EndpointID']?.['#text'],
+    sender: `${sender?.['cbc:EndpointID']?.['@_schemeID']}:${sender?.['cbc:EndpointID']?.['#text']}`,
     senderName: sender?.['cac:PartyName']?.['cbc:Name'],
-    recipient: recipient?.['cbc:EndpointID']?.['#text'],
+    recipient: `${recipient?.['cbc:EndpointID']?.['@_schemeID']}:${recipient?.['cbc:EndpointID']?.['#text']}`,
     recipientName: recipient?.['cac:PartyName']?.['cbc:Name'],
     amount: parseFloat(
       jObj[docType]?.['cac:LegalMonetaryTotal']?.['cbc:PayableAmount']?.[
@@ -67,4 +74,35 @@ export function parseDocument(documentXml: string): {
     paymentTermsNote:
       jObj[docType]?.['cac:PaymentTerms']?.['cbc:Note'] || undefined,
   };
+}
+
+const INVOICES = {
+  documentTypeScheme: 'busdox-docid-qns',
+  documentType:
+    'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1',
+
+  processScheme: 'cenbii-procid-ubl',
+  process: 'urn:fdc:peppol.eu:2017:poacc:billing:01:1.0',
+};
+
+export function toPeppyrusMessageBody(ubl: string): string {
+  const parsed = parseDocument(ubl);
+  return JSON.stringify({
+    sender: parsed.sender,
+    recipient: parsed.recipient,
+    processType: `${INVOICES.processScheme}::${INVOICES.process}`,
+    documentType: `${INVOICES.documentTypeScheme}::${INVOICES.documentType}`,
+    fileName: 'invoice.xml',
+    fileContent: Buffer.from(ubl).toString('base64'),
+  });
+}
+
+export function toMaventaInvoiceBody(ubl: string): string {
+  void ubl;
+  throw new Error('Maventa translation not yet implemented');
+}
+
+export function toRecommandInvoiceBody(ubl: string): string {
+  void ubl;
+  throw new Error('Recommand translation not yet implemented');
 }
