@@ -300,7 +300,7 @@ export async function run(): Promise<void> {
         .substring(0, x.length - '_AUTH_HEADERS'.length)
         .toLowerCase()
         .replace('_', '-'),
-    ).filter(name => !['ion', 'peppyrus', 'arratech', 'maventa', 'acube'].includes(name));
+    ).filter(name => !['ion', 'peppyrus'].includes(name));
   console.log('Platforms to sync:', platformsList);
   await Promise.all(
     platformsList.map(async (platform) => {

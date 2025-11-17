@@ -23,7 +23,7 @@ export function getFields(
 ): { [key: string]: { type: string } } | undefined {
   const successResponseProperties =
     openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
-  console.log(openApiSpec.paths, endPoint);
+  // console.log(openApiSpec.paths, endPoint);
   const schema =
     successResponseProperties?.['application/ld+json']?.schema ||
     successResponseProperties?.['application/json']?.schema;

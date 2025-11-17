@@ -6,6 +6,12 @@ actions:
   update:
     servers:
     - url: https://test.ion-ap.net
+- target: components.schemas
+  update:
+    CreateWebhook:
+      description: FIXME
+    UpdateWebhook:
+      description: FIXME
 - target: $
   update:
     syncables:

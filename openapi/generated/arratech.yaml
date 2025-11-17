@@ -7661,6 +7661,10 @@ components:
         lastModifiedBy:
           userId: user-uuid-2
         lastModifiedAt: '2025-09-13T09:30:00Z'
+    CreateWebhook:
+      description: FIXME
+    UpdateWebhook:
+      description: FIXME
 security:
   - bearerAuth: []
   - apiKeyAuth: []

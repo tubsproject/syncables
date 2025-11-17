@@ -11,7 +11,7 @@ npx openapi-typescript openapi/generated/peppyrus.yaml -o ./src/peppyrus.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/ion-peppol.yaml --overlay ./openapi/overlay/ion-peppol-overlay.yaml > openapi/generated/ion.yaml
 npx openapi-typescript openapi/generated/ion.yaml -o ./src/ion.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/arratech-peppol.json --overlay ./openapi/overlay/arratech-peppol-overlay.yaml > openapi/generated/arratech.yaml
-# FIXME  npx openapi-typescript openapi/generated/arratech.yaml -o ./src/arratech.d.ts
+npx openapi-typescript openapi/generated/arratech.yaml -o ./src/arratech.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/maventa-peppol.yaml --overlay ./openapi/overlay/maventa-peppol-overlay.yaml > openapi/generated/maventa.yaml
 npx openapi-typescript openapi/generated/maventa.yaml -o ./src/maventa.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/recommand-peppol.yaml --overlay ./openapi/overlay/recommand-peppol-overlay.yaml > openapi/generated/recommand.yaml
