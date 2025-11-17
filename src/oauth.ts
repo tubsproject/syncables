@@ -3,6 +3,7 @@ import session from 'express-session';
 import passport from 'passport';
 import { OAuth2Strategy } from 'passport-oauth';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function runOAuthClient(oauth2Config: any, port: number, cb: (token: string) => void): void {
   passport.use('provider', new OAuth2Strategy(oauth2Config,
     function(accessToken, refreshToken, profile, done) {

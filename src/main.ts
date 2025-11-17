@@ -3,6 +3,7 @@ import { createSqlTable, insertData, closeClient } from './db.js';
 import { fetchData } from './client.js';
 import { runOAuthClient } from './oauth.js';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function createCollections(openApiSpec: any, token: string): Promise<void> {
   
   await Promise.all(Object.keys(openApiSpec.syncables).map(async (syncableName) => {
