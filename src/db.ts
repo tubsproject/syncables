@@ -33,7 +33,10 @@ export function getFields(
     typeof rowsFrom === 'string'
       ? schema?.properties?.[rowsFrom]?.items?.properties
       : schema?.items?.properties;
-  console.log(`What we want (getFields ${endPoint} ${rowsFrom}):`, JSON.stringify(whatWeWant, null, 2));
+  console.log(
+    `What we want (getFields ${endPoint} ${rowsFrom}):`,
+    JSON.stringify(whatWeWant, null, 2),
+  );
   return whatWeWant;
 }
 export async function createSqlTable(
@@ -42,7 +45,10 @@ export async function createSqlTable(
   whatWeWant: { [key: string]: { type: string } },
 ): Promise<void> {
   const rowSpecs = [];
-  console.log(`What we want (createSqlTable ${tableName}):`, JSON.stringify(whatWeWant, null, 2));
+  console.log(
+    `What we want (createSqlTable ${tableName}):`,
+    JSON.stringify(whatWeWant, null, 2),
+  );
   if (!whatWeWant) {
     throw new Error(`No fields found for table ${tableName}`);
   }
