@@ -1,4 +1,4 @@
-# Syncables
+# Work in Progress
 
 Access to data objects and collections is one important functionality of many APIs. Sync engines require quite some boilerplate to keep an up-to-date local copy of a collection that the API exposes.
 
@@ -25,6 +25,12 @@ syncables:
 ```
 With that, the demo implementation in the `src` folder of this repo can create an SQL table and do a one-sweep sync of the collection from the remote API to this local database table.
 It's still a work in progress and very brittle.
+
+## Show case
+
+This repository contains two show cases. The first one is [Google Calendar](https://github.com/tubsproject/syncables/blob/main/openapi/overlay/google-calendar-overlay.yaml). Paging with the page token and sync token is not implemented yet, but the sync engine is able to create an SQL table and fill it with rows from the first page.
+
+The second show case centers around Peppol access points, which is also milestone 5 of [our NLNet project]()
 
 ## Usage
 Here is a demo of the syncables we use in the Let's Peppol proxy service.
