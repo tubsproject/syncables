@@ -154,9 +154,9 @@ export class Syncable {
               dataItems = data as any[];
               console.log('dataItems from response root:', dataItems);
             } else {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               dataItems = data[
                 this.specObject.syncables[syncableName]['list'].field
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ] as any[];
               console.log(
                 'dataItems based on field:',
@@ -227,10 +227,10 @@ export class Syncable {
       }),
     );
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async sendTestDocument(
     senderId: string,
     receiverId: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     addDocSpec: any,
   ): Promise<void> {
     let testInvoice = genDoc('invoice', senderId, receiverId, 'asdf');
