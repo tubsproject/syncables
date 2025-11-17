@@ -28,6 +28,7 @@ It's still a work in progress and very brittle.
 
 ## Show case 1: Google Calendar
 This repository contains two show cases. The first one is [Google Calendar](https://github.com/tubsproject/syncables/blob/main/openapi/overlay/google-calendar-overlay.yaml). Paging with the page token and sync token is not implemented yet, but the sync engine is able to create an SQL table and fill it with rows from the first page.
+This show case is currently broken in the `main` branch, but you can still see it if you go back to [the `showcase-google-calendar` branch](https://github.com/tubsproject/syncables/tree/showcase-google-calendar?tab=readme-ov-file#usage).
 
 ## Show case 2: Peppol
 The second show case centers around Peppol access points, which is also milestone 5 of [our NLNet project](./nlnet-milestones.md).
