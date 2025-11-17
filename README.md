@@ -65,7 +65,7 @@ To send a Peppol document (add it to the "sent" collection), there are a few pat
 * outgoing documents require a JSON POST to get an upload URL, followed by a PUT of the XML `(4)`
 * impossible `(3?)`
 
-## Download document XML
+### Download document XML
 * download the XML `(1,2?,3,5?,6,7,12)`
 * download JSON containing the XML string `(11)`
 * download JSON containing the base64-encoded XML string `(9)`
