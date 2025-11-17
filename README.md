@@ -26,11 +26,72 @@ syncables:
 With that, the demo implementation in the `src` folder of this repo can create an SQL table and do a one-sweep sync of the collection from the remote API to this local database table.
 It's still a work in progress and very brittle.
 
-## Show case
-
+## Show case 1: Google Calendar
 This repository contains two show cases. The first one is [Google Calendar](https://github.com/tubsproject/syncables/blob/main/openapi/overlay/google-calendar-overlay.yaml). Paging with the page token and sync token is not implemented yet, but the sync engine is able to create an SQL table and fill it with rows from the first page.
 
-The second show case centers around Peppol access points, which is also milestone 5 of [our NLNet project]()
+## Show case 2: Peppol
+The second show case centers around Peppol access points, which is also milestone 5 of [our NLNet project](./nlnet-milestones.md).
+It looks at the APIs of the following Peppol Access-Point-as-as-Service (APaaS) providers:
+1. [A-Cube](./openapi/oad/acube-peppol.yaml)
+2. [Arratech](./openapi/oad/arratech-peppol.json)
+3. [Bilberry](./openapi/oad/billberry-peppol.yaml)
+4. [Dokapi](./openapi/oad/dokapi.json)
+5. [e-invoice.be](./openapi/oad/e-invoice-be-peppol.json)
+6. [Ion](./openapi/oad/ion-peppol.yaml)
+7. [Maventa](./openapi/oad/maventa-peppol.yaml)
+8. [Netfly](./openapi/oad/netfly-peppol.yaml)
+9. [Peppyrus](./openapi/oad/peppyrus-peppol.yaml)
+10. [Primexchange](./openapi/oad/primexchange-peppol.json)
+11. [Recommand](./openapi/oad/recommand-peppol.yaml)
+12. [Scrada](./openapi/oad/scrada-peppol.json)
+
+### Sharding and availability
+In all cases, the way to retrieve document collections is to do a HTTP GET to get a JSON array. In most cases this can be safely be paged.
+Of these, we look at the collections of sent/received invoice/credit-note documents. First of all, let's look at difference in collection availability and sharding:
+* a single endpoint for all sent/received invoice/credit-note documents `(7)`
+* the API endpoint to use depends on the document type, there is one for sent/received invoices and one for sent/received credit notes `(1)`
+* the API endpoint to use depends on the direction, there is one for sent invoices/credit notes and one for received invoices/credit notes `(2,3,5,6)`
+* documents can not be listed, you need to [keep track of the webhooks](https://dev-portal.dokapi.io/docs/overviewsend) `(4)`
+
+### Addition
+To send a Peppol document (add it to the "sent" collection), there are a few patterns:
+* upload XML in a POST `(1,2,5,6,7,8)`
+* outgoing documents require a JSON POST to get an upload URL, followed by a PUT of the XML `(4)`
+
+### Paging mechanisms
+Now let's look at paging mechanisms provided for each of these collections:
+* page number and page size `(1,5)`
+* offset and page size `(6)`
+* page token and page size; a new page token is included in the response `(2)`
+* page token and page size, followed by sync token; a new page/sync token is included in the response (we saw this in the Google Calendar API, but none if the 12 Peppol APIs use it)
+* no way to do paging but you get a link to an "updates" URL `(3)`
+* you can filter by date
+
+### Lexical differences
+Apart from these functional differences there are of course also lexical differences in API interactions:
+* *page token in query*: `lastEvaluatedKey (2)`
+* *page number in query*: `page (1,5,7)`
+* *offset in query*: `offset (6)`
+* *page size in query*: `itemsPerPage (1)`, `limit (2,6)`, `page_size (5)`, `per_page (7)`
+* *new page token in response body*: `pagination.lastEvaluatedKey (2)`
+* *updates URL Link relation*: `updates (3)`
+* *results array in response body*: `[none (root)] (3)`, `hydra:member (1)`, `items (2)`, `results (6)`
+* the endpoint URLs are different for each API.
+
+And in the schema for documents:
+* Invoice ID (UUID or integer): `peppolMessage.uuid (1)`, `id (2,3)`, `transaction_id (6)`
+* Document Type: `type: debit/credit (3)`, `docTypeId: urn.oasis... (2)`, `document_element: Invoice / CreditNote (6)`
+* Direction: `documentFlow: TO_NETWORK/FROM_NETWORK (2)`
+* Sender ID: `sender.identifier (1)`, `senderId (2)`, `sender_peppol_scheme:sender_peppol_id (5)`, `sender_identifier (6)`, `sender.eia (7)`
+* Sender Name: `sender.name (1,7)`, `senderName (3)`,
+* Receiver ID: `recipient.identifier (1)`, `receiverId (2)`, `receiver_peppol_scheme:receiver_peppol_id (5)`, `receiver_identifier (6)`, `recipient.eia (7)`
+* Receiver Name: `recipient.name (1,7)`, `receiverName (3)`, `
+* Document ID: `number (3)`
+* Issue Date: `date (3,7)`
+* Due Date: `dueDate (3)`, `date_due (7)`
+* Receive Date: `receivedAt (3)` `validatedAt (5)`, `received_at (7)`
+* Send Date: `peppolMessage.createdAt (1)`, `createdAt (2)`, `sentAt (3)`, `created_on (6)`, `created_at (7)`
+
 
 ## Usage
 Here is a demo of the syncables we use in the Let's Peppol proxy service.
