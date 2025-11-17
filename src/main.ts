@@ -1,6 +1,6 @@
 import { getSpec } from './openApi.js';
-import { createSqlTable, getFields, Client, getPostgresClient } from './db.js';
-import { insertData } from './devonian.js';
+import { createSqlTable, getFields, Client, getPostgresClient, insertData } from './db.js';
+import { insertDevonian } from './devonian.js';
 import { fetchData, getXmlDoc, sendXmlDoc } from './client.js';
 import { translationFunctions } from './translation.js';
 import { genDoc } from './genDoc.js';
@@ -152,6 +152,14 @@ export class Syncable {
           }
           await insertData(
             this.client,
+            tableName,
+            dataItems,
+            Object.keys(fields).filter((x) =>
+              ['string', 'integer' /*'boolean'*/].includes(fields[x].type),
+            ),
+          );
+          await insertDevonian(
+            this.client,
             translationFunctions,
             tableName,
             dataItems,
@@ -171,7 +179,7 @@ export class Syncable {
             url,
             this.authHeaders,
           );
-          await insertData(
+          await insertDevonian(
             this.client,
             translationFunctions,
             tableName,

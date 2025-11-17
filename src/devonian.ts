@@ -15,7 +15,7 @@ async function insertFrontDocument(
   return client.query(insertQuery);
 }
 
-export async function insertData(
+export async function insertDevonian(
   client: Client,
   translationFunctions,
   tableName: string,
