@@ -92,7 +92,7 @@ Apart from these functional differences there are of course also lexical differe
 * *page size in query*: `page_size (5)`, `pagesize (10)`, `per_page (7)`, `perPage (9)`,  `itemsPerPage (1)`, `limit (2,6,11)`,
 * *new page token in response body*: `pagination.lastEvaluatedKey (2)`
 * *updates URL Link relation*: `updates (3)`
-* *results array in response body*: `[none (root)] (3,7,8)`, `hydra:member (1)`, `items (2,5,9)`, `results (6,10)`, `documents (11)`
+* *results array in response body*: `[none (root)] (3,7,8)`, `hydra:member (1)`, `items (2,5,9)`, `results (6,10,12)`, `documents (11)`
 * the endpoint URLs are different for each API.
 
 And in the schema for documents:
