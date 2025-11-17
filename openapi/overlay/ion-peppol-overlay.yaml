@@ -37,4 +37,4 @@ actions:
             offsetParam: offset # optional for first page, multiple of limit for subsequent pages
             limitParam: limit
         get-doc:
-          path: /receive-transactions/{id}/document
+          path: /api/v2/receive-transactions/{id}/document

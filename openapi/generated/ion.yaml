@@ -6648,5 +6648,5 @@ syncables:
         offsetParam: offset
         limitParam: limit
     get-doc:
-      path: '/receive-transactions/{id}/document'
+      path: '/api/v2/receive-transactions/{id}/document'
 
