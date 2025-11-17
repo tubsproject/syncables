@@ -45,12 +45,13 @@ It looks at the APIs of the following Peppol Access-Point-as-as-Service (APaaS) 
 11. [Recommand](./openapi/oad/recommand-peppol.yaml)
 12. [Scrada](./openapi/oad/scrada-peppol.json)
 
+Of these, we look at the collections of sent/received invoice/credit-note documents.
+
 ### Sharding and availability
-In all cases, the way to retrieve document collections is to do a HTTP GET to get a JSON array. In most cases this can be safely be paged.
-Of these, we look at the collections of sent/received invoice/credit-note documents. First of all, let's look at difference in collection availability and sharding:
-* a single endpoint for all sent/received invoice/credit-note documents `(7)`
+In all cases, the way to retrieve document collections is to do a HTTP GET to get a JSON array. In most cases this can be safely be paged. First of all, let's look at difference in collection availability and sharding:
+* a single endpoint for all sent/received invoice/credit-note documents `(7,10)`
 * the API endpoint to use depends on the document type, there is one for sent/received invoices and one for sent/received credit notes `(1)`
-* the API endpoint to use depends on the direction, there is one for sent invoices/credit notes and one for received invoices/credit notes `(2,3,5,6,8,9)`
+* the API endpoint to use depends on the direction, there is one for sent invoices/credit notes and one for received invoices/credit notes `(2,3,5,6,8,9,11)`
 * documents can not be listed, you need to [keep track of the webhooks](https://dev-portal.dokapi.io/docs/overviewsend) `(4)`
 * outgoing documents can not be listed, incoming ones can be popped from a queue `(12)`
 
@@ -61,9 +62,10 @@ To send a Peppol document (add it to the "sent" collection), there are a few pat
 * POST JSON containing the XML string `(11)`
 * POST JSON containing the base64-encoded XML string `(9)`
 * outgoing documents require a JSON POST to get an upload URL, followed by a PUT of the XML `(4)`
+* impossible `(3?)`
 
 ## Download document XML
-* download the XML `(1,2?,3,6,7)`
+* download the XML `(1,2?,3,6,7,12)`
 * download JSON containing the XML string `(11)`
 * download JSON containing the base64-encoded XML string `(9)`
 * download ZIP containing the XML document `(?)`
@@ -73,13 +75,14 @@ To send a Peppol document (add it to the "sent" collection), there are a few pat
 
 ### Paging mechanisms
 Now let's look at paging mechanisms provided for each of these collections:
-* page number and page size `(1,5,7,9,10)`
+* page number and page size `(1,5,7,9,10,11)`
 * offset and page size `(6)`
 * page token and page size; a new page token is included in the response `(2)`
 * page token and page size, followed by sync token; a new page/sync token is included in the response (we saw this in the Google Calendar API, but none if the 12 Peppol APIs use it)
 * no way to do paging but you get a link to an "updates" URL `(3)`
 * a queue rather than a collection; you only get the first page and can "confirm" items from there to make newer items show up `(12)`
 * you can filter by date `(8)`
+* not applicable `(4)`
 
 ### Lexical differences
 Apart from these functional differences there are of course also lexical differences in API interactions:
