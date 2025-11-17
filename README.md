@@ -152,10 +152,12 @@ sh ./ts-gen.sh
 pnpm build
 docker compose up -d
 
+# FIXME: get MAVENTA_TOKEN from https://testing.maventa.com/invoices/index/outbound
+
 export ACUBE_AUTH_HEADERS="{\"Authorization\":\"Bearer "${ACUBE_TOKEN}"\"}"
 export PEPPYRUS_AUTH_HEADERS="{\"X-Api-Key\":\""$PEPPYRUS_TOKEN_TEST"\"}"
 export ION_AUTH_HEADERS="{\"Authorization\":\"Token "$ION_API_KEY"\"}"
-export ARRATECH_AUTH_HEADERS="{\"Authorization\":\"Bearer "$ARRATECH_BEARER_TOKEN"\"}"
+export ARRATECH_AUTH_HEADERS="{\"Authorization\":\"Bearer "$ARRATECH_TOKEN"\"}"
 export RECOMMAND_AUTH_HEADERS="{\"Authorization\":\"Basic "`echo -n $RECOMMAND_API_KEY:$RECOMMAND_API_SECRET | base64`"\"}"
 export MAVENTA_AUTH_HEADERS="{\"Authorization\":\"Bearer "$MAVENTA_TOKEN"\"}"
 export NETFLY_AUTH_HEADERS="{\"Authorization\":\"Bearer "$NETFLY_TOKEN"\"}"
