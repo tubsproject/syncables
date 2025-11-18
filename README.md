@@ -28,7 +28,7 @@ It's still a work in progress and very brittle.
 
 ## Show case 1: Google Calendar
 This repository contains two show cases. The first one is [Google Calendar](https://github.com/tubsproject/syncables/blob/main/openapi/overlay/google-calendar-overlay.yaml). Paging with the page token and sync token is not implemented yet, but the sync engine is able to create an SQL table and fill it with rows from the first page.
-This show case is currently broken in the `main` branch, but you can still see it if you go back to [the `showcase-google-calendar` branch](https://github.com/tubsproject/syncables/tree/showcase-google-calendar?tab=readme-ov-file#usage).
+This show case has been removed from the `main` branch, but you can still see it if you go back to [the `showcase-google-calendar` branch](https://github.com/tubsproject/syncables/tree/showcase-google-calendar?tab=readme-ov-file#usage).
 
 ## Show case 2: Peppol
 The second show case centers around Peppol access points, which is also milestone 5 of [our NLNet project](./nlnet-milestones.md).
@@ -110,78 +110,7 @@ And in the schema for documents:
 * Receive Date: `receivedAt (3)` `validatedAt (5)`, `received_at (7)`, `peppolC3Timestamp (12)`
 * Send Date: `peppolMessage.createdAt (1)`, `createdAt (2,11)`, `sentAt (3)`, `created_on (6)`, `created_at (7)`, `inputDate (8)`, `peppolC2Timestamp (12)`, `data.created_at (10)`
 
+### Run this showcase
+This show case has been removed from the `main` branch, but you can still see it if you go back to [the `showcase-peppol` branch](https://github.com/tubsproject/syncables/tree/showcase-peppol?tab=readme-ov-file#usage).
 
 ## Usage
-Here is a demo of the syncables we use in the Let's Peppol proxy service.
-
-Some one-liners to obtain some of the API access tokens:
-```sh
-export $(xargs < ./.env)
-export MAVENTA_TOKEN=`curl -X POST https://ax-stage.maventa.com/oauth2/token -H "Content-Type: application/json" -d "{
-  \"client_id\": \"$MAVENTA_CLIENT_ID\",
-  \"client_secret\": \"$MAVENTA_CLIENT_SECRET\",
-  \"vendor_api_key\": \"$MAVENTA_VENDOR_API_KEY\",
-  \"grant_type\": \"client_credentials\"
-}" | json access_token`
-
-export ARRATECH_TOKEN=`curl -X POST https://cognito-idp.eu-central-1.amazonaws.com/ -H "Content-Type: application/x-amz-json-1.1" -H "X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth" -d "{                                 
-  \"AuthFlow\": \"USER_PASSWORD_AUTH\",
-  \"AuthParameters\": {
-    \"USERNAME\": \"$ARRATECH_USERNAME\",
-    \"PASSWORD\": \"$ARRATECH_PASSWORD\"
-  },                                          
-  \"ClientId\": \"5rbbg79c6q9010deju24kf0vq4\"
-}" | json AuthenticationResult.AccessToken`
-
-export ACUBE_TOKEN=`curl -X POST \
-  https://common-sandbox.api.acubeapi.com/login \
-  -H 'Accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{"email": "'"${ACUBE_USR}"'", "password": "'"${ACUBE_PWD}"'"}' | json token`
-
-export NETFLY_TOKEN=`curl --request POST   --url https://netfly-test.eu.auth0.com/oauth/token   --header 'content-type: application/json'   --data '{
-    "client_id":"'"${NETFLY_CLIENT_ID}"'",
-    "client_secret":"'"${NETFLY_CLIENT_SECRET}"'",
-    "audience":"https://netfly-test.eu.auth0.com/api/v2/",
-    "grant_type":"client_credentials"
-  }' | json access_token`
-```
-
-```sh
-pnpm install
-sh ./ts-gen.sh
-pnpm build
-docker compose up -d
-
-# FIXME: get MAVENTA_TOKEN from https://testing.maventa.com/invoices/index/outbound
-
-export ACUBE_AUTH_HEADERS="{\"Authorization\":\"Bearer "${ACUBE_TOKEN}"\"}"
-export PEPPYRUS_AUTH_HEADERS="{\"X-Api-Key\":\""$PEPPYRUS_TOKEN_TEST"\"}"
-export ION_AUTH_HEADERS="{\"Authorization\":\"Token "$ION_API_KEY"\"}"
-export ARRATECH_AUTH_HEADERS="{\"Authorization\":\"Bearer "$ARRATECH_TOKEN"\"}"
-export RECOMMAND_AUTH_HEADERS="{\"Authorization\":\"Basic "`echo -n $RECOMMAND_API_KEY:$RECOMMAND_API_SECRET | base64`"\"}"
-export MAVENTA_AUTH_HEADERS="{\"Authorization\":\"Bearer "$MAVENTA_TOKEN"\"}"
-export NETFLY_AUTH_HEADERS="{\"Authorization\":\"Bearer "$NETFLY_TOKEN"\"}"
-export SCRADA_AUTH_HEADERS="{\"X-API-KEY\":\""$SCRADA_API_KEY"\",\"X-PASSWORD\":\""$SCRADA_API_PWD"\"}"
-
-# FIXME: we should do this with the `createSqlTable` function from `src/db.ts`:
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type direction as enum ('incoming', 'outgoing');"
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create type docType as enum ('invoice', 'credit-note');"
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "create table FrontDocs (senderId text, senderName text, receiverId text, receiverName text, docType docType, direction direction, docId text, amount numeric, platformId text primary key, createdAt timestamp, issueDate timestamp, dueDate timestamp, paid timestamp, paymentTermsNote text, ubl text);"
-
-node build/src/cron.js
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
-docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from recommand_documents limit 1;"
-docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from acube_invoice limit 1;"
-docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from ion_receivetransactions limit 1;"
-docker exec -it db psql -P pager postgresql://syncables:syncables@localhost:5432/syncables -c "select * from peppyrus_message limit 1;"
-```
-Output:
-```
- accessrole | backgroundcolor | colorid | deleted | description | etag | foregroundcolor | hidden | id | kind | location | primary_ | selected | summary | summaryoverride | timezone 
-------------+-----------------+---------+---------+-------------+------+-----------------+--------+----+------+----------+----------+----------+---------+-----------------+----------
-...
-```
-This is just a first example of how it would create an SQL database schema and populate it with some data from an API. We plan to extend this repo with a fully functional sync engine that can act as a reference implementation of OpenAPI Syncables.
-
-This work is [sponsored by NLNet](https://nlnet.nl/project/TUBS/)
