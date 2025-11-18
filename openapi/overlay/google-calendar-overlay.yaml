@@ -4,8 +4,8 @@ info:
 actions:
 - target: $.paths['/users/me/calendarList'].get.responses['200'].content['application/json']
   update:
-    function:
-      meaning: CURRENT_COLLECTION_ITEMS
+    syncable:
+      function: CURRENT_COLLECTION_ITEMS
       field: results
       collection: myCalendarList
     paging:
@@ -14,8 +14,8 @@ actions:
       pageSizeParam: maxResults
 - target: $.paths['/users/me/calendarList'].post.responses['200'].content['application/json']
   update:
-    function:
-      meaning: ITEM_ADDED_TO_COLLECTION
+    syncable:
+      function: ITEM_ADDED_TO_COLLECTION
       collection: myCalendarList
       item: REQUEST_BODY
       identifier: LOCATION_RESPONSE_HEADER
