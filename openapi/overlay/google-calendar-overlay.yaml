@@ -4,16 +4,18 @@ info:
 actions:
 - target: $.paths['/users/me/calendarList'].get.responses['200'].content['application/json']
   update:
-    syncable:
-      meaning: COLLECTION_PAGE
-      field: items
+    function:
+      meaning: CURRENT_COLLECTION_ITEMS
+      field: results
       collection: myCalendarList
     paging:
       pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
       syncTokenParam: nextSyncToken # keep polling after last page to get updates
       pageSizeParam: maxResults
-- target: $.paths['/users/me/calendarList'].post
+- target: $.paths['/users/me/calendarList'].post.responses['200'].content['application/json']
   update:
-    syncable:
-      meaning: ADD_ITEM_TO_COLLECTION
+    function:
+      meaning: ITEM_ADDED_TO_COLLECTION
       collection: myCalendarList
+      item: REQUEST_BODY
+      identifier: LOCATION_RESPONSE_HEADER
