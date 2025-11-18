@@ -2,18 +2,18 @@ openapi: 3.0.0
 info:
   description: Add syncables to the Google Calendar API.
 actions:
-- target: $.paths['/users/me/calendarList'].get
+- target: $.paths['/users/me/calendarList'].get.responses['200'].content['application/json']
   update:
-    functions:
-    - name: list
+    syncable:
+      meaning: COLLECTION_PAGE
+      field: items
       collection: myCalendarList
-      responseField: items
     paging:
       pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
       syncTokenParam: nextSyncToken # keep polling after last page to get updates
       pageSizeParam: maxResults
 - target: $.paths['/users/me/calendarList'].post
   update:
-    functions:
-    - name: add
+    syncable:
+      meaning: ADD_ITEM_TO_COLLECTION
       collection: myCalendarList
