@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   description: Add syncables to the Google Calendar API.
 actions:
-- target: paths./users/me/calendarList.get
+- target: $.paths['/users/me/calendarList'].get
   update:
     functions:
     - name: list
@@ -12,7 +12,7 @@ actions:
       pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
       syncTokenParam: nextSyncToken # keep polling after last page to get updates
       pageSizeParam: maxResults
-- target: paths./users/me/calendarList.post
+- target: $.paths['/users/me/calendarList'].post
   update:
     functions:
     - name: add
