@@ -3,7 +3,10 @@ import { EventEmitter } from 'events';
 export class Syncable extends EventEmitter {
   fetchFunction: typeof fetch;
   spec: { [key: string]: string };
-  constructor(spec: { [key: string]: string }, fetchFunction: typeof fetch = fetch) {
+  constructor(
+    spec: { [key: string]: string },
+    fetchFunction: typeof fetch = fetch,
+  ) {
     super();
     this.spec = spec;
     this.fetchFunction = fetchFunction;
@@ -47,12 +50,14 @@ export class Syncable extends EventEmitter {
 
   async fullFetch() {
     switch (this.spec['pagingStrategy']) {
-    case 'pageNumber':
-      return this.pageNumberFetch();
-    case 'pageToken':
-      return this.pageTokenFetch();
-    default:
-      throw new Error(`Unknown paging strategy: ${this.spec['pagingStrategy']}`);
+      case 'pageNumber':
+        return this.pageNumberFetch();
+      case 'pageToken':
+        return this.pageTokenFetch();
+      default:
+        throw new Error(
+          `Unknown paging strategy: ${this.spec['pagingStrategy']}`,
+        );
     }
   }
 }

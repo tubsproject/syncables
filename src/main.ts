@@ -156,7 +156,7 @@ export class Syncable {
             } else {
               dataItems = data[
                 this.specObject.syncables[syncableName]['list'].field
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ] as any[];
               console.log(
                 'dataItems based on field:',
