@@ -31,7 +31,7 @@ describe('Spec parsing', () => {
                   'application/json': {
                     syncable: {
                       pagingStrategy: 'pageNumber',
-                      pageNumberParam: 'page',
+                      pageNumberParamInQuery: 'page',
                     },
                     schema: {
                       type: 'object',
@@ -75,7 +75,7 @@ describe('Spec parsing', () => {
     });
     expect(syncable.spec).toEqual({
       pagingStrategy: 'pageNumber',
-      pageNumberParam: 'page',
+      pageNumberParamInQuery: 'page',
       listUrl: '/widgets',
     });
   });

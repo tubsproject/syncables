@@ -20,9 +20,20 @@ export class Syncable<T> extends EventEmitter {
         if (response.syncable) {
           this.spec = {
             pagingStrategy: response.syncable.pagingStrategy,
-            pageNumberParam: response.syncable.pageNumberParam,
             listUrl: path,
           };
+          if (response.syncable.pagingStrategy === 'pageNumber') {
+            this.spec.pageNumberParamInQuery =
+              response.syncable.pageNumberParamInQuery || 'page';
+          } else if (response.syncable.pagingStrategy === 'offset') {
+            this.spec.offsetParamInQuery =
+              response.syncable.offsetParamInQuery || 'offset';
+          } else if (response.syncable.pagingStrategy === 'pageToken') {
+            this.spec.pageTokenParamInQuery =
+              response.syncable.pageTokenParamInQuery || 'pageToken';
+            this.spec.pageTokenParamInResponse =
+              response.syncable.pageTokenParamInResponse || 'pageToken';
+          }
         }
       }
     });
@@ -35,7 +46,7 @@ export class Syncable<T> extends EventEmitter {
 
     while (hasMore) {
       const url = new URL(this.spec.listUrl as string);
-      url.searchParams.append('page', page.toString());
+      url.searchParams.append(this.spec.pageNumberParamInQuery, page.toString());
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
       allData = allData.concat(data.items);
@@ -53,7 +64,7 @@ export class Syncable<T> extends EventEmitter {
 
     while (hasMore) {
       const url = new URL(this.spec.listUrl as string);
-      url.searchParams.append('offset', offset.toString());
+      url.searchParams.append(this.spec.offsetParamInQuery, offset.toString());
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
       allData = allData.concat(data.items);
@@ -71,7 +82,7 @@ export class Syncable<T> extends EventEmitter {
     do {
       const url = new URL(this.spec.listUrl as string);
       if (nextPageToken) {
-        url.searchParams.append('pageToken', nextPageToken);
+        url.searchParams.append(this.spec.pageTokenParamInQuery, nextPageToken);
       }
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
