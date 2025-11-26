@@ -6,35 +6,23 @@ actions:
   update:
     servers:
     - url: https://test.ion-ap.net
-- target: $
+- target: paths['/api/v2/send-transactions']['get']['responses']['200']['content']['application/json']
   update:
-    syncables:
-      sendTransactions:
-        description: |-
-          Invoice and Credit Note Documents sent by the authenticated user.
-        type: collection
-        list:
-          path: /api/v2/send-transactions
-          method: GET
-          field: results
-          paging:
-            offsetParam: offset # optional for first page, multiple of limit for subsequent pages
-            limitParam: limit
-        get-doc:
-          path: /api/v2/send-transactions/{id}/document
-          method: GET
-        add-doc:
-          path: /api/v2/send-document
-          method: POST
-      receiveTransactions:
-        description: |-
-          Invoice and Credit Note Documents received by the authenticated user.
-        type: collection
-        list:
-          path: /api/v2/receive-transactions
-          field: results
-          paging:
-            offsetParam: offset # optional for first page, multiple of limit for subsequent pages
-            limitParam: limit
-        get-doc:
-          path: /api/v2/receive-transactions/{id}/document
+    syncable:
+      name: sendTransactions
+      description: |-
+        Invoice and Credit Note Documents sent by the authenticated user.
+      type: collection
+      field: results
+      pagingStrategy: offset
+      offsetParam: offset # optional for first page, multiple of limit for subsequent pages
+- target: paths['/api/v2/receive-transactions']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: receiveTransactions
+      description: |-
+        Invoice and Credit Note Documents received by the authenticated user.
+      type: collection
+      field: results
+      pagingStrategy: offset
+      offsetParam: offset # optional for first page, multiple of limit for subsequent pages

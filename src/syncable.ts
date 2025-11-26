@@ -46,6 +46,24 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
+  private async offsetFetch(): Promise<T[]> {
+    let allData: T[] = [];
+    let offset = 0;
+    let hasMore = true;
+
+    while (hasMore) {
+      const url = new URL(this.spec.listUrl as string);
+      url.searchParams.append('offset', offset.toString());
+      const response = await this.fetchFunction(url.toString());
+      const data = await response.json();
+      allData = allData.concat(data.items);
+      hasMore = data.hasMore;
+      offset += data.items.length;
+    }
+
+    return allData;
+  }
+
   private async pageTokenFetch(): Promise<T[]> {
     let allData: T[] = [];
     let nextPageToken: string | null = null;
@@ -68,6 +86,8 @@ export class Syncable<T> extends EventEmitter {
     switch (this.spec['pagingStrategy']) {
       case 'pageNumber':
         return this.pageNumberFetch();
+      case 'offset':
+        return this.offsetFetch();
       case 'pageToken':
         return this.pageTokenFetch();
       default:
