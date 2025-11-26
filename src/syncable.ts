@@ -11,7 +11,7 @@ export class Syncable<T> extends EventEmitter {
     this.spec = spec;
     this.fetchFunction = fetchFunction;
   }
-  parseSpec(spec: { paths: object, components: object }): void {
+  parseSpec(spec: { paths: object; components: object }): void {
     Object.keys(spec.paths).forEach((path) => {
       const pathItem = spec.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
