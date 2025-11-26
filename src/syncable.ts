@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-export class Syncable extends EventEmitter {
+export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   spec: { [key: string]: string };
   constructor(
@@ -11,9 +11,25 @@ export class Syncable extends EventEmitter {
     this.spec = spec;
     this.fetchFunction = fetchFunction;
   }
+  parseSpec(spec: { paths: object, components: object }): void {
+    Object.keys(spec.paths).forEach((path) => {
+      const pathItem = spec.paths[path];
+      if (pathItem.get && pathItem.get.responses['200']) {
+        const response =
+          pathItem.get.responses['200'].content['application/json'];
+        if (response.syncable) {
+          this.spec = {
+            pagingStrategy: response.syncable.pagingStrategy,
+            pageNumberParam: response.syncable.pageNumberParam,
+            listUrl: path,
+          };
+        }
+      }
+    });
+  }
 
-  private async pageNumberFetch() {
-    let allData: any[] = [];
+  private async pageNumberFetch(): Promise<T[]> {
+    let allData: T[] = [];
     let page = 1;
     let hasMore = true;
 
@@ -30,8 +46,8 @@ export class Syncable extends EventEmitter {
     return allData;
   }
 
-  private async pageTokenFetch() {
-    let allData: any[] = [];
+  private async pageTokenFetch(): Promise<T[]> {
+    let allData: T[] = [];
     let nextPageToken: string | null = null;
 
     do {
@@ -48,7 +64,7 @@ export class Syncable extends EventEmitter {
     return allData;
   }
 
-  async fullFetch() {
+  async fullFetch(): Promise<T[]> {
     switch (this.spec['pagingStrategy']) {
       case 'pageNumber':
         return this.pageNumberFetch();
