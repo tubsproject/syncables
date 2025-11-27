@@ -4,7 +4,8 @@ import { parse } from 'yaml';
 export type SyncableConfig = {
   name: string,
   pagingStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange';
-  listUrl?: string;
+  baseUrl: string;
+  urlPath: string;
   pageNumberParamInQuery?: string;
   offsetParamInQuery?: string;
   pageTokenParamInQuery?: string;
@@ -19,38 +20,43 @@ export class Syncable<T> extends EventEmitter {
   config: SyncableConfig;
   constructor(specStr: string, syncableName: string, fetchFunction: typeof fetch = fetch) {
     super();
-    this.parseSpec(specStr, syncableName);
+    this.config = this.parseSpec(specStr, syncableName);
     this.fetchFunction = fetchFunction;
   }
-  parseSpec(specStr: string, syncableName: string): void {
+  parseSpec(specStr: string, syncableName: string): SyncableConfig {
     const spec = parse(specStr);
-    Object.keys(spec.paths).forEach((path) => {
+    for (const path of Object.keys(spec.paths)) {
       const pathItem = spec.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         const response =
           pathItem.get.responses['200'].content['application/json'];
         if ((response.syncable) && (response.syncable.name === syncableName)) {
-          this.config = {
+          const config: SyncableConfig = {
+            baseUrl: spec.servers && spec.servers.length > 0
+              ? spec.servers[0].url
+              : '',
             name: response.syncable.name,
             pagingStrategy: response.syncable.pagingStrategy,
-            listUrl: path,
+            urlPath: path,
             query: response.syncable.query || {},
           };
           if (response.syncable.pagingStrategy === 'pageNumber') {
-            this.config.pageNumberParamInQuery =
+            config.pageNumberParamInQuery =
               response.syncable.pageNumberParamInQuery || 'page';
           } else if (response.syncable.pagingStrategy === 'offset') {
-            this.config.offsetParamInQuery =
+            config.offsetParamInQuery =
               response.syncable.offsetParamInQuery || 'offset';
           } else if (response.syncable.pagingStrategy === 'pageToken') {
-            this.config.pageTokenParamInQuery =
+            config.pageTokenParamInQuery =
               response.syncable.pageTokenParamInQuery || 'pageToken';
-            this.config.pageTokenParamInResponse =
+            config.pageTokenParamInResponse =
               response.syncable.pageTokenParamInResponse || 'pageToken';
           }
+          return config;
         }
       }
-    });
+    }
+    throw new Error(`Syncable with name "${syncableName}" not found in spec`);
   }
 
   private async pageNumberFetch(): Promise<T[]> {
@@ -59,7 +65,7 @@ export class Syncable<T> extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = new URL(this.config.listUrl as string);
+      const url = new URL(this.config.urlPath, this.config.baseUrl);
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -83,7 +89,7 @@ export class Syncable<T> extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = new URL(this.config.listUrl as string);
+      const url = new URL(this.config.urlPath, this.config.baseUrl);
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -103,7 +109,7 @@ export class Syncable<T> extends EventEmitter {
     let nextPageToken: string | null = null;
 
     do {
-      const url = new URL(this.config.listUrl as string);
+      const url = new URL(this.config.urlPath, this.config.baseUrl);
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -124,7 +130,7 @@ export class Syncable<T> extends EventEmitter {
     const endDate: string | null = this.config.endDate || null;
 
     while (true) {
-      const url = new URL(this.config.listUrl as string);
+      const url = new URL(this.config.urlPath, this.config.baseUrl);
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });

@@ -34,6 +34,6 @@ describe('Google Calendar List', () => {
     const data = await syncable.fullFetch();
     expect(data.length).toBeGreaterThan(0);
     expect(data[0]).toHaveProperty('id');
-    expect(data[0]).toHaveProperty('summary');
+    expect(data[0]).toHaveProperty('title');
   });
 });

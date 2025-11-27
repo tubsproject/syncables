@@ -30,7 +30,8 @@ test('pageNumber paging', async () => {
   const syncable = new Syncable(createSpec({
     name: 'todos',
     pagingStrategy: 'pageNumber',
-    listUrl: 'https://jsonplaceholder.typicode.com/todos/',
+    baseUrl: 'https://jsonplaceholder.typicode.com',
+    urlPath: '/todos/',
     pageNumberParamInQuery: 'page',
   }), 'todos', fetchMock as unknown as typeof fetch);
   const data = await syncable.fullFetch();
@@ -70,7 +71,8 @@ test('offset paging', async () => {
   const syncable = new Syncable(createSpec({
     name: 'todos',
     pagingStrategy: 'offset',
-    listUrl: 'https://jsonplaceholder.typicode.com/todos/',
+    baseUrl: 'https://jsonplaceholder.typicode.com',
+    urlPath: '/todos/',
     offsetParamInQuery: 'offset',
   }), 'todos', fetchMock as unknown as typeof fetch);
   const data = await syncable.fullFetch();
@@ -110,7 +112,8 @@ test('pageToken paging', async () => {
   const syncable = new Syncable(createSpec({
     name: 'todos',
     pagingStrategy: 'pageToken',
-    listUrl: 'https://jsonplaceholder.typicode.com/todos/',
+    baseUrl: 'https://jsonplaceholder.typicode.com',
+    urlPath: '/todos/',
     pageTokenParamInQuery: 'pageToken',
     pageTokenParamInResponse: 'nextPageToken',
   }), 'todos', fetchMock as unknown as typeof fetch);

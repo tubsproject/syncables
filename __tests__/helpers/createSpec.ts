@@ -7,12 +7,17 @@ export function createSpec(config: SyncableConfig): string {
     title: 'Test API',
     version: '1.0.0',
     },
+    servers: [
+    {
+      url: config.baseUrl,
+    },
+    ],
     paths: {},
     components: {
     schemas: {},
     },
   };
-  specObj.paths[config.listUrl] = {
+  specObj.paths[config.urlPath] = {
     get: {
       responses: {
         '200': {

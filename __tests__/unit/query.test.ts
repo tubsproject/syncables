@@ -20,7 +20,8 @@ test('query', async () => {
   const syncable = new Syncable(createSpec({
     name: 'todos',
     pagingStrategy: 'pageNumber',
-    listUrl: 'https://jsonplaceholder.typicode.com/todos/',
+    baseUrl: 'https://jsonplaceholder.typicode.com',
+    urlPath: '/todos/',
     pageNumberParamInQuery: 'page',
     query: { userId: '1' },
   }), 'todos', fetchMock as unknown as typeof fetch);

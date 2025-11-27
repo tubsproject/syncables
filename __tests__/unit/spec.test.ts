@@ -14,7 +14,8 @@ describe('Spec parsing', () => {
       name: 'widgets',
       pagingStrategy: 'pageNumber',
       pageNumberParamInQuery: 'page',
-      listUrl: '/widgets',
+      baseUrl: 'https://example.com/api',
+      urlPath: '/widgets',
       query: { color: 'red' },
     };
     const syncable = new Syncable<Widget>(createSpec(config), 'widgets');
