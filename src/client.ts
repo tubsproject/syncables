@@ -8,7 +8,6 @@ export async function fetchData(
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,
-      'x-referer': 'https://explorer.apis.google.com',
     },
   });
   return await res.json();

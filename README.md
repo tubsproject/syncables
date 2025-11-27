@@ -37,6 +37,7 @@ Here is a demo of the syncables for Google Calendar API.
 pnpm install
 pnpm generate
 pnpm build
+docker compose build
 docker compose up -d
 pnpm start
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "select * from data;"
@@ -47,6 +48,9 @@ Output:
 ------------+-----------------+---------+---------+-------------+------+-----------------+--------+----+------+----------+----------+----------+---------+-----------------+----------
 ...
 ```
+
+Now visit http://localhost:8000 and grant the app access to your Google account to see it fetch your list of calendars.
+
 This is just a first example of how it would create an SQL database schema and populate it with some data from an API. We plan to extend this repo with a fully functional sync engine that can act as a reference implementation of OpenAPI Syncables.
 
 This work is [sponsored by NLNet](https://nlnet.nl/project/TUBS/)

@@ -1,11 +1,10 @@
 import { getSpec } from './openApi.js';
-import { createSqlTable, insertData, closeClient } from './db.js';
+import { createSqlTable, insertData } from './db.js';
 import { fetchData } from './client.js';
 import { runOAuthClient } from './oauth.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function createCollections(openApiSpec: any, token: string): Promise<void> {
-  
+async function createTables(openApiSpec: any): Promise<void> {
   await Promise.all(Object.keys(openApiSpec.syncables).map(async (syncableName) => {
     console.log(
       `Creating syncable ${openApiSpec.syncables[syncableName].type}: ${syncableName}`,
@@ -15,14 +14,21 @@ async function createCollections(openApiSpec: any, token: string): Promise<void>
       openApiSpec.syncables[syncableName].get.path,
       openApiSpec.syncables[syncableName].get.field,
     );
+  }));
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function fetchCollections(openApiSpec: any, token: string): Promise<void> {
+  await Promise.all(Object.keys(openApiSpec.syncables).map(async (syncableName) => {
+    console.log(
+      `Fetching syncable ${openApiSpec.syncables[syncableName].type}: ${syncableName}`,
+    );
     const data = await fetchData(
       openApiSpec,
       openApiSpec.syncables[syncableName].get.path,
       token,
     );
     await insertData(data);
-    await closeClient();
-
   }));
 }
 
@@ -35,8 +41,9 @@ const oauth2Config = {
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'shhh-its-a-secret',
   callbackURL: 'http://localhost:8000/callback'
 };
+await createTables(openApiSpec);
 runOAuthClient(oauth2Config, 8000, async (token) => {
   console.log(`Received OAuth token: ${token}`);
-  await createCollections(openApiSpec, token);
+  await fetchCollections(openApiSpec, token);
   console.log('Data fetched and inserted successfully.');
 }); // Start the OAuth client on port 8000
