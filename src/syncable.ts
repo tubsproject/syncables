@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { parse } from 'yaml';
 
 export type SyncableConfig = {
-  name: string,
+  name: string;
   pagingStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange';
   baseUrl: string;
   urlPath: string;
@@ -18,7 +18,11 @@ export type SyncableConfig = {
 export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   config: SyncableConfig;
-  constructor(specStr: string, syncableName: string, fetchFunction: typeof fetch = fetch) {
+  constructor(
+    specStr: string,
+    syncableName: string,
+    fetchFunction: typeof fetch = fetch,
+  ) {
     super();
     this.config = this.parseSpec(specStr, syncableName);
     this.fetchFunction = fetchFunction;
@@ -30,11 +34,12 @@ export class Syncable<T> extends EventEmitter {
       if (pathItem.get && pathItem.get.responses['200']) {
         const response =
           pathItem.get.responses['200'].content['application/json'];
-        if ((response.syncable) && (response.syncable.name === syncableName)) {
+        if (response.syncable && response.syncable.name === syncableName) {
           const config: SyncableConfig = {
-            baseUrl: spec.servers && spec.servers.length > 0
-              ? spec.servers[0].url
-              : '',
+            baseUrl:
+              spec.servers && spec.servers.length > 0
+                ? spec.servers[0].url
+                : '',
             name: response.syncable.name,
             pagingStrategy: response.syncable.pagingStrategy,
             urlPath: path,
@@ -93,7 +98,10 @@ export class Syncable<T> extends EventEmitter {
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      url.searchParams.append(this.config.offsetParamInQuery, offset.toString());
+      url.searchParams.append(
+        this.config.offsetParamInQuery,
+        offset.toString(),
+      );
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
       allData = allData.concat(data.items);
@@ -114,7 +122,10 @@ export class Syncable<T> extends EventEmitter {
         url.searchParams.append(key, value);
       });
       if (nextPageToken) {
-        url.searchParams.append(this.config.pageTokenParamInQuery, nextPageToken);
+        url.searchParams.append(
+          this.config.pageTokenParamInQuery,
+          nextPageToken,
+        );
       }
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
