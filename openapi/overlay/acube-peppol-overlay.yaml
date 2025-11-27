@@ -12,19 +12,17 @@ actions:
         application/json:
           schema:
             type: string
-- target: $
+- target: paths['/invoices']['get']['responses']['200']['content']['application/json']
   update:
-    syncables:
-      invoice:
-        description: |-
-          Invoice Documents received or sent by the authenticated user.
-        type: collection
-        hydra: /invoices
-        add-doc:
-          path: /invoices/outgoing/ubl
-          method: post
-      creditNote:
-        description: |-
-          Credit Notes received or sent by the authenticated user.
-        type: collection
-        hydra: /credit-notes
+    syncable:
+      name: invoice
+      description: |-
+        Invoice Documents received or sent by the authenticated user.
+      type: collection
+- target: paths['/credit-notes']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: creditNote
+      description: |-
+        Credit Notes received or sent by the authenticated user.
+      type: collection

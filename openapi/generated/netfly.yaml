@@ -365,6 +365,17 @@ paths:
                       type: string
                     apMessage:
                       type: string
+              syncable:
+                name: documentsOut
+                description: >-
+                  Invoice and Credit Note Documents sent by the authenticated
+                  user.
+                type: collection
+                query:
+                  flow: in
+                pagingStrategy: dateRange
+                startDateParamInQuery: startDate
+                endDateParamInQuery: endDate
         '400':
           description: Missing or invalid parameters
         '404':
@@ -1462,33 +1473,4 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResult'
-syncables:
-  documentsOut:
-    description: Invoice and Credit Note Documents sent by the authenticated user.
-    type: collection
-    list:
-      path: /documentsList
-      query:
-        flow: out
-      method: get
-      paging:
-        startDateParam: startDate
-        endDateParam: endDate
-    add-doc:
-      path: /sendDocument
-      method: post
-  documentsIn:
-    description: Invoice and Credit Note Documents received by the authenticated user.
-    type: collection
-    list:
-      path: /documentsList
-      query:
-        flow: in
-      method: get
-      paging:
-        startDateParam: startDate
-        endDateParam: endDate
-    get-doc:
-      path: /receiveDocument
-      method: get
 

@@ -2,36 +2,27 @@ openapi: 3.0.0
 info:
   description: Add syncables to the Ion Peppol API.
 actions:
-- target: $
+- target: paths['/documentsList']['get']['responses']['200']['content']['application/json']
   update:
-    syncables:
-      documentsOut:
-        description: |-
-          Invoice and Credit Note Documents sent by the authenticated user.
-        type: collection
-        list:
-          path: /documentsList
-          query:
-            flow: out
-          method: get
-          paging:
-            startDateParam: startDate
-            endDateParam: endDate
-        add-doc:
-          path: /sendDocument
-          method: post
-      documentsIn:
-        description: |-
-          Invoice and Credit Note Documents received by the authenticated user.
-        type: collection
-        list:
-          path: /documentsList
-          query:
-            flow: in
-          method: get
-          paging:
-            startDateParam: startDate
-            endDateParam: endDate
-        get-doc:
-          path: /receiveDocument
-          method: get
+    syncable:
+      name: documentsOut
+      description: |-
+        Invoice and Credit Note Documents sent by the authenticated user.
+      type: collection
+      query:
+        flow: out
+      pagingStrategy: dateRange
+      startDateParamInQuery: startDate
+      endDateParamInQuery: endDate
+- target: paths['/documentsList']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: documentsOut
+      description: |-
+        Invoice and Credit Note Documents sent by the authenticated user.
+      type: collection
+      query:
+        flow: in
+      pagingStrategy: dateRange
+      startDateParamInQuery: startDate
+      endDateParamInQuery: endDate
