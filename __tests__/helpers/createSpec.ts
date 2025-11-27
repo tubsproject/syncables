@@ -1,7 +1,7 @@
 import { stringify } from 'yaml';
 import { SyncableConfig } from '../../src/syncable.js';
 export function createSpec(config: SyncableConfig): string {
-  const specObj: any = {
+  const specObj = {
     openapi: '3.0.0',
     info: {
     title: 'Test API',

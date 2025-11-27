@@ -1389,6 +1389,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Invoices_HttpApi_Entities_Invoice'
+              syncable:
+                name: invoices
+                description: Invoice Documents received or sent by the authenticated user.
+                type: collection
       security:
         - company_auth:
             - 'invoice:send'
@@ -9178,19 +9182,4 @@ components:
             'operator:company:write': grants access to write company profiles
 x-original-swagger-version: '2.0'
 x-generated-by: openapi-generator
-syncables:
-  invoices:
-    description: Invoice Documents received or sent by the authenticated user.
-    type: collection
-    list:
-      path: /v1/invoices
-      paging:
-        pageParam: page
-        pageSizeParam: per_page
-        minDateIncl: created_at_start
-        maxDateIncl: created_at_end
-    add-doc:
-      path: /v1/invoices
-      method: post
-      translation: toMaventaInvoiceBody
 

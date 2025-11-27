@@ -46,3 +46,48 @@ Under `paths['/widgets']['get']['responses']['200']['content']['application/json
   * in case of `dateRange`, you can add `endDateParamNameInQuery` if it's not `endDate`
 * `query`: an object containing query parameters to add in addition to the paging-related ones  
 
+## Usage
+### Create the OAD
+You start with an OAD, for instance one from [here](https://github.com/tubsproject/syncables/tree/main/openapi/oad).
+Probably the API you want to use is not specifying syncables yet, so you'll need to add those yourself using an overlay, something like the ones you see [here](https://github.com/tubsproject/syncables/tree/main/openapi/overlay).
+To compute the effect of the overlay you can run a command like:
+```sh
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/acube-peppol.yaml --overlay ./openapi/overlay/acube-peppol-overlay.yaml > openapi/generated/acube.yaml
+```
+### Generate the type
+Assuming you're working in TypeScript, you can benefit from generating types from the OAD, like so:
+```ts
+npx openapi-typescript openapi/generated/acube.yaml -o ./src/types/acube.d.ts
+```
+### Install syncables
+Depending on your preferred package manager, you can run something like this to install [syncables from npm](https://www.npmjs.com/package/syncables):
+```sh
+pnpm install syncables
+```
+
+### Write your code
+Now you have the AOD with the definition of the syncable, and the type for the items you will sync, you can write code like [this](./src/readme-example.ts):
+```ts
+import { readFileSync } from 'fs';
+import { components } from './src/types/google-calendar.js';
+import { Syncable } from 'syncable';
+
+type Entry = components['schemas']['CalendarListEntry'];
+const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toString();
+
+const syncable = new Syncable<Entry>(specStr);
+const data = await syncable.fullFetch();
+console.log(data);
+````
+
+## Development
+```sh
+git clone https://github.com/tubsproject/syncables
+cd syncables
+pnpm install
+pnpm generate
+pnpm build
+pnpm test
+pnpm prettier
+pnpm publish
+```

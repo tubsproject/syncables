@@ -4,7 +4,7 @@ import { Syncable } from '../../src/syncable.js';
 import { describe, it, expect, vi } from 'vitest';
 
 type Entry = components['schemas']['CalendarListEntry'];
-const specStr = readFileSync('../openapi/generated/google-calendar.yaml').toString();
+const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toString();
 
 describe('Google Calendar List', () => {
     // Mock the fetch function.
@@ -29,7 +29,7 @@ describe('Google Calendar List', () => {
       json: () => Promise.resolve(mockResponses[index++]),
     }),
   );
-  const syncable = new Syncable<Entry>(specStr, fetchMock as unknown as typeof fetch);
+  const syncable = new Syncable<Entry>(specStr, 'calendarList', fetchMock as unknown as typeof fetch);
   it('fetches calendar list entries', async () => {
     const data = await syncable.fullFetch();
     expect(data.length).toBeGreaterThan(0);

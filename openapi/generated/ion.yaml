@@ -2828,6 +2828,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedReceiveTransactionList'
+              syncable:
+                name: receiveTransactions
+                description: >-
+                  Invoice and Credit Note Documents received by the
+                  authenticated user.
+                type: collection
+                field: results
+                pagingStrategy: offset
+                offsetParam: offset
           description: ''
     post:
       operationId: receive_transactions_create
@@ -3393,6 +3402,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedSendTransactionList'
+              syncable:
+                name: sendTransactions
+                description: >-
+                  Invoice and Credit Note Documents sent by the authenticated
+                  user.
+                type: collection
+                field: results
+                pagingStrategy: offset
+                offsetParam: offset
           description: ''
   '/api/v2/send-transactions/{id}':
     get:
@@ -6621,32 +6639,4 @@ components:
       in: header
       name: Authorization
       description: Token-based authentication with required prefix "Token"
-syncables:
-  sendTransactions:
-    description: Invoice and Credit Note Documents sent by the authenticated user.
-    type: collection
-    list:
-      path: /api/v2/send-transactions
-      method: GET
-      field: results
-      paging:
-        offsetParam: offset
-        limitParam: limit
-    get-doc:
-      path: '/api/v2/send-transactions/{id}/document'
-      method: GET
-    add-doc:
-      path: /api/v2/send-document
-      method: POST
-  receiveTransactions:
-    description: Invoice and Credit Note Documents received by the authenticated user.
-    type: collection
-    list:
-      path: /api/v2/receive-transactions
-      field: results
-      paging:
-        offsetParam: offset
-        limitParam: limit
-    get-doc:
-      path: '/api/v2/receive-transactions/{id}/document'
 

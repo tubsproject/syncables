@@ -11,12 +11,13 @@ type Widget = {
 describe('Spec parsing', () => {
   it('can parse the syncable spec out of an OAD', () => {
     const config: SyncableConfig = {
+      name: 'widgets',
       pagingStrategy: 'pageNumber',
       pageNumberParamInQuery: 'page',
       listUrl: '/widgets',
       query: { color: 'red' },
     };
-    const syncable = new Syncable<Widget>(createSpec(config));
-    expect(syncable.spec).toEqual(config);
+    const syncable = new Syncable<Widget>(createSpec(config), 'widgets');
+    expect(syncable.config).toEqual(config);
   });
 });

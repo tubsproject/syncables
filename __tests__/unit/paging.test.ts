@@ -28,10 +28,11 @@ test('pageNumber paging', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncable(createSpec({
+    name: 'todos',
     pagingStrategy: 'pageNumber',
     listUrl: 'https://jsonplaceholder.typicode.com/todos/',
     pageNumberParamInQuery: 'page',
-  }), fetchMock as unknown as typeof fetch);
+  }), 'todos', fetchMock as unknown as typeof fetch);
   const data = await syncable.fullFetch();
   expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
 
@@ -67,10 +68,11 @@ test('offset paging', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncable(createSpec({
+    name: 'todos',
     pagingStrategy: 'offset',
     listUrl: 'https://jsonplaceholder.typicode.com/todos/',
     offsetParamInQuery: 'offset',
-  }), fetchMock as unknown as typeof fetch);
+  }), 'todos', fetchMock as unknown as typeof fetch);
   const data = await syncable.fullFetch();
   expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
 
@@ -106,11 +108,12 @@ test('pageToken paging', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncable(createSpec({
+    name: 'todos',
     pagingStrategy: 'pageToken',
     listUrl: 'https://jsonplaceholder.typicode.com/todos/',
     pageTokenParamInQuery: 'pageToken',
     pageTokenParamInResponse: 'nextPageToken',
-  }), fetchMock as unknown as typeof fetch);
+  }), 'todos', fetchMock as unknown as typeof fetch);
   const data = await syncable.fullFetch();
   expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
 

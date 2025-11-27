@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 import { parse } from 'yaml';
 
 export type SyncableConfig = {
+  name: string,
   pagingStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange';
   listUrl?: string;
   pageNumberParamInQuery?: string;
@@ -15,35 +16,36 @@ export type SyncableConfig = {
 
 export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
-  spec: SyncableConfig;
-  constructor(specStr: string, fetchFunction: typeof fetch = fetch) {
+  config: SyncableConfig;
+  constructor(specStr: string, syncableName: string, fetchFunction: typeof fetch = fetch) {
     super();
-    this.parseSpec(specStr);
+    this.parseSpec(specStr, syncableName);
     this.fetchFunction = fetchFunction;
   }
-  parseSpec(specStr: string): void {
+  parseSpec(specStr: string, syncableName: string): void {
     const spec = parse(specStr);
     Object.keys(spec.paths).forEach((path) => {
       const pathItem = spec.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         const response =
           pathItem.get.responses['200'].content['application/json'];
-        if (response.syncable) {
-          this.spec = {
+        if ((response.syncable) && (response.syncable.name === syncableName)) {
+          this.config = {
+            name: response.syncable.name,
             pagingStrategy: response.syncable.pagingStrategy,
             listUrl: path,
             query: response.syncable.query || {},
           };
           if (response.syncable.pagingStrategy === 'pageNumber') {
-            this.spec.pageNumberParamInQuery =
+            this.config.pageNumberParamInQuery =
               response.syncable.pageNumberParamInQuery || 'page';
           } else if (response.syncable.pagingStrategy === 'offset') {
-            this.spec.offsetParamInQuery =
+            this.config.offsetParamInQuery =
               response.syncable.offsetParamInQuery || 'offset';
           } else if (response.syncable.pagingStrategy === 'pageToken') {
-            this.spec.pageTokenParamInQuery =
+            this.config.pageTokenParamInQuery =
               response.syncable.pageTokenParamInQuery || 'pageToken';
-            this.spec.pageTokenParamInResponse =
+            this.config.pageTokenParamInResponse =
               response.syncable.pageTokenParamInResponse || 'pageToken';
           }
         }
@@ -57,12 +59,12 @@ export class Syncable<T> extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = new URL(this.spec.listUrl as string);
-      Object.entries(this.spec.query || {}).forEach(([key, value]) => {
+      const url = new URL(this.config.listUrl as string);
+      Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
       url.searchParams.append(
-        this.spec.pageNumberParamInQuery,
+        this.config.pageNumberParamInQuery,
         page.toString(),
       );
       const response = await this.fetchFunction(url.toString());
@@ -81,11 +83,11 @@ export class Syncable<T> extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = new URL(this.spec.listUrl as string);
-      Object.entries(this.spec.query || {}).forEach(([key, value]) => {
+      const url = new URL(this.config.listUrl as string);
+      Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      url.searchParams.append(this.spec.offsetParamInQuery, offset.toString());
+      url.searchParams.append(this.config.offsetParamInQuery, offset.toString());
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
       allData = allData.concat(data.items);
@@ -101,12 +103,12 @@ export class Syncable<T> extends EventEmitter {
     let nextPageToken: string | null = null;
 
     do {
-      const url = new URL(this.spec.listUrl as string);
-      Object.entries(this.spec.query || {}).forEach(([key, value]) => {
+      const url = new URL(this.config.listUrl as string);
+      Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
       if (nextPageToken) {
-        url.searchParams.append(this.spec.pageTokenParamInQuery, nextPageToken);
+        url.searchParams.append(this.config.pageTokenParamInQuery, nextPageToken);
       }
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
@@ -118,12 +120,12 @@ export class Syncable<T> extends EventEmitter {
   }
   private async dateRangeFetch(): Promise<T[]> {
     let allData: T[] = [];
-    let startDate: string | null = this.spec.startDate || null;
-    const endDate: string | null = this.spec.endDate || null;
+    let startDate: string | null = this.config.startDate || null;
+    const endDate: string | null = this.config.endDate || null;
 
     while (true) {
-      const url = new URL(this.spec.listUrl as string);
-      Object.entries(this.spec.query || {}).forEach(([key, value]) => {
+      const url = new URL(this.config.listUrl as string);
+      Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
       if (startDate) {
@@ -146,7 +148,7 @@ export class Syncable<T> extends EventEmitter {
   }
 
   async fullFetch(): Promise<T[]> {
-    switch (this.spec['pagingStrategy']) {
+    switch (this.config['pagingStrategy']) {
       case 'pageNumber':
         return this.pageNumberFetch();
       case 'offset':
@@ -157,7 +159,7 @@ export class Syncable<T> extends EventEmitter {
         return this.dateRangeFetch();
       default:
         throw new Error(
-          `Unknown paging strategy: ${this.spec['pagingStrategy']}`,
+          `Unknown paging strategy: ${this.config['pagingStrategy']}`,
         );
     }
   }

@@ -18,11 +18,12 @@ test('query', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncable(createSpec({
+    name: 'todos',
     pagingStrategy: 'pageNumber',
     listUrl: 'https://jsonplaceholder.typicode.com/todos/',
     pageNumberParamInQuery: 'page',
     query: { userId: '1' },
-  }), fetchMock as unknown as typeof fetch);
+  }), 'todos', fetchMock as unknown as typeof fetch);
   const data = await syncable.fullFetch();
   expect(data).toEqual(mockResponse.items);
 
