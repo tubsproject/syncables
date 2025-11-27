@@ -72,7 +72,7 @@ export class Syncable<T> extends EventEmitter {
     const response = await this.fetchFunction(url, { headers: this.authHeaders });
     if (!response.ok) {
       throw new Error(
-        `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()}) (${JSON.stringify(this.authHeaders)})`,
+        `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()})`,
       );
     }
     return response.json();
