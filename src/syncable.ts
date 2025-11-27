@@ -18,13 +18,16 @@ export type SyncableConfig = {
 export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   config: SyncableConfig;
+  authHeaders: { [key: string]: string } = {};
   constructor(
     specStr: string,
     syncableName: string,
+    authHeaders: { [key: string]: string } = {},
     fetchFunction: typeof fetch = fetch,
   ) {
     super();
     this.config = this.parseSpec(specStr, syncableName);
+    this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
   }
   parseSpec(specStr: string, syncableName: string): SyncableConfig {
@@ -64,6 +67,15 @@ export class Syncable<T> extends EventEmitter {
     throw new Error(`Syncable with name "${syncableName}" not found in spec`);
   }
 
+  private async doFetch(url: string): Promise<{ items: T[], hasMore?: boolean, nextPageToken?: string }> {
+    const response = await this.fetchFunction(url, { headers: this.authHeaders });
+    if (!response.ok) {
+      throw new Error(
+        `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()}) (${JSON.stringify(this.authHeaders)})`,
+      );
+    }
+    return response.json();
+  }
   private async pageNumberFetch(): Promise<T[]> {
     let allData: T[] = [];
     let page = 1;
@@ -78,8 +90,7 @@ export class Syncable<T> extends EventEmitter {
         this.config.pageNumberParamInQuery,
         page.toString(),
       );
-      const response = await this.fetchFunction(url.toString());
-      const data = await response.json();
+      const data = await this.doFetch(url.toString());
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       page += 1;
@@ -102,8 +113,7 @@ export class Syncable<T> extends EventEmitter {
         this.config.offsetParamInQuery,
         offset.toString(),
       );
-      const response = await this.fetchFunction(url.toString());
-      const data = await response.json();
+      const data = await this.doFetch(url.toString());
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       offset += data.items.length;
@@ -127,8 +137,7 @@ export class Syncable<T> extends EventEmitter {
           nextPageToken,
         );
       }
-      const response = await this.fetchFunction(url.toString());
-      const data = await response.json();
+      const data = await this.doFetch(url.toString());
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
     } while (nextPageToken);
@@ -151,14 +160,13 @@ export class Syncable<T> extends EventEmitter {
       if (endDate) {
         url.searchParams.append('endDate', endDate);
       }
-      const response = await this.fetchFunction(url.toString());
-      const data = await response.json();
+      const data = await this.doFetch(url.toString());
       allData = allData.concat(data.items);
       if (data.items.length === 0 || !data.hasMore) {
         break;
       }
       // Assuming items are sorted by date ascending
-      startDate = data.items[data.items.length - 1].date;
+      startDate = (data.items[data.items.length - 1] as unknown as { date: string }).date; // FIXME
     }
 
     return allData;

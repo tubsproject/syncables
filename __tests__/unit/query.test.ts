@@ -24,11 +24,11 @@ test('query', async () => {
     urlPath: '/todos/',
     pageNumberParamInQuery: 'page',
     query: { userId: '1' },
-  }), 'todos', fetchMock as unknown as typeof fetch);
+  }), 'todos', {}, fetchMock as unknown as typeof fetch);
   const data = await syncable.fullFetch();
   expect(data).toEqual(mockResponse.items);
 
   // Check that fetch was called exactly once
   expect(fetchMock).toHaveBeenCalledTimes(1);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?userId=1&page=1');
+  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?userId=1&page=1', { headers: {} });
 });

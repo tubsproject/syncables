@@ -29,7 +29,7 @@ describe('Google Calendar List', () => {
       json: () => Promise.resolve(mockResponses[index++]),
     }),
   );
-  const syncable = new Syncable<Entry>(specStr, 'calendarList', fetchMock as unknown as typeof fetch);
+  const syncable = new Syncable<Entry>(specStr, 'calendarList', {}, fetchMock as unknown as typeof fetch);
   it('fetches calendar list entries', async () => {
     const data = await syncable.fullFetch();
     expect(data.length).toBeGreaterThan(0);
