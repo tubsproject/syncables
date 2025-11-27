@@ -1,3 +1,4 @@
+import { stringify } from 'yaml';
 import { describe, expect, it } from 'vitest';
 import { Syncable } from '../../src/syncable.js';
 
@@ -12,7 +13,7 @@ describe('Spec parsing', () => {
     const syncable = new Syncable<Widget>({
       pagingStrategy: 'pageNumber',
     });
-    syncable.parseSpec({
+    syncable.parseSpec(stringify({
       paths: {
         '/widgets': {
           get: {
@@ -74,7 +75,7 @@ describe('Spec parsing', () => {
           },
         },
       },
-    });
+    }));
     expect(syncable.spec).toEqual({
       pagingStrategy: 'pageNumber',
       pageNumberParamInQuery: 'page',

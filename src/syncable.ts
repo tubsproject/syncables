@@ -1,4 +1,6 @@
 import { EventEmitter } from 'events';
+import { parse } from 'yaml';
+
 type Spec = {
   pagingStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange';
   listUrl?: string;
@@ -14,15 +16,13 @@ type Spec = {
 export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   spec: Spec;
-  constructor(
-    spec: Spec,
-    fetchFunction: typeof fetch = fetch,
-  ) {
+  constructor(spec: Spec, fetchFunction: typeof fetch = fetch) {
     super();
     this.spec = spec;
     this.fetchFunction = fetchFunction;
   }
-  parseSpec(spec: { paths: object; components: object }): void {
+  parseSpec(specStr: string): void {
+    const spec = parse(specStr);
     Object.keys(spec.paths).forEach((path) => {
       const pathItem = spec.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
@@ -60,7 +60,10 @@ export class Syncable<T> extends EventEmitter {
       Object.entries(this.spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      url.searchParams.append(this.spec.pageNumberParamInQuery, page.toString());
+      url.searchParams.append(
+        this.spec.pageNumberParamInQuery,
+        page.toString(),
+      );
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
       allData = allData.concat(data.items);
