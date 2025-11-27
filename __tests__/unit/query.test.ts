@@ -1,5 +1,6 @@
 import { test, vi, expect } from 'vitest';
 import { Syncable } from '../../src/syncable.js';
+import { createSpec } from '../helpers/createSpec.js';
 
 test('query', async () => {
   // Mock the fetch function.
@@ -16,12 +17,12 @@ test('query', async () => {
   );
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncable(createSpec({
     pagingStrategy: 'pageNumber',
     listUrl: 'https://jsonplaceholder.typicode.com/todos/',
     pageNumberParamInQuery: 'page',
     query: { userId: '1' },
-  }, fetchMock as unknown as typeof fetch);
+  }), fetchMock as unknown as typeof fetch);
   const data = await syncable.fullFetch();
   expect(data).toEqual(mockResponse.items);
 

@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { parse } from 'yaml';
 
-type Spec = {
+export type SyncableConfig = {
   pagingStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange';
   listUrl?: string;
   pageNumberParamInQuery?: string;
@@ -15,10 +15,10 @@ type Spec = {
 
 export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
-  spec: Spec;
-  constructor(spec: Spec, fetchFunction: typeof fetch = fetch) {
+  spec: SyncableConfig;
+  constructor(specStr: string, fetchFunction: typeof fetch = fetch) {
     super();
-    this.spec = spec;
+    this.parseSpec(specStr);
     this.fetchFunction = fetchFunction;
   }
   parseSpec(specStr: string): void {
@@ -32,6 +32,7 @@ export class Syncable<T> extends EventEmitter {
           this.spec = {
             pagingStrategy: response.syncable.pagingStrategy,
             listUrl: path,
+            query: response.syncable.query || {},
           };
           if (response.syncable.pagingStrategy === 'pageNumber') {
             this.spec.pageNumberParamInQuery =
