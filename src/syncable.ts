@@ -11,6 +11,8 @@ export type SyncableConfig = {
   offsetParamInQuery?: string;
   pageTokenParamInQuery?: string;
   pageTokenParamInResponse?: string;
+  startDateParamInQuery?: string;
+  endDateParamInQuery?: string;
   startDate?: string;
   endDate?: string;
   query?: { [key: string]: string };
@@ -44,9 +46,9 @@ export class Syncable<T> extends EventEmitter {
               spec.servers && spec.servers.length > 0
                 ? spec.servers[0].url
                 : '',
+            urlPath: path,
             name: response.syncable.name,
             pagingStrategy: response.syncable.pagingStrategy,
-            urlPath: path,
             query: response.syncable.query || {},
           };
           if (response.syncable.pagingStrategy === 'pageNumber') {
@@ -60,6 +62,13 @@ export class Syncable<T> extends EventEmitter {
               response.syncable.pageTokenParamInQuery || 'pageToken';
             config.pageTokenParamInResponse =
               response.syncable.pageTokenParamInResponse || 'pageToken';
+          } else if (response.syncable.pagingStrategy === 'dateRange') {
+            config.startDateParamInQuery =
+              response.syncable.startDateParamInQuery || 'startDate';
+            config.endDateParamInQuery =
+              response.syncable.endDateParamInQuery || 'endDate';
+            config.startDate = response.syncable.startDate || '20000101000000';
+            config.endDate = response.syncable.endDate || '99990101000000';
           }
           return config;
         }

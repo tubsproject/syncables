@@ -37,14 +37,13 @@ components:
 ```
 
 Under `paths['/widgets']['get']['responses']['200']['content']['application/json']`, add an object `syncable`, in which you can specify:
+* `name`: a `string` descriptor of the collection, e.g. `"widgets"`
 * `tokenStrategy`: one of `pageNumber`, `offset`, `pageToken` or `dateRange`
-  * in case of `pageNumber`, you can add `pageParamNameInQuery` if it's not `page`.
-  * in case of `offset`, you can add `offsetParamNameInQuery` if it's not `offset`.
-  * in case of `pageToken`, you can add `pageTokenParamNameInQuery` if it's not `pageToken`
-  * in case of `pageToken`, you can add `pageTokenParamNameInResponse` if it's not `pageToken`
-  * in case of `dateRange`, you can add `startDateParamNameInQuery` if it's not `startDate`
-  * in case of `dateRange`, you can add `endDateParamNameInQuery` if it's not `endDate`
 * `query`: an object containing query parameters to add in addition to the paging-related ones  
+* for a `pageNumber` paging strategy, you can add `pageNumberParamInQuery` if it's not `page`.
+* for a `offset` paging strategy, you can add `offsetParamInQuery` if it's not `offset`.
+* for a `pageToken` paging strategy, you can add `pageTokenParamInQuery` if it's not `pageToken` and `pageTokenParamInResponse` if it's not `pageToken`
+* for a `dateRange` paging strategy, you can add `startDateParamInQuery` if it's not `startDate`, `endDateParamInQuery` if it's not `endDate`, `startDate` if it's not `'20000101000000'`, and `endDate` if it's not `'99990101000000'`
 
 ## Usage
 ### Create the OAD
