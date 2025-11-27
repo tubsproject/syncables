@@ -50,6 +50,7 @@
     "passport": "^0.7.0",
     "passport-oauth": "^1.0.0",
     "pg": "^8.16.3",
+    "url-join": "^5.0.0",
     "yaml": "^2.8.0"
   },
   "volta": {

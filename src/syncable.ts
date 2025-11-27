@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 import { parse } from 'yaml';
+import { default as urljoin } from 'url-join';
 
 export type SyncableConfig = {
   name: string;
@@ -82,7 +83,7 @@ export class Syncable<T> extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = new URL(this.config.urlPath, this.config.baseUrl);
+      const url = this.getUrl();
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -105,7 +106,7 @@ export class Syncable<T> extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = new URL(this.config.urlPath, this.config.baseUrl);
+      const url = this.getUrl();
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -127,7 +128,7 @@ export class Syncable<T> extends EventEmitter {
     let nextPageToken: string | null = null;
 
     do {
-      const url = new URL(this.config.urlPath, this.config.baseUrl);
+      const url = this.getUrl();
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -144,13 +145,17 @@ export class Syncable<T> extends EventEmitter {
 
     return allData;
   }
+  private getUrl(): URL {
+    const joined = urljoin(this.config.baseUrl, this.config.urlPath);
+    return new URL(joined);
+  }
   private async dateRangeFetch(): Promise<T[]> {
     let allData: T[] = [];
     let startDate: string | null = this.config.startDate || null;
     const endDate: string | null = this.config.endDate || null;
 
     while (true) {
-      const url = new URL(this.config.urlPath, this.config.baseUrl);
+      const url = this.getUrl();
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
