@@ -1,6 +1,9 @@
-import { vi } from 'vitest';
+import { vi, Mock } from 'vitest';
 
-export function createFetchMock(pagedByToken: boolean = false) {
+export function createFetchMock(pagedByToken: boolean = false): {
+  fetchMock: Mock;
+  mockResponses: Array<{ items: { [key: string]: number | string }[]; hasMore?: boolean; nextPageToken?: string }>;
+} {
   // Mock the fetch function.
   const mockResponses = [
     {

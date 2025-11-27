@@ -68,8 +68,12 @@ export class Syncable<T> extends EventEmitter {
     throw new Error(`Syncable with name "${syncableName}" not found in spec`);
   }
 
-  private async doFetch(url: string): Promise<{ items: T[], hasMore?: boolean, nextPageToken?: string }> {
-    const response = await this.fetchFunction(url, { headers: this.authHeaders });
+  private async doFetch(
+    url: string,
+  ): Promise<{ items: T[]; hasMore?: boolean; nextPageToken?: string }> {
+    const response = await this.fetchFunction(url, {
+      headers: this.authHeaders,
+    });
     if (!response.ok) {
       throw new Error(
         `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()})`,
@@ -171,7 +175,9 @@ export class Syncable<T> extends EventEmitter {
         break;
       }
       // Assuming items are sorted by date ascending
-      startDate = (data.items[data.items.length - 1] as unknown as { date: string }).date; // FIXME
+      startDate = (
+        data.items[data.items.length - 1] as unknown as { date: string }
+      ).date; // FIXME
     }
 
     return allData;
