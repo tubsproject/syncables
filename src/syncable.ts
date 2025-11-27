@@ -1,10 +1,21 @@
 import { EventEmitter } from 'events';
+type Spec = {
+  pagingStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange';
+  listUrl?: string;
+  pageNumberParamInQuery?: string;
+  offsetParamInQuery?: string;
+  pageTokenParamInQuery?: string;
+  pageTokenParamInResponse?: string;
+  startDate?: string;
+  endDate?: string;
+  query?: { [key: string]: string };
+};
 
 export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
-  spec: { [key: string]: string };
+  spec: Spec;
   constructor(
-    spec: { [key: string]: string },
+    spec: Spec,
     fetchFunction: typeof fetch = fetch,
   ) {
     super();
@@ -46,6 +57,9 @@ export class Syncable<T> extends EventEmitter {
 
     while (hasMore) {
       const url = new URL(this.spec.listUrl as string);
+      Object.entries(this.spec.query || {}).forEach(([key, value]) => {
+        url.searchParams.append(key, value);
+      });
       url.searchParams.append(this.spec.pageNumberParamInQuery, page.toString());
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
@@ -64,6 +78,9 @@ export class Syncable<T> extends EventEmitter {
 
     while (hasMore) {
       const url = new URL(this.spec.listUrl as string);
+      Object.entries(this.spec.query || {}).forEach(([key, value]) => {
+        url.searchParams.append(key, value);
+      });
       url.searchParams.append(this.spec.offsetParamInQuery, offset.toString());
       const response = await this.fetchFunction(url.toString());
       const data = await response.json();
@@ -81,6 +98,9 @@ export class Syncable<T> extends EventEmitter {
 
     do {
       const url = new URL(this.spec.listUrl as string);
+      Object.entries(this.spec.query || {}).forEach(([key, value]) => {
+        url.searchParams.append(key, value);
+      });
       if (nextPageToken) {
         url.searchParams.append(this.spec.pageTokenParamInQuery, nextPageToken);
       }
@@ -89,6 +109,34 @@ export class Syncable<T> extends EventEmitter {
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
     } while (nextPageToken);
+
+    return allData;
+  }
+  private async dateRangeFetch(): Promise<T[]> {
+    let allData: T[] = [];
+    let startDate: string | null = this.spec.startDate || null;
+    const endDate: string | null = this.spec.endDate || null;
+
+    while (true) {
+      const url = new URL(this.spec.listUrl as string);
+      Object.entries(this.spec.query || {}).forEach(([key, value]) => {
+        url.searchParams.append(key, value);
+      });
+      if (startDate) {
+        url.searchParams.append('startDate', startDate);
+      }
+      if (endDate) {
+        url.searchParams.append('endDate', endDate);
+      }
+      const response = await this.fetchFunction(url.toString());
+      const data = await response.json();
+      allData = allData.concat(data.items);
+      if (data.items.length === 0 || !data.hasMore) {
+        break;
+      }
+      // Assuming items are sorted by date ascending
+      startDate = data.items[data.items.length - 1].date;
+    }
 
     return allData;
   }
@@ -101,6 +149,8 @@ export class Syncable<T> extends EventEmitter {
         return this.offsetFetch();
       case 'pageToken':
         return this.pageTokenFetch();
+      case 'dateRange':
+        return this.dateRangeFetch();
       default:
         throw new Error(
           `Unknown paging strategy: ${this.spec['pagingStrategy']}`,

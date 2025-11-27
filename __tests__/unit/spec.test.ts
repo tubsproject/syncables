@@ -9,7 +9,9 @@ type Widget = {
 
 describe('Spec parsing', () => {
   it('can parse the syncable spec out of an OAD', () => {
-    const syncable = new Syncable<Widget>({});
+    const syncable = new Syncable<Widget>({
+      pagingStrategy: 'pageNumber',
+    });
     syncable.parseSpec({
       paths: {
         '/widgets': {
