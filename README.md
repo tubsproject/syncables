@@ -74,7 +74,7 @@ import { Syncable } from 'syncable';
 type Entry = components['schemas']['CalendarListEntry'];
 const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toString();
 
-const syncable = new Syncable<Entry>(specStr, {
+const syncable = new Syncable<Entry>(specStr, 'widgets', {
   Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
 });
 const data = await syncable.fullFetch();
