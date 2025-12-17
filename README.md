@@ -91,5 +91,6 @@ pnpm generate
 pnpm build
 pnpm test
 pnpm prettier
+pnpm login
 pnpm publish
 ```
