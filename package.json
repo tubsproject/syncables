@@ -2,7 +2,7 @@
   "name": "syncables",
   "version": "0.7.1",
   "description": "Generate sync engine code from OpenAPI specifications",
-  "main": "build/src/main.js",
+  "main": "build/src/syncable.js",
   "type": "module",
   "engines": {
     "node": ">= 22.11 < 23"
