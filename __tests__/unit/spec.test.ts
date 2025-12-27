@@ -17,6 +17,7 @@ describe('Spec parsing', () => {
       baseUrl: 'https://example.com/api',
       urlPath: '/widgets',
       query: { color: 'red' },
+      itemsPathInResponse: ['data', 'items'],
     };
     const syncable = new Syncable<Widget>(createSpec(config), 'widgets');
     expect(syncable.config).toEqual(config);

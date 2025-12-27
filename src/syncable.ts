@@ -4,7 +4,7 @@ import { default as urljoin } from 'url-join';
 
 export type SyncableConfig = {
   name: string;
-  pagingStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange';
+  pagingStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange' | 'rangeHeader';
   baseUrl: string;
   urlPath: string;
   pageNumberParamInQuery?: string;
@@ -16,6 +16,7 @@ export type SyncableConfig = {
   startDate?: string;
   endDate?: string;
   query?: { [key: string]: string };
+  itemsPathInResponse?: string[];
 };
 
 export class Syncable<T> extends EventEmitter {
@@ -50,6 +51,7 @@ export class Syncable<T> extends EventEmitter {
             name: response.syncable.name,
             pagingStrategy: response.syncable.pagingStrategy,
             query: response.syncable.query || {},
+            itemsPathInResponse: response.syncable.itemsPathInResponse || [],
           };
           if (response.syncable.pagingStrategy === 'pageNumber') {
             config.pageNumberParamInQuery =
@@ -88,7 +90,23 @@ export class Syncable<T> extends EventEmitter {
         `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()})`,
       );
     }
-    return response.json();
+
+    const responseData = await response.json();
+    let items = responseData;
+    for (let i=0; i < this.config.itemsPathInResponse.length; i++) {
+      const pathPart = this.config.itemsPathInResponse[i];
+      if (typeof items !== 'object' || items === null || !(pathPart in items)) {
+        throw new Error(`Invalid itemsPathInResponse: could not find path part "${pathPart}" in response ${url}`);
+      }
+      items = items[pathPart];
+    }
+    return {
+      items,
+      hasMore: items.length > 0,
+      nextPageToken: this.config.pageTokenParamInResponse
+        ? responseData[this.config.pageTokenParamInResponse]
+        : undefined,
+    };
   }
   private async pageNumberFetch(): Promise<T[]> {
     let allData: T[] = [];
@@ -192,6 +210,36 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
+  private async rangeHeaderFetch(): Promise<T[]> {
+    let allData: T[] = [];
+    let startDate: string | null = this.config.startDate || null;
+    const endDate: string | null = this.config.endDate || null;
+
+    while (true) {
+      const url = this.getUrl();
+      Object.entries(this.config.query || {}).forEach(([key, value]) => {
+        url.searchParams.append(key, value);
+      });
+      if (startDate) {
+        url.searchParams.append('startDate', startDate);
+      }
+      if (endDate) {
+        url.searchParams.append('endDate', endDate);
+      }
+      const data = await this.doFetch(url.toString());
+      allData = allData.concat(data.items);
+      if (data.items.length === 0 || !data.hasMore) {
+        break;
+      }
+      // Assuming items are sorted by date ascending
+      startDate = (
+        data.items[data.items.length - 1] as unknown as { date: string }
+      ).date; // FIXME
+    }
+
+    return allData;
+  }
+
   async fullFetch(): Promise<T[]> {
     switch (this.config['pagingStrategy']) {
       case 'pageNumber':
@@ -202,6 +250,8 @@ export class Syncable<T> extends EventEmitter {
         return this.pageTokenFetch();
       case 'dateRange':
         return this.dateRangeFetch();
+      case 'rangeHeader':
+        return this.rangeHeaderFetch();
       default:
         throw new Error(
           `Unknown paging strategy: ${this.config['pagingStrategy']}`,
