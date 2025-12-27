@@ -38,7 +38,7 @@ components:
 
 Under `paths['/widgets']['get']['responses']['200']['content']['application/json']`, add an object `syncable`, in which you can specify:
 * `name`: a `string` descriptor of the collection, e.g. `"widgets"`
-* `pagingStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange` or `rangeHeader`
+* `pagingStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange` or (experimental) `rangeHeader`
 * `query`: an object containing query parameters to add in addition to the paging-related ones
 * `itemsPathInResponse`: path within the response body schema, as an array of strings, that contains the array of items (default: `[]` for the response body root)
 * for a `pageNumber` paging strategy, you can add `pageNumberParamInQuery` if it's not `page`.

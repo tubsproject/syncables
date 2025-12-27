@@ -68,3 +68,25 @@ test('pageToken paging', async () => {
   expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/', { headers: {} });
   expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?pageToken=token1', { headers: {} });
 });
+
+test('rangeHeader paging', async () => {
+  const { fetchMock, mockResponses } = createFetchMock(true);
+
+  // Call the function and assert the result
+  const syncable = new Syncable(createSpec({
+    name: 'todos',
+    pagingStrategy: 'rangeHeader',
+    baseUrl: 'https://jsonplaceholder.typicode.com',
+    urlPath: '/todos/',
+    pageTokenParamInQuery: 'pageToken',
+    pageTokenParamInResponse: 'nextPageToken',
+    itemsPathInResponse: ['items'],
+  }), 'todos', {}, fetchMock as unknown as typeof fetch);
+  const data = await syncable.fullFetch();
+  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+
+  // Check that fetch was called exactly twice
+  expect(fetchMock).toHaveBeenCalledTimes(2);
+  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/', { headers: { Range: 'id ..; max=2' } });
+  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/', { headers: { Range: 'id ]2..; max=2' } });
+});

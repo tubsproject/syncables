@@ -81,9 +81,11 @@ export class Syncable<T> extends EventEmitter {
 
   private async doFetch(
     url: string,
+    headers: { [key: string]: string } = {},
+    minNumItemsToExpect: number = 1
   ): Promise<{ items: T[]; hasMore?: boolean; nextPageToken?: string }> {
     const response = await this.fetchFunction(url, {
-      headers: this.authHeaders,
+      headers: Object.assign({}, this.authHeaders, headers),
     });
     if (!response.ok) {
       throw new Error(
@@ -102,7 +104,7 @@ export class Syncable<T> extends EventEmitter {
     }
     return {
       items,
-      hasMore: items.length > 0,
+      hasMore: items.length >= minNumItemsToExpect,
       nextPageToken: this.config.pageTokenParamInResponse
         ? responseData[this.config.pageTokenParamInResponse]
         : undefined,
@@ -212,29 +214,26 @@ export class Syncable<T> extends EventEmitter {
 
   private async rangeHeaderFetch(): Promise<T[]> {
     let allData: T[] = [];
-    let startDate: string | null = this.config.startDate || null;
-    const endDate: string | null = this.config.endDate || null;
+    const numItemsPerPage = 2;
+    let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {
       const url = this.getUrl();
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      if (startDate) {
-        url.searchParams.append('startDate', startDate);
-      }
-      if (endDate) {
-        url.searchParams.append('endDate', endDate);
-      }
-      const data = await this.doFetch(url.toString());
+      const data = await this.doFetch(url.toString(), {
+        'Range': rangeHeader,
+      }, numItemsPerPage);
       allData = allData.concat(data.items);
+      const lastItemId = (data.items.length > 0
+        ? (data.items[data.items.length - 1] as unknown as { id: number }).id
+        : null);
+      rangeHeader = `id ]${lastItemId}..; max=${numItemsPerPage}`;
+
       if (data.items.length === 0 || !data.hasMore) {
         break;
       }
-      // Assuming items are sorted by date ascending
-      startDate = (
-        data.items[data.items.length - 1] as unknown as { date: string }
-      ).date; // FIXME
     }
 
     return allData;
