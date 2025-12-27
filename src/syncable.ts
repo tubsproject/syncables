@@ -218,7 +218,7 @@ export class Syncable<T> extends EventEmitter {
 
   private async rangeHeaderFetch(): Promise<T[]> {
     let allData: T[] = [];
-    const numItemsPerPage = 20;
+    const numItemsPerPage = 2;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {
