@@ -1,6 +1,9 @@
 import { EventEmitter } from 'events';
 import { parse } from 'yaml';
 import { default as urljoin } from 'url-join';
+import { default as createDebug } from 'debug';
+
+const debug = createDebug('syncable');
 
 export type SyncableConfig = {
   name: string;
@@ -84,6 +87,7 @@ export class Syncable<T> extends EventEmitter {
     headers: { [key: string]: string } = {},
     minNumItemsToExpect: number = 1
   ): Promise<{ items: T[]; hasMore?: boolean; nextPageToken?: string }> {
+    debug('Fetching', url, headers);
     const response = await this.fetchFunction(url, {
       headers: Object.assign({}, this.authHeaders, headers),
     });
@@ -214,7 +218,7 @@ export class Syncable<T> extends EventEmitter {
 
   private async rangeHeaderFetch(): Promise<T[]> {
     let allData: T[] = [];
-    const numItemsPerPage = 2;
+    const numItemsPerPage = 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {
