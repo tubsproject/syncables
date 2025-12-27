@@ -7,7 +7,12 @@ const debug = createDebug('syncable');
 
 export type SyncableConfig = {
   name: string;
-  pagingStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange' | 'rangeHeader';
+  pagingStrategy:
+    | 'pageNumber'
+    | 'offset'
+    | 'pageToken'
+    | 'dateRange'
+    | 'rangeHeader';
   baseUrl: string;
   urlPath: string;
   pageNumberParamInQuery?: string;
@@ -85,7 +90,7 @@ export class Syncable<T> extends EventEmitter {
   private async doFetch(
     url: string,
     headers: { [key: string]: string } = {},
-    minNumItemsToExpect: number = 1
+    minNumItemsToExpect: number = 1,
   ): Promise<{ items: T[]; hasMore?: boolean; nextPageToken?: string }> {
     debug('Fetching', url, headers);
     const response = await this.fetchFunction(url, {
@@ -99,10 +104,12 @@ export class Syncable<T> extends EventEmitter {
 
     const responseData = await response.json();
     let items = responseData;
-    for (let i=0; i < this.config.itemsPathInResponse.length; i++) {
+    for (let i = 0; i < this.config.itemsPathInResponse.length; i++) {
       const pathPart = this.config.itemsPathInResponse[i];
       if (typeof items !== 'object' || items === null || !(pathPart in items)) {
-        throw new Error(`Invalid itemsPathInResponse: could not find path part "${pathPart}" in response ${url}`);
+        throw new Error(
+          `Invalid itemsPathInResponse: could not find path part "${pathPart}" in response ${url}`,
+        );
       }
       items = items[pathPart];
     }
@@ -226,13 +233,18 @@ export class Syncable<T> extends EventEmitter {
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      const data = await this.doFetch(url.toString(), {
-        'Range': rangeHeader,
-      }, numItemsPerPage);
+      const data = await this.doFetch(
+        url.toString(),
+        {
+          Range: rangeHeader,
+        },
+        numItemsPerPage,
+      );
       allData = allData.concat(data.items);
-      const lastItemId = (data.items.length > 0
-        ? (data.items[data.items.length - 1] as unknown as { id: number }).id
-        : null);
+      const lastItemId =
+        data.items.length > 0
+          ? (data.items[data.items.length - 1] as unknown as { id: number }).id
+          : null;
       rangeHeader = `id ]${lastItemId}..; max=${numItemsPerPage}`;
 
       if (data.items.length === 0 || !data.hasMore) {
