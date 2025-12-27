@@ -12,3 +12,5 @@ actions:
       field: items
       pagingStrategy: pageToken
       pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
+      itemsPathInResponse:
+        - items

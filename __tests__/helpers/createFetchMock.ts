@@ -19,6 +19,11 @@ export function createFetchMock(pagedByToken: boolean = false): {
       ],
       hasMore: false,
     },
+    {
+      items: [
+      ],
+      hasMore: false,
+    },
   ];
   if (pagedByToken) {
     mockResponses[0]['nextPageToken'] = 'token1';

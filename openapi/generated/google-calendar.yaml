@@ -2116,6 +2116,8 @@ paths:
                 field: items
                 pagingStrategy: pageToken
                 pageTokenParam: nextPageToken
+                itemsPathInResponse:
+                 - items
           description: Successful response
       security:
         - Oauth2:
