@@ -41,6 +41,9 @@ Under `paths['/widgets']['get']['responses']['200']['content']['application/json
 * `pagingStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange` or (experimental) `rangeHeader`
 * `query`: an object containing query parameters to add in addition to the paging-related ones
 * `itemsPathInResponse`: path within the response body schema, as an array of strings, that contains the array of items (default: `[]` for the response body root)
+* `defaultPageSize`: tell Syncable how many items per page (max) to expect by default
+* `forcePageSize`: if possible, let Syncable tell the API which page size to use (not applicable to paging strategy `dateRange`)
+* when using `forcePageSize`, you can add `forcePageSizeParamInQuery` if it's not `pageSize` (not applicable to paging strategies `dateRange` and `rangeHeader`).
 * for a `pageNumber` paging strategy, you can add `pageNumberParamInQuery` if it's not `page`.
 * for an `offset` paging strategy, you can add `offsetParamInQuery` if it's not `offset`.
 * for a `pageToken` paging strategy, you can add `pageTokenParamInQuery` if it's not `pageToken` and `pageTokenParamInResponse` if it's not `pageToken`

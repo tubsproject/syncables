@@ -25,6 +25,9 @@ export type SyncableConfig = {
   endDate?: string;
   query?: { [key: string]: string };
   itemsPathInResponse?: string[];
+  defaultPageSize?: number;
+  forcePageSize?: number;
+  forcePageSizeParamInQuery?: string;
 };
 
 export class Syncable<T> extends EventEmitter {
@@ -60,6 +63,10 @@ export class Syncable<T> extends EventEmitter {
             pagingStrategy: response.syncable.pagingStrategy,
             query: response.syncable.query || {},
             itemsPathInResponse: response.syncable.itemsPathInResponse || [],
+            defaultPageSize: response.syncable.defaultPageSize,
+            forcePageSize: response.syncable.forcePageSize,
+            forcePageSizeParamInQuery:
+              response.syncable.forcePageSizeParamInQuery,
           };
           if (response.syncable.pagingStrategy === 'pageNumber') {
             config.pageNumberParamInQuery =
@@ -135,6 +142,11 @@ export class Syncable<T> extends EventEmitter {
         this.config.pageNumberParamInQuery,
         page.toString(),
       );
+      if (this.config.forcePageSize) {
+        const param = this.config.forcePageSizeParamInQuery || 'pageSize';
+        url.searchParams.append(param, this.config.forcePageSize.toString());
+      }
+
       const data = await this.doFetch(url.toString());
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
@@ -158,6 +170,11 @@ export class Syncable<T> extends EventEmitter {
         this.config.offsetParamInQuery,
         offset.toString(),
       );
+      if (this.config.forcePageSize) {
+        const param = this.config.forcePageSizeParamInQuery || 'pageSize';
+        url.searchParams.append(param, this.config.forcePageSize.toString());
+      }
+
       const data = await this.doFetch(url.toString());
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
@@ -176,6 +193,11 @@ export class Syncable<T> extends EventEmitter {
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
+      if (this.config.forcePageSize) {
+        const param = this.config.forcePageSizeParamInQuery || 'pageSize';
+        url.searchParams.append(param, this.config.forcePageSize.toString());
+      }
+
       if (nextPageToken) {
         url.searchParams.append(
           this.config.pageTokenParamInQuery,
@@ -225,7 +247,7 @@ export class Syncable<T> extends EventEmitter {
 
   private async rangeHeaderFetch(): Promise<T[]> {
     let allData: T[] = [];
-    const numItemsPerPage = 2;
+    const numItemsPerPage = this.config.forcePageSize || 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {

@@ -81,6 +81,7 @@ test('rangeHeader paging', async () => {
     pageTokenParamInQuery: 'pageToken',
     pageTokenParamInResponse: 'nextPageToken',
     itemsPathInResponse: ['items'],
+    forcePageSize: 2,
   }), 'todos', {}, fetchMock as unknown as typeof fetch);
   const data = await syncable.fullFetch();
   expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
