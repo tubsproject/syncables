@@ -34,18 +34,27 @@ export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   config: SyncableConfig;
   authHeaders: { [key: string]: string } = {};
-  constructor(
-    specStr: string,
-    syncableName: string,
-    authHeaders: { [key: string]: string } = {},
-    fetchFunction: typeof fetch = fetch,
-  ) {
+  dbConn: string | undefined;
+  constructor({
+    specStr,
+    syncableName,
+    authHeaders = {},
+    fetchFunction = fetch,
+    dbConn,
+  }: {
+    specStr: string;
+    syncableName: string;
+    authHeaders?: { [key: string]: string };
+    fetchFunction?: typeof fetch;
+    dbConn?: string;
+  }) {
     super();
     this.config = this.parseSpec(specStr, syncableName);
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
+    this.dbConn = dbConn;
   }
-  parseSpec(specStr: string, syncableName: string): SyncableConfig {
+  private parseSpec(specStr: string, syncableName: string): SyncableConfig {
     const spec = parse(specStr);
     for (const path of Object.keys(spec.paths)) {
       const pathItem = spec.paths[path];

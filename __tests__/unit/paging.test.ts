@@ -29,15 +29,20 @@ test('pageNumber paging (default page size', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable(createSpec({
-    name: 'todos',
-    pagingStrategy: 'pageNumber',
-    baseUrl: 'https://jsonplaceholder.typicode.com',
-    urlPath: '/todos/',
-    pageNumberParamInQuery: 'page',
-    itemsPathInResponse: ['items'],
-    defaultPageSize: 2,
-  }), 'todos', {}, fetchMock as unknown as typeof fetch);
+  const syncable = new Syncable({
+    specStr: createSpec({
+      name: 'todos',
+      pagingStrategy: 'pageNumber',
+      baseUrl: 'https://jsonplaceholder.typicode.com',
+      urlPath: '/todos/',
+      pageNumberParamInQuery: 'page',
+      itemsPathInResponse: ['items'],
+      defaultPageSize: 2,
+    }),
+    syncableName: 'todos',
+    authHeaders: {},
+    fetchFunction: fetchMock as unknown as typeof fetch,
+  });
   const data = await syncable.fullFetch();
   expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
 

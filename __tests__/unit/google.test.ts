@@ -9,7 +9,12 @@ const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toStrin
 
 describe('Google Calendar List', () => {
   const { fetchMock } = createFetchMock(true);
-  const syncable = new Syncable<Entry>(specStr, 'calendarList', {}, fetchMock as unknown as typeof fetch);
+  const syncable = new Syncable<Entry>({
+    specStr,
+    syncableName: 'calendarList',
+    authHeaders: {},
+    fetchFunction: fetchMock as unknown as typeof fetch,
+  });
   it('fetches calendar list entries', async () => {
     const data = await syncable.fullFetch();
     expect(data.length).toBeGreaterThan(0);
