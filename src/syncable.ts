@@ -147,7 +147,7 @@ export class Syncable<T> extends EventEmitter {
         url.searchParams.append(param, this.config.forcePageSize.toString());
       }
 
-      const data = await this.doFetch(url.toString());
+      const data = await this.doFetch(url.toString(), {}, this.config.forcePageSize || this.config.defaultPageSize || 1);
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       page += 1;
@@ -175,7 +175,7 @@ export class Syncable<T> extends EventEmitter {
         url.searchParams.append(param, this.config.forcePageSize.toString());
       }
 
-      const data = await this.doFetch(url.toString());
+      const data = await this.doFetch(url.toString(), {}, this.config.forcePageSize || this.config.defaultPageSize || 1);
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       offset += data.items.length;
@@ -204,7 +204,7 @@ export class Syncable<T> extends EventEmitter {
           nextPageToken,
         );
       }
-      const data = await this.doFetch(url.toString());
+      const data = await this.doFetch(url.toString(), {}, this.config.forcePageSize || this.config.defaultPageSize || 1);
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
     } while (nextPageToken);
@@ -269,7 +269,7 @@ export class Syncable<T> extends EventEmitter {
           : null;
       rangeHeader = `id ]${lastItemId}..; max=${numItemsPerPage}`;
 
-      if (data.items.length === 0 || !data.hasMore) {
+      if (data.items.length < numItemsPerPage || !data.hasMore) {
         break;
       }
     }
