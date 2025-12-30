@@ -19,7 +19,10 @@ describe('Spec parsing', () => {
       query: { color: 'red' },
       itemsPathInResponse: ['data', 'items'],
     };
-    const syncable = new Syncable<Widget>(createSpec(config), 'widgets');
+    const syncable = new Syncable<Widget>({
+      specStr: createSpec(config),
+      syncableName: 'widgets',
+    });
     expect(syncable.config).toEqual(config);
   });
 });

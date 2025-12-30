@@ -84,7 +84,7 @@ const syncable = new Syncable<Entry>({
   headers: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
   },
-  dbConn: 'postgresql://syncables:syncables@localhost:5432/syncables'
+  dbConn: 'postgresql://syncables:syncables@localhost:5432/db_unit_tests'
 });
 await syncable.fullFetch();
 ```
@@ -108,5 +108,5 @@ pnpm publish
 ```sh
 docker compose up -d
 # run your code that calls syncable.fullFetch();
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_tests -c "\d+"
 ```

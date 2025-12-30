@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 import { parse } from 'yaml';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
+import { Client, getFields, createSqlTable } from './db.js';
 
 const debug = createDebug('syncable');
 
@@ -33,8 +34,9 @@ export type SyncableConfig = {
 export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   config: SyncableConfig;
+  specStr: string;
   authHeaders: { [key: string]: string } = {};
-  dbConn: string | undefined;
+  client: Client | null = null;
   constructor({
     specStr,
     syncableName,
@@ -50,10 +52,19 @@ export class Syncable<T> extends EventEmitter {
   }) {
     super();
     this.config = this.parseSpec(specStr, syncableName);
+    this.specStr = specStr;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
-    this.dbConn = dbConn;
+    if (dbConn) {
+      this.client = new Client({
+        connectionString: dbConn,
+        ssl: {
+          rejectUnauthorized: process.env.NODE_ENV === 'production',
+        },
+      });
+    }
   }
+  
   private parseSpec(specStr: string, syncableName: string): SyncableConfig {
     const spec = parse(specStr);
     for (const path of Object.keys(spec.paths)) {
@@ -286,7 +297,7 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  async fullFetch(): Promise<T[]> {
+  private async doFullFetch(): Promise<T[]> {
     switch (this.config['pagingStrategy']) {
       case 'pageNumber':
         return this.pageNumberFetch();
@@ -303,5 +314,17 @@ export class Syncable<T> extends EventEmitter {
           `Unknown paging strategy: ${this.config['pagingStrategy']}`,
         );
     }
+  }
+
+  async fullFetch(): Promise<T[]> {
+    const data = await this.doFullFetch();
+    if (this.client) {
+      await this.client.connect();
+      const fields = getFields(this.specStr, this.config.name, this.config.itemsPathInResponse.join('.'))
+      await createSqlTable(this.client, this.config.name, fields);
+      await this.client.insertData(this.config.name, data, fields);
+      await this.client.end();
+    }
+    return data;
   }
 }
