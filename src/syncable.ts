@@ -1,8 +1,9 @@
 import { EventEmitter } from 'events';
-import { parse } from 'yaml';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
-import { Client, getFields, createSqlTable } from './db.js';
+import { Client, getFields, createSqlTable, insertData } from './db.js';
+import { parse } from 'yaml';
+import { resolveRefs } from './openApi.js';
 
 const debug = createDebug('syncable');
 
@@ -35,7 +36,7 @@ export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   config: SyncableConfig;
   specStr: string;
-  spec: any;
+  spec: { paths: object, servers: { url: string }[] };
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
   constructor({
@@ -67,7 +68,13 @@ export class Syncable<T> extends EventEmitter {
   }
   
   private parseSpec(specStr: string, syncableName: string): SyncableConfig {
-    this.spec = parse(specStr);
+    let specWithRefs: object;
+    try {
+      specWithRefs = parse(specStr);
+    } catch (parseErr) {
+      throw new Error(`Failed to parse YAML: ${parseErr.message}`);
+    }
+    this.spec = resolveRefs(specWithRefs);
     for (const path of Object.keys(this.spec.paths)) {
       const pathItem = this.spec.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
@@ -323,7 +330,7 @@ export class Syncable<T> extends EventEmitter {
       await this.client.connect();
       const fields = getFields(this.spec, this.config.urlPath, this.config.itemsPathInResponse.join('.'))
       await createSqlTable(this.client, this.config.name, fields);
-      await this.client.insertData(this.config.name, data, fields);
+      await insertData(this.client, this.config.name, data, Object.keys(fields).filter(f => ['string'].indexOf(fields[f].type) !== -1));
       await this.client.end();
     }
     return data;
