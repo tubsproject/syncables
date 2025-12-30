@@ -27,15 +27,16 @@ describe('Google Calendar List', async () => {
   });
   it('stores calendar list entries in the db', async () => {
     await client.query('DROP TABLE IF EXISTS calendarList;');
-    const before = await client.query(`select count(*) from pg_tables where tablename='calendarList';`);
+    const before = await client.query(`select count(*) from pg_tables where tablename='calendarlist';`);
     expect(before.rows[0].count).toEqual('0');
     await syncable.fullFetch();
 
-    const after = await client.query(`select count(*) from pg_tables where tablename='calendarList';`);
-    // expect(after.rows[0].count).toEqual('1');
-    // const data = await client.query('SELECT * FROM "calendarList";');
-    // expect(data.length).toBeGreaterThan(0);
-    // expect(data[0]).toHaveProperty('id');
-    // expect(data[0]).toHaveProperty('title');
+    const after = await client.query(`select count(*) from pg_tables where tablename='calendarlist';`);
+    // await new Promise((resolve) => setTimeout(resolve, 500)); // wait for a bit to ensure data is committed
+    expect(after.rows[0].count).toEqual('1');
+    const data = await client.query('SELECT * FROM "calendarlist";');
+    expect(data.rows.length).toBeGreaterThan(0);
+    expect(data.rows[0]).toHaveProperty('Sid');
+    expect(data.rows[0]).toHaveProperty('SforegroundColor');
   });
 });
