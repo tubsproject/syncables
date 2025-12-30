@@ -28,6 +28,9 @@ export function getFields(
     successResponseProperties?.['application/ld+json']?.schema ||
     successResponseProperties?.['application/json']?.schema;
   console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
+  // if (typeof schema['$ref'] !== 'undefined') {
+  //   schema = resolveRef(openApiSpec, schema['$ref']);
+  // }
   // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
   const whatWeWant =
     typeof rowsFrom === 'string'

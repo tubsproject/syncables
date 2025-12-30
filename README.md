@@ -81,7 +81,7 @@ const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toStrin
 const syncable = new Syncable<Entry>({
   specStr,
   syncableName: 'widgets',
-  headers: {
+  authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
   },
   dbConn: 'postgresql://syncables:syncables@localhost:5432/db_unit_tests'

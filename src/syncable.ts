@@ -35,6 +35,7 @@ export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   config: SyncableConfig;
   specStr: string;
+  spec: any;
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
   constructor({
@@ -66,17 +67,17 @@ export class Syncable<T> extends EventEmitter {
   }
   
   private parseSpec(specStr: string, syncableName: string): SyncableConfig {
-    const spec = parse(specStr);
-    for (const path of Object.keys(spec.paths)) {
-      const pathItem = spec.paths[path];
+    this.spec = parse(specStr);
+    for (const path of Object.keys(this.spec.paths)) {
+      const pathItem = this.spec.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         const response =
           pathItem.get.responses['200'].content['application/json'];
         if (response.syncable && response.syncable.name === syncableName) {
           const config: SyncableConfig = {
             baseUrl:
-              spec.servers && spec.servers.length > 0
-                ? spec.servers[0].url
+              this.spec.servers && this.spec.servers.length > 0
+                ? this.spec.servers[0].url
                 : '',
             urlPath: path,
             name: response.syncable.name,
@@ -320,7 +321,7 @@ export class Syncable<T> extends EventEmitter {
     const data = await this.doFullFetch();
     if (this.client) {
       await this.client.connect();
-      const fields = getFields(this.specStr, this.config.name, this.config.itemsPathInResponse.join('.'))
+      const fields = getFields(this.spec, this.config.urlPath, this.config.itemsPathInResponse.join('.'))
       await createSqlTable(this.client, this.config.name, fields);
       await this.client.insertData(this.config.name, data, fields);
       await this.client.end();
