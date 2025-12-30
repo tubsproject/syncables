@@ -110,3 +110,8 @@ docker compose up -d
 # run your code that calls syncable.fullFetch();
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_tests -c "\d+"
 ```
+
+
+## dev log (while offline)
+There must be an openapi parser npm module that resolves refs on the fly
+For now, I can use the limited ref depth one from the Peppol showcase
