@@ -2,8 +2,7 @@ import { EventEmitter } from 'events';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
 import { Client, getFields, createSqlTable, insertData } from './db.js';
-import { parse } from 'yaml';
-import { resolveRefs } from './openApi.js';
+import { dereference } from '@scalar/openapi-parser';
 
 const debug = createDebug('syncable');
 
@@ -36,6 +35,7 @@ export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   config: SyncableConfig;
   specStr: string;
+  syncableName: string;
   spec: { paths: object, servers: { url: string }[] };
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
@@ -53,8 +53,8 @@ export class Syncable<T> extends EventEmitter {
     dbConn?: string;
   }) {
     super();
-    this.config = this.parseSpec(specStr, syncableName);
     this.specStr = specStr;
+    this.syncableName = syncableName;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
     if (dbConn) {
@@ -67,24 +67,25 @@ export class Syncable<T> extends EventEmitter {
     }
   }
   
-  private parseSpec(specStr: string, syncableName: string): SyncableConfig {
-    let specWithRefs: object;
-    try {
-      specWithRefs = parse(specStr);
-    } catch (parseErr) {
-      throw new Error(`Failed to parse YAML: ${parseErr.message}`);
+  async parseSpec(): Promise<object> {
+    const { schema, errors } = await dereference(this.specStr);
+    if (errors && errors.length > 0) {
+      throw new Error(
+        `Error dereferencing OpenAPI spec: ${errors
+          .map((e) => e.message)
+          .join(', ')}`,
+      );
     }
-    this.spec = resolveRefs(specWithRefs);
-    for (const path of Object.keys(this.spec.paths)) {
-      const pathItem = this.spec.paths[path];
+    for (const path of Object.keys(schema.paths)) {
+      const pathItem = schema.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         const response =
           pathItem.get.responses['200'].content['application/json'];
-        if (response.syncable && response.syncable.name === syncableName) {
+        if (response.syncable && response.syncable.name === this.syncableName) {
           const config: SyncableConfig = {
             baseUrl:
-              this.spec.servers && this.spec.servers.length > 0
-                ? this.spec.servers[0].url
+              schema.servers && schema.servers.length > 0
+                ? schema.servers[0].url
                 : '',
             urlPath: path,
             name: response.syncable.name,
@@ -115,11 +116,12 @@ export class Syncable<T> extends EventEmitter {
             config.startDate = response.syncable.startDate || '20000101000000';
             config.endDate = response.syncable.endDate || '99990101000000';
           }
-          return config;
+          this.config = config;
+          return schema;
         }
       }
     }
-    throw new Error(`Syncable with name "${syncableName}" not found in spec`);
+    throw new Error(`Syncable with name "${this.syncableName}" not found in spec`);
   }
 
   private async doFetch(
@@ -325,10 +327,12 @@ export class Syncable<T> extends EventEmitter {
   }
 
   async fullFetch(): Promise<T[]> {
+    const schema = await this.parseSpec();
+
     const data = await this.doFullFetch();
     if (this.client) {
       await this.client.connect();
-      const fields = getFields(this.spec, this.config.urlPath, this.config.itemsPathInResponse.join('.'))
+      const fields = getFields(schema, this.config.urlPath, this.config.itemsPathInResponse.join('.'))
       await createSqlTable(this.client, this.config.name, fields);
       await insertData(this.client, this.config.name, data, Object.keys(fields).filter(f => ['string'].indexOf(fields[f].type) !== -1));
       await this.client.end();

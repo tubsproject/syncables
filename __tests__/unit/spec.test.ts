@@ -9,7 +9,7 @@ type Widget = {
 };
 
 describe('Spec parsing', () => {
-  it('can parse the syncable spec out of an OAD', () => {
+  it('can parse the syncable spec out of an OAD', async () => {
     const config: SyncableConfig = {
       name: 'widgets',
       pagingStrategy: 'pageNumber',
@@ -23,6 +23,7 @@ describe('Spec parsing', () => {
       specStr: createSpec(config),
       syncableName: 'widgets',
     });
+    await syncable.parseSpec();
     expect(syncable.config).toEqual(config);
   });
 });
