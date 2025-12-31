@@ -78,12 +78,17 @@ import { Syncable } from 'syncable';
 type Entry = components['schemas']['CalendarListEntry'];
 const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toString();
 
-const syncable = new Syncable<Entry>(specStr, 'widgets', {
-  Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
+const syncable = new Syncable<Entry>({
+  specStr,
+  syncableName: 'widgets',
+  authHeaders: {
+    Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
+  },
+  dbConn: 'postgresql://syncables:syncables@localhost:5432/db_unit_tests'
 });
-const data = await syncable.fullFetch();
-console.log(data);
-````
+await syncable.fullFetch();
+```
+
 You can use the [`showcase-google-calendar` branch of this repo]() to run a simple OAuth client that can obtain a value for the `GOOGLE_BEARER_TOKEN` environment variable.
 
 ## Development
@@ -98,3 +103,15 @@ pnpm prettier
 pnpm login
 pnpm publish
 ```
+
+## Usage
+```sh
+docker compose up -d
+# run your code that calls syncable.fullFetch();
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_tests -c "\d+"
+```
+
+
+## dev log (while offline)
+There must be an openapi parser npm module that resolves refs on the fly
+For now, I can use the limited ref depth one from the Peppol showcase

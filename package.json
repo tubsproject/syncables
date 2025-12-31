@@ -43,6 +43,7 @@
   "author": "Michiel de Jong <michiel@unhosted.org>",
   "license": "Apache-2.0",
   "dependencies": {
+    "@readme/openapi-parser": "^5.4.0",
     "debug": "^4.4.3",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
@@ -52,6 +53,7 @@
     "passport-oauth": "^1.0.0",
     "pg": "^8.16.3",
     "url-join": "^5.0.0",
+    "utils": "link:@scalar/types/utils",
     "yaml": "^2.8.0"
   },
   "volta": {

@@ -1,7 +1,9 @@
 import { EventEmitter } from 'events';
-import { parse } from 'yaml';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
+import { Client, getFields, createSqlTable, insertData } from './db.js';
+import { dereference } from '@readme/openapi-parser';
+import { parse } from 'yaml';
 
 const debug = createDebug('syncable');
 
@@ -33,30 +35,64 @@ export type SyncableConfig = {
 export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   config: SyncableConfig;
+  specStr: string;
+  specFilename: string;
+  syncableName: string;
+  spec: { paths: object; servers: { url: string }[] };
   authHeaders: { [key: string]: string } = {};
-  constructor(
-    specStr: string,
-    syncableName: string,
-    authHeaders: { [key: string]: string } = {},
-    fetchFunction: typeof fetch = fetch,
-  ) {
+  client: Client | null = null;
+  constructor({
+    specStr,
+    specFilename,
+    syncableName,
+    authHeaders = {},
+    fetchFunction = fetch,
+    dbConn,
+  }: {
+    specStr: string;
+    specFilename: string;
+    syncableName: string;
+    authHeaders?: { [key: string]: string };
+    fetchFunction?: typeof fetch;
+    dbConn?: string;
+  }) {
     super();
-    this.config = this.parseSpec(specStr, syncableName);
+    this.specStr = specStr;
+    this.specFilename = specFilename;
+    this.syncableName = syncableName;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
+    if (dbConn) {
+      this.client = new Client({
+        connectionString: dbConn,
+        ssl: {
+          rejectUnauthorized: process.env.NODE_ENV === 'production',
+        },
+      });
+    }
   }
-  parseSpec(specStr: string, syncableName: string): SyncableConfig {
-    const spec = parse(specStr);
-    for (const path of Object.keys(spec.paths)) {
-      const pathItem = spec.paths[path];
+
+  async parseSpec(): Promise<object> {
+    let specObj;
+    if (this.specFilename.endsWith('.json')) {
+      specObj = JSON.parse(this.specStr);
+    } else {
+      specObj = parse(this.specStr);
+    }
+    const schema = await dereference(specObj);
+    for (const path of Object.keys(schema.paths)) {
+      const pathItem = schema.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         const response =
-          pathItem.get.responses['200'].content['application/json'];
-        if (response.syncable && response.syncable.name === syncableName) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (pathItem.get.responses['200'] as any).content['application/json'];
+        if (response.syncable && response.syncable.name === this.syncableName) {
           const config: SyncableConfig = {
             baseUrl:
-              spec.servers && spec.servers.length > 0
-                ? spec.servers[0].url
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (schema as any).servers && (schema as any).servers.length > 0
+                ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  (schema as any).servers[0].url
                 : '',
             urlPath: path,
             name: response.syncable.name,
@@ -87,11 +123,14 @@ export class Syncable<T> extends EventEmitter {
             config.startDate = response.syncable.startDate || '20000101000000';
             config.endDate = response.syncable.endDate || '99990101000000';
           }
-          return config;
+          this.config = config;
+          return schema;
         }
       }
     }
-    throw new Error(`Syncable with name "${syncableName}" not found in spec`);
+    throw new Error(
+      `Syncable with name "${this.syncableName}" not found in spec`,
+    );
   }
 
   private async doFetch(
@@ -147,7 +186,11 @@ export class Syncable<T> extends EventEmitter {
         url.searchParams.append(param, this.config.forcePageSize.toString());
       }
 
-      const data = await this.doFetch(url.toString(), {}, this.config.forcePageSize || this.config.defaultPageSize || 1);
+      const data = await this.doFetch(
+        url.toString(),
+        {},
+        this.config.forcePageSize || this.config.defaultPageSize || 1,
+      );
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       page += 1;
@@ -175,7 +218,11 @@ export class Syncable<T> extends EventEmitter {
         url.searchParams.append(param, this.config.forcePageSize.toString());
       }
 
-      const data = await this.doFetch(url.toString(), {}, this.config.forcePageSize || this.config.defaultPageSize || 1);
+      const data = await this.doFetch(
+        url.toString(),
+        {},
+        this.config.forcePageSize || this.config.defaultPageSize || 1,
+      );
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       offset += data.items.length;
@@ -204,7 +251,11 @@ export class Syncable<T> extends EventEmitter {
           nextPageToken,
         );
       }
-      const data = await this.doFetch(url.toString(), {}, this.config.forcePageSize || this.config.defaultPageSize || 1);
+      const data = await this.doFetch(
+        url.toString(),
+        {},
+        this.config.forcePageSize || this.config.defaultPageSize || 1,
+      );
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
     } while (nextPageToken);
@@ -277,7 +328,7 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  async fullFetch(): Promise<T[]> {
+  private async doFullFetch(): Promise<T[]> {
     switch (this.config['pagingStrategy']) {
       case 'pageNumber':
         return this.pageNumberFetch();
@@ -294,5 +345,30 @@ export class Syncable<T> extends EventEmitter {
           `Unknown paging strategy: ${this.config['pagingStrategy']}`,
         );
     }
+  }
+
+  async fullFetch(): Promise<T[]> {
+    const schema = await this.parseSpec();
+
+    const data = await this.doFullFetch();
+    if (this.client) {
+      await this.client.connect();
+      const fields = getFields(
+        schema,
+        this.config.urlPath,
+        this.config.itemsPathInResponse.join('.'),
+      );
+      await createSqlTable(this.client, this.config.name, fields);
+      await insertData(
+        this.client,
+        this.config.name,
+        data,
+        Object.keys(fields).filter(
+          (f) => ['string'].indexOf(fields[f].type) !== -1,
+        ),
+      );
+      await this.client.end();
+    }
+    return data;
   }
 }
