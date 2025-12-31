@@ -84,15 +84,15 @@ export class Syncable<T> extends EventEmitter {
       const pathItem = schema.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         const response =
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (pathItem.get.responses['200'] as any).content['application/json'];
         if (response.syncable && response.syncable.name === this.syncableName) {
           const config: SyncableConfig = {
             baseUrl:
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               (schema as any).servers && (schema as any).servers.length > 0
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-                ? (schema as any).servers[0].url
+                ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  (schema as any).servers[0].url
                 : '',
             urlPath: path,
             name: response.syncable.name,

@@ -4,9 +4,7 @@ import { Syncable } from './syncable.js';
 
 type Entry = components['schemas']['CalendarListEntry'];
 const specFilename = './openapi/generated/google-calendar.yaml';
-const specStr = readFileSync(
-  specFilename,
-).toString();
+const specStr = readFileSync(specFilename).toString();
 
 const syncable = new Syncable<Entry>({
   specStr,
