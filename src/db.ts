@@ -59,10 +59,10 @@ export async function createSqlTable(
     const type = (value as { type: string }).type;
     if (type === 'string') {
       rowSpecs.push(`"S${key}" TEXT`);
-    } else if (type === 'integer') {
+    } else if (type === 'boolean') {
+      rowSpecs.push(`"S${key}" BOOLEAN`);
+    } else if (type === 'number') {
       rowSpecs.push(`"S${key}" INTEGER`);
-      // } else if (type === 'boolean') {
-      //   rowSpecs.push(`"S${key}" BOOLEAN`);
     }
   });
   const createTableQuery = `

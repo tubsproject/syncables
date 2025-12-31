@@ -3,7 +3,7 @@ import { components } from '../../src/types/google-calendar.js';
 import { Syncable } from '../../src/syncable.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
-import { Client } from '../../src/db.js';
+import { Client, createSqlTable } from '../../src/db.js';
 
 type Entry = components['schemas']['CalendarListEntry'];
 const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toString();
@@ -38,5 +38,33 @@ describe('Google Calendar List', async () => {
     expect(data.rows.length).toBeGreaterThan(0);
     expect(data.rows[0]).toHaveProperty('Sid');
     expect(data.rows[0]).toHaveProperty('SforegroundColor');
+  });
+  it('creates a SQL table based on the Google Calendar ListEntry schema', async () => {
+    const whatWeWant = {
+      id: { type: 'string' },
+      summary: { type: 'string' },
+      description: { type: 'string' },
+      etag: { type: 'string' },
+      foregroundColor: { type: 'string' },
+      backgroundColor: { type: 'string' },
+      selected: { type: 'boolean' },
+      accessRole: { type: 'string' },
+      defaultReminders: { type: 'string' },
+      notificationSettings: { type: 'string' },
+      primary: { type: 'boolean' },
+      deleted: { type: 'boolean' },
+    };
+    await client.query('DROP TABLE IF EXISTS test_calendarlist;');
+    await createSqlTable(client, 'test_calendarlist', whatWeWant);
+    const tableExists = await client.query(`select count(*) from pg_tables where tablename='test_calendarlist';`);
+    expect(tableExists.rows[0].count).toEqual('1');
+    const tableInfo = await client.query(`SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'test_calendarlist';`);
+    const columns: { [key: string]: string } = {};
+    tableInfo.rows.forEach((row) => {
+      columns[row.column_name] = row.data_type;
+    });
+    expect(columns['Sid']).toEqual('text');
+    expect(columns['Sselected']).toEqual('boolean');
+    expect(columns['SforegroundColor']).toEqual('text');
   });
 });
