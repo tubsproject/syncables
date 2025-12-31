@@ -15,7 +15,8 @@ jobs:
       - uses: docker/setup-compose-action@v1
       - run: npm install -g pnpm
       - run: pnpm install
-      - run: docker-compose up -d db
+      - run: docker compose build db
+      - run: docker compose up -d db
       - run: sleep 10 # wait for db to be ready
       - run: pnpm prettier:check
 
