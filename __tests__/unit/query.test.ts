@@ -17,6 +17,7 @@ test('query', async () => {
       query: { userId: '1' },
       itemsPathInResponse: ['items'],
     }),
+    specFilename: '',
     syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,

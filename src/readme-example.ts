@@ -3,12 +3,14 @@ import { components } from './types/google-calendar.js';
 import { Syncable } from './syncable.js';
 
 type Entry = components['schemas']['CalendarListEntry'];
+const specFilename = './openapi/generated/google-calendar.yaml';
 const specStr = readFileSync(
-  './openapi/generated/google-calendar.yaml',
+  specFilename,
 ).toString();
 
 const syncable = new Syncable<Entry>({
   specStr,
+  specFilename,
   syncableName: 'widgets',
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,

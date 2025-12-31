@@ -43,8 +43,7 @@
   "author": "Michiel de Jong <michiel@unhosted.org>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@scalar/openapi-parser": "^0.23.9",
-    "@scalar/types": "^0.5.4",
+    "@readme/openapi-parser": "^5.4.0",
     "debug": "^4.4.3",
     "express": "^5.1.0",
     "express-session": "^1.18.2",

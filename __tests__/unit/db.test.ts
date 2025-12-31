@@ -6,7 +6,8 @@ import { createFetchMock } from '../helpers/createFetchMock.js';
 import { Client, createSqlTable } from '../../src/db.js';
 
 type Entry = components['schemas']['CalendarListEntry'];
-const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toString();
+const specFilename = './openapi/generated/google-calendar.yaml';
+const specStr = readFileSync(specFilename).toString();
 
 describe('Google Calendar List', async () => {
   const { fetchMock } = createFetchMock(true);
@@ -20,6 +21,7 @@ describe('Google Calendar List', async () => {
   await client.connect();
   const syncable = new Syncable<Entry>({
     specStr,
+    specFilename,
     syncableName: 'calendarList',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,

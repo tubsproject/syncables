@@ -21,6 +21,7 @@ describe('Spec parsing', () => {
     };
     const syncable = new Syncable<Widget>({
       specStr: createSpec(config),
+      specFilename: '',
       syncableName: 'widgets',
     });
     await syncable.parseSpec();

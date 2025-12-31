@@ -5,12 +5,14 @@ import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 
 type Entry = components['schemas']['CalendarListEntry'];
-const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toString();
+const specFilename = './openapi/generated/google-calendar.yaml';
+const specStr = readFileSync(specFilename).toString();
 
 describe('Google Calendar List', () => {
   const { fetchMock } = createFetchMock(true);
   const syncable = new Syncable<Entry>({
     specStr,
+    specFilename,
     syncableName: 'calendarList',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,

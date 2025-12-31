@@ -2,7 +2,8 @@ import { EventEmitter } from 'events';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
 import { Client, getFields, createSqlTable, insertData } from './db.js';
-import { dereference } from '@scalar/openapi-parser';
+import { dereference } from '@readme/openapi-parser';
+import { parse } from 'yaml';
 
 const debug = createDebug('syncable');
 
@@ -35,18 +36,21 @@ export class Syncable<T> extends EventEmitter {
   fetchFunction: typeof fetch;
   config: SyncableConfig;
   specStr: string;
+  specFilename: string;
   syncableName: string;
   spec: { paths: object; servers: { url: string }[] };
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
   constructor({
     specStr,
+    specFilename,
     syncableName,
     authHeaders = {},
     fetchFunction = fetch,
     dbConn,
   }: {
     specStr: string;
+    specFilename: string;
     syncableName: string;
     authHeaders?: { [key: string]: string };
     fetchFunction?: typeof fetch;
@@ -54,6 +58,7 @@ export class Syncable<T> extends EventEmitter {
   }) {
     super();
     this.specStr = specStr;
+    this.specFilename = specFilename;
     this.syncableName = syncableName;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
@@ -68,24 +73,26 @@ export class Syncable<T> extends EventEmitter {
   }
 
   async parseSpec(): Promise<object> {
-    const { schema, errors } = await dereference(this.specStr);
-    if (errors && errors.length > 0) {
-      throw new Error(
-        `Error dereferencing OpenAPI spec: ${errors
-          .map((e) => e.message)
-          .join(', ')}`,
-      );
+    let specObj;
+    if (this.specFilename.endsWith('.json')) {
+      specObj = JSON.parse(this.specStr);
+    } else {
+      specObj = parse(this.specStr);
     }
+    const schema = await dereference(specObj);
     for (const path of Object.keys(schema.paths)) {
       const pathItem = schema.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         const response =
-          pathItem.get.responses['200'].content['application/json'];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (pathItem.get.responses['200'] as any).content['application/json'];
         if (response.syncable && response.syncable.name === this.syncableName) {
           const config: SyncableConfig = {
             baseUrl:
-              schema.servers && schema.servers.length > 0
-                ? schema.servers[0].url
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (schema as any).servers && (schema as any).servers.length > 0
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ? (schema as any).servers[0].url
                 : '',
             urlPath: path,
             name: response.syncable.name,
