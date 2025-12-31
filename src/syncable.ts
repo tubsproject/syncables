@@ -36,7 +36,7 @@ export class Syncable<T> extends EventEmitter {
   config: SyncableConfig;
   specStr: string;
   syncableName: string;
-  spec: { paths: object, servers: { url: string }[] };
+  spec: { paths: object; servers: { url: string }[] };
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
   constructor({
@@ -66,7 +66,7 @@ export class Syncable<T> extends EventEmitter {
       });
     }
   }
-  
+
   async parseSpec(): Promise<object> {
     const { schema, errors } = await dereference(this.specStr);
     if (errors && errors.length > 0) {
@@ -121,7 +121,9 @@ export class Syncable<T> extends EventEmitter {
         }
       }
     }
-    throw new Error(`Syncable with name "${this.syncableName}" not found in spec`);
+    throw new Error(
+      `Syncable with name "${this.syncableName}" not found in spec`,
+    );
   }
 
   private async doFetch(
@@ -177,7 +179,11 @@ export class Syncable<T> extends EventEmitter {
         url.searchParams.append(param, this.config.forcePageSize.toString());
       }
 
-      const data = await this.doFetch(url.toString(), {}, this.config.forcePageSize || this.config.defaultPageSize || 1);
+      const data = await this.doFetch(
+        url.toString(),
+        {},
+        this.config.forcePageSize || this.config.defaultPageSize || 1,
+      );
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       page += 1;
@@ -205,7 +211,11 @@ export class Syncable<T> extends EventEmitter {
         url.searchParams.append(param, this.config.forcePageSize.toString());
       }
 
-      const data = await this.doFetch(url.toString(), {}, this.config.forcePageSize || this.config.defaultPageSize || 1);
+      const data = await this.doFetch(
+        url.toString(),
+        {},
+        this.config.forcePageSize || this.config.defaultPageSize || 1,
+      );
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       offset += data.items.length;
@@ -234,7 +244,11 @@ export class Syncable<T> extends EventEmitter {
           nextPageToken,
         );
       }
-      const data = await this.doFetch(url.toString(), {}, this.config.forcePageSize || this.config.defaultPageSize || 1);
+      const data = await this.doFetch(
+        url.toString(),
+        {},
+        this.config.forcePageSize || this.config.defaultPageSize || 1,
+      );
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
     } while (nextPageToken);
@@ -332,9 +346,20 @@ export class Syncable<T> extends EventEmitter {
     const data = await this.doFullFetch();
     if (this.client) {
       await this.client.connect();
-      const fields = getFields(schema, this.config.urlPath, this.config.itemsPathInResponse.join('.'))
+      const fields = getFields(
+        schema,
+        this.config.urlPath,
+        this.config.itemsPathInResponse.join('.'),
+      );
       await createSqlTable(this.client, this.config.name, fields);
-      await insertData(this.client, this.config.name, data, Object.keys(fields).filter(f => ['string'].indexOf(fields[f].type) !== -1));
+      await insertData(
+        this.client,
+        this.config.name,
+        data,
+        Object.keys(fields).filter(
+          (f) => ['string'].indexOf(fields[f].type) !== -1,
+        ),
+      );
       await this.client.end();
     }
     return data;

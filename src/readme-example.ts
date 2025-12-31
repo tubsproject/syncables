@@ -11,9 +11,9 @@ const syncable = new Syncable<Entry>({
   specStr,
   syncableName: 'widgets',
   authHeaders: {
-    Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
+    Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
   },
-  dbConn: 'postgresql://syncables:syncables@localhost:5432/db_unit_tests'
+  dbConn: 'postgresql://syncables:syncables@localhost:5432/db_unit_tests',
 });
 const data = await syncable.fullFetch();
 console.log(data);
