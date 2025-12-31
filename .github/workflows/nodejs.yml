@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-      - uses: docker/setup-compose-action@v2
+      - uses: docker/setup-compose-action@v1
       - run: npm install -g pnpm
       - run: pnpm install
       - run: docker-compose up -d db
