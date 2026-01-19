@@ -5,4 +5,11 @@ openapi
 .github
 .git
 docker
-
+.env
+.prettierrc
+comppse.yaml
+eslint.config.mjs
+nlnet-milestones.md
+ts-gen.sh
+tsconfig.json
+tsconfig.release.json
