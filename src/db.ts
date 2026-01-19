@@ -27,7 +27,7 @@ export function getFields(
   const schema =
     successResponseProperties?.['application/ld+json']?.schema ||
     successResponseProperties?.['application/json']?.schema;
-  console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
+  // console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
   // if (typeof schema['$ref'] !== 'undefined') {
   //   schema = resolveRef(openApiSpec, schema['$ref']);
   // }
@@ -36,10 +36,10 @@ export function getFields(
     typeof rowsFrom === 'string'
       ? schema?.properties?.[rowsFrom]?.items?.properties
       : schema?.items?.properties;
-  console.log(
-    `What we want (getFields ${endPoint} ${rowsFrom}):`,
-    JSON.stringify(whatWeWant, null, 2),
-  );
+  // console.log(
+    // `What we want (getFields ${endPoint} ${rowsFrom}):`,
+    // JSON.stringify(whatWeWant, null, 2),
+  // );
   return whatWeWant;
 }
 export async function createSqlTable(
@@ -48,10 +48,10 @@ export async function createSqlTable(
   whatWeWant: { [key: string]: { type: string } },
 ): Promise<void> {
   const rowSpecs = [];
-  console.log(
-    `What we want (createSqlTable ${tableName}):`,
-    JSON.stringify(whatWeWant, null, 2),
-  );
+  // console.log(
+  //   `What we want (createSqlTable ${tableName}):`,
+  //   JSON.stringify(whatWeWant, null, 2),
+  // );
   if (!whatWeWant) {
     throw new Error(`No fields found for table ${tableName}`);
   }
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS ${tableName.replace('-', '_')} (
   ${rowSpecs.join(',\n  ')}\n
 );
 `;
-  console.log(createTableQuery);
+  // console.log(createTableQuery);
   await client.query(createTableQuery);
 }
 export async function insertData(
@@ -79,7 +79,7 @@ export async function insertData(
   items: any[],
   fields: string[],
 ): Promise<void> {
-  console.log(`Fetched data:`, items);
+  // console.log(`Fetched data:`, items);
   await Promise.all(
     items.map((item: any) => {
       const insertQuery = `INSERT INTO ${tableName.replace('-', '_')} (${fields.map((x) => `"S${x}"`).join(', ')}) VALUES (${fields.map((field) => `'${item[field]}'`).join(', ')})`;
