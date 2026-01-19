@@ -37,8 +37,8 @@ export function getFields(
       ? schema?.properties?.[rowsFrom]?.items?.properties
       : schema?.items?.properties;
   // console.log(
-    // `What we want (getFields ${endPoint} ${rowsFrom}):`,
-    // JSON.stringify(whatWeWant, null, 2),
+  // `What we want (getFields ${endPoint} ${rowsFrom}):`,
+  // JSON.stringify(whatWeWant, null, 2),
   // );
   return whatWeWant;
 }
