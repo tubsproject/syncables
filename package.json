@@ -1,6 +1,6 @@
 {
   "name": "syncables",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Generate sync engine code from OpenAPI specifications",
   "main": "build/src/syncable.js",
   "type": "module",
@@ -9,6 +9,8 @@
   },
   "devDependencies": {
     "@eslint/js": "~9.17",
+    "@hono/node-server": "^1.19.9",
+    "@scalar/mock-server": "^0.8.16",
     "@types/eslint__js": "~8.42",
     "@types/node": "~20",
     "@typescript-eslint/parser": "~8.19",
@@ -34,10 +36,12 @@
     "build:watch": "tsc -w -p tsconfig.json",
     "build:release": "npm run clean && tsc -p tsconfig.release.json",
     "lint": "eslint .",
-    "test": "vitest run unit --config __tests__/vitest.config.ts",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "vitest run unit --config __tests__/vitest.config.ts",
+    "test:integration": "vitest run integration --config __tests__/vitest.config.ts",
     "test:coverage": "vitest run unit --config __tests__/vitest.config.ts --coverage.enabled --coverage.all",
-    "prettier": "prettier \"{src,__{tests}__}/**/*.{ts,mts}\" --config .prettierrc --write",
-    "prettier:check": "prettier \"{src,__{tests}__}/**/*.{ts,mts}\" --config .prettierrc --check",
+    "prettier": "prettier \"{src,__tests__}/**/*.{ts,mts}\" --config .prettierrc --write",
+    "prettier:check": "prettier \"{src,__tests__}/**/*.{ts,mts}\" --config .prettierrc --check",
     "test:watch": "vitest unit"
   },
   "author": "Michiel de Jong <michiel@unhosted.org>",

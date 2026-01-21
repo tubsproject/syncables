@@ -4,17 +4,17 @@ export function createSpec(config: SyncableConfig): string {
   const specObj = {
     openapi: '3.0.0',
     info: {
-    title: 'Test API',
-    version: '1.0.0',
+      title: 'Test API',
+      version: '1.0.0',
     },
     servers: [
-    {
-      url: config.baseUrl,
-    },
+      {
+        url: config.baseUrl,
+      },
     ],
     paths: {},
     components: {
-    schemas: {},
+      schemas: {},
     },
   };
   specObj.paths[config.urlPath] = {

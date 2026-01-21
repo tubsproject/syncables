@@ -26,9 +26,18 @@ test('pageNumber paging (unkown page size)', async () => {
 
   // Check that fetch was called exactly thrice
   expect(fetchMock).toHaveBeenCalledTimes(3);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?page=1', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?page=2', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?page=3', { headers: {} });
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?page=1',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?page=2',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?page=3',
+    { headers: {} },
+  );
 });
 
 test('pageNumber paging (default page size', async () => {
@@ -55,8 +64,14 @@ test('pageNumber paging (default page size', async () => {
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?page=1', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?page=2', { headers: {} });
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?page=1',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?page=2',
+    { headers: {} },
+  );
 });
 
 test('pageNumber paging (force page size', async () => {
@@ -83,8 +98,14 @@ test('pageNumber paging (force page size', async () => {
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?page=1&pageSize=2', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?page=2&pageSize=2', { headers: {} });
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?page=1&pageSize=2',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?page=2&pageSize=2',
+    { headers: {} },
+  );
 });
 
 test('offset paging (unknown page size)', async () => {
@@ -110,9 +131,18 @@ test('offset paging (unknown page size)', async () => {
 
   // Check that fetch was called exactly thrice
   expect(fetchMock).toHaveBeenCalledTimes(3);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?offset=0', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?offset=2', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?offset=3', { headers: {} });
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?offset=0',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?offset=2',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?offset=3',
+    { headers: {} },
+  );
 });
 
 test('offset paging (default page size)', async () => {
@@ -139,8 +169,14 @@ test('offset paging (default page size)', async () => {
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?offset=0', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?offset=2', { headers: {} });
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?offset=0',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?offset=2',
+    { headers: {} },
+  );
 });
 
 test('offset paging (force page size)', async () => {
@@ -149,7 +185,7 @@ test('offset paging (force page size)', async () => {
   // Call the function and assert the result
   const syncable = new Syncable({
     specStr: createSpec({
-    name: 'todos',
+      name: 'todos',
       pagingStrategy: 'offset',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
@@ -167,8 +203,14 @@ test('offset paging (force page size)', async () => {
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?offset=0&pageSize=2', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?offset=2&pageSize=2', { headers: {} });
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?offset=0&pageSize=2',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?offset=2&pageSize=2',
+    { headers: {} },
+  );
 });
 
 test('pageToken paging', async () => {
@@ -195,8 +237,14 @@ test('pageToken paging', async () => {
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?pageToken=token1', { headers: {} });
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?pageToken=token1',
+    { headers: {} },
+  );
 });
 
 test('rangeHeader paging', async () => {
@@ -224,6 +272,12 @@ test('rangeHeader paging', async () => {
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/', { headers: { Range: 'id ..; max=2' } });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/', { headers: { Range: 'id ]2..; max=2' } });
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/',
+    { headers: { Range: 'id ..; max=2' } },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/',
+    { headers: { Range: 'id ]2..; max=2' } },
+  );
 });
