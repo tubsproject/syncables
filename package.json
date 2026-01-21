@@ -9,6 +9,8 @@
   },
   "devDependencies": {
     "@eslint/js": "~9.17",
+    "@hono/node-server": "^1.19.9",
+    "@scalar/mock-server": "^0.8.16",
     "@types/eslint__js": "~8.42",
     "@types/node": "~20",
     "@typescript-eslint/parser": "~8.19",
