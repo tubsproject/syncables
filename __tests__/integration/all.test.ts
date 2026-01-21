@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { readdirSync, readFileSync } from 'fs';
-import { serve } from '@hono/node-server'
-import { createMockServer } from '@scalar/mock-server'
+import { serve } from '@hono/node-server';
+import { createMockServer } from '@scalar/mock-server';
 import { Syncable } from '../../src/syncable.js';
 
 const OAD_DIR = './__tests__/integration/oad/';
 
 describe('Syncables', async () => {
   const files = readdirSync(OAD_DIR);
-  files.forEach(async fileName => {
+  files.forEach(async (fileName) => {
     const service = fileName.split('.')[0];
     it(`can sync ${service}`, async () => {
       // Your OpenAPI document
@@ -18,19 +18,25 @@ describe('Syncables', async () => {
         document,
         // Custom logging
         onRequest({ context, operation }) {
-            console.log(context.req.method, context.req.path, operation.operationId);
+          console.log(
+            context.req.method,
+            context.req.path,
+            operation.operationId,
+          );
         },
-      })
+      });
       // Start the server
-      await new Promise (resolve => {
-        serve({
-          fetch: app.fetch,
-          port: 3000,
-        },
-        (info) => {
-          console.log(`Listening on http://localhost:${info.port}`);
-          resolve(true);
-        });
+      await new Promise((resolve) => {
+        serve(
+          {
+            fetch: app.fetch,
+            port: 3000,
+          },
+          (info) => {
+            console.log(`Listening on http://localhost:${info.port}`);
+            resolve(true);
+          },
+        );
       });
       const syncable = new Syncable<object>({
         specStr: document,

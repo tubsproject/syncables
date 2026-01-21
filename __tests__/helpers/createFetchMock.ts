@@ -2,7 +2,11 @@ import { vi, Mock } from 'vitest';
 
 export function createFetchMock(pagedByToken: boolean = false): {
   fetchMock: Mock;
-  mockResponses: Array<{ items: { [key: string]: number | string }[]; hasMore?: boolean; nextPageToken?: string }>;
+  mockResponses: Array<{
+    items: { [key: string]: number | string }[];
+    hasMore?: boolean;
+    nextPageToken?: string;
+  }>;
 } {
   // Mock the fetch function.
   const mockResponses = [
@@ -14,14 +18,11 @@ export function createFetchMock(pagedByToken: boolean = false): {
       hasMore: true,
     },
     {
-      items: [
-        { id: 3, title: 'Test Todo 3' },
-      ],
+      items: [{ id: 3, title: 'Test Todo 3' }],
       hasMore: false,
     },
     {
-      items: [
-      ],
+      items: [],
       hasMore: false,
     },
   ];
@@ -40,7 +41,7 @@ export function createFetchMock(pagedByToken: boolean = false): {
         status: 200,
         statusText: 'OK',
         text: () => Promise.resolve(''),
-      })
+      }),
     ),
-  }
+  };
 }
