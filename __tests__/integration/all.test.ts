@@ -8,6 +8,7 @@ const OAD_DIR = './__tests__/integration/oad/';
 
 describe('Syncables', async () => {
   const files = readdirSync(OAD_DIR);
+  let port = 3000;
   files.forEach(async (fileName) => {
     const service = fileName.split('.')[0];
     it(`can sync ${service}`, async () => {
@@ -26,11 +27,14 @@ describe('Syncables', async () => {
         },
       });
       // Start the server
+      let server;
       await new Promise((resolve) => {
-        serve(
+        port++;
+        console.log(`Starting server for ${service} on port ${port}...`);
+        server = serve(
           {
             fetch: app.fetch,
-            port: 3000,
+            port,
           },
           (info) => {
             console.log(`Listening on http://localhost:${info.port}`);
@@ -45,11 +49,12 @@ describe('Syncables', async () => {
         authHeaders: {
           Authorization: 'Bearer MOCK',
         },
-        // baseUrl: 'http://localhost:3000',
       });
       const data = await syncable.fullFetch();
       const expected = await import(`../integration/expected/${service}.js`);
       expect(data).toEqual(expected.default);
+      console.log(`Stopping server for ${service}...`);
+      server?.close();
     });
   });
 });

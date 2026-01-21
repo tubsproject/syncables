@@ -26,7 +26,7 @@ info:
   x-providerName: googleapis.com
   x-serviceName: calendar
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://localhost:3003'
     description: Local Mock Server
 externalDocs:
   url: 'https://developers.google.com/google-apps/calendar/firstapp'
