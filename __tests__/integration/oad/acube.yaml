@@ -403,7 +403,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
               syncable:
-                name: creditNote
+                name: integrationTest
                 description: Credit Notes received or sent by the authenticated user.
                 type: collection
             text/html:

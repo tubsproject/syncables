@@ -4710,7 +4710,7 @@ paths:
                   - items
                   - pagination
               syncable:
-                name: toNetwork
+                name: integrationTest
                 description: >-
                   Invoice and Credit Note Documents sent by the authenticated
                   user.

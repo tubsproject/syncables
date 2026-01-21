@@ -2829,7 +2829,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedReceiveTransactionList'
               syncable:
-                name: receiveTransactions
+                name: integrationTest
                 description: >-
                   Invoice and Credit Note Documents received by the
                   authenticated user.

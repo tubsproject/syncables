@@ -45,7 +45,7 @@ describe('Syncables', async () => {
       const syncable = new Syncable<object>({
         specStr: document,
         specFilename: fileName,
-        syncableName: 'calendarList',
+        syncableName: 'integrationTest',
         authHeaders: {
           Authorization: 'Bearer MOCK',
         },

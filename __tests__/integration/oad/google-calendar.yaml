@@ -2111,7 +2111,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CalendarList'
               syncable:
-                name: calendarList
+                name: integrationTest
                 description: Calendars of the currently authenticated user.
                 type: collection
                 field: items
