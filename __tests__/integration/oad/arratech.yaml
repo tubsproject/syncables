@@ -4715,7 +4715,8 @@ paths:
                   Invoice and Credit Note Documents sent by the authenticated
                   user.
                 type: collection
-                field: items
+                itemsPathInResponse:
+                  - items
                 pagingStrategy: pageToken
                 pageTokenParam: lastEvaluatedKey
         '400':

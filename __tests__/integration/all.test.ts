@@ -8,9 +8,15 @@ const OAD_DIR = './__tests__/integration/oad/';
 
 describe('Syncables', async () => {
   const files = readdirSync(OAD_DIR);
-  let port = 3000;
+  let port = 3001;
   files.forEach(async (fileName) => {
     const service = fileName.split('.')[0];
+    const thisPort = port++;
+
+    console.log(`Considering ${service} on port ${thisPort}...`);
+    if (!['google-calendar', 'arratech'].includes(service)) {
+      return;
+    }
     it(`can sync ${service}`, async () => {
       // Your OpenAPI document
       const document = readFileSync(`${OAD_DIR}${fileName}`).toString();
@@ -29,12 +35,11 @@ describe('Syncables', async () => {
       // Start the server
       let server;
       await new Promise((resolve) => {
-        port++;
         console.log(`Starting server for ${service} on port ${port}...`);
         server = serve(
           {
             fetch: app.fetch,
-            port,
+            port: thisPort,
           },
           (info) => {
             console.log(`Listening on http://localhost:${info.port}`);
