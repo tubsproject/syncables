@@ -54,6 +54,9 @@ importers:
       '@scalar/mock-server':
         specifier: ^0.8.16
         version: 0.8.16(typescript@5.7.3)
+      '@stoplight/yaml':
+        specifier: ^4.3.0
+        version: 4.3.0
       '@types/eslint__js':
         specifier: ~8.42
         version: 8.42.3

@@ -3,7 +3,8 @@ import { readdirSync } from 'fs';
 import { serve } from '@hono/node-server';
 import { createMockServer } from '@scalar/mock-server';
 import { Syncable } from '../../src/syncable.js';
-import { overlayFiles } from 'openapi-overlays-js/src/overlay.js';
+import { overlayFiles, applyOverlay } from 'openapi-overlays-js/src/overlay.js';
+import { parseWithPointers, safeStringify } from '@stoplight/yaml';
 
 const OAD_DIR = './__tests__/integration/oad/';
 const OVERLAY_DIR = './__tests__/integration/overlay/';
@@ -21,7 +22,25 @@ describe('Syncables', async () => {
     }
     it(`can sync ${service}`, async () => {
       // Your OpenAPI document
-      const document = overlayFiles(`${OAD_DIR}${fileName}`, `${OVERLAY_DIR}${service}.yaml`).toString();
+      const overlayed = overlayFiles(`${OAD_DIR}${fileName}`, `${OVERLAY_DIR}${service}.yaml`).toString();
+      const parsed = parseWithPointers(overlayed).data;
+      const applied = applyOverlay(parsed, {
+        openapi: '3.0.0',
+        info: {
+          description: 'Set mock server URL',
+        },
+        actions: [
+          {
+            target: "servers['0']",
+            update: {
+              url: `http:/localhost:${thisPort}`,
+              description: 'Local Mock Server',
+            },
+          },
+        ],
+      });
+      const document = safeStringify(applied);
+      console.log(document)
       // Create the mocked routes
       const app = await createMockServer({
         document,

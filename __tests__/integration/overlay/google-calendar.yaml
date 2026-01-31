@@ -14,6 +14,3 @@ actions:
       pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
       itemsPathInResponse:
         - items
-- target: servers['0']
-  update:
-    url: 'http:/localhost:3004'
