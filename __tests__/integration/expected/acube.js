@@ -1,39 +1,19 @@
 export default [
   {
-    "accessRole": "string",
-    "backgroundColor": "string",
-    "colorId": "string",
-    "conferenceProperties": {
-      "allowedConferenceSolutionTypes": [
-        "string",
-      ],
+    "createdAt": "string",
+    "date": "string",
+    "direction": "outgoing",
+    "downloaded": true,
+    "format": "UBL 2.1 XML",
+    "number": "string",
+    "peppolMessage": {
+      "createdAt": "string",
+      "errorCode": null,
+      "errorMessage": null,
+      "requestSentAt": null,
+      "responseReceivedAt": null,
+      "success": null,
+      "uuid": "string",
     },
-    "defaultReminders": [
-      {
-        "method": "string",
-        "minutes": 1,
-      },
-    ],
-    "deleted": false,
-    "description": "string",
-    "etag": "string",
-    "foregroundColor": "string",
-    "hidden": false,
-    "id": "string",
-    "kind": "calendar#calendarListEntry",
-    "location": "string",
-    "notificationSettings": {
-      "notifications": [
-        {
-          "method": "string",
-          "type": "string",
-        },
-      ],
-    },
-    "primary": false,
-    "selected": false,
-    "summary": "string",
-    "summaryOverride": "string",
-    "timeZone": "string",
   },
 ];

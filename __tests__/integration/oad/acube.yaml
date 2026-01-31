@@ -4,11 +4,11 @@ info:
   description: ''
   version: 1.0.0
   x-logo:
-    url: 'https://www.acubeapi.com/logo.svg'
+    url: https://www.acubeapi.com/logo.svg
 servers:
-  - url: 'http://localhost:3001'
+  - url: https://peppol-sandbox.api.acubeapi.com
     description: A-Cube API Peppol sandbox environment
-  - url: 'https://peppol.api.acubeapi.com'
+  - url: https://peppol.api.acubeapi.com
     description: A-Cube API Peppol production environment
     x-production: hide
 security:
@@ -27,10 +27,103 @@ tags:
 paths:
   /credit-notes:
     get:
-      summary: Retrieves the collection of CreditNote resources.
       operationId: api_credit-notes_get_collection
       tags:
         - CreditNote
+      responses:
+        '200':
+          description: CreditNote collection
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  hydra:member:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CreditNote.CreditNoteOutput.jsonld'
+                  hydra:totalItems:
+                    type: integer
+                    minimum: 0
+                  hydra:view:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        format: iri-reference
+                      '@type':
+                        type: string
+                      hydra:first:
+                        type: string
+                        format: iri-reference
+                      hydra:last:
+                        type: string
+                        format: iri-reference
+                      hydra:previous:
+                        type: string
+                        format: iri-reference
+                      hydra:next:
+                        type: string
+                        format: iri-reference
+                    example:
+                      '@id': string
+                      type: string
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
+                    type: object
+                    properties:
+                      '@type':
+                        type: string
+                      hydra:template:
+                        type: string
+                      hydra:variableRepresentation:
+                        type: string
+                      hydra:mapping:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            '@type':
+                              type: string
+                            variable:
+                              type: string
+                            property:
+                              type:
+                                - string
+                                - 'null'
+                            required:
+                              type: boolean
+                required:
+                  - hydra:member
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
+            text/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
+            application/pdf:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
+      summary: Retrieves the collection of CreditNote resources.
       description: Retrieves the collection of CreditNote resources.
       parameters:
         - name: page
@@ -81,7 +174,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'senderId[]'
+        - name: senderId[]
           in: query
           description: ''
           required: false
@@ -116,7 +209,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'recipientId[]'
+        - name: recipientId[]
           in: query
           description: ''
           required: false
@@ -140,7 +233,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentNumber[]'
+        - name: documentNumber[]
           in: query
           description: ''
           required: false
@@ -153,7 +246,7 @@ paths:
           style: form
           explode: true
           allowReserved: false
-        - name: 'sortBy[createdAt]'
+        - name: sortBy[createdAt]
           in: query
           description: ''
           required: false
@@ -168,7 +261,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[documentDate]'
+        - name: sortBy[documentDate]
           in: query
           description: ''
           required: false
@@ -183,7 +276,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[senderName]'
+        - name: sortBy[senderName]
           in: query
           description: ''
           required: false
@@ -198,7 +291,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[recipientName]'
+        - name: sortBy[recipientName]
           in: query
           description: ''
           required: false
@@ -213,7 +306,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[before]'
+        - name: createdAt[before]
           in: query
           description: ''
           required: false
@@ -224,7 +317,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_before]'
+        - name: createdAt[strictly_before]
           in: query
           description: ''
           required: false
@@ -235,7 +328,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[after]'
+        - name: createdAt[after]
           in: query
           description: ''
           required: false
@@ -246,7 +339,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_after]'
+        - name: createdAt[strictly_after]
           in: query
           description: ''
           required: false
@@ -257,7 +350,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[before]'
+        - name: documentDate[before]
           in: query
           description: ''
           required: false
@@ -268,7 +361,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_before]'
+        - name: documentDate[strictly_before]
           in: query
           description: ''
           required: false
@@ -279,7 +372,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[after]'
+        - name: documentDate[after]
           in: query
           description: ''
           required: false
@@ -290,7 +383,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_after]'
+        - name: documentDate[strictly_after]
           in: query
           description: ''
           required: false
@@ -319,9 +412,7 @@ paths:
           deprecated: false
           allowEmptyValue: false
           schema:
-            description: >-
-              Filter document by direction, chose between "outgoing" or
-              "incoming"
+            description: Filter document by direction, chose between "outgoing" or "incoming"
             enum:
               - outgoing
               - incoming
@@ -329,116 +420,14 @@ paths:
           style: form
           explode: false
           allowReserved: false
-      responses:
-        '200':
-          description: CreditNote collection
-          content:
-            application/ld+json:
-              schema:
-                type: object
-                properties:
-                  'hydra:member':
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/CreditNote.CreditNoteOutput.jsonld'
-                  'hydra:totalItems':
-                    type: integer
-                    minimum: 0
-                  'hydra:view':
-                    type: object
-                    properties:
-                      '@id':
-                        type: string
-                        format: iri-reference
-                      '@type':
-                        type: string
-                      'hydra:first':
-                        type: string
-                        format: iri-reference
-                      'hydra:last':
-                        type: string
-                        format: iri-reference
-                      'hydra:previous':
-                        type: string
-                        format: iri-reference
-                      'hydra:next':
-                        type: string
-                        format: iri-reference
-                    example:
-                      '@id': string
-                      type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
-                    type: object
-                    properties:
-                      '@type':
-                        type: string
-                      'hydra:template':
-                        type: string
-                      'hydra:variableRepresentation':
-                        type: string
-                      'hydra:mapping':
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            '@type':
-                              type: string
-                            variable:
-                              type: string
-                            property:
-                              type:
-                                - string
-                                - 'null'
-                            required:
-                              type: boolean
-                required:
-                  - 'hydra:member'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
-              syncable:
-                name: integrationTest
-                description: Credit Notes received or sent by the authenticated user.
-                type: collection
-            text/html:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
-            text/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
-            application/pdf:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
       deprecated: false
       x-apiplatform-tag:
         - ZZ
   /credit-notes/downloaded:
     post:
-      summary: Mark the documents as downloaded
       operationId: api_credit-notesdownloaded_post
       tags:
         - CreditNote
-      description: >-
-        This is useful to keep track of the document that have been received by
-        the user.
-      parameters: []
       responses:
         '204':
           description: CreditNote resource created
@@ -482,6 +471,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Mark the documents as downloaded
+      description: This is useful to keep track of the document that have been received by the user.
+      parameters: []
       requestBody:
         description: The new CreditNote resource
         content:
@@ -494,28 +486,9 @@ paths:
         - ZZ
   /credit-notes/outgoing/ubl:
     post:
-      summary: Create a new credit note in UBL format
       operationId: api_credit_notes_post_outgoing_ubl_collection
       tags:
         - CreditNote
-      description: >-
-        Send a credit note in either the original XML format or the JSON
-        transposition.
-
-        You must send the XML or JSON as the request body along with the right
-        `Content-Type` header (`application/xml` or `application/json`).
-
-
-        Optionally you can send the `X-Validation-Rule: {validation-rule-code}`
-        where `{validation-rule-code}` is one of the available validation rules
-        you can use.
-
-        You can retrieve a list of the available validation rules using the API
-        `GET /validation-rules`.
-
-        By default the validation rule is autodetected using the latest rule
-        available for the given document.
-      parameters: []
       responses:
         '202':
           description: CreditNote resource created
@@ -565,28 +538,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Create a new credit note in UBL format
+      description: |-
+        Send a credit note in either the original XML format or the JSON transposition.
+        You must send the XML or JSON as the request body along with the right `Content-Type` header (`application/xml` or `application/json`).
+
+        Optionally you can send the `X-Validation-Rule: {validation-rule-code}` where `{validation-rule-code}` is one of the available validation rules you can use.
+        You can retrieve a list of the available validation rules using the API `GET /validation-rules`.
+        By default the validation rule is autodetected using the latest rule available for the given document.
+      parameters: []
       deprecated: false
       x-apiplatform-tag:
         - ZZ
-  '/credit-notes/{uuid}':
+  /credit-notes/{uuid}:
     get:
-      summary: Retrieves a CreditNote resource.
       operationId: api_credit-notes_uuid_get
       tags:
         - CreditNote
-      description: Retrieves a CreditNote resource.
-      parameters:
-        - name: uuid
-          in: path
-          description: CreditNote identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '200':
           description: CreditNote resource
@@ -622,19 +590,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/credit-notes/{uuid}/print':
-    get:
-      summary: Get the printed version of the document
-      operationId: api_credit-notes_uuidprint_get
-      tags:
-        - CreditNote
-      description: >-
-        You will receive a 302 redirect response with the Location header
-        pointing to the downloadable file. Additionally you get the URL to the
-        downloaded file in the JSON response body.
+      summary: Retrieves a CreditNote resource.
+      description: Retrieves a CreditNote resource.
       parameters:
         - name: uuid
           in: path
@@ -647,6 +604,14 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /credit-notes/{uuid}/print:
+    get:
+      operationId: api_credit-notes_uuidprint_get
+      tags:
+        - CreditNote
       responses:
         '302':
           description: CreditNote resource
@@ -668,18 +633,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/credit-notes/{uuid}/source':
-    get:
-      summary: Get the original source document
-      operationId: api_credit-notes_uuidsource_get
-      tags:
-        - CreditNote
-      description: >-
-        You can retrieve the original source document in either XML or JSON
-        format.
+      summary: Get the printed version of the document
+      description: You will receive a 302 redirect response with the Location header pointing to the downloadable file. Additionally you get the URL to the downloaded file in the JSON response body.
       parameters:
         - name: uuid
           in: path
@@ -692,6 +647,14 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /credit-notes/{uuid}/source:
+    get:
+      operationId: api_credit-notes_uuidsource_get
+      tags:
+        - CreditNote
       responses:
         '204':
           description: CreditNote resource
@@ -713,15 +676,122 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
+      summary: Get the original source document
+      description: You can retrieve the original source document in either XML or JSON format.
+      parameters:
+        - name: uuid
+          in: path
+          description: CreditNote identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       deprecated: false
       x-apiplatform-tag:
         - ZZ
   /despatch-advices:
     get:
-      summary: Retrieves the collection of DespatchAdvice resources.
       operationId: api_despatch-advices_get_collection
       tags:
         - DespatchAdvice
+      responses:
+        '200':
+          description: DespatchAdvice collection
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  hydra:member:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput.jsonld'
+                  hydra:totalItems:
+                    type: integer
+                    minimum: 0
+                  hydra:view:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        format: iri-reference
+                      '@type':
+                        type: string
+                      hydra:first:
+                        type: string
+                        format: iri-reference
+                      hydra:last:
+                        type: string
+                        format: iri-reference
+                      hydra:previous:
+                        type: string
+                        format: iri-reference
+                      hydra:next:
+                        type: string
+                        format: iri-reference
+                    example:
+                      '@id': string
+                      type: string
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
+                    type: object
+                    properties:
+                      '@type':
+                        type: string
+                      hydra:template:
+                        type: string
+                      hydra:variableRepresentation:
+                        type: string
+                      hydra:mapping:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            '@type':
+                              type: string
+                            variable:
+                              type: string
+                            property:
+                              type:
+                                - string
+                                - 'null'
+                            required:
+                              type: boolean
+                required:
+                  - hydra:member
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            text/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            application/pdf:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+      summary: Retrieves the collection of DespatchAdvice resources.
       description: Retrieves the collection of DespatchAdvice resources.
       parameters:
         - name: page
@@ -772,7 +842,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'senderId[]'
+        - name: senderId[]
           in: query
           description: ''
           required: false
@@ -807,7 +877,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'recipientId[]'
+        - name: recipientId[]
           in: query
           description: ''
           required: false
@@ -831,7 +901,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentNumber[]'
+        - name: documentNumber[]
           in: query
           description: ''
           required: false
@@ -844,7 +914,7 @@ paths:
           style: form
           explode: true
           allowReserved: false
-        - name: 'sortBy[createdAt]'
+        - name: sortBy[createdAt]
           in: query
           description: ''
           required: false
@@ -859,7 +929,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[documentDate]'
+        - name: sortBy[documentDate]
           in: query
           description: ''
           required: false
@@ -874,7 +944,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[senderName]'
+        - name: sortBy[senderName]
           in: query
           description: ''
           required: false
@@ -889,7 +959,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[recipientName]'
+        - name: sortBy[recipientName]
           in: query
           description: ''
           required: false
@@ -904,7 +974,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[before]'
+        - name: createdAt[before]
           in: query
           description: ''
           required: false
@@ -915,7 +985,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_before]'
+        - name: createdAt[strictly_before]
           in: query
           description: ''
           required: false
@@ -926,7 +996,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[after]'
+        - name: createdAt[after]
           in: query
           description: ''
           required: false
@@ -937,7 +1007,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_after]'
+        - name: createdAt[strictly_after]
           in: query
           description: ''
           required: false
@@ -948,7 +1018,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[before]'
+        - name: documentDate[before]
           in: query
           description: ''
           required: false
@@ -959,7 +1029,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_before]'
+        - name: documentDate[strictly_before]
           in: query
           description: ''
           required: false
@@ -970,7 +1040,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[after]'
+        - name: documentDate[after]
           in: query
           description: ''
           required: false
@@ -981,7 +1051,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_after]'
+        - name: documentDate[strictly_after]
           in: query
           description: ''
           required: false
@@ -1010,9 +1080,7 @@ paths:
           deprecated: false
           allowEmptyValue: false
           schema:
-            description: >-
-              Filter document by direction, chose between "outgoing" or
-              "incoming"
+            description: Filter document by direction, chose between "outgoing" or "incoming"
             enum:
               - outgoing
               - incoming
@@ -1020,23 +1088,257 @@ paths:
           style: form
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /despatch-advices/downloaded:
+    post:
+      operationId: api_despatch-advicesdownloaded_post
+      tags:
+        - DespatchAdvice
+      responses:
+        '204':
+          description: DespatchAdvice resource created
+          content:
+            application/ld+json:
+              schema: {}
+            application/json:
+              schema: {}
+            text/html:
+              schema: {}
+            application/xml:
+              schema: {}
+            text/xml:
+              schema: {}
+            application/pdf:
+              schema: {}
+          links: {}
+        '400':
+          description: Invalid input
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {}
+        '422':
+          description: An error occurred
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld-jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation-json'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation-json'
+          links: {}
+      summary: Mark the documents as downloaded
+      description: This is useful to keep track of the document that have been received by the user.
+      parameters: []
+      requestBody:
+        description: The new DespatchAdvice resource
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DespatchAdvice.DownloadedInput'
+        required: true
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /despatch-advices/outgoing/ubl:
+    post:
+      operationId: api_despatch_advices_post_outgoing_ubl_collection
+      tags:
+        - DespatchAdvice
+      responses:
+        '202':
+          description: DespatchAdvice resource created
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput.jsonld'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            application/pdf:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+          links: {}
+        '400':
+          description: Invalid input
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {}
+        '422':
+          description: An error occurred
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld-jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation-json'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation-json'
+          links: {}
+      summary: Create a new despatch advice in UBL format
+      description: |-
+        Send a despatch advice in either the original XML format or the JSON transposition.
+        You must send the XML or JSON as the request body along with the right `Content-Type` header (`application/xml` or `application/json`).
+
+        Optionally you can send the `X-Validation-Rule: {validation-rule-code}` where `{validation-rule-code}` is one of the available validation rules you can use.
+        You can retrieve a list of the available validation rules using the API `GET /validation-rules`.
+        By default the validation rule is autodetected using the latest rule available for the given document.
+      parameters: []
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /despatch-advices/{uuid}:
+    get:
+      operationId: api_despatch-advices_uuid_get
+      tags:
+        - DespatchAdvice
       responses:
         '200':
-          description: DespatchAdvice collection
+          description: DespatchAdvice resource
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput.jsonld'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+            application/pdf:
+              schema:
+                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+        '404':
+          description: Not found
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {}
+      summary: Retrieves a DespatchAdvice resource.
+      description: Retrieves a DespatchAdvice resource.
+      parameters:
+        - name: uuid
+          in: path
+          description: DespatchAdvice identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /despatch-advices/{uuid}/source:
+    get:
+      operationId: api_despatch-advices_uuidsource_get
+      tags:
+        - DespatchAdvice
+      responses:
+        '204':
+          description: DespatchAdvice resource
+          content:
+            application/xml:
+              schema: {}
+            application/json:
+              schema: {}
+        '404':
+          description: Not found
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {}
+      summary: Get the original source document
+      description: You can retrieve the original source document in either XML or JSON format.
+      parameters:
+        - name: uuid
+          in: path
+          description: DespatchAdvice identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /document-types:
+    get:
+      operationId: api_document-types_get_collection
+      tags:
+        - DocumentType
+      responses:
+        '200':
+          description: DocumentType collection
           content:
             application/ld+json:
               schema:
                 type: object
                 properties:
-                  'hydra:member':
+                  hydra:member:
                     type: array
                     items:
-                      $ref: >-
-                        #/components/schemas/DespatchAdvice.DespatchAdviceOutput.jsonld
-                  'hydra:totalItems':
+                      $ref: '#/components/schemas/DocumentType.DocumentTypeOutput.jsonld'
+                  hydra:totalItems:
                     type: integer
                     minimum: 0
-                  'hydra:view':
+                  hydra:view:
                     type: object
                     properties:
                       '@id':
@@ -1044,35 +1346,35 @@ paths:
                         format: iri-reference
                       '@type':
                         type: string
-                      'hydra:first':
+                      hydra:first:
                         type: string
                         format: iri-reference
-                      'hydra:last':
+                      hydra:last:
                         type: string
                         format: iri-reference
-                      'hydra:previous':
+                      hydra:previous:
                         type: string
                         format: iri-reference
-                      'hydra:next':
+                      hydra:next:
                         type: string
                         format: iri-reference
                     example:
                       '@id': string
                       type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
                     type: object
                     properties:
                       '@type':
                         type: string
-                      'hydra:template':
+                      hydra:template:
                         type: string
-                      'hydra:variableRepresentation':
+                      hydra:variableRepresentation:
                         type: string
-                      'hydra:mapping':
+                      hydra:mapping:
                         type: array
                         items:
                           type: object
@@ -1088,289 +1390,36 @@ paths:
                             required:
                               type: boolean
                 required:
-                  - 'hydra:member'
+                  - hydra:member
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
             text/html:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
             text/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
+                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
             application/pdf:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  /despatch-advices/downloaded:
-    post:
-      summary: Mark the documents as downloaded
-      operationId: api_despatch-advicesdownloaded_post
-      tags:
-        - DespatchAdvice
-      description: >-
-        This is useful to keep track of the document that have been received by
-        the user.
-      parameters: []
-      responses:
-        '204':
-          description: DespatchAdvice resource created
-          content:
-            application/ld+json:
-              schema: {}
-            application/json:
-              schema: {}
-            text/html:
-              schema: {}
-            application/xml:
-              schema: {}
-            text/xml:
-              schema: {}
-            application/pdf:
-              schema: {}
-          links: {}
-        '400':
-          description: Invalid input
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Error.jsonld'
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Error'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          links: {}
-        '422':
-          description: An error occurred
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/ConstraintViolation.jsonld-jsonld'
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ConstraintViolation-json'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ConstraintViolation-json'
-          links: {}
-      requestBody:
-        description: The new DespatchAdvice resource
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DespatchAdvice.DownloadedInput'
-        required: true
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  /despatch-advices/outgoing/ubl:
-    post:
-      summary: Create a new despatch advice in UBL format
-      operationId: api_despatch_advices_post_outgoing_ubl_collection
-      tags:
-        - DespatchAdvice
-      description: >-
-        Send a despatch advice in either the original XML format or the JSON
-        transposition.
-
-        You must send the XML or JSON as the request body along with the right
-        `Content-Type` header (`application/xml` or `application/json`).
-
-
-        Optionally you can send the `X-Validation-Rule: {validation-rule-code}`
-        where `{validation-rule-code}` is one of the available validation rules
-        you can use.
-
-        You can retrieve a list of the available validation rules using the API
-        `GET /validation-rules`.
-
-        By default the validation rule is autodetected using the latest rule
-        available for the given document.
-      parameters: []
-      responses:
-        '202':
-          description: DespatchAdvice resource created
-          content:
-            application/ld+json:
-              schema:
-                $ref: >-
-                  #/components/schemas/DespatchAdvice.DespatchAdviceOutput.jsonld
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-            application/pdf:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-          links: {}
-        '400':
-          description: Invalid input
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Error.jsonld'
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Error'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          links: {}
-        '422':
-          description: An error occurred
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/ConstraintViolation.jsonld-jsonld'
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ConstraintViolation-json'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ConstraintViolation-json'
-          links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/despatch-advices/{uuid}':
-    get:
-      summary: Retrieves a DespatchAdvice resource.
-      operationId: api_despatch-advices_uuid_get
-      tags:
-        - DespatchAdvice
-      description: Retrieves a DespatchAdvice resource.
-      parameters:
-        - name: uuid
-          in: path
-          description: DespatchAdvice identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
-      responses:
-        '200':
-          description: DespatchAdvice resource
-          content:
-            application/ld+json:
-              schema:
-                $ref: >-
-                  #/components/schemas/DespatchAdvice.DespatchAdviceOutput.jsonld
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-            application/pdf:
-              schema:
-                $ref: '#/components/schemas/DespatchAdvice.DespatchAdviceOutput'
-        '404':
-          description: Not found
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Error.jsonld'
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Error'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/despatch-advices/{uuid}/source':
-    get:
-      summary: Get the original source document
-      operationId: api_despatch-advices_uuidsource_get
-      tags:
-        - DespatchAdvice
-      description: >-
-        You can retrieve the original source document in either XML or JSON
-        format.
-      parameters:
-        - name: uuid
-          in: path
-          description: DespatchAdvice identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
-      responses:
-        '204':
-          description: DespatchAdvice resource
-          content:
-            application/xml:
-              schema: {}
-            application/json:
-              schema: {}
-        '404':
-          description: Not found
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Error.jsonld'
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Error'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  /document-types:
-    get:
+                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
       summary: Retrieves the collection of DocumentType resources.
-      operationId: api_document-types_get_collection
-      tags:
-        - DocumentType
-      description: >-
+      description: |-
         Get the list of supported document types.
-
-        For a complete and official list see
-        https://docs.peppol.eu/edelivery/codelists/
+        For a complete and official list see https://docs.peppol.eu/edelivery/codelists/
       parameters:
         - name: page
           in: query
@@ -1398,23 +1447,30 @@ paths:
           style: form
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /invoices:
+    get:
+      operationId: api_invoices_get_collection
+      tags:
+        - Invoice
       responses:
         '200':
-          description: DocumentType collection
+          description: Invoice collection
           content:
             application/ld+json:
               schema:
                 type: object
                 properties:
-                  'hydra:member':
+                  hydra:member:
                     type: array
                     items:
-                      $ref: >-
-                        #/components/schemas/DocumentType.DocumentTypeOutput.jsonld
-                  'hydra:totalItems':
+                      $ref: '#/components/schemas/Invoice.InvoiceOutput.jsonld'
+                  hydra:totalItems:
                     type: integer
                     minimum: 0
-                  'hydra:view':
+                  hydra:view:
                     type: object
                     properties:
                       '@id':
@@ -1422,35 +1478,35 @@ paths:
                         format: iri-reference
                       '@type':
                         type: string
-                      'hydra:first':
+                      hydra:first:
                         type: string
                         format: iri-reference
-                      'hydra:last':
+                      hydra:last:
                         type: string
                         format: iri-reference
-                      'hydra:previous':
+                      hydra:previous:
                         type: string
                         format: iri-reference
-                      'hydra:next':
+                      hydra:next:
                         type: string
                         format: iri-reference
                     example:
                       '@id': string
                       type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
                     type: object
                     properties:
                       '@type':
                         type: string
-                      'hydra:template':
+                      hydra:template:
                         type: string
-                      'hydra:variableRepresentation':
+                      hydra:variableRepresentation:
                         type: string
-                      'hydra:mapping':
+                      hydra:mapping:
                         type: array
                         items:
                           type: object
@@ -1466,41 +1522,33 @@ paths:
                             required:
                               type: boolean
                 required:
-                  - 'hydra:member'
+                  - hydra:member
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
+                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
             text/html:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
+                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
+                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
             text/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
+                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
             application/pdf:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DocumentType.DocumentTypeOutput'
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  /invoices:
-    get:
+                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
       summary: Retrieves the collection of Invoice resources.
-      operationId: api_invoices_get_collection
-      tags:
-        - Invoice
       description: Retrieves the collection of Invoice resources.
       parameters:
         - name: page
@@ -1551,7 +1599,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'senderId[]'
+        - name: senderId[]
           in: query
           description: ''
           required: false
@@ -1586,7 +1634,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'recipientId[]'
+        - name: recipientId[]
           in: query
           description: ''
           required: false
@@ -1610,7 +1658,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentNumber[]'
+        - name: documentNumber[]
           in: query
           description: ''
           required: false
@@ -1623,7 +1671,7 @@ paths:
           style: form
           explode: true
           allowReserved: false
-        - name: 'sortBy[createdAt]'
+        - name: sortBy[createdAt]
           in: query
           description: ''
           required: false
@@ -1638,7 +1686,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[documentDate]'
+        - name: sortBy[documentDate]
           in: query
           description: ''
           required: false
@@ -1653,7 +1701,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[senderName]'
+        - name: sortBy[senderName]
           in: query
           description: ''
           required: false
@@ -1668,7 +1716,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[recipientName]'
+        - name: sortBy[recipientName]
           in: query
           description: ''
           required: false
@@ -1683,7 +1731,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[before]'
+        - name: createdAt[before]
           in: query
           description: ''
           required: false
@@ -1694,7 +1742,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_before]'
+        - name: createdAt[strictly_before]
           in: query
           description: ''
           required: false
@@ -1705,7 +1753,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[after]'
+        - name: createdAt[after]
           in: query
           description: ''
           required: false
@@ -1716,7 +1764,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_after]'
+        - name: createdAt[strictly_after]
           in: query
           description: ''
           required: false
@@ -1727,7 +1775,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[before]'
+        - name: documentDate[before]
           in: query
           description: ''
           required: false
@@ -1738,7 +1786,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_before]'
+        - name: documentDate[strictly_before]
           in: query
           description: ''
           required: false
@@ -1749,7 +1797,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[after]'
+        - name: documentDate[after]
           in: query
           description: ''
           required: false
@@ -1760,7 +1808,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_after]'
+        - name: documentDate[strictly_after]
           in: query
           description: ''
           required: false
@@ -1789,9 +1837,7 @@ paths:
           deprecated: false
           allowEmptyValue: false
           schema:
-            description: >-
-              Filter document by direction, chose between "outgoing" or
-              "incoming"
+            description: Filter document by direction, chose between "outgoing" or "incoming"
             enum:
               - outgoing
               - incoming
@@ -1799,116 +1845,14 @@ paths:
           style: form
           explode: false
           allowReserved: false
-      responses:
-        '200':
-          description: Invoice collection
-          content:
-            application/ld+json:
-              schema:
-                type: object
-                properties:
-                  'hydra:member':
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Invoice.InvoiceOutput.jsonld'
-                  'hydra:totalItems':
-                    type: integer
-                    minimum: 0
-                  'hydra:view':
-                    type: object
-                    properties:
-                      '@id':
-                        type: string
-                        format: iri-reference
-                      '@type':
-                        type: string
-                      'hydra:first':
-                        type: string
-                        format: iri-reference
-                      'hydra:last':
-                        type: string
-                        format: iri-reference
-                      'hydra:previous':
-                        type: string
-                        format: iri-reference
-                      'hydra:next':
-                        type: string
-                        format: iri-reference
-                    example:
-                      '@id': string
-                      type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
-                    type: object
-                    properties:
-                      '@type':
-                        type: string
-                      'hydra:template':
-                        type: string
-                      'hydra:variableRepresentation':
-                        type: string
-                      'hydra:mapping':
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            '@type':
-                              type: string
-                            variable:
-                              type: string
-                            property:
-                              type:
-                                - string
-                                - 'null'
-                            required:
-                              type: boolean
-                required:
-                  - 'hydra:member'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
-              syncable:
-                name: invoice
-                description: Invoice Documents received or sent by the authenticated user.
-                type: collection
-            text/html:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
-            text/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
-            application/pdf:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Invoice.InvoiceOutput'
       deprecated: false
       x-apiplatform-tag:
         - ZZ
   /invoices/downloaded:
     post:
-      summary: Mark the documents as downloaded
       operationId: api_invoicesdownloaded_post
       tags:
         - Invoice
-      description: >-
-        This is useful to keep track of the document that have been received by
-        the user.
-      parameters: []
       responses:
         '204':
           description: Invoice resource created
@@ -1952,6 +1896,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Mark the documents as downloaded
+      description: This is useful to keep track of the document that have been received by the user.
+      parameters: []
       requestBody:
         description: The new Invoice resource
         content:
@@ -1964,28 +1911,9 @@ paths:
         - ZZ
   /invoices/outgoing/ubl:
     post:
-      summary: Create a new invoice in UBL format
       operationId: api_invoices_post_outgoing_ubl_collection
       tags:
         - Invoice
-      description: >-
-        Send a invoice in either the original XML format or the JSON
-        transposition.
-
-        You must send the XML or JSON as the request body along with the right
-        `Content-Type` header (`application/xml` or `application/json`).
-
-
-        Optionally you can send the `X-Validation-Rule: {validation-rule-code}`
-        where `{validation-rule-code}` is one of the available validation rules
-        you can use.
-
-        You can retrieve a list of the available validation rules using the API
-        `GET /validation-rules`.
-
-        By default the validation rule is autodetected using the latest rule
-        available for the given document.
-      parameters: []
       responses:
         '202':
           description: Invoice resource created
@@ -2035,36 +1963,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Create a new invoice in UBL format
+      description: |-
+        Send a invoice in either the original XML format or the JSON transposition.
+        You must send the XML or JSON as the request body along with the right `Content-Type` header (`application/xml` or `application/json`).
+
+        Optionally you can send the `X-Validation-Rule: {validation-rule-code}` where `{validation-rule-code}` is one of the available validation rules you can use.
+        You can retrieve a list of the available validation rules using the API `GET /validation-rules`.
+        By default the validation rule is autodetected using the latest rule available for the given document.
+      parameters: []
       deprecated: false
       x-apiplatform-tag:
         - ZZ
-      requestBody:
-        content:
-          application/xml:
-            schema:
-              type: string
-          application/json:
-            schema:
-              type: string
-  '/invoices/{uuid}':
+  /invoices/{uuid}:
     get:
-      summary: Retrieves a Invoice resource.
       operationId: api_invoices_uuid_get
       tags:
         - Invoice
-      description: Retrieves a Invoice resource.
-      parameters:
-        - name: uuid
-          in: path
-          description: Invoice identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '200':
           description: Invoice resource
@@ -2100,19 +2015,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/invoices/{uuid}/print':
-    get:
-      summary: Get the printed version of the document
-      operationId: api_invoices_uuidprint_get
-      tags:
-        - Invoice
-      description: >-
-        You will receive a 302 redirect response with the Location header
-        pointing to the downloadable file. Additionally you get the URL to the
-        downloaded file in the JSON response body.
+      summary: Retrieves a Invoice resource.
+      description: Retrieves a Invoice resource.
       parameters:
         - name: uuid
           in: path
@@ -2125,6 +2029,14 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /invoices/{uuid}/print:
+    get:
+      operationId: api_invoices_uuidprint_get
+      tags:
+        - Invoice
       responses:
         '302':
           description: Invoice resource
@@ -2146,18 +2058,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/invoices/{uuid}/source':
-    get:
-      summary: Get the original source document
-      operationId: api_invoices_uuidsource_get
-      tags:
-        - Invoice
-      description: >-
-        You can retrieve the original source document in either XML or JSON
-        format.
+      summary: Get the printed version of the document
+      description: You will receive a 302 redirect response with the Location header pointing to the downloadable file. Additionally you get the URL to the downloaded file in the JSON response body.
       parameters:
         - name: uuid
           in: path
@@ -2170,6 +2072,14 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /invoices/{uuid}/source:
+    get:
+      operationId: api_invoices_uuidsource_get
+      tags:
+        - Invoice
       responses:
         '204':
           description: Invoice resource
@@ -2191,125 +2101,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
+      summary: Get the original source document
+      description: You can retrieve the original source document in either XML or JSON format.
+      parameters:
+        - name: uuid
+          in: path
+          description: Invoice identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       deprecated: false
       x-apiplatform-tag:
         - ZZ
   /legal-entities:
     get:
-      summary: Retrieves the collection of LegalEntity resources.
       operationId: api_legal-entities_get_collection
       tags:
         - LegalEntity
-      description: Retrieves the collection of LegalEntity resources.
-      parameters:
-        - name: page
-          in: query
-          description: The collection page number
-          required: false
-          deprecated: false
-          allowEmptyValue: true
-          schema:
-            type: integer
-            default: 1
-          style: form
-          explode: false
-          allowReserved: false
-        - name: itemsPerPage
-          in: query
-          description: The number of items per page
-          required: false
-          deprecated: false
-          allowEmptyValue: true
-          schema:
-            type: integer
-            default: 30
-            minimum: 0
-            maximum: 30
-          style: form
-          explode: false
-          allowReserved: false
-        - name: 'sortBy[createdAt]'
-          in: query
-          description: ''
-          required: false
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-            default: desc
-            enum:
-              - asc
-              - desc
-          style: form
-          explode: false
-          allowReserved: false
-        - name: 'sortBy[registeredName]'
-          in: query
-          description: ''
-          required: false
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-            default: asc
-            enum:
-              - asc
-              - desc
-          style: form
-          explode: false
-          allowReserved: false
-        - name: 'sortBy[identifierScheme]'
-          in: query
-          description: ''
-          required: false
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-            default: asc
-            enum:
-              - asc
-              - desc
-          style: form
-          explode: false
-          allowReserved: false
-        - name: 'sortBy[identifierValue]'
-          in: query
-          description: ''
-          required: false
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-            default: asc
-            enum:
-              - asc
-              - desc
-          style: form
-          explode: false
-          allowReserved: false
-        - name: identifierValue
-          in: query
-          description: ''
-          required: false
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: form
-          explode: false
-          allowReserved: false
-        - name: registeredName
-          in: query
-          description: ''
-          required: false
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: form
-          explode: false
-          allowReserved: false
       responses:
         '200':
           description: LegalEntity collection
@@ -2318,15 +2131,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  'hydra:member':
+                  hydra:member:
                     type: array
                     items:
-                      $ref: >-
-                        #/components/schemas/LegalEntity.LegalEntityOutput.jsonld
-                  'hydra:totalItems':
+                      $ref: '#/components/schemas/LegalEntity.LegalEntityOutput.jsonld'
+                  hydra:totalItems:
                     type: integer
                     minimum: 0
-                  'hydra:view':
+                  hydra:view:
                     type: object
                     properties:
                       '@id':
@@ -2334,35 +2146,35 @@ paths:
                         format: iri-reference
                       '@type':
                         type: string
-                      'hydra:first':
+                      hydra:first:
                         type: string
                         format: iri-reference
-                      'hydra:last':
+                      hydra:last:
                         type: string
                         format: iri-reference
-                      'hydra:previous':
+                      hydra:previous:
                         type: string
                         format: iri-reference
-                      'hydra:next':
+                      hydra:next:
                         type: string
                         format: iri-reference
                     example:
                       '@id': string
                       type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
                     type: object
                     properties:
                       '@type':
                         type: string
-                      'hydra:template':
+                      hydra:template:
                         type: string
-                      'hydra:variableRepresentation':
+                      hydra:variableRepresentation:
                         type: string
-                      'hydra:mapping':
+                      hydra:mapping:
                         type: array
                         items:
                           type: object
@@ -2378,7 +2190,7 @@ paths:
                             required:
                               type: boolean
                 required:
-                  - 'hydra:member'
+                  - hydra:member
             application/json:
               schema:
                 type: array
@@ -2417,16 +2229,124 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
+      summary: Retrieves the collection of LegalEntity resources.
+      description: Retrieves the collection of LegalEntity resources.
+      parameters:
+        - name: page
+          in: query
+          description: The collection page number
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+        - name: itemsPerPage
+          in: query
+          description: The number of items per page
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
+            maximum: 30
+          style: form
+          explode: false
+          allowReserved: false
+        - name: sortBy[createdAt]
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+            default: desc
+            enum:
+              - asc
+              - desc
+          style: form
+          explode: false
+          allowReserved: false
+        - name: sortBy[registeredName]
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+            default: asc
+            enum:
+              - asc
+              - desc
+          style: form
+          explode: false
+          allowReserved: false
+        - name: sortBy[identifierScheme]
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+            default: asc
+            enum:
+              - asc
+              - desc
+          style: form
+          explode: false
+          allowReserved: false
+        - name: sortBy[identifierValue]
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+            default: asc
+            enum:
+              - asc
+              - desc
+          style: form
+          explode: false
+          allowReserved: false
+        - name: identifierValue
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: form
+          explode: false
+          allowReserved: false
+        - name: registeredName
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: form
+          explode: false
+          allowReserved: false
       deprecated: false
       x-apiplatform-tag:
         - ZZ
     post:
-      summary: Creates a LegalEntity resource.
       operationId: api_legal-entities_post
       tags:
         - LegalEntity
-      description: Creates a LegalEntity resource.
-      parameters: []
       responses:
         '201':
           description: LegalEntity resource created
@@ -2489,6 +2409,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Creates a LegalEntity resource.
+      description: Creates a LegalEntity resource.
+      parameters: []
       requestBody:
         description: The new LegalEntity resource
         content:
@@ -2514,25 +2437,11 @@ paths:
       deprecated: false
       x-apiplatform-tag:
         - ZZ
-  '/legal-entities/{uuid}':
+  /legal-entities/{uuid}:
     get:
-      summary: Retrieves a LegalEntity resource.
       operationId: api_legal-entities_uuid_get
       tags:
         - LegalEntity
-      description: Retrieves a LegalEntity resource.
-      parameters:
-        - name: uuid
-          in: path
-          description: LegalEntity identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '200':
           description: LegalEntity resource
@@ -2581,15 +2490,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-    put:
-      summary: Replaces the LegalEntity resource.
-      operationId: api_legal-entities_uuid_put
-      tags:
-        - LegalEntity
-      description: Replaces the LegalEntity resource.
+      summary: Retrieves a LegalEntity resource.
+      description: Retrieves a LegalEntity resource.
       parameters:
         - name: uuid
           in: path
@@ -2602,6 +2504,13 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+    put:
+      operationId: api_legal-entities_uuid_put
+      tags:
+        - LegalEntity
       responses:
         '200':
           description: LegalEntity resource updated
@@ -2677,6 +2586,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Replaces the LegalEntity resource.
+      description: Replaces the LegalEntity resource.
+      parameters:
+        - name: uuid
+          in: path
+          description: LegalEntity identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       requestBody:
         description: The updated LegalEntity resource
         content:
@@ -2703,23 +2626,9 @@ paths:
       x-apiplatform-tag:
         - ZZ
     delete:
-      summary: Removes the LegalEntity resource.
       operationId: api_legal-entities_uuid_delete
       tags:
         - LegalEntity
-      description: Removes the LegalEntity resource.
-      parameters:
-        - name: uuid
-          in: path
-          description: LegalEntity identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '204':
           description: LegalEntity resource deleted
@@ -2749,16 +2658,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/legal-entities/{uuid}/smp':
-    get:
-      summary: Read SMP records
-      operationId: api_legal-entities_uuidsmp_get
-      tags:
-        - LegalEntity
-      description: Read the SMP records for the LegalEntity resource
+      summary: Removes the LegalEntity resource.
+      description: Removes the LegalEntity resource.
       parameters:
         - name: uuid
           in: path
@@ -2771,6 +2672,14 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /legal-entities/{uuid}/smp:
+    get:
+      operationId: api_legal-entities_uuidsmp_get
+      tags:
+        - LegalEntity
       responses:
         '200':
           description: LegalEntity resource
@@ -2819,15 +2728,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-    put:
-      summary: Manage SMP records
-      operationId: api_legal-entities_uuidsmp_put
-      tags:
-        - LegalEntity
-      description: Manage the SMP records for the LegalEntity resource
+      summary: Read SMP records
+      description: Read the SMP records for the LegalEntity resource
       parameters:
         - name: uuid
           in: path
@@ -2840,6 +2742,13 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+    put:
+      operationId: api_legal-entities_uuidsmp_put
+      tags:
+        - LegalEntity
       responses:
         '200':
           description: LegalEntity resource updated
@@ -2915,6 +2824,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Manage SMP records
+      description: Manage the SMP records for the LegalEntity resource
+      parameters:
+        - name: uuid
+          in: path
+          description: LegalEntity identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       requestBody:
         description: The updated LegalEntity resource
         content:
@@ -2940,53 +2863,33 @@ paths:
       deprecated: false
       x-apiplatform-tag:
         - ZZ
-  '/legal-entities/{uuid}/transfer-bridge':
+  /legal-entities/{uuid}/transfer-bridge:
     get:
-      summary: Read Transfer Bridge options
       operationId: api_legal-entities_uuidtransfer-bridge_get
       tags:
         - LegalEntity
-      description: Read the Transfer Bridge options for the LegalEntity resource
-      parameters:
-        - name: uuid
-          in: path
-          description: LegalEntity identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '200':
           description: LegalEntity resource
           content:
             application/ld+json:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput.jsonld
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput.jsonld'
             application/json:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
             text/html:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
             application/xml:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
             text/xml:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
             application/pdf:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
         '403':
           description: Forbidden
           content:
@@ -3013,15 +2916,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-    put:
-      summary: Manage Transfer Bridge options
-      operationId: api_legal-entities_uuidtransfer-bridge_put
-      tags:
-        - LegalEntity
-      description: Manage the Transfer Bridge options for the LegalEntity resource
+      summary: Read Transfer Bridge options
+      description: Read the Transfer Bridge options for the LegalEntity resource
       parameters:
         - name: uuid
           in: path
@@ -3034,34 +2930,35 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+    put:
+      operationId: api_legal-entities_uuidtransfer-bridge_put
+      tags:
+        - LegalEntity
       responses:
         '200':
           description: LegalEntity resource updated
           content:
             application/ld+json:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput.jsonld
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput.jsonld'
             application/json:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
             text/html:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
             application/xml:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
             text/xml:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
             application/pdf:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput
+                $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeOutput'
           links: {}
         '400':
           description: Invalid input
@@ -3115,13 +3012,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Manage Transfer Bridge options
+      description: Manage the Transfer Bridge options for the LegalEntity resource
+      parameters:
+        - name: uuid
+          in: path
+          description: LegalEntity identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       requestBody:
         description: The updated LegalEntity resource
         content:
           application/ld+json:
             schema:
-              $ref: >-
-                #/components/schemas/LegalEntity.LegalEntityTransferBridgeInput.jsonld
+              $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeInput.jsonld'
           application/json:
             schema:
               $ref: '#/components/schemas/LegalEntity.LegalEntityTransferBridgeInput'
@@ -3141,15 +3051,119 @@ paths:
       deprecated: false
       x-apiplatform-tag:
         - ZZ
-  '/legal-entities/{legalEntityUuid}/sub-accounts':
+  /legal-entities/{legalEntityUuid}/sub-accounts:
     get:
-      summary: Retrieve all sub-accounts for a specific legal entity.
       operationId: api_legal-entities_legalEntityUuidsub-accounts_get_collection
       tags:
         - LegalEntitySubAccount
-      description: >-
-        Retrieves a list of sub-accounts associated with a specific legal
-        entity, identified by its UUID.
+      responses:
+        '200':
+          description: LegalEntitySubAccount collection
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  hydra:member:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput.jsonld'
+                  hydra:totalItems:
+                    type: integer
+                    minimum: 0
+                  hydra:view:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        format: iri-reference
+                      '@type':
+                        type: string
+                      hydra:first:
+                        type: string
+                        format: iri-reference
+                      hydra:last:
+                        type: string
+                        format: iri-reference
+                      hydra:previous:
+                        type: string
+                        format: iri-reference
+                      hydra:next:
+                        type: string
+                        format: iri-reference
+                    example:
+                      '@id': string
+                      type: string
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
+                    type: object
+                    properties:
+                      '@type':
+                        type: string
+                      hydra:template:
+                        type: string
+                      hydra:variableRepresentation:
+                        type: string
+                      hydra:mapping:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            '@type':
+                              type: string
+                            variable:
+                              type: string
+                            property:
+                              type:
+                                - string
+                                - 'null'
+                            required:
+                              type: boolean
+                required:
+                  - hydra:member
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
+            text/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
+            application/pdf:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
+        '403':
+          description: Forbidden
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          links: {}
+      summary: Retrieve all sub-accounts for a specific legal entity.
+      description: Retrieves a list of sub-accounts associated with a specific legal entity, identified by its UUID.
       parameters:
         - name: legalEntityUuid
           in: path
@@ -3188,171 +3202,34 @@ paths:
           style: form
           explode: false
           allowReserved: false
-      responses:
-        '200':
-          description: LegalEntitySubAccount collection
-          content:
-            application/ld+json:
-              schema:
-                type: object
-                properties:
-                  'hydra:member':
-                    type: array
-                    items:
-                      $ref: >-
-                        #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput.jsonld
-                  'hydra:totalItems':
-                    type: integer
-                    minimum: 0
-                  'hydra:view':
-                    type: object
-                    properties:
-                      '@id':
-                        type: string
-                        format: iri-reference
-                      '@type':
-                        type: string
-                      'hydra:first':
-                        type: string
-                        format: iri-reference
-                      'hydra:last':
-                        type: string
-                        format: iri-reference
-                      'hydra:previous':
-                        type: string
-                        format: iri-reference
-                      'hydra:next':
-                        type: string
-                        format: iri-reference
-                    example:
-                      '@id': string
-                      type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
-                    type: object
-                    properties:
-                      '@type':
-                        type: string
-                      'hydra:template':
-                        type: string
-                      'hydra:variableRepresentation':
-                        type: string
-                      'hydra:mapping':
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            '@type':
-                              type: string
-                            variable:
-                              type: string
-                            property:
-                              type:
-                                - string
-                                - 'null'
-                            required:
-                              type: boolean
-                required:
-                  - 'hydra:member'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: >-
-                    #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
-            text/html:
-              schema:
-                type: array
-                items:
-                  $ref: >-
-                    #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: >-
-                    #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
-            text/xml:
-              schema:
-                type: array
-                items:
-                  $ref: >-
-                    #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
-            application/pdf:
-              schema:
-                type: array
-                items:
-                  $ref: >-
-                    #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
-        '403':
-          description: Forbidden
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Error.jsonld'
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Error'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          links: {}
       deprecated: false
       x-apiplatform-tag: ZZ
     post:
-      summary: Create a new sub-account for a legal entity.
       operationId: api_legal-entities_legalEntityUuidsub-accounts_post
       tags:
         - LegalEntitySubAccount
-      description: >-
-        Creates a new sub-account for a specific legal entity, identified by its
-        UUID. The sub-account will be granted access only to document related to
-        the legal entity.
-      parameters:
-        - name: legalEntityUuid
-          in: path
-          description: >-
-            The UUID of the legal entity to which the sub-account will be
-            associated.
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '201':
           description: LegalEntitySubAccount resource created
           content:
             application/ld+json:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput.jsonld
+                $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput.jsonld'
             application/json:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
+                $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
             text/html:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
+                $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
             application/xml:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
+                $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
             text/xml:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
+                $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
             application/pdf:
               schema:
-                $ref: >-
-                  #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput
+                $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountOutput'
           links: {}
         '400':
           description: Invalid input
@@ -3393,70 +3270,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Create a new sub-account for a legal entity.
+      description: Creates a new sub-account for a specific legal entity, identified by its UUID. The sub-account will be granted access only to document related to the legal entity.
+      parameters:
+        - name: legalEntityUuid
+          in: path
+          description: The UUID of the legal entity to which the sub-account will be associated.
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       requestBody:
         description: The new LegalEntitySubAccount resource
         content:
           application/ld+json:
             schema:
-              $ref: >-
-                #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput.jsonld
+              $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput.jsonld'
           application/json:
             schema:
-              $ref: >-
-                #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput
+              $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput'
           text/html:
             schema:
-              $ref: >-
-                #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput
+              $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput'
           application/xml:
             schema:
-              $ref: >-
-                #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput
+              $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput'
           text/xml:
             schema:
-              $ref: >-
-                #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput
+              $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput'
           application/pdf:
             schema:
-              $ref: >-
-                #/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput
+              $ref: '#/components/schemas/LegalEntitySubAccount.LegalEntitySubAccountInput'
         required: true
       deprecated: false
       x-apiplatform-tag: ZZ
-  '/legal-entities/{legalEntityUuid}/sub-accounts/{email}':
+  /legal-entities/{legalEntityUuid}/sub-accounts/{email}:
     delete:
-      summary: Delete a sub-account by email for a specific legal entity.
       operationId: api_legal-entities_legalEntityUuidsub-accounts_email_delete
       tags:
         - LegalEntitySubAccount
-      description: >-
-        Deletes a sub-account associated with a specific legal entity,
-        identified by the legal entity UUID and the sub-account email address.
-        This operation will remove the sub-account and revoke its access to
-        documents related to the legal entity.
-      parameters:
-        - name: legalEntityUuid
-          in: path
-          description: The UUID of the legal entity to which the sub-account belongs.
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
-        - name: email
-          in: path
-          description: The email address of the sub-account to be deleted.
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '204':
           description: LegalEntitySubAccount resource deleted
@@ -3486,14 +3342,132 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
+      summary: Delete a sub-account by email for a specific legal entity.
+      description: Deletes a sub-account associated with a specific legal entity, identified by the legal entity UUID and the sub-account email address. This operation will remove the sub-account and revoke its access to documents related to the legal entity.
+      parameters:
+        - name: legalEntityUuid
+          in: path
+          description: The UUID of the legal entity to which the sub-account belongs.
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+        - name: email
+          in: path
+          description: The email address of the sub-account to be deleted.
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       deprecated: false
       x-apiplatform-tag: ZZ
   /orders:
     get:
-      summary: Retrieves the collection of Order resources.
       operationId: api_orders_get_collection
       tags:
         - Order
+      responses:
+        '200':
+          description: Order collection
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  hydra:member:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order.OrderOutput.jsonld'
+                  hydra:totalItems:
+                    type: integer
+                    minimum: 0
+                  hydra:view:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        format: iri-reference
+                      '@type':
+                        type: string
+                      hydra:first:
+                        type: string
+                        format: iri-reference
+                      hydra:last:
+                        type: string
+                        format: iri-reference
+                      hydra:previous:
+                        type: string
+                        format: iri-reference
+                      hydra:next:
+                        type: string
+                        format: iri-reference
+                    example:
+                      '@id': string
+                      type: string
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
+                    type: object
+                    properties:
+                      '@type':
+                        type: string
+                      hydra:template:
+                        type: string
+                      hydra:variableRepresentation:
+                        type: string
+                      hydra:mapping:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            '@type':
+                              type: string
+                            variable:
+                              type: string
+                            property:
+                              type:
+                                - string
+                                - 'null'
+                            required:
+                              type: boolean
+                required:
+                  - hydra:member
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order.OrderOutput'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order.OrderOutput'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order.OrderOutput'
+            text/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order.OrderOutput'
+            application/pdf:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order.OrderOutput'
+      summary: Retrieves the collection of Order resources.
       description: Retrieves the collection of Order resources.
       parameters:
         - name: page
@@ -3544,7 +3518,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'senderId[]'
+        - name: senderId[]
           in: query
           description: ''
           required: false
@@ -3579,7 +3553,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'recipientId[]'
+        - name: recipientId[]
           in: query
           description: ''
           required: false
@@ -3603,7 +3577,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentNumber[]'
+        - name: documentNumber[]
           in: query
           description: ''
           required: false
@@ -3616,7 +3590,7 @@ paths:
           style: form
           explode: true
           allowReserved: false
-        - name: 'sortBy[createdAt]'
+        - name: sortBy[createdAt]
           in: query
           description: ''
           required: false
@@ -3631,7 +3605,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[documentDate]'
+        - name: sortBy[documentDate]
           in: query
           description: ''
           required: false
@@ -3646,7 +3620,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[senderName]'
+        - name: sortBy[senderName]
           in: query
           description: ''
           required: false
@@ -3661,7 +3635,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[recipientName]'
+        - name: sortBy[recipientName]
           in: query
           description: ''
           required: false
@@ -3676,7 +3650,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[before]'
+        - name: createdAt[before]
           in: query
           description: ''
           required: false
@@ -3687,7 +3661,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_before]'
+        - name: createdAt[strictly_before]
           in: query
           description: ''
           required: false
@@ -3698,7 +3672,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[after]'
+        - name: createdAt[after]
           in: query
           description: ''
           required: false
@@ -3709,7 +3683,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_after]'
+        - name: createdAt[strictly_after]
           in: query
           description: ''
           required: false
@@ -3720,7 +3694,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[before]'
+        - name: documentDate[before]
           in: query
           description: ''
           required: false
@@ -3731,7 +3705,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_before]'
+        - name: documentDate[strictly_before]
           in: query
           description: ''
           required: false
@@ -3742,7 +3716,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[after]'
+        - name: documentDate[after]
           in: query
           description: ''
           required: false
@@ -3753,7 +3727,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_after]'
+        - name: documentDate[strictly_after]
           in: query
           description: ''
           required: false
@@ -3782,9 +3756,7 @@ paths:
           deprecated: false
           allowEmptyValue: false
           schema:
-            description: >-
-              Filter document by direction, chose between "outgoing" or
-              "incoming"
+            description: Filter document by direction, chose between "outgoing" or "incoming"
             enum:
               - outgoing
               - incoming
@@ -3792,112 +3764,14 @@ paths:
           style: form
           explode: false
           allowReserved: false
-      responses:
-        '200':
-          description: Order collection
-          content:
-            application/ld+json:
-              schema:
-                type: object
-                properties:
-                  'hydra:member':
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Order.OrderOutput.jsonld'
-                  'hydra:totalItems':
-                    type: integer
-                    minimum: 0
-                  'hydra:view':
-                    type: object
-                    properties:
-                      '@id':
-                        type: string
-                        format: iri-reference
-                      '@type':
-                        type: string
-                      'hydra:first':
-                        type: string
-                        format: iri-reference
-                      'hydra:last':
-                        type: string
-                        format: iri-reference
-                      'hydra:previous':
-                        type: string
-                        format: iri-reference
-                      'hydra:next':
-                        type: string
-                        format: iri-reference
-                    example:
-                      '@id': string
-                      type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
-                    type: object
-                    properties:
-                      '@type':
-                        type: string
-                      'hydra:template':
-                        type: string
-                      'hydra:variableRepresentation':
-                        type: string
-                      'hydra:mapping':
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            '@type':
-                              type: string
-                            variable:
-                              type: string
-                            property:
-                              type:
-                                - string
-                                - 'null'
-                            required:
-                              type: boolean
-                required:
-                  - 'hydra:member'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Order.OrderOutput'
-            text/html:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Order.OrderOutput'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Order.OrderOutput'
-            text/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Order.OrderOutput'
-            application/pdf:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Order.OrderOutput'
       deprecated: false
       x-apiplatform-tag:
         - ZZ
   /orders/downloaded:
     post:
-      summary: Mark the documents as downloaded
       operationId: api_ordersdownloaded_post
       tags:
         - Order
-      description: >-
-        This is useful to keep track of the document that have been received by
-        the user.
-      parameters: []
       responses:
         '204':
           description: Order resource created
@@ -3941,6 +3815,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Mark the documents as downloaded
+      description: This is useful to keep track of the document that have been received by the user.
+      parameters: []
       requestBody:
         description: The new Order resource
         content:
@@ -3953,28 +3830,9 @@ paths:
         - ZZ
   /orders/outgoing/ubl:
     post:
-      summary: Create a new order in UBL format
       operationId: api_orders_post_outgoing_ubl_collection
       tags:
         - Order
-      description: >-
-        Send an order in either the original XML format or the JSON
-        transposition.
-
-        You must send the XML or JSON as the request body along with the right
-        `Content-Type` header (`application/xml` or `application/json`).
-
-
-        Optionally you can send the `X-Validation-Rule: {validation-rule-code}`
-        where `{validation-rule-code}` is one of the available validation rules
-        you can use.
-
-        You can retrieve a list of the available validation rules using the API
-        `GET /validation-rules`.
-
-        By default the validation rule is autodetected using the latest rule
-        available for the given document.
-      parameters: []
       responses:
         '202':
           description: Order resource created
@@ -4024,28 +3882,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Create a new order in UBL format
+      description: |-
+        Send an order in either the original XML format or the JSON transposition.
+        You must send the XML or JSON as the request body along with the right `Content-Type` header (`application/xml` or `application/json`).
+
+        Optionally you can send the `X-Validation-Rule: {validation-rule-code}` where `{validation-rule-code}` is one of the available validation rules you can use.
+        You can retrieve a list of the available validation rules using the API `GET /validation-rules`.
+        By default the validation rule is autodetected using the latest rule available for the given document.
+      parameters: []
       deprecated: false
       x-apiplatform-tag:
         - ZZ
-  '/orders/{uuid}':
+  /orders/{uuid}:
     get:
-      summary: Retrieves a Order resource.
       operationId: api_orders_uuid_get
       tags:
         - Order
-      description: Retrieves a Order resource.
-      parameters:
-        - name: uuid
-          in: path
-          description: Order identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '200':
           description: Order resource
@@ -4081,19 +3934,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/orders/{uuid}/print':
-    get:
-      summary: Get the printed version of the document
-      operationId: api_orders_uuidprint_get
-      tags:
-        - Order
-      description: >-
-        You will receive a 302 redirect response with the Location header
-        pointing to the downloadable file. Additionally you get the URL to the
-        downloaded file in the JSON response body.
+      summary: Retrieves a Order resource.
+      description: Retrieves a Order resource.
       parameters:
         - name: uuid
           in: path
@@ -4106,6 +3948,14 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /orders/{uuid}/print:
+    get:
+      operationId: api_orders_uuidprint_get
+      tags:
+        - Order
       responses:
         '302':
           description: Order resource
@@ -4127,18 +3977,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/orders/{uuid}/source':
-    get:
-      summary: Get the original source document
-      operationId: api_orders_uuidsource_get
-      tags:
-        - Order
-      description: >-
-        You can retrieve the original source document in either XML or JSON
-        format.
+      summary: Get the printed version of the document
+      description: You will receive a 302 redirect response with the Location header pointing to the downloadable file. Additionally you get the URL to the downloaded file in the JSON response body.
       parameters:
         - name: uuid
           in: path
@@ -4151,6 +3991,14 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /orders/{uuid}/source:
+    get:
+      operationId: api_orders_uuidsource_get
+      tags:
+        - Order
       responses:
         '204':
           description: Order resource
@@ -4172,15 +4020,122 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
+      summary: Get the original source document
+      description: You can retrieve the original source document in either XML or JSON format.
+      parameters:
+        - name: uuid
+          in: path
+          description: Order identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       deprecated: false
       x-apiplatform-tag:
         - ZZ
   /order-responses:
     get:
-      summary: Retrieves the collection of OrderResponse resources.
       operationId: api_order-responses_get_collection
       tags:
         - OrderResponse
+      responses:
+        '200':
+          description: OrderResponse collection
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  hydra:member:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderResponse.OrderResponseOutput.jsonld'
+                  hydra:totalItems:
+                    type: integer
+                    minimum: 0
+                  hydra:view:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        format: iri-reference
+                      '@type':
+                        type: string
+                      hydra:first:
+                        type: string
+                        format: iri-reference
+                      hydra:last:
+                        type: string
+                        format: iri-reference
+                      hydra:previous:
+                        type: string
+                        format: iri-reference
+                      hydra:next:
+                        type: string
+                        format: iri-reference
+                    example:
+                      '@id': string
+                      type: string
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
+                    type: object
+                    properties:
+                      '@type':
+                        type: string
+                      hydra:template:
+                        type: string
+                      hydra:variableRepresentation:
+                        type: string
+                      hydra:mapping:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            '@type':
+                              type: string
+                            variable:
+                              type: string
+                            property:
+                              type:
+                                - string
+                                - 'null'
+                            required:
+                              type: boolean
+                required:
+                  - hydra:member
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
+            text/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
+            application/pdf:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
+      summary: Retrieves the collection of OrderResponse resources.
       description: Retrieves the collection of OrderResponse resources.
       parameters:
         - name: page
@@ -4231,7 +4186,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'senderId[]'
+        - name: senderId[]
           in: query
           description: ''
           required: false
@@ -4266,7 +4221,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'recipientId[]'
+        - name: recipientId[]
           in: query
           description: ''
           required: false
@@ -4290,7 +4245,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentNumber[]'
+        - name: documentNumber[]
           in: query
           description: ''
           required: false
@@ -4303,7 +4258,7 @@ paths:
           style: form
           explode: true
           allowReserved: false
-        - name: 'sortBy[createdAt]'
+        - name: sortBy[createdAt]
           in: query
           description: ''
           required: false
@@ -4318,7 +4273,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[documentDate]'
+        - name: sortBy[documentDate]
           in: query
           description: ''
           required: false
@@ -4333,7 +4288,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[senderName]'
+        - name: sortBy[senderName]
           in: query
           description: ''
           required: false
@@ -4348,7 +4303,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'sortBy[recipientName]'
+        - name: sortBy[recipientName]
           in: query
           description: ''
           required: false
@@ -4363,7 +4318,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[before]'
+        - name: createdAt[before]
           in: query
           description: ''
           required: false
@@ -4374,7 +4329,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_before]'
+        - name: createdAt[strictly_before]
           in: query
           description: ''
           required: false
@@ -4385,7 +4340,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[after]'
+        - name: createdAt[after]
           in: query
           description: ''
           required: false
@@ -4396,7 +4351,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'createdAt[strictly_after]'
+        - name: createdAt[strictly_after]
           in: query
           description: ''
           required: false
@@ -4407,7 +4362,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[before]'
+        - name: documentDate[before]
           in: query
           description: ''
           required: false
@@ -4418,7 +4373,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_before]'
+        - name: documentDate[strictly_before]
           in: query
           description: ''
           required: false
@@ -4429,7 +4384,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[after]'
+        - name: documentDate[after]
           in: query
           description: ''
           required: false
@@ -4440,7 +4395,7 @@ paths:
           style: form
           explode: false
           allowReserved: false
-        - name: 'documentDate[strictly_after]'
+        - name: documentDate[strictly_after]
           in: query
           description: ''
           required: false
@@ -4469,9 +4424,7 @@ paths:
           deprecated: false
           allowEmptyValue: false
           schema:
-            description: >-
-              Filter document by direction, chose between "outgoing" or
-              "incoming"
+            description: Filter document by direction, chose between "outgoing" or "incoming"
             enum:
               - outgoing
               - incoming
@@ -4479,113 +4432,14 @@ paths:
           style: form
           explode: false
           allowReserved: false
-      responses:
-        '200':
-          description: OrderResponse collection
-          content:
-            application/ld+json:
-              schema:
-                type: object
-                properties:
-                  'hydra:member':
-                    type: array
-                    items:
-                      $ref: >-
-                        #/components/schemas/OrderResponse.OrderResponseOutput.jsonld
-                  'hydra:totalItems':
-                    type: integer
-                    minimum: 0
-                  'hydra:view':
-                    type: object
-                    properties:
-                      '@id':
-                        type: string
-                        format: iri-reference
-                      '@type':
-                        type: string
-                      'hydra:first':
-                        type: string
-                        format: iri-reference
-                      'hydra:last':
-                        type: string
-                        format: iri-reference
-                      'hydra:previous':
-                        type: string
-                        format: iri-reference
-                      'hydra:next':
-                        type: string
-                        format: iri-reference
-                    example:
-                      '@id': string
-                      type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
-                    type: object
-                    properties:
-                      '@type':
-                        type: string
-                      'hydra:template':
-                        type: string
-                      'hydra:variableRepresentation':
-                        type: string
-                      'hydra:mapping':
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            '@type':
-                              type: string
-                            variable:
-                              type: string
-                            property:
-                              type:
-                                - string
-                                - 'null'
-                            required:
-                              type: boolean
-                required:
-                  - 'hydra:member'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
-            text/html:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
-            text/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
-            application/pdf:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderResponse.OrderResponseOutput'
       deprecated: false
       x-apiplatform-tag:
         - ZZ
   /order-responses/downloaded:
     post:
-      summary: Mark the documents as downloaded
       operationId: api_order-responsesdownloaded_post
       tags:
         - OrderResponse
-      description: >-
-        This is useful to keep track of the document that have been received by
-        the user.
-      parameters: []
       responses:
         '204':
           description: OrderResponse resource created
@@ -4629,6 +4483,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Mark the documents as downloaded
+      description: This is useful to keep track of the document that have been received by the user.
+      parameters: []
       requestBody:
         description: The new OrderResponse resource
         content:
@@ -4641,28 +4498,9 @@ paths:
         - ZZ
   /order-responses/outgoing/ubl:
     post:
-      summary: Create a new order response in UBL format
       operationId: api_order_responses_post_outgoing_ubl_collection
       tags:
         - OrderResponse
-      description: >-
-        Send an order response in either the original XML format or the JSON
-        transposition.
-
-        You must send the XML or JSON as the request body along with the right
-        `Content-Type` header (`application/xml` or `application/json`).
-
-
-        Optionally you can send the `X-Validation-Rule: {validation-rule-code}`
-        where `{validation-rule-code}` is one of the available validation rules
-        you can use.
-
-        You can retrieve a list of the available validation rules using the API
-        `GET /validation-rules`.
-
-        By default the validation rule is autodetected using the latest rule
-        available for the given document.
-      parameters: []
       responses:
         '202':
           description: OrderResponse resource created
@@ -4712,28 +4550,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Create a new order response in UBL format
+      description: |-
+        Send an order response in either the original XML format or the JSON transposition.
+        You must send the XML or JSON as the request body along with the right `Content-Type` header (`application/xml` or `application/json`).
+
+        Optionally you can send the `X-Validation-Rule: {validation-rule-code}` where `{validation-rule-code}` is one of the available validation rules you can use.
+        You can retrieve a list of the available validation rules using the API `GET /validation-rules`.
+        By default the validation rule is autodetected using the latest rule available for the given document.
+      parameters: []
       deprecated: false
       x-apiplatform-tag:
         - ZZ
-  '/order-responses/{uuid}':
+  /order-responses/{uuid}:
     get:
-      summary: Retrieves a OrderResponse resource.
       operationId: api_order-responses_uuid_get
       tags:
         - OrderResponse
-      description: Retrieves a OrderResponse resource.
-      parameters:
-        - name: uuid
-          in: path
-          description: OrderResponse identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '200':
           description: OrderResponse resource
@@ -4769,19 +4602,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/order-responses/{uuid}/print':
-    get:
-      summary: Get the printed version of the document
-      operationId: api_order-responses_uuidprint_get
-      tags:
-        - OrderResponse
-      description: >-
-        You will receive a 302 redirect response with the Location header
-        pointing to the downloadable file. Additionally you get the URL to the
-        downloaded file in the JSON response body.
+      summary: Retrieves a OrderResponse resource.
+      description: Retrieves a OrderResponse resource.
       parameters:
         - name: uuid
           in: path
@@ -4794,6 +4616,14 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /order-responses/{uuid}/print:
+    get:
+      operationId: api_order-responses_uuidprint_get
+      tags:
+        - OrderResponse
       responses:
         '302':
           description: OrderResponse resource
@@ -4815,18 +4645,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  '/order-responses/{uuid}/source':
-    get:
-      summary: Get the original source document
-      operationId: api_order-responses_uuidsource_get
-      tags:
-        - OrderResponse
-      description: >-
-        You can retrieve the original source document in either XML or JSON
-        format.
+      summary: Get the printed version of the document
+      description: You will receive a 302 redirect response with the Location header pointing to the downloadable file. Additionally you get the URL to the downloaded file in the JSON response body.
       parameters:
         - name: uuid
           in: path
@@ -4839,6 +4659,14 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /order-responses/{uuid}/source:
+    get:
+      operationId: api_order-responses_uuidsource_get
+      tags:
+        - OrderResponse
       responses:
         '204':
           description: OrderResponse resource
@@ -4860,47 +4688,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
+      summary: Get the original source document
+      description: You can retrieve the original source document in either XML or JSON format.
+      parameters:
+        - name: uuid
+          in: path
+          description: OrderResponse identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       deprecated: false
       x-apiplatform-tag:
         - ZZ
   /processes:
     get:
-      summary: Retrieves the collection of Process resources.
       operationId: api_processes_get_collection
       tags:
         - Process
-      description: >-
-        Get the list of supported document types.
-
-        For a complete and official list see
-        https://docs.peppol.eu/edelivery/codelists/
-      parameters:
-        - name: page
-          in: query
-          description: The collection page number
-          required: false
-          deprecated: false
-          allowEmptyValue: true
-          schema:
-            type: integer
-            default: 1
-          style: form
-          explode: false
-          allowReserved: false
-        - name: itemsPerPage
-          in: query
-          description: The number of items per page
-          required: false
-          deprecated: false
-          allowEmptyValue: true
-          schema:
-            type: integer
-            default: 30
-            minimum: 0
-            maximum: 30
-          style: form
-          explode: false
-          allowReserved: false
       responses:
         '200':
           description: Process collection
@@ -4909,14 +4718,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  'hydra:member':
+                  hydra:member:
                     type: array
                     items:
                       $ref: '#/components/schemas/Process.ProcessOutput.jsonld'
-                  'hydra:totalItems':
+                  hydra:totalItems:
                     type: integer
                     minimum: 0
-                  'hydra:view':
+                  hydra:view:
                     type: object
                     properties:
                       '@id':
@@ -4924,35 +4733,35 @@ paths:
                         format: iri-reference
                       '@type':
                         type: string
-                      'hydra:first':
+                      hydra:first:
                         type: string
                         format: iri-reference
-                      'hydra:last':
+                      hydra:last:
                         type: string
                         format: iri-reference
-                      'hydra:previous':
+                      hydra:previous:
                         type: string
                         format: iri-reference
-                      'hydra:next':
+                      hydra:next:
                         type: string
                         format: iri-reference
                     example:
                       '@id': string
                       type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
                     type: object
                     properties:
                       '@type':
                         type: string
-                      'hydra:template':
+                      hydra:template:
                         type: string
-                      'hydra:variableRepresentation':
+                      hydra:variableRepresentation:
                         type: string
-                      'hydra:mapping':
+                      hydra:mapping:
                         type: array
                         items:
                           type: object
@@ -4968,7 +4777,7 @@ paths:
                             required:
                               type: boolean
                 required:
-                  - 'hydra:member'
+                  - hydra:member
             application/json:
               schema:
                 type: array
@@ -4994,16 +4803,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Process.ProcessOutput'
-      deprecated: false
-      x-apiplatform-tag:
-        - ZZ
-  /webhooks:
-    get:
-      summary: Retrieves the collection of Webhook resources.
-      operationId: api_webhooks_get_collection
-      tags:
-        - Webhook
-      description: Retrieves the collection of Webhook resources.
+      summary: Retrieves the collection of Process resources.
+      description: |-
+        Get the list of supported document types.
+        For a complete and official list see https://docs.peppol.eu/edelivery/codelists/
       parameters:
         - name: page
           in: query
@@ -5031,6 +4834,14 @@ paths:
           style: form
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - ZZ
+  /webhooks:
+    get:
+      operationId: api_webhooks_get_collection
+      tags:
+        - Webhook
       responses:
         '200':
           description: Webhook collection
@@ -5039,14 +4850,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  'hydra:member':
+                  hydra:member:
                     type: array
                     items:
                       $ref: '#/components/schemas/Webhook.WebhookOutput.jsonld'
-                  'hydra:totalItems':
+                  hydra:totalItems:
                     type: integer
                     minimum: 0
-                  'hydra:view':
+                  hydra:view:
                     type: object
                     properties:
                       '@id':
@@ -5054,35 +4865,35 @@ paths:
                         format: iri-reference
                       '@type':
                         type: string
-                      'hydra:first':
+                      hydra:first:
                         type: string
                         format: iri-reference
-                      'hydra:last':
+                      hydra:last:
                         type: string
                         format: iri-reference
-                      'hydra:previous':
+                      hydra:previous:
                         type: string
                         format: iri-reference
-                      'hydra:next':
+                      hydra:next:
                         type: string
                         format: iri-reference
                     example:
                       '@id': string
                       type: string
-                      'hydra:first': string
-                      'hydra:last': string
-                      'hydra:previous': string
-                      'hydra:next': string
-                  'hydra:search':
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
                     type: object
                     properties:
                       '@type':
                         type: string
-                      'hydra:template':
+                      hydra:template:
                         type: string
-                      'hydra:variableRepresentation':
+                      hydra:variableRepresentation:
                         type: string
-                      'hydra:mapping':
+                      hydra:mapping:
                         type: array
                         items:
                           type: object
@@ -5098,7 +4909,7 @@ paths:
                             required:
                               type: boolean
                 required:
-                  - 'hydra:member'
+                  - hydra:member
             application/json:
               schema:
                 type: array
@@ -5137,18 +4948,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
+      summary: Retrieves the collection of Webhook resources.
+      description: Retrieves the collection of Webhook resources.
+      parameters:
+        - name: page
+          in: query
+          description: The collection page number
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+        - name: itemsPerPage
+          in: query
+          description: The number of items per page
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
+            maximum: 30
+          style: form
+          explode: false
+          allowReserved: false
       deprecated: false
       x-apiplatform-tag:
         - BE
         - IT
         - ZZ
     post:
-      summary: Creates a Webhook resource.
       operationId: api_webhooks_post
       tags:
         - Webhook
-      description: Creates a Webhook resource.
-      parameters: []
       responses:
         '201':
           description: Webhook resource created
@@ -5211,6 +5048,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstraintViolation-json'
           links: {}
+      summary: Creates a Webhook resource.
+      description: Creates a Webhook resource.
+      parameters: []
       requestBody:
         description: The new Webhook resource
         content:
@@ -5238,25 +5078,11 @@ paths:
         - BE
         - IT
         - ZZ
-  '/webhooks/{uuid}':
+  /webhooks/{uuid}:
     get:
-      summary: Retrieves a Webhook resource.
       operationId: api_webhooks_uuid_get
       tags:
         - Webhook
-      description: Retrieves a Webhook resource.
-      parameters:
-        - name: uuid
-          in: path
-          description: Webhook identifier
-          required: true
-          deprecated: false
-          allowEmptyValue: false
-          schema:
-            type: string
-          style: simple
-          explode: false
-          allowReserved: false
       responses:
         '200':
           description: Webhook resource
@@ -5305,17 +5131,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
-      deprecated: false
-      x-apiplatform-tag:
-        - BE
-        - IT
-        - ZZ
-    delete:
-      summary: Removes the Webhook resource.
-      operationId: api_webhooks_uuid_delete
-      tags:
-        - Webhook
-      description: Removes the Webhook resource.
+      summary: Retrieves a Webhook resource.
+      description: Retrieves a Webhook resource.
       parameters:
         - name: uuid
           in: path
@@ -5328,6 +5145,15 @@ paths:
           style: simple
           explode: false
           allowReserved: false
+      deprecated: false
+      x-apiplatform-tag:
+        - BE
+        - IT
+        - ZZ
+    delete:
+      operationId: api_webhooks_uuid_delete
+      tags:
+        - Webhook
       responses:
         '204':
           description: Webhook resource deleted
@@ -5357,6 +5183,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           links: {}
+      summary: Removes the Webhook resource.
+      description: Removes the Webhook resource.
+      parameters:
+        - name: uuid
+          in: path
+          description: Webhook identifier
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
       deprecated: false
       x-apiplatform-tag:
         - BE
@@ -5417,7 +5257,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -5511,7 +5351,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -5614,7 +5454,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -5747,15 +5587,13 @@ components:
       properties:
         title:
           readOnly: true
-          description: 'A short, human-readable summary of the problem.'
+          description: A short, human-readable summary of the problem.
           type:
             - string
             - 'null'
         detail:
           readOnly: true
-          description: >-
-            A human-readable explanation specific to this occurrence of the
-            problem.
+          description: A human-readable explanation specific to this occurrence of the problem.
           type:
             - string
             - 'null'
@@ -5766,10 +5604,7 @@ components:
           default: 400
         instance:
           readOnly: true
-          description: >-
-            A URI reference that identifies the specific occurrence of the
-            problem. It may or may not yield further information if
-            dereferenced.
+          description: A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.
           type:
             - string
             - 'null'
@@ -5793,7 +5628,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -5806,15 +5641,13 @@ components:
           type: string
         title:
           readOnly: true
-          description: 'A short, human-readable summary of the problem.'
+          description: A short, human-readable summary of the problem.
           type:
             - string
             - 'null'
         detail:
           readOnly: true
-          description: >-
-            A human-readable explanation specific to this occurrence of the
-            problem.
+          description: A human-readable explanation specific to this occurrence of the problem.
           type:
             - string
             - 'null'
@@ -5825,10 +5658,7 @@ components:
           default: 400
         instance:
           readOnly: true
-          description: >-
-            A URI reference that identifies the specific occurrence of the
-            problem. It may or may not yield further information if
-            dereferenced.
+          description: A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.
           type:
             - string
             - 'null'
@@ -5905,7 +5735,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -5956,9 +5786,7 @@ components:
       properties:
         registeredName:
           type: string
-          description: >-
-            Name used to register the End User in the business registry of the
-            jurisdiction where it is legally based.
+          description: Name used to register the End User in the business registry of the jurisdiction where it is legally based.
         country:
           minLength: 2
           maxLength: 2
@@ -5991,18 +5819,14 @@ components:
           description: The participant identifier scheme
         identifierValue:
           type: string
-          description: >-
-            The participant identifier built as per the OpenPeppol normative
-            version of the code list
+          description: The participant identifier built as per the OpenPeppol normative version of the code list
         receivedDocumentNotificationEmails:
           type:
             - array
             - 'null'
           items:
             type: string
-          description: >-
-            The list of email addresses where a notification is sent for each
-            received document
+          description: The list of email addresses where a notification is sent for each received document
     LegalEntity.LegalEntityInput.jsonld:
       type: object
       description: ''
@@ -6015,9 +5839,7 @@ components:
       properties:
         registeredName:
           type: string
-          description: >-
-            Name used to register the End User in the business registry of the
-            jurisdiction where it is legally based.
+          description: Name used to register the End User in the business registry of the jurisdiction where it is legally based.
         country:
           minLength: 2
           maxLength: 2
@@ -6050,18 +5872,14 @@ components:
           description: The participant identifier scheme
         identifierValue:
           type: string
-          description: >-
-            The participant identifier built as per the OpenPeppol normative
-            version of the code list
+          description: The participant identifier built as per the OpenPeppol normative version of the code list
         receivedDocumentNotificationEmails:
           type:
             - array
             - 'null'
           items:
             type: string
-          description: >-
-            The list of email addresses where a notification is sent for each
-            received document
+          description: The list of email addresses where a notification is sent for each received document
     LegalEntity.LegalEntityOutput:
       type: object
       description: ''
@@ -6071,9 +5889,7 @@ components:
           type: string
         registeredName:
           type: string
-          description: >-
-            Name used to register the End User in the business registry of the
-            jurisdiction where it is legally based.
+          description: Name used to register the End User in the business registry of the jurisdiction where it is legally based.
         country:
           type:
             - string
@@ -6106,23 +5922,17 @@ components:
           description: The participant identifier scheme
         identifierValue:
           type: string
-          description: >-
-            The participant identifier built as per the OpenPeppol normative
-            version of the code list.
+          description: The participant identifier built as per the OpenPeppol normative version of the code list.
         receivedDocumentNotificationEmails:
           type:
             - array
             - 'null'
           items:
             type: string
-          description: >-
-            The list of email addresses where a notification is sent for each
-            received document
+          description: The list of email addresses where a notification is sent for each received document
         smpEnabled:
           type: boolean
-          description: >-
-            True when this legal entity has been correctly registered into the
-            SMP service.
+          description: True when this legal entity has been correctly registered into the SMP service.
         createdAt:
           type: string
         updatedAt:
@@ -6143,7 +5953,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -6158,9 +5968,7 @@ components:
           type: string
         registeredName:
           type: string
-          description: >-
-            Name used to register the End User in the business registry of the
-            jurisdiction where it is legally based.
+          description: Name used to register the End User in the business registry of the jurisdiction where it is legally based.
         country:
           type:
             - string
@@ -6193,23 +6001,17 @@ components:
           description: The participant identifier scheme
         identifierValue:
           type: string
-          description: >-
-            The participant identifier built as per the OpenPeppol normative
-            version of the code list.
+          description: The participant identifier built as per the OpenPeppol normative version of the code list.
         receivedDocumentNotificationEmails:
           type:
             - array
             - 'null'
           items:
             type: string
-          description: >-
-            The list of email addresses where a notification is sent for each
-            received document
+          description: The list of email addresses where a notification is sent for each received document
         smpEnabled:
           type: boolean
-          description: >-
-            True when this legal entity has been correctly registered into the
-            SMP service.
+          description: True when this legal entity has been correctly registered into the SMP service.
         createdAt:
           type: string
         updatedAt:
@@ -6221,16 +6023,12 @@ components:
       properties:
         enabled:
           type: boolean
-          description: >-
-            Setting enabled to true will write the record into the SMP, with
-            false the record will be deleted from the SMP.
+          description: Setting enabled to true will write the record into the SMP, with false the record will be deleted from the SMP.
         capabilities:
           type: array
           items:
             $ref: '#/components/schemas/LegalEntitySMPCapabilityInput'
-          description: >-
-            The list of documents and processes this legal entity can manage,
-            stored into the SMP.
+          description: The list of documents and processes this legal entity can manage, stored into the SMP.
     LegalEntity.LegalEntitySMPInput.jsonld:
       type: object
       description: ''
@@ -6238,16 +6036,12 @@ components:
       properties:
         enabled:
           type: boolean
-          description: >-
-            Setting enabled to true will write the record into the SMP, with
-            false the record will be deleted from the SMP.
+          description: Setting enabled to true will write the record into the SMP, with false the record will be deleted from the SMP.
         capabilities:
           type: array
           items:
             $ref: '#/components/schemas/LegalEntitySMPCapabilityInput.jsonld'
-          description: >-
-            The list of documents and processes this legal entity can manage,
-            stored into the SMP.
+          description: The list of documents and processes this legal entity can manage, stored into the SMP.
     LegalEntity.LegalEntitySMPOutput:
       type: object
       description: ''
@@ -6259,9 +6053,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LegalEntitySMPCapabilityOutput'
-          description: >-
-            The list of documents and processes this legal entity can manage,
-            stored into the SMP.
+          description: The list of documents and processes this legal entity can manage, stored into the SMP.
     LegalEntity.LegalEntitySMPOutput.jsonld:
       type: object
       description: ''
@@ -6278,7 +6070,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -6295,9 +6087,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LegalEntitySMPCapabilityOutput.jsonld'
-          description: >-
-            The list of documents and processes this legal entity can manage,
-            stored into the SMP.
+          description: The list of documents and processes this legal entity can manage, stored into the SMP.
     LegalEntity.LegalEntityTransferBridgeInput:
       type: object
       description: ''
@@ -6335,7 +6125,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -6362,26 +6152,18 @@ components:
           default: busdox-docid-qns
           example: busdox-docid-qns
           type: string
-          description: >-
-            The document type scheme, see the [list of supported document
-            types](/tag/DocumentType/#tag/DocumentType/operation/api_document-types_get_collection)
+          description: The document type scheme, see the [list of supported document types](/tag/DocumentType/#tag/DocumentType/operation/api_document-types_get_collection)
         documentType:
           type: string
-          description: >-
-            The document type identifier, see the [list of supported document
-            types](/tag/DocumentType/#tag/DocumentType/operation/api_document-types_get_collection)
+          description: The document type identifier, see the [list of supported document types](/tag/DocumentType/#tag/DocumentType/operation/api_document-types_get_collection)
         processScheme:
           default: cenbii-procid-ubl
           example: cenbii-procid-ubl
           type: string
-          description: >-
-            The process scheme, see the [list of supported
-            processes](/tag/Process/#tag/Process/operation/api_processes_get_collection)
+          description: The process scheme, see the [list of supported processes](/tag/Process/#tag/Process/operation/api_processes_get_collection)
         process:
           type: string
-          description: >-
-            The process identifier, see the [list of supported
-            processes](/tag/Process/#tag/Process/operation/api_processes_get_collection)
+          description: The process identifier, see the [list of supported processes](/tag/Process/#tag/Process/operation/api_processes_get_collection)
     LegalEntitySMPCapabilityInput.jsonld:
       type: object
       description: ''
@@ -6396,26 +6178,18 @@ components:
           default: busdox-docid-qns
           example: busdox-docid-qns
           type: string
-          description: >-
-            The document type scheme, see the [list of supported document
-            types](/tag/DocumentType/#tag/DocumentType/operation/api_document-types_get_collection)
+          description: The document type scheme, see the [list of supported document types](/tag/DocumentType/#tag/DocumentType/operation/api_document-types_get_collection)
         documentType:
           type: string
-          description: >-
-            The document type identifier, see the [list of supported document
-            types](/tag/DocumentType/#tag/DocumentType/operation/api_document-types_get_collection)
+          description: The document type identifier, see the [list of supported document types](/tag/DocumentType/#tag/DocumentType/operation/api_document-types_get_collection)
         processScheme:
           default: cenbii-procid-ubl
           example: cenbii-procid-ubl
           type: string
-          description: >-
-            The process scheme, see the [list of supported
-            processes](/tag/Process/#tag/Process/operation/api_processes_get_collection)
+          description: The process scheme, see the [list of supported processes](/tag/Process/#tag/Process/operation/api_processes_get_collection)
         process:
           type: string
-          description: >-
-            The process identifier, see the [list of supported
-            processes](/tag/Process/#tag/Process/operation/api_processes_get_collection)
+          description: The process identifier, see the [list of supported processes](/tag/Process/#tag/Process/operation/api_processes_get_collection)
     LegalEntitySMPCapabilityOutput:
       type: object
       description: ''
@@ -6423,24 +6197,16 @@ components:
       properties:
         documentTypeScheme:
           type: string
-          description: >-
-            The document type scheme, see the [list of supported document
-            types](#operation/getDocumentTypeCollection)
+          description: The document type scheme, see the [list of supported document types](#operation/getDocumentTypeCollection)
         documentType:
           type: string
-          description: >-
-            The document type identifier, see the [list of supported document
-            types](#operation/getDocumentTypeCollection)
+          description: The document type identifier, see the [list of supported document types](#operation/getDocumentTypeCollection)
         processScheme:
           type: string
-          description: >-
-            The process scheme, see the [list of supported
-            processes](#operation/getProcessCollection)
+          description: The process scheme, see the [list of supported processes](#operation/getProcessCollection)
         process:
           type: string
-          description: >-
-            The process identifier, see the [list of supported
-            processes](#operation/getProcessCollection)
+          description: The process identifier, see the [list of supported processes](#operation/getProcessCollection)
     LegalEntitySMPCapabilityOutput.jsonld:
       type: object
       description: ''
@@ -6457,7 +6223,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -6470,24 +6236,16 @@ components:
           type: string
         documentTypeScheme:
           type: string
-          description: >-
-            The document type scheme, see the [list of supported document
-            types](#operation/getDocumentTypeCollection)
+          description: The document type scheme, see the [list of supported document types](#operation/getDocumentTypeCollection)
         documentType:
           type: string
-          description: >-
-            The document type identifier, see the [list of supported document
-            types](#operation/getDocumentTypeCollection)
+          description: The document type identifier, see the [list of supported document types](#operation/getDocumentTypeCollection)
         processScheme:
           type: string
-          description: >-
-            The process scheme, see the [list of supported
-            processes](#operation/getProcessCollection)
+          description: The process scheme, see the [list of supported processes](#operation/getProcessCollection)
         process:
           type: string
-          description: >-
-            The process identifier, see the [list of supported
-            processes](#operation/getProcessCollection)
+          description: The process identifier, see the [list of supported processes](#operation/getProcessCollection)
     LegalEntitySubAccount.LegalEntitySubAccountInput:
       type: object
       description: ''
@@ -6495,17 +6253,12 @@ components:
       properties:
         email:
           format: email
-          description: >-
-            The username of the sub-account. It must be unique within the whole
-            A-Cube platform.
+          description: The username of the sub-account. It must be unique within the whole A-Cube platform.
           externalDocs:
-            url: 'https://schema.org/email'
+            url: https://schema.org/email
           type: string
         password:
-          description: >-
-            The password for the sub-account. It will be set only if the
-            sub-account is created contextually within the request. If not
-            provided, the user must set it later via the reset password flow.
+          description: The password for the sub-account. It will be set only if the sub-account is created contextually within the request. If not provided, the user must set it later via the reset password flow.
           type:
             - string
             - 'null'
@@ -6516,17 +6269,12 @@ components:
       properties:
         email:
           format: email
-          description: >-
-            The username of the sub-account. It must be unique within the whole
-            A-Cube platform.
+          description: The username of the sub-account. It must be unique within the whole A-Cube platform.
           externalDocs:
-            url: 'https://schema.org/email'
+            url: https://schema.org/email
           type: string
         password:
-          description: >-
-            The password for the sub-account. It will be set only if the
-            sub-account is created contextually within the request. If not
-            provided, the user must set it later via the reset password flow.
+          description: The password for the sub-account. It will be set only if the sub-account is created contextually within the request. If not provided, the user must set it later via the reset password flow.
           type:
             - string
             - 'null'
@@ -6557,7 +6305,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -6646,7 +6394,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -6757,7 +6505,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -6825,7 +6573,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -6889,7 +6637,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -6979,7 +6727,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -7014,7 +6762,7 @@ components:
         url:
           format: uri
           externalDocs:
-            url: 'https://schema.org/url'
+            url: https://schema.org/url
           default: ''
           example: ''
           type: string
@@ -7036,7 +6784,7 @@ components:
         url:
           format: uri
           externalDocs:
-            url: 'https://schema.org/url'
+            url: https://schema.org/url
           default: ''
           example: ''
           type: string
@@ -7069,7 +6817,7 @@ components:
                 hydra:
                   type: string
                   enum:
-                    - 'http://www.w3.org/ns/hydra/core#'
+                    - http://www.w3.org/ns/hydra/core#
               required:
                 - '@vocab'
                 - hydra
@@ -7088,8 +6836,8 @@ components:
           type: string
         createdAt:
           type: string
-  parameters: {}
   responses: {}
+  parameters: {}
   examples: {}
   requestBodies: {}
   headers: {}
@@ -7117,4 +6865,3 @@ x-tagGroups:
       - LegalEntitySubAccount
       - DocumentType
       - Process
-
