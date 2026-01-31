@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  description: Add syncables to the Google Calendar API.
+actions:
+- target: paths['/users/me/calendarList']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: integrationTest
+      description: |-
+        Calendars of the currently authenticated user.
+      type: collection
+      field: items
+      pagingStrategy: pageToken
+      pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
+      itemsPathInResponse:
+        - items
+- target: servers['0']
+  update:
+    url: 'http:/localhost:3004'

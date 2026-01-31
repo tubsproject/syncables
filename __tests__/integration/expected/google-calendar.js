@@ -7,6 +7,7 @@ export default [
         "string",
       ],
     },
+    "colorId": "string",
     "defaultReminders": [
       {
         "method": "string",

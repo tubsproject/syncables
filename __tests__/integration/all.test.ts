@@ -1,10 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { readdirSync, readFileSync } from 'fs';
+import { readdirSync } from 'fs';
 import { serve } from '@hono/node-server';
 import { createMockServer } from '@scalar/mock-server';
 import { Syncable } from '../../src/syncable.js';
+import { overlayFiles } from 'openapi-overlays-js/src/overlay.js';
 
 const OAD_DIR = './__tests__/integration/oad/';
+const OVERLAY_DIR = './__tests__/integration/overlay/';
 
 describe('Syncables', async () => {
   const files = readdirSync(OAD_DIR);
@@ -19,7 +21,7 @@ describe('Syncables', async () => {
     }
     it(`can sync ${service}`, async () => {
       // Your OpenAPI document
-      const document = readFileSync(`${OAD_DIR}${fileName}`).toString();
+      const document = overlayFiles(`${OAD_DIR}${fileName}`, `${OVERLAY_DIR}${service}.yaml`).toString();
       // Create the mocked routes
       const app = await createMockServer({
         document,
