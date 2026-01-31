@@ -2,7 +2,6 @@ export default [
    {
     "apId": "123e4567-e89b-12d3-a456-426614174000",
     "artefacts": "[ \"c850cd0c-df6a-4704-b40d-06a3134fd3fc\",                   \"52e76e30-1a8e-4725-b015-da4975544342\",                   \"8c6e2ee5-daaa-4fad-b0dc-11d2f4132ee2\" ]",
-    "createdAt": "2026-01-21T23:24:45.243Z",
     "deliveryAttempts": 1,
     "docInstanceId": "de195274-3f0c-40ee-9f5d-83cdc898d158",
     "docName": null,

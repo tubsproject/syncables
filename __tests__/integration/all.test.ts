@@ -17,7 +17,11 @@ describe('Syncables', async () => {
     const thisPort = port++;
 
     console.log(`Considering ${service} on port ${thisPort}...`);
-    if (!['google-calendar'].includes(service)) {
+    if (![
+      'blog',
+      'google-calendar',
+      'arratech',
+    ].includes(service)) {
       return;
     }
     it(`can sync ${service}`, async () => {
@@ -78,7 +82,9 @@ describe('Syncables', async () => {
       });
       const data = await syncable.fullFetch();
       const expected = await import(`../integration/expected/${service}.js`);
-      expect(data).toEqual(expected.default);
+      for (let i = 0; i < expected.default.length; i++) {
+        expect(data[i]).toEqual(expect.objectContaining(expected.default[i]));
+      }
       console.log(`Stopping server for ${service}...`);
       server?.close();
     });

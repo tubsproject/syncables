@@ -21,21 +21,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Post'
-              syncable:
-                name: integrationTest
-                description: Posts of the currently authenticated user.
-                type: collection
-                field: items
-                pagingStrategy: pageToken
-                pageTokenParam: nextPageToken
     post:
       summary: Create a new post
       operationId: createPost
       x-handler: |
         return store.create('Post', {
-          id: faker.string.uuid(),
+          id: 'some-id',
           ...req.body,
-          createdAt: new Date().toISOString()
+          createdAt: "2025-05-01T06:00:21.920Z"
         })
       requestBody:
         required: true
@@ -71,12 +64,12 @@ components:
           format: date-time
       x-seed: |
         seed.count(10, () => ({
-          id: faker.string.uuid(),
-          title: faker.lorem.sentence(),
-          content: faker.lorem.paragraphs(4),
-          author: faker.person.fullName(),
-          publishedAt: faker.date.past().toISOString(),
-          createdAt: 'faker.date.past().toISOString()'
+          id: 'some-id',
+          title: 'Some title',
+          content: 'contents of the blogpost',
+          author: 'Michiel de Jong',
+          publishedAt: "2025-05-01T06:00:21.920Z",
+          createdAt: "2025-05-01T06:00:21.920Z"
         }))
     NewPost:
       type: object
