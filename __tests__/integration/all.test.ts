@@ -35,7 +35,7 @@ describe('Syncables', async () => {
       // Start the server
       let server;
       await new Promise((resolve) => {
-        console.log(`Starting server for ${service} on port ${port}...`);
+        console.log(`Starting server for ${service} on port ${thisPort}...`);
         server = serve(
           {
             fetch: app.fetch,

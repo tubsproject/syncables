@@ -26,7 +26,7 @@ info:
   x-providerName: googleapis.com
   x-serviceName: calendar
 servers:
-  - url: 'http://localhost:3003'
+  - url: 'http://localhost:3004'
     description: Local Mock Server
 externalDocs:
   url: 'https://developers.google.com/google-apps/calendar/firstapp'
@@ -2038,6 +2038,8 @@ paths:
   /users/me/calendarList:
     get:
       operationId: calendar.calendarList.list
+      x-handler: |
+        return { items: store.list('CalendarListEntry') }
       tags:
         - calendarList
       description: Returns the calendars on the user's calendar list.
@@ -2773,10 +2775,12 @@ components:
           items:
             $ref: '#/components/schemas/CalendarListEntry'
           type: array
-        kind:
-          default: calendar#calendarList
-          description: Type of the collection ("calendar#calendarList").
-          type: string
+          x-handler: |
+            return store.create('Post', {
+              id: faker.string.uuid(),
+              ...req.body,
+              createdAt: 'new Date().toISOString()'
+            })
         nextPageToken:
           description: >-
             Token used to access the next page of this result. Omitted if no
@@ -2791,8 +2795,54 @@ components:
           type: string
       type: object
     CalendarListEntry:
+      x-seed: |
+        seed.count(10, () => {
+          const isPublished = faker.datatype.boolean()
+          return {
+            "accessRole": "string",
+            "backgroundColor": "string",
+            "conferenceProperties": {
+              "allowedConferenceSolutionTypes": [
+                "string",
+              ],
+            },
+            "defaultReminders": [
+              {
+                "method": "string",
+                "minutes": 1,
+              },
+            ],
+            "deleted": false,
+            "description": "string",
+            "etag": "string",
+            "foregroundColor": "string",
+            "hidden": false,
+            "id": "string",
+            "kind": "calendar#calendarListEntry",
+            "location": "string",
+            "notificationSettings": {
+              "notifications": [
+                {
+                  "method": "string",
+                  "type": "string",
+                },
+              ],
+            },
+            "primary": false,
+            "selected": false,
+            "summary": "string",
+            "summaryOverride": "string",
+            "timeZone": "string",
+          }
+        })
+      x-handler: |
+        return store.create('Post', {
+          id: faker.string.uuid(),
+          ...req.body,
+          createdAt: 'new Date().toISOString()'
+        })
       properties:
-        accessRole:
+        accssRole:
           description: >-
             The effective access role that the authenticated user has on the
             calendar. Read-only. Possible values are:  
@@ -2817,14 +2867,6 @@ components:
             This property supersedes the index-based colorId property. To set or
             change this property, you need to specify colorRgbFormat=true in the
             parameters of the insert, update and patch methods. Optional.
-          type: string
-        colorId:
-          description: >-
-            The color of the calendar. This is an ID referring to an entry in
-            the calendar section of the colors definition (see the colors
-            endpoint). This property is superseded by the backgroundColor and
-            foregroundColor properties and can be ignored when using these
-            properties. Optional.
           type: string
         conferenceProperties:
           $ref: '#/components/schemas/ConferenceProperties'

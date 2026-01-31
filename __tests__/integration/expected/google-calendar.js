@@ -2,7 +2,6 @@ export default [
   {
     "accessRole": "string",
     "backgroundColor": "string",
-    "colorId": "string",
     "conferenceProperties": {
       "allowedConferenceSolutionTypes": [
         "string",
