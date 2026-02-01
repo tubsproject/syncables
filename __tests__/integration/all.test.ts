@@ -31,7 +31,16 @@ describe('Syncables', async () => {
       const overlayed = overlayFiles(`${OAD_DIR}${fileName}`, `${OVERLAY_DIR}${service}.yaml`).toString();
       const parsed = parseWithPointers(overlayed).data;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const examples = [ getExampleFromSchema((parsed as any).components.schemas.CalendarListEntry) ];
+      const examples = [];
+      for (let i=0; i<3; i++) {
+        examples.push(Object.assign({}, getExampleFromSchema((parsed as any).components.schemas.CalendarListEntry, {
+          emptyString: 'string',
+          mode: 'read',
+        })));
+      }
+      for (let i=0; i<3; i++) {
+        examples[i].id = `calendarId-${i+1}`;
+      }
       const applied = applyOverlay(parsed, {
         openapi: '3.0.0',
         info: {
@@ -45,11 +54,16 @@ describe('Syncables', async () => {
               description: 'Local Mock Server',
             },
           },
+          { target: "paths['/users/me/calendarList']['get']",
+            update: {
+              'x-handler': `return { items: store.list('CalendarListEntry') };`,
+            }
+          },
           { target: "components.schemas.CalendarListEntry",
             update: {
               'x-seed': `seed(${JSON.stringify(examples)})`
             }
-          }
+          },
         ],
       });
       const document = safeStringify(applied);
@@ -91,6 +105,7 @@ describe('Syncables', async () => {
       });
       const data = await syncable.fullFetch();
       const expected = await import(`../integration/expected/${service}.js`);
+      expect(data.length).toBe(expected.default.length);
       for (let i = 0; i < expected.default.length; i++) {
         expect(data[i]).toEqual(expect.objectContaining(expected.default[i]));
       }
