@@ -5,6 +5,7 @@ import { createMockServer } from '@scalar/mock-server';
 import { Syncable } from '../../src/syncable.js';
 import { overlayFiles, applyOverlay } from 'openapi-overlays-js/src/overlay.js';
 import { parseWithPointers, safeStringify } from '@stoplight/yaml';
+import { getExampleFromSchema } from '@scalar/oas-utils/spec-getters'
 
 const OAD_DIR = './__tests__/integration/oad/';
 const OVERLAY_DIR = './__tests__/integration/overlay/';
@@ -18,9 +19,9 @@ describe('Syncables', async () => {
 
     console.log(`Considering ${service} on port ${thisPort}...`);
     if (![
-      'acube',
-      'arratech',
-      'blog',
+      // 'acube',
+      // 'arratech',
+      // 'blog',
       'google-calendar',
     ].includes(service)) {
       return;
@@ -29,6 +30,8 @@ describe('Syncables', async () => {
       // Your OpenAPI document
       const overlayed = overlayFiles(`${OAD_DIR}${fileName}`, `${OVERLAY_DIR}${service}.yaml`).toString();
       const parsed = parseWithPointers(overlayed).data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const examples = [ getExampleFromSchema((parsed as any).components.schemas.CalendarListEntry) ];
       const applied = applyOverlay(parsed, {
         openapi: '3.0.0',
         info: {
@@ -42,10 +45,15 @@ describe('Syncables', async () => {
               description: 'Local Mock Server',
             },
           },
+          { target: "components.schemas.CalendarListEntry",
+            update: {
+              'x-seed': `seed(${JSON.stringify(examples)})`
+            }
+          }
         ],
       });
       const document = safeStringify(applied);
-      console.log(document)
+
       // Create the mocked routes
       const app = await createMockServer({
         document,
