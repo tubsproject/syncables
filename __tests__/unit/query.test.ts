@@ -27,7 +27,16 @@ test('query', async () => {
 
   // Check that fetch was called exactly once
   expect(fetchMock).toHaveBeenCalledTimes(3);
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?userId=1&page=1', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?userId=1&page=2', { headers: {} });
-  expect(fetchMock).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos/?userId=1&page=3', { headers: {} });
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?userId=1&page=1',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?userId=1&page=2',
+    { headers: {} },
+  );
+  expect(fetchMock).toHaveBeenCalledWith(
+    'https://jsonplaceholder.typicode.com/todos/?userId=1&page=3',
+    { headers: {} },
+  );
 });
