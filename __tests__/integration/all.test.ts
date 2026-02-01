@@ -30,23 +30,32 @@ describe('Syncables', async () => {
       // Your OpenAPI document
       const overlayed = overlayFiles(`${OAD_DIR}${fileName}`, `${OVERLAY_DIR}${service}.yaml`).toString();
       const parsed = parseWithPointers(overlayed).data;
+      const actions = [];
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const examples = [];
-      for (let i=0; i<3; i++) {
-        examples.push(Object.assign({}, getExampleFromSchema((parsed as any).components.schemas.CalendarListEntry, {
-          emptyString: 'string',
-          mode: 'read',
-        })));
-      }
-      for (let i=0; i<3; i++) {
-        examples[i].id = `calendarId-${i+1}`;
-      }
+      Object.keys((parsed as any).components.schemas).forEach((key) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const schema = (parsed as any).components.schemas[key];
+        const examples = [];
+        for (let i=0; i<3; i++) {
+          examples.push(Object.assign({}, getExampleFromSchema(schema, {
+            emptyString: 'string',
+            mode: 'read',
+          })));
+          examples[i].id = `${i+1}`;
+        }
+        actions.push({ target: `components.schemas.${key}`,
+          update: {
+            'x-seed': `seed(${JSON.stringify(examples)})`
+          }
+        });
+      });
       const applied = applyOverlay(parsed, {
         openapi: '3.0.0',
         info: {
           description: 'Set mock server URL',
         },
         actions: [
+          ...actions,
           {
             target: "servers['0']",
             update: {
@@ -57,11 +66,6 @@ describe('Syncables', async () => {
           { target: "paths['/users/me/calendarList']['get']",
             update: {
               'x-handler': `return { items: store.list('CalendarListEntry') };`,
-            }
-          },
-          { target: "components.schemas.CalendarListEntry",
-            update: {
-              'x-seed': `seed(${JSON.stringify(examples)})`
             }
           },
         ],

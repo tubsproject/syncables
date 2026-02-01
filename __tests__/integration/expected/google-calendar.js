@@ -10,7 +10,7 @@ export default [
     "etag": "string",
     "foregroundColor": "string",
     "hidden": false,
-    "id": "calendarId-1",
+    "id": "1",
     "kind": "calendar#calendarListEntry",
     "location": "string",
     "notificationSettings": {
@@ -34,7 +34,7 @@ export default [
     "etag": "string",
     "foregroundColor": "string",
     "hidden": false,
-    "id": "calendarId-2",
+    "id": "2",
     "kind": "calendar#calendarListEntry",
     "location": "string",
     "notificationSettings": {
@@ -58,7 +58,7 @@ export default [
     "etag": "string",
     "foregroundColor": "string",
     "hidden": false,
-    "id": "calendarId-3",
+    "id": "3",
     "kind": "calendar#calendarListEntry",
     "location": "string",
     "notificationSettings": {
