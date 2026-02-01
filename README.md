@@ -111,7 +111,5 @@ docker compose up -d
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_tests -c "\d+"
 ```
 
-
-## dev log (while offline)
-There must be an openapi parser npm module that resolves refs on the fly
-For now, I can use the limited ref depth one from the Peppol showcase
+## Acknowledgements
+The `__tests__/integration/mock-server' folder is a copy of [`@scalar/mock-server`](https://github.com/scalar/scalar/blob/main/packages/mock-server/src) - thanks [Scalar](https://scalar.com)!
