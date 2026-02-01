@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readdirSync } from 'fs';
 import { serve } from '@hono/node-server';
-import { createMockServer } from '@scalar/mock-server';
+import { createMockServer } from './mock-server/create-mock-server.js';
 import { Syncable } from '../../src/syncable.js';
 import { overlayFiles, applyOverlay } from 'openapi-overlays-js/src/overlay.js';
 import { parseWithPointers, safeStringify } from '@stoplight/yaml';
@@ -12,7 +12,7 @@ const OVERLAY_DIR = './__tests__/integration/overlay/';
 
 describe('Syncables', async () => {
   const files = readdirSync(OAD_DIR);
-  let port = 3001;
+  let port = 3001;;
   files.forEach(async (fileName) => {
     const service = fileName.split('.')[0];
     const thisPort = port++;
