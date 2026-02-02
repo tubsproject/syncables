@@ -60,9 +60,6 @@ importers:
       '@scalar/json-magic':
         specifier: ^0.9.5
         version: 0.9.5
-      '@scalar/oas-utils':
-        specifier: ^0.6.32
-        version: 0.6.32(typescript@5.7.3)
       '@scalar/openapi-parser':
         specifier: ^0.24.6
         version: 0.24.6
@@ -591,10 +588,6 @@ packages:
 
   '@scalar/json-magic@0.9.5':
     resolution: {integrity: sha512-+IZngReH0P+ima7y9u/f5QJD60AdISG81ezhwEVrYhsp46PiJp7YyOd0z1YLiOgwV0jkPlPo74T/FVBcM2ejuw==}
-    engines: {node: '>=20'}
-
-  '@scalar/oas-utils@0.6.32':
-    resolution: {integrity: sha512-YODrtQJkfm2XHd6sSa51viydJKWlRAN7ydDh452iZGMIPsdvZF7T1gpBH0VsVPCcp/q8uMx3zMov6v8p13Ponw==}
     engines: {node: '>=20'}
 
   '@scalar/object-utils@1.2.24':
@@ -2885,23 +2878,6 @@ snapshots:
     dependencies:
       '@scalar/helpers': 0.2.10
       yaml: 2.8.2
-
-  '@scalar/oas-utils@0.6.32(typescript@5.7.3)':
-    dependencies:
-      '@scalar/helpers': 0.2.10
-      '@scalar/json-magic': 0.9.5
-      '@scalar/object-utils': 1.2.24
-      '@scalar/openapi-types': 0.5.3
-      '@scalar/themes': 0.14.0
-      '@scalar/types': 0.6.1
-      '@scalar/workspace-store': 0.28.1(typescript@5.7.3)
-      flatted: 3.3.3
-      type-fest: 5.4.1
-      yaml: 2.8.2
-      zod: 4.3.5
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
 
   '@scalar/object-utils@1.2.24':
     dependencies:
