@@ -328,6 +328,7 @@ const handleArraySchema = (
   const wrapItems = !!(options?.xml && 'xml' in schema && schema.xml?.wrapped && itemsXmlTagName)
 
   if (schema.example !== undefined) {
+    console.log('handleArraySchema case 1', schema)
     return cache(schema, wrapItems ? { [itemsXmlTagName as string]: schema.example } : schema.example)
   }
 
@@ -343,7 +344,8 @@ const handleArraySchema = (
           parentSchema: schema,
           seen,
         })
-        return cache(schema, wrapItems ? [{ [itemsXmlTagName as string]: merged }] : [merged])
+        console.log('handleArraySchema case 2', schema)
+        return cache(schema, wrapItems ? [{ [itemsXmlTagName as string]: merged }] : [merged, merged])
       }
 
       const examples = allOf
@@ -355,6 +357,7 @@ const handleArraySchema = (
           }),
         )
         .filter(isDefined)
+      console.log('handleArraySchema case 3', schema)
       return cache(
         schema,
         wrapItems ? (examples as unknown[]).map((e) => ({ [itemsXmlTagName as string]: e })) : examples,
@@ -369,7 +372,8 @@ const handleArraySchema = (
         parentSchema: schema,
         seen,
       })
-      return cache(schema, wrapItems ? [{ [itemsXmlTagName as string]: ex }] : [ex])
+      console.log('handleArraySchema case 4', schema)
+      return cache(schema, wrapItems ? [{ [itemsXmlTagName as string]: ex }] : [ex, ex])
     }
   }
 
@@ -383,9 +387,11 @@ const handleArraySchema = (
       level: level + 1,
       seen,
     })
-    return cache(schema, wrapItems ? [{ [itemsXmlTagName as string]: ex }] : [ex])
+    console.log('handleArraySchema case 5', schema)
+    return cache(schema, wrapItems ? [{ [itemsXmlTagName as string]: ex }] : [ex, ex])
   }
 
+  console.log('handleArraySchema case 6', schema)
   return cache(schema, [])
 }
 
