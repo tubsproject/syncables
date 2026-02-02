@@ -11,23 +11,28 @@ const OVERLAY_DIR = './__tests__/integration/overlay/';
 
 describe('Syncables', async () => {
   const files = readdirSync(OAD_DIR);
-  let port = 3001;;
+  let port = 3001;
   files.forEach(async (fileName) => {
     const service = fileName.split('.')[0];
     const thisPort = port++;
 
     console.log(`Considering ${service} on port ${thisPort}...`);
-    if (![
-      // 'acube',
-      // 'arratech',
-      // 'blog',
-      'google-calendar',
-    ].includes(service)) {
+    if (
+      ![
+        // 'acube',
+        // 'arratech',
+        // 'blog',
+        'google-calendar',
+      ].includes(service)
+    ) {
       return;
     }
     it(`can sync ${service}`, async () => {
       // Your OpenAPI document
-      const overlayed = overlayFiles(`${OAD_DIR}${fileName}`, `${OVERLAY_DIR}${service}.yaml`).toString();
+      const overlayed = overlayFiles(
+        `${OAD_DIR}${fileName}`,
+        `${OVERLAY_DIR}${service}.yaml`,
+      ).toString();
       const parsed = parseWithPointers(overlayed).data;
       const applied = applyOverlay(parsed, {
         openapi: '3.0.0',

@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import type { Context } from 'hono'
+import type { Context } from 'hono';
 
 /** Always responds with this code */
-const EXAMPLE_AUTHORIZATION_CODE = 'super-secret-token'
+const EXAMPLE_AUTHORIZATION_CODE = 'super-secret-token';
 
 /**
  * Responds with an HTML page that simulates an OAuth 2.0 authorization page.
  */
 export function respondWithAuthorizePage(c: Context, title = '') {
-  const redirectUri = c.req.query('redirect_uri')
-  const state = c.req.query('state')
+  const redirectUri = c.req.query('redirect_uri');
+  const state = c.req.query('state');
 
   if (!redirectUri) {
     return c.html(
@@ -18,29 +18,36 @@ export function respondWithAuthorizePage(c: Context, title = '') {
         'This parameter is required for the OAuth 2.0 authorization flow to function correctly. Please provide a valid redirect URI in your request.',
       ),
       400,
-    )
+    );
   }
 
   try {
     // Validate redirect URI against allowed domains
-    const redirectUrl = new URL(redirectUri)
+    const redirectUrl = new URL(redirectUri);
 
-    redirectUrl.searchParams.set('code', EXAMPLE_AUTHORIZATION_CODE)
+    redirectUrl.searchParams.set('code', EXAMPLE_AUTHORIZATION_CODE);
 
     if (state) {
-      redirectUrl.searchParams.set('state', state)
+      redirectUrl.searchParams.set('state', state);
     }
 
-    const deniedUrl = new URL(redirectUri)
+    const deniedUrl = new URL(redirectUri);
     if (state) {
-      deniedUrl.searchParams.set('state', state)
+      deniedUrl.searchParams.set('state', state);
     }
-    deniedUrl.searchParams.set('error', 'access_denied')
-    deniedUrl.searchParams.set('error_description', 'User has denied the authorization request')
+    deniedUrl.searchParams.set('error', 'access_denied');
+    deniedUrl.searchParams.set(
+      'error_description',
+      'User has denied the authorization request',
+    );
 
-    const htmlContent = generateAuthorizationHtml(redirectUrl.toString(), deniedUrl.toString(), title)
+    const htmlContent = generateAuthorizationHtml(
+      redirectUrl.toString(),
+      deniedUrl.toString(),
+      title,
+    );
 
-    return c.html(htmlContent)
+    return c.html(htmlContent);
   } catch {
     return c.html(
       generateErrorHtml(
@@ -48,11 +55,15 @@ export function respondWithAuthorizePage(c: Context, title = '') {
         'Please provide a valid URL. The redirect_uri parameter must be a properly formatted URL that includes the protocol (e.g., https://) and a valid domain. This is essential for the OAuth 2.0 flow to securely redirect after authorization.',
       ),
       400,
-    )
+    );
   }
 }
 
-function generateAuthorizationHtml(redirectUrl: string, deniedUrl: string, title = '') {
+function generateAuthorizationHtml(
+  redirectUrl: string,
+  deniedUrl: string,
+  title = '',
+) {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -104,7 +115,7 @@ function generateAuthorizationHtml(redirectUrl: string, deniedUrl: string, title
     </div>
   </body>
 </html>
-  `
+  `;
 }
 
 function generateErrorHtml(title: string, message: string) {
@@ -129,5 +140,5 @@ function generateErrorHtml(title: string, message: string) {
       </p>
     </div>
   </body>
-</html>`
+</html>`;
 }
