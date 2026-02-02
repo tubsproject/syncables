@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getExampleFromSchema } from '@scalar/oas-utils/spec-getters'
+import { getExampleFromSchema } from '../get-example-from-schema.js'
 import type { OpenAPIV3_1 } from '@scalar/openapi-types'
 import type { Context } from 'hono'
 import { accepts } from 'hono/accepts'

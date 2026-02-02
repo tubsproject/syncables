@@ -17,6 +17,7 @@
     "@scalar/openapi-parser": "^0.24.6",
     "@scalar/openapi-types": "^0.5.3",
     "@scalar/openapi-upgrader": "^0.1.8",
+    "@scalar/workspace-store": "^0.28.1",
     "@stoplight/yaml": "^4.3.0",
     "@types/eslint__js": "~8.42",
     "@types/node": "~20",

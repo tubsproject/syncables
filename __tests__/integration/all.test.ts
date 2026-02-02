@@ -5,7 +5,6 @@ import { createMockServer } from './mock-server/create-mock-server.js';
 import { Syncable } from '../../src/syncable.js';
 import { overlayFiles, applyOverlay } from 'openapi-overlays-js/src/overlay.js';
 import { parseWithPointers, safeStringify } from '@stoplight/yaml';
-import { getExampleFromSchema } from '@scalar/oas-utils/spec-getters'
 
 const OAD_DIR = './__tests__/integration/oad/';
 const OVERLAY_DIR = './__tests__/integration/overlay/';
@@ -30,43 +29,18 @@ describe('Syncables', async () => {
       // Your OpenAPI document
       const overlayed = overlayFiles(`${OAD_DIR}${fileName}`, `${OVERLAY_DIR}${service}.yaml`).toString();
       const parsed = parseWithPointers(overlayed).data;
-      const actions = [];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      Object.keys((parsed as any).components.schemas).forEach((key) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const schema = (parsed as any).components.schemas[key];
-        const examples = [];
-        for (let i=0; i<3; i++) {
-          examples.push(Object.assign({}, getExampleFromSchema(schema, {
-            emptyString: 'string',
-            mode: 'read',
-          })));
-          examples[i].id = `${i+1}`;
-        }
-        actions.push({ target: `components.schemas.${key}`,
-          update: {
-            'x-seed': `seed(${JSON.stringify(examples)})`
-          }
-        });
-      });
       const applied = applyOverlay(parsed, {
         openapi: '3.0.0',
         info: {
           description: 'Set mock server URL',
         },
         actions: [
-          ...actions,
           {
             target: "servers['0']",
             update: {
               url: `http:/localhost:${thisPort}`,
               description: 'Local Mock Server',
             },
-          },
-          { target: "paths['/users/me/calendarList']['get']",
-            update: {
-              'x-handler': `return { items: store.list('CalendarListEntry') };`,
-            }
           },
         ],
       });
