@@ -1,0 +1,124 @@
+import { json2xml } from '@scalar/helpers/file/json2xml';
+import { getExampleFromSchema } from '../get-example-from-schema.js';
+import type { OpenAPIV3_1 } from '@scalar/openapi-types';
+import type { Context } from 'hono';
+import { accepts } from 'hono/accepts';
+import type { StatusCode } from 'hono/utils/http-status';
+
+import type { MockServerOptions } from '../types.js';
+import { findPreferredResponseKey } from '../utils/find-preferred-response-key.js';
+
+/**
+ * Mock any response
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export function mockAnyResponse(
+  c: Context,
+  operation: OpenAPIV3_1.OperationObject,
+  options: MockServerOptions,
+) {
+  // Call onRequest callback
+  if (options?.onRequest) {
+    options.onRequest({
+      context: c,
+      operation,
+    });
+  }
+
+  // Response
+  // default, 200, 201 …
+  const preferredResponseKey = findPreferredResponseKey(
+    Object.keys(operation.responses ?? {}),
+  );
+  const preferredResponse = preferredResponseKey
+    ? operation.responses?.[preferredResponseKey]
+    : null;
+
+  if (!preferredResponse) {
+    c.status(500);
+
+    return c.json({ error: 'No response defined for this operation.' });
+  }
+
+  // Status code
+  const statusCode = Number.parseInt(
+    preferredResponseKey === 'default'
+      ? '200'
+      : (preferredResponseKey ?? '200'),
+    10,
+  ) as StatusCode;
+
+  // Headers
+  const headers = preferredResponse?.headers ?? {};
+  Object.keys(headers).forEach((header) => {
+    const value = headers[header].schema
+      ? getExampleFromSchema(headers[header].schema)
+      : null;
+    if (value !== null) {
+      c.header(header, value);
+    }
+  });
+
+  // For 204 No Content responses, we should not set Content-Type and should return null body
+  if (statusCode === 204) {
+    c.status(statusCode);
+    return c.body(null);
+  }
+
+  const supportedContentTypes = Object.keys(preferredResponse?.content ?? {});
+
+  // If no content types are defined, return the status with no body
+  if (supportedContentTypes.length === 0) {
+    c.status(statusCode);
+    return c.body(null);
+  }
+
+  // Content-Type
+  const acceptedContentType = accepts(c, {
+    header: 'Accept',
+    supports: supportedContentTypes,
+    default: supportedContentTypes.includes('application/json')
+      ? 'application/json'
+      : (supportedContentTypes[0] ?? 'text/plain;charset=UTF-8'),
+  });
+
+  c.header('Content-Type', acceptedContentType);
+
+  const acceptedResponse = preferredResponse?.content?.[acceptedContentType];
+
+  // Body
+  const body = acceptedResponse?.example
+    ? acceptedResponse.example
+    : acceptedResponse?.schema
+      ? getExampleFromSchema(acceptedResponse.schema, {
+          emptyString: 'string',
+          variables: c.req.param(),
+          mode: 'read',
+        })
+      : null;
+  if (typeof acceptedResponse.syncable === 'object') {
+    let pointer = body;
+    acceptedResponse.syncable.itemsPathInResponse.forEach((part) => {
+      if (pointer && typeof pointer === 'object' && part in pointer) {
+        pointer = pointer[part];
+      } else {
+        pointer = null;
+      }
+    });
+    if (Array.isArray(pointer)) {
+      pointer.push(pointer[0]);
+    }
+  }
+  c.status(statusCode);
+
+  return c.body(
+    typeof body === 'object'
+      ? // XML
+        acceptedContentType?.includes('xml')
+        ? json2xml(body)
+        : // JSON
+          JSON.stringify(body, null, 2)
+      : // String
+        body,
+  );
+}

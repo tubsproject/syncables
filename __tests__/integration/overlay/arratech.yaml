@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  description: Add syncables to the Ion Peppol API.
+actions:
+- target: $
+  update:
+    servers:
+    - url: https://test.ion-ap.net
+- target: components.schemas
+  update:
+    CreateWebhook:
+      description: FIXME
+    UpdateWebhook:
+      description: FIXME
+- target: paths['/orgs/{orgId}/transactions/to_network']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: toNetwork
+      description: |-
+        Invoice and Credit Note Documents sent by the authenticated user.
+      type: collection
+      field: items
+      pagingStrategy: pageToken
+      pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
+- target: paths['/orgs/{orgId}/transactions/from_network']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: integrationTest
+      description: |-
+        Invoice and Credit Note Documents received by the authenticated user.
+      type: collection
+      field: items
+      pagingStrategy: pageToken
+      pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
+      itemsPathInResponse:
+        - items

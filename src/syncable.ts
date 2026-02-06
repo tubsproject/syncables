@@ -104,6 +104,8 @@ export class Syncable<T> extends EventEmitter {
             forcePageSizeParamInQuery:
               response.syncable.forcePageSizeParamInQuery,
           };
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          console.log('baseUrl:', config.baseUrl, (schema as any).servers);
           if (response.syncable.pagingStrategy === 'pageNumber') {
             config.pageNumberParamInQuery =
               response.syncable.pageNumberParamInQuery || 'page';

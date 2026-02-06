@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: Blog API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3003'
+    description: Local Mock Server
+paths:
+  /posts:
+    get:
+      summary: List all posts
+      operationId: listPosts
+      x-handler: |
+        return store.list('Post')
+      responses:
+        '200':
+          description: List of posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+    post:
+      summary: Create a new post
+      operationId: createPost
+      x-handler: |
+        return store.create('Post', {
+          id: 'some-id',
+          ...req.body,
+          createdAt: "2025-05-01T06:00:21.920Z"
+        })
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPost'
+      responses:
+        '201':
+          description: Post created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        author:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+      x-seed: |
+        seed.count(10, () => ({
+          id: 'some-id',
+          title: 'Some title',
+          content: 'contents of the blogpost',
+          author: 'Michiel de Jong',
+          publishedAt: "2025-05-01T06:00:21.920Z",
+          createdAt: "2025-05-01T06:00:21.920Z"
+        }))
+    NewPost:
+      type: object
+      required:
+        - title
+        - content
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        author:
+          type: string

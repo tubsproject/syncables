@@ -11,7 +11,8 @@ const specStr = readFileSync(specFilename).toString();
 
 describe('Google Calendar List', async () => {
   const { fetchMock } = createFetchMock(true);
-  const dbConn = 'postgresql://syncables:syncables@localhost:5432/db_unit_tests?sslmode=disable';
+  const dbConn =
+    'postgresql://syncables:syncables@localhost:5432/db_unit_tests?sslmode=disable';
   const client = new Client({
     connectionString: dbConn,
     ssl: {
@@ -29,11 +30,15 @@ describe('Google Calendar List', async () => {
   });
   it('stores calendar list entries in the db', async () => {
     await client.query('DROP TABLE IF EXISTS calendarList;');
-    const before = await client.query(`select count(*) from pg_tables where tablename='calendarlist';`);
+    const before = await client.query(
+      `select count(*) from pg_tables where tablename='calendarlist';`,
+    );
     expect(before.rows[0].count).toEqual('0');
     await syncable.fullFetch();
 
-    const after = await client.query(`select count(*) from pg_tables where tablename='calendarlist';`);
+    const after = await client.query(
+      `select count(*) from pg_tables where tablename='calendarlist';`,
+    );
     // await new Promise((resolve) => setTimeout(resolve, 500)); // wait for a bit to ensure data is committed
     expect(after.rows[0].count).toEqual('1');
     const data = await client.query('SELECT * FROM "calendarlist";');
@@ -58,9 +63,13 @@ describe('Google Calendar List', async () => {
     };
     await client.query('DROP TABLE IF EXISTS test_calendarlist;');
     await createSqlTable(client, 'test_calendarlist', whatWeWant);
-    const tableExists = await client.query(`select count(*) from pg_tables where tablename='test_calendarlist';`);
+    const tableExists = await client.query(
+      `select count(*) from pg_tables where tablename='test_calendarlist';`,
+    );
     expect(tableExists.rows[0].count).toEqual('1');
-    const tableInfo = await client.query(`SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'test_calendarlist';`);
+    const tableInfo = await client.query(
+      `SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'test_calendarlist';`,
+    );
     const columns: { [key: string]: string } = {};
     tableInfo.rows.forEach((row) => {
       columns[row.column_name] = row.data_type;
