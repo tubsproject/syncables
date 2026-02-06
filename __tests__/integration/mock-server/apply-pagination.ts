@@ -1,25 +1,28 @@
 import { SyncableConfig } from '../../../src/syncable.js';
 
 export function applyPagination(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any,
   spec: SyncableConfig,
   query: Record<string, string | undefined>,
   // headers: Record<string, string | undefined>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
   let numItems = 1;
   let hasMore = false;
   switch (spec.pagingStrategy) {
-    case 'pageNumber':
+    case 'pageNumber': {
       let pageNum = parseInt(query[spec.pageNumberParamInQuery ?? 'page'], 10);
       if (isNaN(pageNum) || pageNum < 1) {
         pageNum = 1;
       }
       numItems = pageNum < 4 ? 10: pageNum == 4 ? 7 : 0;
       hasMore = pageNum < 4;
+    }
     break;
-    case 'pageToken':
+    case 'pageToken': {
       const pageToken = query[spec.pageTokenParamInQuery ?? 'pageToken'];
-      console.log('serving pageToken', pageToken);
+      // console.log('serving pageToken', pageToken);
       let page = 1;
       if (!pageToken) {
         numItems = 10;
@@ -37,14 +40,16 @@ export function applyPagination(
       if (hasMore) {
         const nextPageToken = `token-${page + 1}`;
         body[spec.pageTokenParamInResponse ?? 'nextPageToken'] = nextPageToken;
-        console.log('next page token', nextPageToken);
+        // console.log('next page token', nextPageToken);
       } else {
         body[spec.pageTokenParamInResponse ?? 'nextPageToken'] = null;
-        console.log('no next page token');
+        // console.log('no next page token');
       }
+    }
     break;
-    default:
+    default: {
       numItems = 10;
+    }
   }
   let pointer = body;
   spec.itemsPathInResponse.forEach((part) => {
