@@ -98,9 +98,7 @@ export function mockAnyResponse(
       : null;
   if (typeof acceptedResponse.syncable === 'object') {
     let pointer = body;
-    // console.log('acceptedResponse.syncable.itemsPathInResponse', acceptedResponse.syncable.itemsPathInResponse);
     acceptedResponse.syncable.itemsPathInResponse.forEach((part) => {
-      // console.log('part', part, pointer);
       if (pointer && typeof pointer === 'object' && part in pointer) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         pointer = pointer[part];
@@ -109,14 +107,9 @@ export function mockAnyResponse(
       }
     });
     if (Array.isArray(pointer)) {
-      // console.log('Adjusting pointer array length for syncable response');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      console.log('array length before', pointer.length);
       pointer.push(pointer[0]);
-      console.log('array length after', pointer.length);
     }
   }
-  // console.log('response body', body);
   c.status(statusCode);
 
   return c.body(
