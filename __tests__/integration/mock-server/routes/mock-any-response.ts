@@ -98,7 +98,7 @@ export function mockAnyResponse(
         })
       : null;
   if (typeof acceptedResponse.syncable === 'object') {
-    body = applyPagination(body, acceptedResponse.syncable);
+    body = applyPagination(body, acceptedResponse.syncable, c.req.query());
   }
   c.status(statusCode);
 
