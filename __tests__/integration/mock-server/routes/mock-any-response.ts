@@ -100,7 +100,6 @@ export function mockAnyResponse(
     let pointer = body;
     acceptedResponse.syncable.itemsPathInResponse.forEach((part) => {
       if (pointer && typeof pointer === 'object' && part in pointer) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         pointer = pointer[part];
       } else {
         pointer = null;

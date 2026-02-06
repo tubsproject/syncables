@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { isDefined } from '@scalar/helpers/array/is-defined'
 import { getRaw } from '@scalar/json-magic/magic-proxy'
 import type { OpenAPIV3_1 } from '@scalar/openapi-types'
