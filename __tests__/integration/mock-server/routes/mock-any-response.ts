@@ -1,5 +1,6 @@
 import { json2xml } from '@scalar/helpers/file/json2xml';
 import { getExampleFromSchema } from '../get-example-from-schema.js';
+import { applyPagination } from '../apply-pagination.js';
 import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 import type { Context } from 'hono';
 import { accepts } from 'hono/accepts';
@@ -87,7 +88,7 @@ export function mockAnyResponse(
   const acceptedResponse = preferredResponse?.content?.[acceptedContentType];
 
   // Body
-  const body = acceptedResponse?.example
+  let body = acceptedResponse?.example
     ? acceptedResponse.example
     : acceptedResponse?.schema
       ? getExampleFromSchema(acceptedResponse.schema, {
@@ -97,17 +98,7 @@ export function mockAnyResponse(
         })
       : null;
   if (typeof acceptedResponse.syncable === 'object') {
-    let pointer = body;
-    acceptedResponse.syncable.itemsPathInResponse.forEach((part) => {
-      if (pointer && typeof pointer === 'object' && part in pointer) {
-        pointer = pointer[part];
-      } else {
-        pointer = null;
-      }
-    });
-    if (Array.isArray(pointer)) {
-      pointer.push(pointer[0]);
-    }
+    body = applyPagination(body, acceptedResponse.syncable);
   }
   c.status(statusCode);
 
