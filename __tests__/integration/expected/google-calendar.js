@@ -6,14 +6,9 @@ export default [
     "conferenceProperties": {
       "allowedConferenceSolutionTypes": [
         "string",
-        "string",
       ],
     },
     "defaultReminders": [
-      {
-        "method": "string",
-        "minutes": 1,
-      },
       {
         "method": "string",
         "minutes": 1,
@@ -29,10 +24,6 @@ export default [
     "location": "string",
     "notificationSettings": {
       "notifications": [
-        {
-          "method": "string",
-          "type": "string",
-        },
         {
           "method": "string",
           "type": "string",
@@ -52,14 +43,9 @@ export default [
     "conferenceProperties": {
       "allowedConferenceSolutionTypes": [
         "string",
-        "string",
       ],
     },
     "defaultReminders": [
-      {
-        "method": "string",
-        "minutes": 1,
-      },
       {
         "method": "string",
         "minutes": 1,
@@ -75,10 +61,6 @@ export default [
     "location": "string",
     "notificationSettings": {
       "notifications": [
-        {
-          "method": "string",
-          "type": "string",
-        },
         {
           "method": "string",
           "type": "string",
