@@ -46,7 +46,7 @@ Under `paths['/widgets']['get']['responses']['200']['content']['application/json
 * when using `forcePageSize`, you can add `forcePageSizeParamInQuery` if it's not `pageSize` (not applicable to paging strategies `dateRange` and `rangeHeader`).
 * for a `pageNumber` paging strategy, you can add `pageNumberParamInQuery` if it's not `page`.
 * for an `offset` paging strategy, you can add `offsetParamInQuery` if it's not `offset`.
-* for a `pageToken` paging strategy, you can add `pageTokenParamInQuery` if it's not `pageToken` and `pageTokenParamInResponse` if it's not `pageToken`
+* for a `pageToken` paging strategy, you can add `pageTokenParamInQuery` if it's not `pageToken` and `pageTokenParamInResponse` if it's not `nextPageToken`
 * for a `dateRange` paging strategy, you can add `startDateParamInQuery` if it's not `startDate`, `endDateParamInQuery` if it's not `endDate`, `startDate` if it's not `'20000101000000'`, and `endDate` if it's not `'99990101000000'`
 
 ## Usage

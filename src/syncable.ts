@@ -116,7 +116,7 @@ export class Syncable<T> extends EventEmitter {
             config.pageTokenParamInQuery =
               response.syncable.pageTokenParamInQuery || 'pageToken';
             config.pageTokenParamInResponse =
-              response.syncable.pageTokenParamInResponse || 'pageToken';
+              response.syncable.pageTokenParamInResponse || 'nextPageToken';
           } else if (response.syncable.pagingStrategy === 'dateRange') {
             config.startDateParamInQuery =
               response.syncable.startDateParamInQuery || 'startDate';
@@ -151,6 +151,7 @@ export class Syncable<T> extends EventEmitter {
     }
 
     const responseData = await response.json();
+    // console.log('responseData nextPageToken', Object.keys(responseData), this.config.pageTokenParamInResponse, responseData[this.config.pageTokenParamInResponse]);
     let items = responseData;
     for (let i = 0; i < this.config.itemsPathInResponse.length; i++) {
       const pathPart = this.config.itemsPathInResponse[i];
@@ -164,9 +165,7 @@ export class Syncable<T> extends EventEmitter {
     return {
       items,
       hasMore: items.length >= minNumItemsToExpect,
-      nextPageToken: this.config.pageTokenParamInResponse
-        ? responseData[this.config.pageTokenParamInResponse]
-        : undefined,
+      nextPageToken: responseData[this.config.pageTokenParamInResponse],
     };
   }
   private async pageNumberFetch(): Promise<T[]> {
@@ -246,7 +245,6 @@ export class Syncable<T> extends EventEmitter {
         const param = this.config.forcePageSizeParamInQuery || 'pageSize';
         url.searchParams.append(param, this.config.forcePageSize.toString());
       }
-
       if (nextPageToken) {
         url.searchParams.append(
           this.config.pageTokenParamInQuery,
@@ -258,6 +256,7 @@ export class Syncable<T> extends EventEmitter {
         {},
         this.config.forcePageSize || this.config.defaultPageSize || 1,
       );
+      // console.log('fetched', data);
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
     } while (nextPageToken);
