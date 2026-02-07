@@ -57,14 +57,17 @@ export function applyPagination(
       numItems = 10;
     }
   }
+  // console.log('body before pagination', body);
   let pointer = body;
-  spec.itemsPathInResponse.forEach((part) => {
-    if (pointer && typeof pointer === 'object' && part in pointer) {
-      pointer = pointer[part];
-    } else {
-      pointer = null;
-    }
-  });
+  if (Array.isArray(spec.itemsPathInResponse)) {
+    spec.itemsPathInResponse.forEach((part) => {
+      if (pointer && typeof pointer === 'object' && part in pointer) {
+        pointer = pointer[part];
+      } else {
+        pointer = null;
+      }
+    });
+  }
   if (Array.isArray(pointer)) {
     while (pointer.length < numItems) {
       pointer.push(pointer[0]);

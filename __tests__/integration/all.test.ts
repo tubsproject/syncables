@@ -19,7 +19,7 @@ describe('Syncables', async () => {
     console.log(`Considering ${service} on port ${thisPort}...`);
     if (
       ![
-        // 'acube',
+        'acube',
         // 'arratech',
         // 'blog',
         'google-calendar',
