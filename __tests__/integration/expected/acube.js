@@ -1,5 +1,6 @@
-export default [
-  {
+const arr = [];
+for (let i = 0; i < 37; i += 1) {
+  arr.push({
     "createdAt": "string",
     "date": "string",
     "direction": "outgoing",
@@ -14,6 +15,7 @@ export default [
       "responseReceivedAt": null,
       "success": null,
       "uuid": "string",
-    },
-  },
-];
+    }
+  });
+}
+export default arr;

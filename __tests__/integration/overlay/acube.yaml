@@ -16,10 +16,7 @@ actions:
   update:
     syncable:
       name: integrationTest
-      pagingStrategy: pageToken
-      description: |-
-        Invoice Documents received or sent by the authenticated user.
-      type: collection
+      pagingStrategy: pageNumber
 - target: paths['/credit-notes']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
