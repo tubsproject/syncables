@@ -192,9 +192,23 @@ export async function mockHandlerResponse(
       }
       return c.json(null);
     }
-    console.log('looking for pagination on', operation, operation.responses[statusCode.toString()].content['application/json'].syncable);
-    if (typeof operation.responses[statusCode.toString()].content['application/json'].syncable === 'object') {
-      result = applyPagination(result, operation.responses[statusCode.toString()].content['application/json'].syncable, c.req.query());
+    console.log(
+      'looking for pagination on',
+      operation,
+      operation.responses[statusCode.toString()].content['application/json']
+        .syncable,
+    );
+    if (
+      typeof operation.responses[statusCode.toString()].content[
+        'application/json'
+      ].syncable === 'object'
+    ) {
+      result = applyPagination(
+        result,
+        operation.responses[statusCode.toString()].content['application/json']
+          .syncable,
+        c.req.query(),
+      );
     }
 
     return c.json(result);

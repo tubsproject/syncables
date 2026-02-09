@@ -101,10 +101,18 @@ export function applyPagination(
         if (hasMore) {
           const nextPageToken = `token-${page + 1}`;
           // console.log('setting nextPageToken', nextPageToken);
-          body = setObjectPath(body, spec.nextPageTokenPathInResponse || ['nextPageToken'], nextPageToken);
+          body = setObjectPath(
+            body,
+            spec.nextPageTokenPathInResponse || ['nextPageToken'],
+            nextPageToken,
+          );
         } else {
           // console.log('no more pages');
-          setObjectPath(body, spec.nextPageTokenPathInResponse || ['nextPageToken'], null);
+          setObjectPath(
+            body,
+            spec.nextPageTokenPathInResponse || ['nextPageToken'],
+            null,
+          );
         }
       }
       break;
@@ -112,7 +120,12 @@ export function applyPagination(
       numItems = 10;
     }
   }
-  console.log('body before pagination', body, spec.itemsPathInResponse, numItems);
+  console.log(
+    'body before pagination',
+    body,
+    spec.itemsPathInResponse,
+    numItems,
+  );
   const page = [];
   const item = getObjectPath(body, spec.itemsPathInResponse)[0];
   for (let i = 0; i < numItems; i++) {

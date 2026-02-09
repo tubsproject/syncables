@@ -116,8 +116,8 @@ export class Syncable<T> extends EventEmitter {
           } else if (response.syncable.pagingStrategy === 'pageToken') {
             config.pageTokenParamInQuery =
               response.syncable.pageTokenParamInQuery || 'pageToken';
-            config.nextPageTokenPathInResponse =
-              response.syncable.nextPageTokenPathInResponse || ['nextPageToken'];
+            config.nextPageTokenPathInResponse = response.syncable
+              .nextPageTokenPathInResponse || ['nextPageToken'];
           } else if (response.syncable.pagingStrategy === 'dateRange') {
             config.startDateParamInQuery =
               response.syncable.startDateParamInQuery || 'startDate';
@@ -166,7 +166,10 @@ export class Syncable<T> extends EventEmitter {
     return {
       items,
       hasMore: items.length >= minNumItemsToExpect,
-      nextPageToken: getObjectPath(responseData, this.config.nextPageTokenPathInResponse),
+      nextPageToken: getObjectPath(
+        responseData,
+        this.config.nextPageTokenPathInResponse,
+      ),
     };
   }
   private async pageNumberFetch(): Promise<T[]> {
