@@ -4,6 +4,7 @@ import { default as createDebug } from 'debug';
 import { Client, getFields, createSqlTable, insertData } from './db.js';
 import { dereference } from '@readme/openapi-parser';
 import { parse } from 'yaml';
+import { getObjectPath } from '../__tests__/integration/mock-server/apply-pagination.js';
 
 const debug = createDebug('syncable');
 
@@ -20,13 +21,13 @@ export type SyncableConfig = {
   pageNumberParamInQuery?: string;
   offsetParamInQuery?: string;
   pageTokenParamInQuery?: string;
-  pageTokenParamInResponse?: string;
   startDateParamInQuery?: string;
   endDateParamInQuery?: string;
   startDate?: string;
   endDate?: string;
   query?: { [key: string]: string };
   itemsPathInResponse?: string[];
+  nextPageTokenPathInResponse?: string[];
   defaultPageSize?: number;
   forcePageSize?: number;
   forcePageSizeParamInQuery?: string;
@@ -115,8 +116,8 @@ export class Syncable<T> extends EventEmitter {
           } else if (response.syncable.pagingStrategy === 'pageToken') {
             config.pageTokenParamInQuery =
               response.syncable.pageTokenParamInQuery || 'pageToken';
-            config.pageTokenParamInResponse =
-              response.syncable.pageTokenParamInResponse || 'pageToken';
+            config.nextPageTokenPathInResponse = response.syncable
+              .nextPageTokenPathInResponse || ['nextPageToken'];
           } else if (response.syncable.pagingStrategy === 'dateRange') {
             config.startDateParamInQuery =
               response.syncable.startDateParamInQuery || 'startDate';
@@ -151,6 +152,7 @@ export class Syncable<T> extends EventEmitter {
     }
 
     const responseData = await response.json();
+    // console.log('responseData nextPageToken', Object.keys(responseData), this.config.pageTokenParamInQuery, responseData[this.config.pageTokenParamInQuery]);
     let items = responseData;
     for (let i = 0; i < this.config.itemsPathInResponse.length; i++) {
       const pathPart = this.config.itemsPathInResponse[i];
@@ -161,12 +163,21 @@ export class Syncable<T> extends EventEmitter {
       }
       items = items[pathPart];
     }
+    // console.log('parsed responseData', responseData, items, this.config.itemsPathInResponse);
+    let nextPageToken: string | undefined = undefined;
+    try {
+      nextPageToken = getObjectPath(
+        responseData,
+        this.config.nextPageTokenPathInResponse || ['nextPageToken'],
+      );
+    } catch (err) {
+      // ignore
+      void err;
+    }
     return {
       items,
       hasMore: items.length >= minNumItemsToExpect,
-      nextPageToken: this.config.pageTokenParamInResponse
-        ? responseData[this.config.pageTokenParamInResponse]
-        : undefined,
+      nextPageToken,
     };
   }
   private async pageNumberFetch(): Promise<T[]> {
@@ -246,7 +257,6 @@ export class Syncable<T> extends EventEmitter {
         const param = this.config.forcePageSizeParamInQuery || 'pageSize';
         url.searchParams.append(param, this.config.forcePageSize.toString());
       }
-
       if (nextPageToken) {
         url.searchParams.append(
           this.config.pageTokenParamInQuery,
@@ -258,6 +268,7 @@ export class Syncable<T> extends EventEmitter {
         {},
         this.config.forcePageSize || this.config.defaultPageSize || 1,
       );
+      // console.log('fetched', data);
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
     } while (nextPageToken);

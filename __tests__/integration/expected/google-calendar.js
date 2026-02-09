@@ -1,5 +1,6 @@
-export default [
-  {
+const arr = [];
+for (let i = 0; i < 25; i += 1) {
+  arr.push({
     "accessRole": "string",
     "backgroundColor": "string",
     "colorId": "string",
@@ -35,42 +36,7 @@ export default [
     "summary": "string",
     "summaryOverride": "string",
     "timeZone": "string",
-  },
-  {
-    "accessRole": "string",
-    "backgroundColor": "string",
-    "colorId": "string",
-    "conferenceProperties": {
-      "allowedConferenceSolutionTypes": [
-        "string",
-      ],
-    },
-    "defaultReminders": [
-      {
-        "method": "string",
-        "minutes": 1,
-      },
-    ],
-    "deleted": false,
-    "description": "string",
-    "etag": "string",
-    "foregroundColor": "string",
-    "hidden": false,
-    "id": "string",
-    "kind": "calendar#calendarListEntry",
-    "location": "string",
-    "notificationSettings": {
-      "notifications": [
-        {
-          "method": "string",
-          "type": "string",
-        },
-      ],
-    },
-    "primary": false,
-    "selected": false,
-    "summary": "string",
-    "summaryOverride": "string",
-    "timeZone": "string",
-  },
-];
+  });
+}
+export default arr;
+ 
