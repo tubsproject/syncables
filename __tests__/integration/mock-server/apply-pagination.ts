@@ -21,7 +21,8 @@ export function getObjectPath(obj: object, path?: string[]): any {
 
 export function setObjectPath(obj: object, path: string[], value: any): object {
   if (path === undefined) {
-    return obj;
+    // console.log('no path provided, returning value as object');
+    return value;
   }
   if (!Array.isArray(path) || path.length === 0) {
     throw new Error(`Path must be a non-empty array of strings`);
@@ -67,7 +68,10 @@ export function applyPagination(
         if (isNaN(pageNum) || pageNum < 1) {
           pageNum = 1;
         }
-        console.log('serving pageNumber', pageNum);
+        // console.log('serving pageNumber', pageNum);
+        if (pageNum > 5) {
+          throw new Error('No more pages');
+        }
         numItems = pageNum < 4 ? 10 : pageNum == 4 ? 7 : 0;
         hasMore = pageNum < 4;
       }
@@ -75,7 +79,7 @@ export function applyPagination(
     case 'pageToken':
       {
         const pageToken = query[spec.pageTokenParamInQuery ?? 'pageToken'];
-        console.log('serving pageToken', pageToken);
+        // console.log('serving pageToken', pageToken);
         let page = 1;
         if (!pageToken) {
           numItems = 10;
@@ -88,15 +92,15 @@ export function applyPagination(
           page = 3;
           numItems = 5;
         } else {
-          console.log('no more pages for token', pageToken);
+          // console.log('no more pages for token', pageToken);
           numItems = 0;
         }
         if (hasMore) {
           const nextPageToken = `token-${page + 1}`;
-          console.log('setting nextPageToken', nextPageToken);
+          // console.log('setting nextPageToken', nextPageToken);
           body = setObjectPath(body, spec.nextPageTokenPathInResponse || ['nextPageToken'], nextPageToken);
         } else {
-          console.log('no more pages');
+          // console.log('no more pages');
           setObjectPath(body, spec.nextPageTokenPathInResponse || ['nextPageToken'], null);
         }
       }
@@ -105,7 +109,7 @@ export function applyPagination(
       numItems = 10;
     }
   }
-  console.log('body before pagination', body, spec.itemsPathInResponse, numItems);
+  // console.log('body before pagination', body, spec.itemsPathInResponse, numItems);
   const page = [];
   const item = getObjectPath(body, spec.itemsPathInResponse)[0];
   for (let i = 0; i < numItems; i++) {
