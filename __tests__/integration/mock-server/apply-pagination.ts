@@ -1,5 +1,52 @@
 import { SyncableConfig } from '../../../src/syncable.js';
 
+export function getObjectPath(obj: object, path?: string[]): any {
+  if (path === undefined) {
+    return obj;
+  }
+  if (!Array.isArray(path) || path.length === 0) {
+    throw new Error(`Path must be a non-empty array of strings`);
+  }
+  let pointer: any = obj;
+  for (let i = 0; i < path.length; i++) {
+    const part = path[i];
+    if (pointer && typeof pointer === 'object' && part in pointer) {
+      pointer = pointer[part];
+    } else {
+      throw new Error(`Path not found: ${path.slice(0, i + 1).join('.')}`);
+    }
+  }
+  return pointer;
+}
+
+export function setObjectPath(obj: object, path: string[], value: any): object {
+  if (path === undefined) {
+    return obj;
+  }
+  if (!Array.isArray(path) || path.length === 0) {
+    throw new Error(`Path must be a non-empty array of strings`);
+  }
+  let pointer: any = obj;
+  for (let i = 0; i < path.length; i++) {
+    const part = path[i];
+    if (i === path.length - 1) {
+      // Last part, set the value
+      if (pointer && typeof pointer === 'object') {
+        pointer[part] = value;
+      }
+    } else {
+      // Traverse down the object
+      if (pointer && typeof pointer === 'object' && part in pointer) {
+        pointer = pointer[part];
+      } else {
+        pointer = null;
+      }
+    }
+  }
+  return obj;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function applyPagination(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any,
@@ -20,6 +67,7 @@ export function applyPagination(
         if (isNaN(pageNum) || pageNum < 1) {
           pageNum = 1;
         }
+        console.log('serving pageNumber', pageNum);
         numItems = pageNum < 4 ? 10 : pageNum == 4 ? 7 : 0;
         hasMore = pageNum < 4;
       }
@@ -27,7 +75,7 @@ export function applyPagination(
     case 'pageToken':
       {
         const pageToken = query[spec.pageTokenParamInQuery ?? 'pageToken'];
-        // console.log('serving pageToken', pageToken);
+        console.log('serving pageToken', pageToken);
         let page = 1;
         if (!pageToken) {
           numItems = 10;
@@ -40,16 +88,16 @@ export function applyPagination(
           page = 3;
           numItems = 5;
         } else {
+          console.log('no more pages for token', pageToken);
           numItems = 0;
         }
         if (hasMore) {
           const nextPageToken = `token-${page + 1}`;
-          body[spec.pageTokenParamInResponse ?? 'nextPageToken'] =
-            nextPageToken;
-          // console.log('next page token', nextPageToken);
+          console.log('setting nextPageToken', nextPageToken);
+          body = setObjectPath(body, spec.nextPageTokenPathInResponse || ['nextPageToken'], nextPageToken);
         } else {
-          body[spec.pageTokenParamInResponse ?? 'nextPageToken'] = null;
-          // console.log('no next page token');
+          console.log('no more pages');
+          setObjectPath(body, spec.nextPageTokenPathInResponse || ['nextPageToken'], null);
         }
       }
       break;
@@ -57,24 +105,11 @@ export function applyPagination(
       numItems = 10;
     }
   }
-  // console.log('body before pagination', body);
-  let pointer = body;
-  if (Array.isArray(spec.itemsPathInResponse)) {
-    spec.itemsPathInResponse.forEach((part) => {
-      if (pointer && typeof pointer === 'object' && part in pointer) {
-        pointer = pointer[part];
-      } else {
-        pointer = null;
-      }
-    });
+  console.log('body before pagination', body, spec.itemsPathInResponse, numItems);
+  const page = [];
+  const item = getObjectPath(body, spec.itemsPathInResponse)[0];
+  for (let i = 0; i < numItems; i++) {
+    page.push(item);
   }
-  if (Array.isArray(pointer)) {
-    while (pointer.length < numItems) {
-      pointer.push(pointer[0]);
-    }
-    while (pointer.length > numItems) {
-      pointer.pop();
-    }
-  }
-  return body;
+  return setObjectPath(body, spec.itemsPathInResponse, page);
 }
