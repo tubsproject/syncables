@@ -172,6 +172,7 @@ export class Syncable<T> extends EventEmitter {
       );
     } catch (err) {
       // ignore
+      void err;
     }
     return {
       items,
