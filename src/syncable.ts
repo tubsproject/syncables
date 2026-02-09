@@ -163,13 +163,20 @@ export class Syncable<T> extends EventEmitter {
       }
       items = items[pathPart];
     }
+    // console.log('parsed responseData', responseData, items, this.config.itemsPathInResponse);
+    let nextPageToken: string | undefined = undefined;
+    try {
+      nextPageToken = getObjectPath(
+        responseData,
+        this.config.nextPageTokenPathInResponse || ['nextPageToken'],
+      );
+    } catch (err) {
+      // ignore
+    }
     return {
       items,
       hasMore: items.length >= minNumItemsToExpect,
-      nextPageToken: getObjectPath(
-        responseData,
-        this.config.nextPageTokenPathInResponse,
-      ),
+      nextPageToken,
     };
   }
   private async pageNumberFetch(): Promise<T[]> {
