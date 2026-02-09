@@ -21,7 +21,7 @@ describe('Syncables', async () => {
       ![
         'acube',
         'arratech',
-        // 'blog',
+        'blog',
         'google-calendar',
       ].includes(service)
     ) {
