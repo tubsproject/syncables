@@ -8,6 +8,7 @@ import type { StatusCode } from 'hono/utils/http-status';
 import type { MockServerOptions } from '../types.js';
 import { buildHandlerContext } from '../utils/build-handler-context.js';
 import { executeHandler } from '../utils/execute-handler.js';
+import { applyPagination } from '../apply-pagination.js';
 
 /**
  * Get example response from OpenAPI spec for a given status code.
@@ -161,7 +162,7 @@ export async function mockHandlerResponse(
     const { context, tracking } = await buildHandlerContext(c, operation);
 
     // Execute handler
-    const { result } = await executeHandler(handlerCode, context);
+    let { result } = await executeHandler(handlerCode, context);
 
     // Determine status code based on all store operations, prioritizing semantically meaningful ones
     const statusCode = determineStatusCode(tracking);
@@ -190,6 +191,10 @@ export async function mockHandlerResponse(
         return c.json(exampleResponse);
       }
       return c.json(null);
+    }
+    console.log('looking for pagination on', operation, operation.responses[statusCode.toString()].content['application/json'].syncable);
+    if (typeof operation.responses[statusCode.toString()].content['application/json'].syncable === 'object') {
+      result = applyPagination(result, operation.responses[statusCode.toString()].content['application/json'].syncable, c.req.query());
     }
 
     return c.json(result);

@@ -63,7 +63,7 @@ components:
           type: string
           format: date-time
       x-seed: |
-        seed.count(10, () => ({
+        seed.count(1, () => ({
           id: 'some-id',
           title: 'Some title',
           content: 'contents of the blogpost',

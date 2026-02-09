@@ -6,9 +6,4 @@ actions:
   update:
     syncable:
       name: integrationTest
-      description: |-
-        Posts of the currently authenticated user.
-      type: collection
-      field: items
-      pagingStrategy: pageToken
-      pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
+      pagingStrategy: pageNumber

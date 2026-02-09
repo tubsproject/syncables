@@ -109,7 +109,7 @@ export function applyPagination(
       numItems = 10;
     }
   }
-  // console.log('body before pagination', body, spec.itemsPathInResponse, numItems);
+  console.log('body before pagination', body, spec.itemsPathInResponse, numItems);
   const page = [];
   const item = getObjectPath(body, spec.itemsPathInResponse)[0];
   for (let i = 0; i < numItems; i++) {
