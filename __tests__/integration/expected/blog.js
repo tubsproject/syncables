@@ -9,4 +9,4 @@ for (let i = 0; i < 37; i++) {
     "title": "Some title",
   });
 }
-module.exports = arr;
+export default arr;

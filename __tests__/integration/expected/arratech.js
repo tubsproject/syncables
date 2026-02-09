@@ -1,6 +1,6 @@
-let items = [];
+const arr = [];
 for (let i = 0; i < 25; i++) {
-  items.push({
+  arr.push({
     "apId": "123e4567-e89b-12d3-a456-426614174000",
     "artefacts": "[ \"c850cd0c-df6a-4704-b40d-06a3134fd3fc\",                   \"52e76e30-1a8e-4725-b015-da4975544342\",                   \"8c6e2ee5-daaa-4fad-b0dc-11d2f4132ee2\" ]",
     "deliveryAttempts": 1,
@@ -22,4 +22,4 @@ for (let i = 0; i < 25; i++) {
     "type": "string",
   });
 }
-module.exports = items;
+export default arr;

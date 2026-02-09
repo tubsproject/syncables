@@ -1,5 +1,6 @@
 import { SyncableConfig } from '../../../src/syncable.js';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getObjectPath(obj: object, path?: string[]): any {
   if (path === undefined) {
     return obj;
@@ -7,6 +8,7 @@ export function getObjectPath(obj: object, path?: string[]): any {
   if (!Array.isArray(path) || path.length === 0) {
     throw new Error(`Path must be a non-empty array of strings`);
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let pointer: any = obj;
   for (let i = 0; i < path.length; i++) {
     const part = path[i];
@@ -19,6 +21,7 @@ export function getObjectPath(obj: object, path?: string[]): any {
   return pointer;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function setObjectPath(obj: object, path: string[], value: any): object {
   if (path === undefined) {
     // console.log('no path provided, returning value as object');
@@ -27,6 +30,7 @@ export function setObjectPath(obj: object, path: string[], value: any): object {
   if (!Array.isArray(path) || path.length === 0) {
     throw new Error(`Path must be a non-empty array of strings`);
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let pointer: any = obj;
   for (let i = 0; i < path.length; i++) {
     const part = path[i];
@@ -47,7 +51,6 @@ export function setObjectPath(obj: object, path: string[], value: any): object {
   return obj;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function applyPagination(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any,
