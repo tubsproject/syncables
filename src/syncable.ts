@@ -92,7 +92,7 @@ export class Syncable<T> extends EventEmitter {
           continue;
         }
         Object.keys((pathItem.get.responses['200'] as any).content).forEach(contentType => {
-          console.log('Checking path', path, contentType);
+          // console.log('Checking path', path, contentType);
           const response = (pathItem.get.responses['200'] as any).content[contentType];
           if (response.syncable && response.syncable.name === this.syncableName) {
             const config: SyncableConfig = {
@@ -133,7 +133,7 @@ export class Syncable<T> extends EventEmitter {
               config.startDate = response.syncable.startDate || '20000101000000';
               config.endDate = response.syncable.endDate || '99990101000000';
             } else if (response.syncable.pagingStrategy === 'confirmationBased') {
-              console.log('setting confirmOperation', response.syncable.confirmOperation);
+              // console.log('setting confirmOperation', response.syncable.confirmOperation);
               config.confirmOperation = response.syncable.confirmOperation;
             }
             this.config = config;
@@ -317,7 +317,7 @@ export class Syncable<T> extends EventEmitter {
       if (endDate) {
         url.searchParams.append('endDate', (cursor + increment - 1).toString());
       }
-      console.log('date range fetching', url.toString());
+      // console.log('date range fetching', url.toString());
       const data = await this.doFetch(url.toString());
       allData = allData.concat(data.items);
       cursor += increment;
@@ -363,15 +363,16 @@ export class Syncable<T> extends EventEmitter {
     let thisBatch: { items: T[]; hasMore?: boolean; nextPageToken?: string };
     do {
       thisBatch = await this.doFetch(this.getUrl().toString());
-      console.log('fetched batch', thisBatch.items.length, thisBatch);
+      // console.log('fetched batch', thisBatch.items.length, thisBatch);
       allData = allData.concat(thisBatch.items);
       const promises = Promise.all(thisBatch.items.map(async (item) => {
-        const itemId = item[this.config.confirmOperation.idField].toString()
+        const itemId = item[this.config.confirmOperation.idField].toString();
+        // console.log('parsed out item id', item, itemId)
         const confirmationUrl = urljoin(
           this.config.baseUrl,
           this.config.confirmOperation.pathTemplate.replace('{id}', itemId),
         );
-        console.log('confirming', confirmationUrl);
+        // console.log('confirming', confirmationUrl);
         await this.fetchFunction(confirmationUrl, {
           method: this.config.confirmOperation.method,
           headers: Object.assign({}, this.authHeaders),

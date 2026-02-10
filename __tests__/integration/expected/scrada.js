@@ -1,39 +1,25 @@
-export default [
-  {
-    "accessRole": "string",
-    "backgroundColor": "string",
-    "colorId": "string",
-    "conferenceProperties": {
-      "allowedConferenceSolutionTypes": [
-        "string",
-      ],
-    },
-    "defaultReminders": [
-      {
-        "method": "string",
-        "minutes": 1,
-      },
-    ],
-    "deleted": false,
-    "description": "string",
-    "etag": "string",
-    "foregroundColor": "string",
-    "hidden": false,
-    "id": "string",
-    "kind": "calendar#calendarListEntry",
-    "location": "string",
-    "notificationSettings": {
-      "notifications": [
-        {
-          "method": "string",
-          "type": "string",
-        },
-      ],
-    },
-    "primary": false,
-    "selected": false,
-    "summary": "string",
-    "summaryOverride": "string",
-    "timeZone": "string",
-  },
-];
+const arr = [];
+for (let i = 0; i < 50; i += 1) {
+  arr.push({
+    "id": i.toString(),
+    "internalNumber": 1,
+    "peppolC1CountryCode": null,
+    "peppolC2MessageID": null,
+    "peppolC2SeatID": null,
+    "peppolC2Timestamp": null,
+    "peppolC3IncomingUniqueID": null,
+    "peppolC3MessageID": null,
+    "peppolC3Timestamp": null,
+    "peppolConversationID": null,
+    "peppolDocumentTypeScheme": null,
+    "peppolDocumentTypeValue": null,
+    "peppolProcessScheme": null,
+    "peppolProcessValue": null,
+    "peppolReceiverID": null,
+    "peppolReceiverScheme": null,
+    "peppolSbdhInstanceID": null,
+    "peppolSenderID": null,
+    "peppolSenderScheme": null,
+  });
+}
+export default arr;

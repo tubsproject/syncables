@@ -82,7 +82,7 @@ export async function createMockServer(
       const operation = schema?.paths?.[path]?.[
         method
       ] as OpenAPIV3_1.OperationObject;
-      console.log(`Setting up route: [${method.toUpperCase()}] ${route}`);
+      // console.log(`Setting up route: [${method.toUpperCase()}] ${route}`);
       // Check if authentication is required for this operation
       if (isAuthenticationRequired(operation.security)) {
         app[method](route, handleAuthentication(schema, operation));

@@ -166,7 +166,7 @@ export function applyPagination(
       break;
     case 'confirmationBased':
       {
-        numItems = Math.min(10, Object.keys(confirmedItemIds).length);
+        numItems = Math.min(10, Object.keys(confirmedItemIds).filter((id) => !confirmedItemIds[id]).length);
       }
       break;
     default: {
@@ -184,13 +184,19 @@ export function applyPagination(
   for (let i = 0; i < numItems; i++) {
     page.push(Object.assign({}, item));
   }
-  let i = 0;
-  Object.keys(confirmedItemIds).forEach((id) => {
-    if (i >= numItems) {
-      return;
-    }
-    page[i][spec?.confirmOperation?.idField || 'id'] = id;
-    i++;
-  });
+  // console.log('page generated with numItems', numItems);
+  if (spec.pagingStrategy === 'confirmationBased') {
+    // console.log('set ids to unconfirmed ones');
+    let i = 0;
+    Object.keys(confirmedItemIds).filter((id) => !confirmedItemIds[id]).forEach((id) => {
+      if (i >= numItems) {
+        return;
+      }
+      // console.log('found unconfirmed id', id);
+      page[i][spec?.confirmOperation?.idField || 'id'] = id;
+      // console.log(`setting id ${id} at index ${i}`);
+      i++;
+    });
+  }
   return setObjectPath(body, spec.itemsPathInResponse, page);
 }
