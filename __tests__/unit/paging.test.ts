@@ -10,7 +10,7 @@ test('pageNumber paging (unkown page size)', async () => {
   const syncable = new Syncable({
     specStr: createSpec({
       name: 'todos',
-      pagingStrategy: 'pageNumber',
+      paginationStrategy: 'pageNumber',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
       pageNumberParamInQuery: 'page',
@@ -47,7 +47,7 @@ test('pageNumber paging (default page size', async () => {
   const syncable = new Syncable({
     specStr: createSpec({
       name: 'todos',
-      pagingStrategy: 'pageNumber',
+      paginationStrategy: 'pageNumber',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
       pageNumberParamInQuery: 'page',
@@ -81,7 +81,7 @@ test('pageNumber paging (force page size', async () => {
   const syncable = new Syncable({
     specStr: createSpec({
       name: 'todos',
-      pagingStrategy: 'pageNumber',
+      paginationStrategy: 'pageNumber',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
       pageNumberParamInQuery: 'page',
@@ -115,7 +115,7 @@ test('offset paging (unknown page size)', async () => {
   const syncable = new Syncable({
     specStr: createSpec({
       name: 'todos',
-      pagingStrategy: 'offset',
+      paginationStrategy: 'offset',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
       offsetParamInQuery: 'offset',
@@ -152,7 +152,7 @@ test('offset paging (default page size)', async () => {
   const syncable = new Syncable({
     specStr: createSpec({
       name: 'todos',
-      pagingStrategy: 'offset',
+      paginationStrategy: 'offset',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
       offsetParamInQuery: 'offset',
@@ -186,7 +186,7 @@ test('offset paging (force page size)', async () => {
   const syncable = new Syncable({
     specStr: createSpec({
       name: 'todos',
-      pagingStrategy: 'offset',
+      paginationStrategy: 'offset',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
       offsetParamInQuery: 'offset',
@@ -220,7 +220,7 @@ test('pageToken paging', async () => {
   const syncable = new Syncable({
     specStr: createSpec({
       name: 'todos',
-      pagingStrategy: 'pageToken',
+      paginationStrategy: 'pageToken',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
       pageTokenParamInQuery: 'pageToken',
@@ -254,7 +254,7 @@ test('rangeHeader paging', async () => {
   const syncable = new Syncable({
     specStr: createSpec({
       name: 'todos',
-      pagingStrategy: 'rangeHeader',
+      paginationStrategy: 'rangeHeader',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
       pageTokenParamInQuery: 'pageToken',

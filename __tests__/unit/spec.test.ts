@@ -12,7 +12,7 @@ describe('Spec parsing', () => {
   it('can parse the syncable spec out of an OAD', async () => {
     const config: SyncableConfig = {
       name: 'widgets',
-      pagingStrategy: 'pageNumber',
+      paginationStrategy: 'pageNumber',
       pageNumberParamInQuery: 'page',
       baseUrl: 'https://example.com/api',
       urlPath: '/widgets',

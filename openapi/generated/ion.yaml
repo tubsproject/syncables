@@ -2835,7 +2835,7 @@ paths:
                   authenticated user.
                 type: collection
                 field: results
-                pagingStrategy: offset
+                paginationStrategy: offset
                 offsetParam: offset
           description: ''
     post:
@@ -3409,7 +3409,7 @@ paths:
                   user.
                 type: collection
                 field: results
-                pagingStrategy: offset
+                paginationStrategy: offset
                 offsetParam: offset
           description: ''
   '/api/v2/send-transactions/{id}':

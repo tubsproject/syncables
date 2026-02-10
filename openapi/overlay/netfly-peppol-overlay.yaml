@@ -11,7 +11,7 @@ actions:
       type: collection
       query:
         flow: out
-      pagingStrategy: dateRange
+      paginationStrategy: dateRange
       startDateParamInQuery: startDate
       endDateParamInQuery: endDate
 - target: paths['/documentsList']['get']['responses']['200']['content']['application/json']
@@ -23,7 +23,7 @@ actions:
       type: collection
       query:
         flow: in
-      pagingStrategy: dateRange
+      paginationStrategy: dateRange
       startDate: '20210101000000' // YYYYMMDDHHMMSS
       endDate: '20250101000000' // YYYYMMDDHHMMSS
       

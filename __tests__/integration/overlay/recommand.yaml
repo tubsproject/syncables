@@ -6,4 +6,4 @@ actions:
       name: integrationTest
       itemsPathInResponse:
       - documents
-      pagingStrategy: pageNumber
+      paginationStrategy: pageNumber

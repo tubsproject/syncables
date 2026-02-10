@@ -10,7 +10,7 @@ test('query', async () => {
   const syncable = new Syncable({
     specStr: createSpec({
       name: 'todos',
-      pagingStrategy: 'pageNumber',
+      paginationStrategy: 'pageNumber',
       baseUrl: 'https://jsonplaceholder.typicode.com',
       urlPath: '/todos/',
       pageNumberParamInQuery: 'page',

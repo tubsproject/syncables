@@ -38,16 +38,18 @@ components:
 
 Under `paths['/widgets']['get']['responses']['200']['content']['application/json']`, add an object `syncable`, in which you can specify:
 * `name`: a `string` descriptor of the collection, e.g. `"widgets"`
-* `pagingStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange` or (experimental) `rangeHeader`
-* `query`: an object containing query parameters to add in addition to the paging-related ones
+* `paginationStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange`, `rangeHeader`, or `confirmationBased`.
+* `query`: an object containing query parameters to add in addition to the pagination-related ones
 * `itemsPathInResponse`: path within the response body schema, as an array of strings, that contains the array of items (default: `[]` for the response body root)
 * `defaultPageSize`: tell Syncable how many items per page (max) to expect by default
-* `forcePageSize`: if possible, let Syncable tell the API which page size to use (not applicable to paging strategy `dateRange`)
-* when using `forcePageSize`, you can add `forcePageSizeParamInQuery` if it's not `pageSize` (not applicable to paging strategies `dateRange` and `rangeHeader`).
-* for a `pageNumber` paging strategy, you can add `pageNumberParamInQuery` if it's not `page`.
-* for an `offset` paging strategy, you can add `offsetParamInQuery` if it's not `offset`.
-* for a `pageToken` paging strategy, you can add `pageTokenParamInQuery` if it's not `pageToken` and `pageTokenPathInResponse` if it's not `['nextPageToken']`
-* for a `dateRange` paging strategy, you can add `startDateParamInQuery` if it's not `startDate`, `endDateParamInQuery` if it's not `endDate`, `startDate` if it's not `'20000101000000'`, and `endDate` if it's not `'99990101000000'`
+* `forcePageSize`: if possible, let Syncable tell the API which page size to use (not applicable to pagination strategy `dateRange`)
+* when using `forcePageSize`, you can add `forcePageSizeParamInQuery` if it's not `pageSize` (not applicable to pagination strategies `dateRange` and `rangeHeader`).
+* for a `pageNumber` pagination strategy, you can add `pageNumberParamInQuery` if it's not `page`.
+* for an `offset` pagination strategy, you can add `offsetParamInQuery` if it's not `offset`.
+* for a `pageToken` pagination strategy, you can add `pageTokenParamInQuery` if it's not `pageToken` and `pageTokenPathInResponse` if it's not `['nextPageToken']`
+* for a `dateRange` pagination strategy, you can add `startDateParamInQuery` if it's not `startDate`, `endDateParamInQuery` if it's not `endDate`, `startDate` if it's not `'20000101000000'`, and `endDate` if it's not `'99990101000000'`
+* for a `confirmationBased` pagination strategy, `confirmOperation.path` and `confirmOperation.method`. Then at that operation, you can add `confirmOperation.pathTemplate`.
+* `idField` to indicate which property of response items is used as the unique identifier (currently only used for confirmationBased pagination).
 
 ## Usage
 ### Create the OAD

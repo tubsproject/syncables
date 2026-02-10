@@ -10,4 +10,4 @@ actions:
       name: integrationTest
       itemsPathInResponse:
       - results
-      pagingStrategy: offset
+      paginationStrategy: offset

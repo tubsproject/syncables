@@ -373,7 +373,7 @@ paths:
                 type: collection
                 query:
                   flow: in
-                pagingStrategy: dateRange
+                paginationStrategy: dateRange
                 startDateParamInQuery: startDate
                 endDateParamInQuery: endDate
         '400':

@@ -18,14 +18,20 @@ export function mockAnyResponse(
   operation: OpenAPIV3_1.OperationObject,
   options: MockServerOptions,
 ) {
-  // FIXME: read this from the pagination specification
-  if (c.req.method === 'PUT') {
-    const idStr = c.req.path
-      .substring('/v1/company/{companyID}/peppol/inbound/document/'.length)
-      .split('/')[0];
+  // console.log('looking for confirm operation template', operation);
+  if (operation.responses?.['200']?.content?.['application/json']?.confirmOperation) {
+    const pathTemplate = operation.responses['200'].content['application/json'].confirmOperation.pathTemplate;
+    // console.log('matching template', pathTemplate, c.req.path);
+    const parts = pathTemplate.split('{id}');
+    // console.log('template parts', parts);
+    const prefixLen = parts[0].length;
+    const postfixLen = parts[1].length;
+    // console.log('slicing chars', prefixLen, postfixLen, c.req.path);
+    const idStr = c.req.path.slice(prefixLen, -postfixLen);
+    // console.log('extracted id', idStr);
     const id = Number.parseInt(idStr, 10);
     confirmedItemIds[id.toString()] = true;
-    // console.log('confirmed item', id);
+    // console.log('confirmed item', id); 
     c.status(204);
     return c.body(null);
   }

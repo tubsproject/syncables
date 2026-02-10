@@ -4716,7 +4716,7 @@ paths:
                   user.
                 type: collection
                 field: items
-                pagingStrategy: pageToken
+                paginationStrategy: pageToken
                 pageTokenParam: lastEvaluatedKey
         '400':
           description: Bad Request - Invalid pagination parameters
@@ -4814,7 +4814,7 @@ paths:
                   authenticated user.
                 type: collection
                 field: items
-                pagingStrategy: pageToken
+                paginationStrategy: pageToken
                 pageTokenParam: lastEvaluatedKey
         '400':
           description: Bad Request - Invalid pagination parameters

@@ -20,7 +20,7 @@ actions:
         Invoice and Credit Note Documents sent by the authenticated user.
       type: collection
       field: items
-      pagingStrategy: pageToken
+      paginationStrategy: pageToken
       pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
 - target: paths['/orgs/{orgId}/transactions/from_network']['get']['responses']['200']['content']['application/json']
   update:
@@ -30,5 +30,5 @@ actions:
         Invoice and Credit Note Documents received by the authenticated user.
       type: collection
       field: items
-      pagingStrategy: pageToken
+      paginationStrategy: pageToken
       pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages

@@ -4,4 +4,4 @@ actions:
   update:
     syncable:
       name: integrationTest
-      pagingStrategy: pageNumber
+      paginationStrategy: pageNumber

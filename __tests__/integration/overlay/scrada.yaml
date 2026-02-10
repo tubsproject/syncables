@@ -4,11 +4,16 @@ actions:
   update:
     syncable:
       name: integrationTest
-      pagingStrategy: confirmationBased
+      paginationStrategy: confirmationBased
       itemsPathInResponse:
       - results
+      idField: id
       confirmOperation:
         path: /v1/company/{companyID}/peppol/inbound/document/{documentID}/confirm
-        pathTemplate: /v1/company/{companyID}/peppol/inbound/document/{id}/confirm
-        idField: id
         method: put
+- target: paths['/v1/company/{companyID}/peppol/inbound/document/{documentID}/confirm']['put']['responses']['200']
+  update:
+    content:
+      application/json:
+        confirmOperation:
+          pathTemplate: /v1/company/{companyID}/peppol/inbound/document/{id}/confirm

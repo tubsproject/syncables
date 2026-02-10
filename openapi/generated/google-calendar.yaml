@@ -2114,7 +2114,7 @@ paths:
                 description: Calendars of the currently authenticated user.
                 type: collection
                 field: items
-                pagingStrategy: pageToken
+                paginationStrategy: pageToken
                 pageTokenParam: nextPageToken
                 itemsPathInResponse:
                  - items

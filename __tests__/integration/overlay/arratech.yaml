@@ -21,7 +21,7 @@ actions:
       type: collection
       itemsPathInResponse:
         - items
-      pagingStrategy: pageToken
+      paginationStrategy: pageToken
       pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
       nextPageTokenPathInResponse:
        - pagination

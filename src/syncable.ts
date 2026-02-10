@@ -10,7 +10,7 @@ const debug = createDebug('syncable');
 
 export type SyncableConfig = {
   name: string;
-  pagingStrategy:
+  paginationStrategy:
     | 'pageNumber'
     | 'offset'
     | 'pageToken'
@@ -32,9 +32,9 @@ export type SyncableConfig = {
   defaultPageSize?: number;
   forcePageSize?: number;
   forcePageSizeParamInQuery?: string;
+  idField: string;
   confirmOperation?: {
     pathTemplate: string;
-    idField: string;
     method: string;
     path: string;
   };
@@ -120,7 +120,7 @@ export class Syncable<T> extends EventEmitter {
                     : '',
                 urlPath: path,
                 name: response.syncable.name,
-                pagingStrategy: response.syncable.pagingStrategy,
+                paginationStrategy: response.syncable.paginationStrategy,
                 query: response.syncable.query || {},
                 itemsPathInResponse:
                   response.syncable.itemsPathInResponse || [],
@@ -128,20 +128,21 @@ export class Syncable<T> extends EventEmitter {
                 forcePageSize: response.syncable.forcePageSize,
                 forcePageSizeParamInQuery:
                   response.syncable.forcePageSizeParamInQuery,
+                idField: response.syncable.idField || 'id',
               };
               // console.log('baseUrl:', config.baseUrl, (schema as any).servers);
-              if (response.syncable.pagingStrategy === 'pageNumber') {
+              if (response.syncable.paginationStrategy === 'pageNumber') {
                 config.pageNumberParamInQuery =
                   response.syncable.pageNumberParamInQuery || 'page';
-              } else if (response.syncable.pagingStrategy === 'offset') {
+              } else if (response.syncable.paginationStrategy === 'offset') {
                 config.offsetParamInQuery =
                   response.syncable.offsetParamInQuery || 'offset';
-              } else if (response.syncable.pagingStrategy === 'pageToken') {
+              } else if (response.syncable.paginationStrategy === 'pageToken') {
                 config.pageTokenParamInQuery =
                   response.syncable.pageTokenParamInQuery || 'pageToken';
                 config.nextPageTokenPathInResponse = response.syncable
                   .nextPageTokenPathInResponse || ['nextPageToken'];
-              } else if (response.syncable.pagingStrategy === 'dateRange') {
+              } else if (response.syncable.paginationStrategy === 'dateRange') {
                 config.startDateParamInQuery =
                   response.syncable.startDateParamInQuery || 'startDate';
                 config.endDateParamInQuery =
@@ -150,10 +151,19 @@ export class Syncable<T> extends EventEmitter {
                   response.syncable.startDate || '20000101000000';
                 config.endDate = response.syncable.endDate || '99990101000000';
               } else if (
-                response.syncable.pagingStrategy === 'confirmationBased'
+                response.syncable.paginationStrategy === 'confirmationBased'
               ) {
                 // console.log('setting confirmOperation', response.syncable.confirmOperation);
-                config.confirmOperation = response.syncable.confirmOperation;
+                const confirmOperationSpec = response.syncable.confirmOperation as { path: string, method: string};
+                const confirmConfig = specObj.paths[confirmOperationSpec.path][confirmOperationSpec.method]?.responses['200']?.content?.['application/json']?.confirmOperation;
+                // console.log(confirmConfig);
+                config.confirmOperation = {
+                  pathTemplate: confirmConfig.pathTemplate,
+                  method: confirmOperationSpec.method,
+                  path: confirmOperationSpec.path,
+                };
+                // console.log('determined confirmOperation config', config.confirmOperation);
+                // throw new Error('debug');
               }
               this.config = config;
               // console.log('Found syncable config:', this.config, response.syncable);
@@ -384,10 +394,11 @@ export class Syncable<T> extends EventEmitter {
     do {
       thisBatch = await this.doFetch(this.getUrl().toString());
       // console.log('fetched batch', thisBatch.items.length, thisBatch);
+      // console.log('confirming', this.config.confirmOperation);
       allData = allData.concat(thisBatch.items);
       const promises = Promise.all(
         thisBatch.items.map(async (item) => {
-          const itemId = item[this.config.confirmOperation.idField].toString();
+          const itemId = item[this.config.idField].toString();
           // console.log('parsed out item id', item, itemId)
           const confirmationUrl = urljoin(
             this.config.baseUrl,
@@ -405,7 +416,7 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
   private async doFullFetch(): Promise<T[]> {
-    switch (this.config['pagingStrategy']) {
+    switch (this.config['paginationStrategy']) {
       case 'pageNumber':
         return this.pageNumberFetch();
       case 'offset':
@@ -420,7 +431,7 @@ export class Syncable<T> extends EventEmitter {
         return this.confirmationBasedFetch();
       default:
         throw new Error(
-          `Unknown paging strategy: ${this.config['pagingStrategy']}`,
+          `Unknown paging strategy: ${this.config['paginationStrategy']}`,
         );
     }
   }

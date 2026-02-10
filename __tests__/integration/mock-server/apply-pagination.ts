@@ -66,7 +66,7 @@ export function applyPagination(
 ): any {
   let numItems = 1;
   let hasMore = false;
-  switch (spec.pagingStrategy) {
+  switch (spec.paginationStrategy) {
     case 'pageNumber':
       {
         let pageNum = parseInt(
@@ -186,7 +186,7 @@ export function applyPagination(
     page.push(Object.assign({}, item));
   }
   // console.log('page generated with numItems', numItems);
-  if (spec.pagingStrategy === 'confirmationBased') {
+  if (spec.paginationStrategy === 'confirmationBased') {
     // console.log('set ids to unconfirmed ones');
     let i = 0;
     Object.keys(confirmedItemIds)
@@ -196,7 +196,7 @@ export function applyPagination(
           return;
         }
         // console.log('found unconfirmed id', id);
-        page[i][spec?.confirmOperation?.idField || 'id'] = id;
+        page[i][spec?.idField || 'id'] = id;
         // console.log(`setting id ${id} at index ${i}`);
         i++;
       });
