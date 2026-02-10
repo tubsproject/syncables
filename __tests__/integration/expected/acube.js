@@ -15,7 +15,16 @@ for (let i = 0; i < 37; i += 1) {
       "responseReceivedAt": null,
       "success": null,
       "uuid": "string",
-    }
+    },
+    "recipient": {
+      "identifier": null,
+      "name": null,
+    },
+    "sender": {
+      "identifier": null,
+      "name": null,
+    },
+    "uuid": "string",
   });
 }
 export default arr;

@@ -22,7 +22,7 @@ const DEFAULT_ADDITIONAL_PROPERTIES_NAME = 'additionalProperty';
  * Pre-computed date/time values to avoid expensive Date operations on every call.
  * These are calculated once at module load time for better performance.
  */
-const currentISOString = new Date().toISOString();
+const currentISOString = new Date('2026-02-10T02:52:04.729Z').toISOString();
 const currentDateString = currentISOString.split('T')[0]!;
 const currentTimeString = currentISOString.split('T')[1]!.split('.')[0]!;
 
