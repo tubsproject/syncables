@@ -32,7 +32,12 @@ export type SyncableConfig = {
   defaultPageSize?: number;
   forcePageSize?: number;
   forcePageSizeParamInQuery?: string;
-  confirmOperation?: { pathTemplate: string; idField: string, method: string, path: string },
+  confirmOperation?: {
+    pathTemplate: string;
+    idField: string;
+    method: string;
+    path: string;
+  };
 };
 
 export class Syncable<T> extends EventEmitter {
@@ -88,59 +93,74 @@ export class Syncable<T> extends EventEmitter {
       const pathItem = schema.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         // console.log('Checking 200 response content', path, typeof (pathItem.get.responses['200'] as any).content);
-        if (typeof (pathItem.get.responses['200'] as any).content !== 'object') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if (
+          typeof (pathItem.get.responses['200'] as any).content !== 'object'
+        ) {
           continue;
         }
-        Object.keys((pathItem.get.responses['200'] as any).content).forEach(contentType => {
-          // console.log('Checking path', path, contentType);
-          const response = (pathItem.get.responses['200'] as any).content[contentType];
-          if (response.syncable && response.syncable.name === this.syncableName) {
-            const config: SyncableConfig = {
-              baseUrl:
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (schema as any).servers && (schema as any).servers.length > 0
-                  ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (schema as any).servers[0].url
-                  : '',
-              urlPath: path,
-              name: response.syncable.name,
-              pagingStrategy: response.syncable.pagingStrategy,
-              query: response.syncable.query || {},
-              itemsPathInResponse: response.syncable.itemsPathInResponse || [],
-              defaultPageSize: response.syncable.defaultPageSize,
-              forcePageSize: response.syncable.forcePageSize,
-              forcePageSizeParamInQuery:
-                response.syncable.forcePageSizeParamInQuery,
-            };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Object.keys((pathItem.get.responses['200'] as any).content).forEach(
+          (contentType) => {
+            // console.log('Checking path', path, contentType);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            // console.log('baseUrl:', config.baseUrl, (schema as any).servers);
-            if (response.syncable.pagingStrategy === 'pageNumber') {
-              config.pageNumberParamInQuery =
-                response.syncable.pageNumberParamInQuery || 'page';
-            } else if (response.syncable.pagingStrategy === 'offset') {
-              config.offsetParamInQuery =
-                response.syncable.offsetParamInQuery || 'offset';
-            } else if (response.syncable.pagingStrategy === 'pageToken') {
-              config.pageTokenParamInQuery =
-                response.syncable.pageTokenParamInQuery || 'pageToken';
-              config.nextPageTokenPathInResponse = response.syncable
-                .nextPageTokenPathInResponse || ['nextPageToken'];
-            } else if (response.syncable.pagingStrategy === 'dateRange') {
-              config.startDateParamInQuery =
-                response.syncable.startDateParamInQuery || 'startDate';
-              config.endDateParamInQuery =
-                response.syncable.endDateParamInQuery || 'endDate';
-              config.startDate = response.syncable.startDate || '20000101000000';
-              config.endDate = response.syncable.endDate || '99990101000000';
-            } else if (response.syncable.pagingStrategy === 'confirmationBased') {
-              // console.log('setting confirmOperation', response.syncable.confirmOperation);
-              config.confirmOperation = response.syncable.confirmOperation;
+            const response = (pathItem.get.responses['200'] as any).content[
+              contentType
+            ];
+            if (
+              response.syncable &&
+              response.syncable.name === this.syncableName
+            ) {
+              const config: SyncableConfig = {
+                baseUrl:
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  (schema as any).servers && (schema as any).servers.length > 0
+                    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      (schema as any).servers[0].url
+                    : '',
+                urlPath: path,
+                name: response.syncable.name,
+                pagingStrategy: response.syncable.pagingStrategy,
+                query: response.syncable.query || {},
+                itemsPathInResponse:
+                  response.syncable.itemsPathInResponse || [],
+                defaultPageSize: response.syncable.defaultPageSize,
+                forcePageSize: response.syncable.forcePageSize,
+                forcePageSizeParamInQuery:
+                  response.syncable.forcePageSizeParamInQuery,
+              };
+              // console.log('baseUrl:', config.baseUrl, (schema as any).servers);
+              if (response.syncable.pagingStrategy === 'pageNumber') {
+                config.pageNumberParamInQuery =
+                  response.syncable.pageNumberParamInQuery || 'page';
+              } else if (response.syncable.pagingStrategy === 'offset') {
+                config.offsetParamInQuery =
+                  response.syncable.offsetParamInQuery || 'offset';
+              } else if (response.syncable.pagingStrategy === 'pageToken') {
+                config.pageTokenParamInQuery =
+                  response.syncable.pageTokenParamInQuery || 'pageToken';
+                config.nextPageTokenPathInResponse = response.syncable
+                  .nextPageTokenPathInResponse || ['nextPageToken'];
+              } else if (response.syncable.pagingStrategy === 'dateRange') {
+                config.startDateParamInQuery =
+                  response.syncable.startDateParamInQuery || 'startDate';
+                config.endDateParamInQuery =
+                  response.syncable.endDateParamInQuery || 'endDate';
+                config.startDate =
+                  response.syncable.startDate || '20000101000000';
+                config.endDate = response.syncable.endDate || '99990101000000';
+              } else if (
+                response.syncable.pagingStrategy === 'confirmationBased'
+              ) {
+                // console.log('setting confirmOperation', response.syncable.confirmOperation);
+                config.confirmOperation = response.syncable.confirmOperation;
+              }
+              this.config = config;
+              // console.log('Found syncable config:', this.config, response.syncable);
+              solution = schema;
             }
-            this.config = config;
-            // console.log('Found syncable config:', this.config, response.syncable);
-            solution = schema;
-          }
-        });
+          },
+        );
       }
     }
     if (solution) {
@@ -299,10 +319,10 @@ export class Syncable<T> extends EventEmitter {
     let startDate: number = parseInt(this.config.startDate, 10);
     let endDate: number = parseInt(this.config.endDate, 10);
     if (isNaN(startDate)) {
-       startDate = 20000101000000;
+      startDate = 20000101000000;
     }
     if (isNaN(endDate)) {
-       endDate = 99990101000000;
+      endDate = 99990101000000;
     }
     let cursor = startDate;
     const increment: number = /* this.config.increment || */ 10000000000; // yearly increments
@@ -365,19 +385,21 @@ export class Syncable<T> extends EventEmitter {
       thisBatch = await this.doFetch(this.getUrl().toString());
       // console.log('fetched batch', thisBatch.items.length, thisBatch);
       allData = allData.concat(thisBatch.items);
-      const promises = Promise.all(thisBatch.items.map(async (item) => {
-        const itemId = item[this.config.confirmOperation.idField].toString();
-        // console.log('parsed out item id', item, itemId)
-        const confirmationUrl = urljoin(
-          this.config.baseUrl,
-          this.config.confirmOperation.pathTemplate.replace('{id}', itemId),
-        );
-        // console.log('confirming', confirmationUrl);
-        await this.fetchFunction(confirmationUrl, {
-          method: this.config.confirmOperation.method,
-          headers: Object.assign({}, this.authHeaders),
-        });
-      }));
+      const promises = Promise.all(
+        thisBatch.items.map(async (item) => {
+          const itemId = item[this.config.confirmOperation.idField].toString();
+          // console.log('parsed out item id', item, itemId)
+          const confirmationUrl = urljoin(
+            this.config.baseUrl,
+            this.config.confirmOperation.pathTemplate.replace('{id}', itemId),
+          );
+          // console.log('confirming', confirmationUrl);
+          await this.fetchFunction(confirmationUrl, {
+            method: this.config.confirmOperation.method,
+            headers: Object.assign({}, this.authHeaders),
+          });
+        }),
+      );
       await promises;
     } while (thisBatch.hasMore);
     return allData;

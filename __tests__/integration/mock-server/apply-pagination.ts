@@ -86,10 +86,7 @@ export function applyPagination(
       break;
     case 'offset':
       {
-        let offset = parseInt(
-          query[spec.offsetParamInQuery ?? 'offset'],
-          10,
-        );
+        let offset = parseInt(query[spec.offsetParamInQuery ?? 'offset'], 10);
         if (isNaN(offset) || offset < 0) {
           offset = 0;
         }
@@ -140,23 +137,23 @@ export function applyPagination(
       break;
     case 'dateRange':
       {
-        let startDate = parseInt(query[spec.startDateParamInQuery ?? 'startDate'], 10);
+        let startDate = parseInt(
+          query[spec.startDateParamInQuery ?? 'startDate'],
+          10,
+        );
         if (isNaN(startDate)) {
           startDate = 20000101000000;
         }
-        let endDate = parseInt(query[spec.endDateParamInQuery ?? 'endDate'], 10);
+        let endDate = parseInt(
+          query[spec.endDateParamInQuery ?? 'endDate'],
+          10,
+        );
         if (isNaN(endDate)) {
           endDate = 99990101000000;
         }
         let dates = [
-          20220101000000,
-          20220201000000,
-          20220301000000,
-          20220401000000,
-          20220501000000,
-          20220601000000,
-          20220701000000,
-          20220801000000,
+          20220101000000, 20220201000000, 20220301000000, 20220401000000,
+          20220501000000, 20220601000000, 20220701000000, 20220801000000,
           20220901000000,
         ];
         dates = dates.filter((d) => d >= startDate && d <= endDate);
@@ -166,7 +163,11 @@ export function applyPagination(
       break;
     case 'confirmationBased':
       {
-        numItems = Math.min(10, Object.keys(confirmedItemIds).filter((id) => !confirmedItemIds[id]).length);
+        numItems = Math.min(
+          10,
+          Object.keys(confirmedItemIds).filter((id) => !confirmedItemIds[id])
+            .length,
+        );
       }
       break;
     default: {
@@ -188,15 +189,17 @@ export function applyPagination(
   if (spec.pagingStrategy === 'confirmationBased') {
     // console.log('set ids to unconfirmed ones');
     let i = 0;
-    Object.keys(confirmedItemIds).filter((id) => !confirmedItemIds[id]).forEach((id) => {
-      if (i >= numItems) {
-        return;
-      }
-      // console.log('found unconfirmed id', id);
-      page[i][spec?.confirmOperation?.idField || 'id'] = id;
-      // console.log(`setting id ${id} at index ${i}`);
-      i++;
-    });
+    Object.keys(confirmedItemIds)
+      .filter((id) => !confirmedItemIds[id])
+      .forEach((id) => {
+        if (i >= numItems) {
+          return;
+        }
+        // console.log('found unconfirmed id', id);
+        page[i][spec?.confirmOperation?.idField || 'id'] = id;
+        // console.log(`setting id ${id} at index ${i}`);
+        i++;
+      });
   }
   return setObjectPath(body, spec.itemsPathInResponse, page);
 }

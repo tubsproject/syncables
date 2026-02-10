@@ -17,7 +17,20 @@ describe('Syncables', async () => {
     const thisPort = port++;
 
     console.log(`Considering ${service} on port ${thisPort}...`);
-    if (!['acube', 'arratech', 'blog', 'google-calendar', 'ion', 'maventa', 'netfly', 'peppyrus', 'recommand', 'scrada'].includes(service)) {
+    if (
+      ![
+        'acube',
+        'arratech',
+        'blog',
+        'google-calendar',
+        'ion',
+        'maventa',
+        'netfly',
+        'peppyrus',
+        'recommand',
+        'scrada',
+      ].includes(service)
+    ) {
       return;
     }
     it(`can sync ${service}`, async () => {
@@ -84,7 +97,7 @@ describe('Syncables', async () => {
       const expected = await import(`../integration/expected/${service}.js`);
       expect(data.length).toBe(expected.default.length);
       for (let i = 0; i < expected.default.length; i++) {
-        expect(data[i]).toEqual(expected.default[i]) ;
+        expect(data[i]).toEqual(expected.default[i]);
       }
       console.log(`Stopping server for ${service}...`);
       server?.close();

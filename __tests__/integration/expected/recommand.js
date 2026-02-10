@@ -48,7 +48,6 @@ for (let i = 0; i < 37; i += 1) {
         "vatNumber": "BE0123456789",
       },
     },
-    "updatedAt": "string",
     "processId": "string",
     "readAt": "string",
     "receiverId": "string",
