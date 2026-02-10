@@ -17,7 +17,7 @@ describe('Syncables', async () => {
     const thisPort = port++;
 
     console.log(`Considering ${service} on port ${thisPort}...`);
-    if (![/*'acube', 'arratech', 'blog', 'google-calendar', 'ion', 'maventa', */ 'netfly'].includes(service)) {
+    if (![/*'acube', 'arratech', 'blog', 'google-calendar', 'ion', 'maventa', 'netfly', */ 'peppyrus'].includes(service)) {
       return;
     }
     it(`can sync ${service}`, async () => {

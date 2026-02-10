@@ -90,7 +90,7 @@ export class Syncable<T> extends EventEmitter {
           continue;
         }
         Object.keys((pathItem.get.responses['200'] as any).content).forEach(contentType => {
-          // console.log('Checking path', path, contentType);
+          console.log('Checking path', path, contentType);
           const response = (pathItem.get.responses['200'] as any).content[contentType];
           if (response.syncable && response.syncable.name === this.syncableName) {
             const config: SyncableConfig = {
