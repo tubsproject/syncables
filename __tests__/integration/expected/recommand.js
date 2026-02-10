@@ -1,39 +1,64 @@
-export default [
-  {
-    "accessRole": "string",
-    "backgroundColor": "string",
-    "colorId": "string",
-    "conferenceProperties": {
-      "allowedConferenceSolutionTypes": [
-        "string",
-      ],
-    },
-    "defaultReminders": [
-      {
-        "method": "string",
-        "minutes": 1,
-      },
+const arr = [];
+for (let i = 0; i < 37; i += 1) {
+  arr.push({
+    "companyId": "string",
+    "countryC1": "string",
+    "createdAt": "string",
+    "direction": "incoming",
+    "docTypeId": "string",
+    "emailRecipients": [
+      "string",
     ],
-    "deleted": false,
-    "description": "string",
-    "etag": "string",
-    "foregroundColor": "string",
-    "hidden": false,
     "id": "string",
-    "kind": "calendar#calendarListEntry",
-    "location": "string",
-    "notificationSettings": {
-      "notifications": [
+    "parsed": {
+      "...": "[Additional Properties Truncated]",
+      "buyer": {
+        "city": "Brussels",
+        "country": "BE",
+        "name": "Example Company",
+        "postalZone": "1000",
+        "street": "Example Street 1",
+        "street2": "Suite 100",
+        "vatNumber": "BE0123456789",
+      },
+      "buyerReference": "PO-2024-001",
+      "dueDate": "2024-04-20",
+      "invoiceNumber": "INV-2024-001",
+      "issueDate": "2024-03-20",
+      "note": "Thank you for your business",
+      
+      "paymentMeans": [
         {
-          "method": "string",
-          "type": "string",
+          "iban": "BE1234567890",
+          "paymentMethod": "credit_transfer",
+          "reference": "INV-2026-001",
         },
       ],
+      "paymentTerms": {
+        "note": "Net 30",
+      },
+      "purchaseOrderReference": "PO-2024-001",
+      "seller": {
+        "city": "Brussels",
+        "country": "BE",
+        "name": "Example Company",
+        "postalZone": "1000",
+        "street": "Example Street 1",
+        "street2": "Suite 100",
+        "vatNumber": "BE0123456789",
+      },
     },
-    "primary": false,
-    "selected": false,
-    "summary": "string",
-    "summaryOverride": "string",
-    "timeZone": "string",
-  },
-];
+    "updatedAt": "string",
+    "processId": "string",
+    "readAt": "string",
+    "receiverId": "string",
+    "senderId": "string",
+    "sentOverEmail": true,
+    "sentOverPeppol": true,
+    "teamId": "string",
+    "type": "invoice",  "updatedAt": "string",
+    "xml": "string",
+  });
+}
+export default arr;
+
