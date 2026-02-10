@@ -132,7 +132,7 @@ export class Syncable<T> extends EventEmitter {
               config.endDate = response.syncable.endDate || '99990101000000';
             }
             this.config = config;
-            // console.log('Found syncable config:', this.config);
+            // console.log('Found syncable config:', this.config, response.syncable);
             solution = schema;
           }
         });
@@ -291,29 +291,31 @@ export class Syncable<T> extends EventEmitter {
   }
   private async dateRangeFetch(): Promise<T[]> {
     let allData: T[] = [];
-    let startDate: string | null = this.config.startDate || null;
-    const endDate: string | null = this.config.endDate || null;
-
-    while (true) {
+    let startDate: number = parseInt(this.config.startDate, 10);
+    let endDate: number = parseInt(this.config.endDate, 10);
+    if (isNaN(startDate)) {
+       startDate = 20000101000000;
+    }
+    if (isNaN(endDate)) {
+       endDate = 99990101000000;
+    }
+    let cursor = startDate;
+    const increment: number = /* this.config.increment || */ 10000000000; // yearly increments
+    while (cursor <= endDate) {
       const url = this.getUrl();
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
       if (startDate) {
-        url.searchParams.append('startDate', startDate);
+        url.searchParams.append('startDate', cursor.toString());
       }
       if (endDate) {
-        url.searchParams.append('endDate', endDate);
+        url.searchParams.append('endDate', (cursor + increment - 1).toString());
       }
+      console.log('date range fetching', url.toString());
       const data = await this.doFetch(url.toString());
       allData = allData.concat(data.items);
-      if (data.items.length === 0 || !data.hasMore) {
-        break;
-      }
-      // Assuming items are sorted by date ascending
-      startDate = (
-        data.items[data.items.length - 1] as unknown as { date: string }
-      ).date; // FIXME
+      cursor += increment;
     }
 
     return allData;

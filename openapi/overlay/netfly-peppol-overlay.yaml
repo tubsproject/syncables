@@ -24,5 +24,6 @@ actions:
       query:
         flow: in
       pagingStrategy: dateRange
-      startDateParamInQuery: startDate
-      endDateParamInQuery: endDate
+      startDate: '20210101000000' // YYYYMMDDHHMMSS
+      endDate: '20250101000000' // YYYYMMDDHHMMSS
+      
