@@ -1,6 +1,6 @@
 import { json2xml } from '@scalar/helpers/file/json2xml';
 import { getExampleFromSchema } from '../get-example-from-schema.js';
-import { applyPagination } from '../apply-pagination.js';
+import { applyPagination, confirmedItemIds } from '../apply-pagination.js';
 import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 import type { Context } from 'hono';
 import { accepts } from 'hono/accepts';
@@ -18,6 +18,14 @@ export function mockAnyResponse(
   operation: OpenAPIV3_1.OperationObject,
   options: MockServerOptions,
 ) {
+  if (c.req.method === 'PUT') {
+    const idStr = c.req.path.substring('/v1/company/{companyID}/peppol/inbound/document/'.length).split('/')[0];
+    const id = Number.parseInt(idStr, 10);
+    confirmedItemIds[id.toString()] = true;
+    console.log('confirmed item', id);
+    c.status(204);
+    return c.body(null);
+  }
   // Call onRequest callback
   if (options?.onRequest) {
     options.onRequest({

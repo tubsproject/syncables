@@ -15,7 +15,8 @@ export type SyncableConfig = {
     | 'offset'
     | 'pageToken'
     | 'dateRange'
-    | 'rangeHeader';
+    | 'rangeHeader'
+    | 'confirmationBased';
   baseUrl: string;
   urlPath: string;
   pageNumberParamInQuery?: string;
@@ -31,6 +32,7 @@ export type SyncableConfig = {
   defaultPageSize?: number;
   forcePageSize?: number;
   forcePageSizeParamInQuery?: string;
+  confirmOperation?: { pathTemplate: string; idField: string, method: string, path: string },
 };
 
 export class Syncable<T> extends EventEmitter {
@@ -130,6 +132,9 @@ export class Syncable<T> extends EventEmitter {
                 response.syncable.endDateParamInQuery || 'endDate';
               config.startDate = response.syncable.startDate || '20000101000000';
               config.endDate = response.syncable.endDate || '99990101000000';
+            } else if (response.syncable.pagingStrategy === 'confirmationBased') {
+              console.log('setting confirmOperation', response.syncable.confirmOperation);
+              config.confirmOperation = response.syncable.confirmOperation;
             }
             this.config = config;
             // console.log('Found syncable config:', this.config, response.syncable);
@@ -353,6 +358,29 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
+  private async confirmationBasedFetch(): Promise<T[]> {
+    let allData: T[] = [];
+    let thisBatch: { items: T[]; hasMore?: boolean; nextPageToken?: string };
+    do {
+      thisBatch = await this.doFetch(this.getUrl().toString());
+      console.log('fetched batch', thisBatch.items.length, thisBatch);
+      allData = allData.concat(thisBatch.items);
+      const promises = Promise.all(thisBatch.items.map(async (item) => {
+        const itemId = item[this.config.confirmOperation.idField].toString()
+        const confirmationUrl = urljoin(
+          this.config.baseUrl,
+          this.config.confirmOperation.pathTemplate.replace('{id}', itemId),
+        );
+        console.log('confirming', confirmationUrl);
+        await this.fetchFunction(confirmationUrl, {
+          method: this.config.confirmOperation.method,
+          headers: Object.assign({}, this.authHeaders),
+        });
+      }));
+      await promises;
+    } while (thisBatch.hasMore);
+    return allData;
+  }
   private async doFullFetch(): Promise<T[]> {
     switch (this.config['pagingStrategy']) {
       case 'pageNumber':
@@ -365,6 +393,8 @@ export class Syncable<T> extends EventEmitter {
         return this.dateRangeFetch();
       case 'rangeHeader':
         return this.rangeHeaderFetch();
+      case 'confirmationBased':
+        return this.confirmationBasedFetch();
       default:
         throw new Error(
           `Unknown paging strategy: ${this.config['pagingStrategy']}`,

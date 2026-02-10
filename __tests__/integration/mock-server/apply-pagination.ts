@@ -1,5 +1,10 @@
 import { SyncableConfig } from '../../../src/syncable.js';
 
+export const confirmedItemIds: { [id: string]: boolean } = {};
+for (let i = 0; i < 50; i += 1) {
+  confirmedItemIds[i.toString()] = false;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getObjectPath(obj: object, path?: string[]): any {
   if (path === undefined) {
@@ -159,6 +164,11 @@ export function applyPagination(
         console.log('dateRange numItems', numItems, startDate, endDate);
       }
       break;
+    case 'confirmationBased':
+      {
+        numItems = Math.min(10, Object.keys(confirmedItemIds).length);
+      }
+      break;
     default: {
       numItems = 10;
     }
@@ -172,7 +182,15 @@ export function applyPagination(
   const page = [];
   const item = getObjectPath(body, spec.itemsPathInResponse)[0];
   for (let i = 0; i < numItems; i++) {
-    page.push(item);
+    page.push(Object.assign({}, item));
   }
+  let i = 0;
+  Object.keys(confirmedItemIds).forEach((id) => {
+    if (i >= numItems) {
+      return;
+    }
+    page[i][spec?.confirmOperation?.idField || 'id'] = id;
+    i++;
+  });
   return setObjectPath(body, spec.itemsPathInResponse, page);
 }

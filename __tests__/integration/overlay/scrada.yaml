@@ -8,5 +8,7 @@ actions:
       itemsPathInResponse:
       - results
       confirmOperation:
-        - path: /v1/company/{companyID}/peppol/inbound/document/{documentID}/confirm
-        - method: put
+        path: /v1/company/{companyID}/peppol/inbound/document/{documentID}/confirm
+        pathTemplate: /v1/company/{companyID}/peppol/inbound/document/{id}/confirm
+        idField: id
+        method: put
