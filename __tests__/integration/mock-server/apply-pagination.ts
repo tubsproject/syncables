@@ -79,6 +79,23 @@ export function applyPagination(
         hasMore = pageNum < 4;
       }
       break;
+    case 'offset':
+      {
+        let offset = parseInt(
+          query[spec.offsetParamInQuery ?? 'offset'],
+          10,
+        );
+        if (isNaN(offset) || offset < 0) {
+          offset = 0;
+        }
+        // console.log('serving offset', offset);
+        if (offset > 50) {
+          throw new Error('No more pages');
+        }
+        numItems = Math.min(10, 37 - offset);
+        hasMore = numItems > 0;
+      }
+      break;
     case 'pageToken':
       {
         const pageToken = query[spec.pageTokenParamInQuery ?? 'pageToken'];
@@ -120,12 +137,12 @@ export function applyPagination(
       numItems = 10;
     }
   }
-  console.log(
-    'body before pagination',
-    body,
-    spec.itemsPathInResponse,
-    numItems,
-  );
+  // console.log(
+  //   'body before pagination',
+  //   body,
+  //   spec.itemsPathInResponse,
+  //   numItems,
+  // );
   const page = [];
   const item = getObjectPath(body, spec.itemsPathInResponse)[0];
   for (let i = 0; i < numItems; i++) {

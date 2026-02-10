@@ -81,55 +81,65 @@ export class Syncable<T> extends EventEmitter {
       specObj = parse(this.specStr);
     }
     const schema = await dereference(specObj);
+    let solution: object | null = null;
     for (const path of Object.keys(schema.paths)) {
       const pathItem = schema.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
-        const response =
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (pathItem.get.responses['200'] as any).content['application/json'];
-        if (response.syncable && response.syncable.name === this.syncableName) {
-          const config: SyncableConfig = {
-            baseUrl:
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (schema as any).servers && (schema as any).servers.length > 0
-                ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  (schema as any).servers[0].url
-                : '',
-            urlPath: path,
-            name: response.syncable.name,
-            pagingStrategy: response.syncable.pagingStrategy,
-            query: response.syncable.query || {},
-            itemsPathInResponse: response.syncable.itemsPathInResponse || [],
-            defaultPageSize: response.syncable.defaultPageSize,
-            forcePageSize: response.syncable.forcePageSize,
-            forcePageSizeParamInQuery:
-              response.syncable.forcePageSizeParamInQuery,
-          };
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          console.log('baseUrl:', config.baseUrl, (schema as any).servers);
-          if (response.syncable.pagingStrategy === 'pageNumber') {
-            config.pageNumberParamInQuery =
-              response.syncable.pageNumberParamInQuery || 'page';
-          } else if (response.syncable.pagingStrategy === 'offset') {
-            config.offsetParamInQuery =
-              response.syncable.offsetParamInQuery || 'offset';
-          } else if (response.syncable.pagingStrategy === 'pageToken') {
-            config.pageTokenParamInQuery =
-              response.syncable.pageTokenParamInQuery || 'pageToken';
-            config.nextPageTokenPathInResponse = response.syncable
-              .nextPageTokenPathInResponse || ['nextPageToken'];
-          } else if (response.syncable.pagingStrategy === 'dateRange') {
-            config.startDateParamInQuery =
-              response.syncable.startDateParamInQuery || 'startDate';
-            config.endDateParamInQuery =
-              response.syncable.endDateParamInQuery || 'endDate';
-            config.startDate = response.syncable.startDate || '20000101000000';
-            config.endDate = response.syncable.endDate || '99990101000000';
-          }
-          this.config = config;
-          return schema;
+        // console.log('Checking 200 response content', path, typeof (pathItem.get.responses['200'] as any).content);
+        if (typeof (pathItem.get.responses['200'] as any).content !== 'object') {
+          continue;
         }
+        Object.keys((pathItem.get.responses['200'] as any).content).forEach(contentType => {
+          // console.log('Checking path', path, contentType);
+          const response = (pathItem.get.responses['200'] as any).content[contentType];
+          if (response.syncable && response.syncable.name === this.syncableName) {
+            const config: SyncableConfig = {
+              baseUrl:
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (schema as any).servers && (schema as any).servers.length > 0
+                  ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (schema as any).servers[0].url
+                  : '',
+              urlPath: path,
+              name: response.syncable.name,
+              pagingStrategy: response.syncable.pagingStrategy,
+              query: response.syncable.query || {},
+              itemsPathInResponse: response.syncable.itemsPathInResponse || [],
+              defaultPageSize: response.syncable.defaultPageSize,
+              forcePageSize: response.syncable.forcePageSize,
+              forcePageSizeParamInQuery:
+                response.syncable.forcePageSizeParamInQuery,
+            };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // console.log('baseUrl:', config.baseUrl, (schema as any).servers);
+            if (response.syncable.pagingStrategy === 'pageNumber') {
+              config.pageNumberParamInQuery =
+                response.syncable.pageNumberParamInQuery || 'page';
+            } else if (response.syncable.pagingStrategy === 'offset') {
+              config.offsetParamInQuery =
+                response.syncable.offsetParamInQuery || 'offset';
+            } else if (response.syncable.pagingStrategy === 'pageToken') {
+              config.pageTokenParamInQuery =
+                response.syncable.pageTokenParamInQuery || 'pageToken';
+              config.nextPageTokenPathInResponse = response.syncable
+                .nextPageTokenPathInResponse || ['nextPageToken'];
+            } else if (response.syncable.pagingStrategy === 'dateRange') {
+              config.startDateParamInQuery =
+                response.syncable.startDateParamInQuery || 'startDate';
+              config.endDateParamInQuery =
+                response.syncable.endDateParamInQuery || 'endDate';
+              config.startDate = response.syncable.startDate || '20000101000000';
+              config.endDate = response.syncable.endDate || '99990101000000';
+            }
+            this.config = config;
+            // console.log('Found syncable config:', this.config);
+            solution = schema;
+          }
+        });
       }
+    }
+    if (solution) {
+      return solution;
     }
     throw new Error(
       `Syncable with name "${this.syncableName}" not found in spec`,
