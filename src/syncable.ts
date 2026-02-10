@@ -32,7 +32,7 @@ export type SyncableConfig = {
   defaultPageSize?: number;
   forcePageSize?: number;
   forcePageSizeParamInQuery?: string;
-  idField: string;
+  idField?: string;
   confirmOperation?: {
     pathTemplate: string;
     method: string;
@@ -93,8 +93,8 @@ export class Syncable<T> extends EventEmitter {
       const pathItem = schema.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         // console.log('Checking 200 response content', path, typeof (pathItem.get.responses['200'] as any).content);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           typeof (pathItem.get.responses['200'] as any).content !== 'object'
         ) {
           continue;
@@ -154,8 +154,13 @@ export class Syncable<T> extends EventEmitter {
                 response.syncable.paginationStrategy === 'confirmationBased'
               ) {
                 // console.log('setting confirmOperation', response.syncable.confirmOperation);
-                const confirmOperationSpec = response.syncable.confirmOperation as { path: string, method: string};
-                const confirmConfig = specObj.paths[confirmOperationSpec.path][confirmOperationSpec.method]?.responses['200']?.content?.['application/json']?.confirmOperation;
+                const confirmOperationSpec = response.syncable
+                  .confirmOperation as { path: string; method: string };
+                const confirmConfig =
+                  specObj.paths[confirmOperationSpec.path][
+                    confirmOperationSpec.method
+                  ]?.responses['200']?.content?.['application/json']
+                    ?.confirmOperation;
                 // console.log(confirmConfig);
                 config.confirmOperation = {
                   pathTemplate: confirmConfig.pathTemplate,

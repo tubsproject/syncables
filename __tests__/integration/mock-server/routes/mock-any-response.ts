@@ -19,8 +19,13 @@ export function mockAnyResponse(
   options: MockServerOptions,
 ) {
   // console.log('looking for confirm operation template', operation);
-  if (operation.responses?.['200']?.content?.['application/json']?.confirmOperation) {
-    const pathTemplate = operation.responses['200'].content['application/json'].confirmOperation.pathTemplate;
+  if (
+    operation.responses?.['200']?.content?.['application/json']
+      ?.confirmOperation
+  ) {
+    const pathTemplate =
+      operation.responses['200'].content['application/json'].confirmOperation
+        .pathTemplate;
     // console.log('matching template', pathTemplate, c.req.path);
     const parts = pathTemplate.split('{id}');
     // console.log('template parts', parts);
@@ -31,7 +36,7 @@ export function mockAnyResponse(
     // console.log('extracted id', idStr);
     const id = Number.parseInt(idStr, 10);
     confirmedItemIds[id.toString()] = true;
-    // console.log('confirmed item', id); 
+    // console.log('confirmed item', id);
     c.status(204);
     return c.body(null);
   }
