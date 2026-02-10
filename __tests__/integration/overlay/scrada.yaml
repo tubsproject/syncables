@@ -2,7 +2,7 @@ openapi: 3.0.0
 actions:
 - target: paths['/v1/company/{companyID}/peppol/inbound/document/unconfirmed']['get']['responses']['200']['content']['application/json']
   update:
-    syncables:
+    syncable:
       name: integrationTest
       pagingStrategy: confirmationBased
       itemsPathInResponse:
