@@ -77,6 +77,7 @@ describe('Syncables', async () => {
         syncableName: 'integrationTest',
         authHeaders: {
           Authorization: 'Bearer MOCK',
+          'X-Api-Key': 'mock-api-key',
         },
       });
       const data = await syncable.fullFetch();
