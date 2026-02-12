@@ -18,6 +18,10 @@ describe('Spec parsing', () => {
       urlPath: '/widgets',
       query: { color: 'red' },
       itemsPathInResponse: ['data', 'items'],
+      defaultPageSize: undefined,
+      forcePageSize: undefined,
+      forcePageSizeParamInQuery: undefined,
+      idField: 'id',
     };
     const syncable = new Syncable<Widget>({
       specStr: createSpec(config),
