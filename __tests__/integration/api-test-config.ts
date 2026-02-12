@@ -28,12 +28,12 @@ export interface EndpointConfig {
   testScenarios: TestScenario[];
 }
 
-export type PaginationStrategy = 
-  | 'pageNumber' 
-  | 'offset' 
-  | 'pageToken' 
-  | 'dateRange' 
-  | 'rangeHeader' 
+export type PaginationStrategy =
+  | 'pageNumber'
+  | 'offset'
+  | 'pageToken'
+  | 'dateRange'
+  | 'rangeHeader'
   | 'confirmationBased'
   | 'none';
 
@@ -64,7 +64,8 @@ export const PUBLIC_API_CONFIGS: ApiTestConfig[] = [
   {
     name: 'GitHub REST API',
     category: 'rest',
-    specUrl: 'https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json',
+    specUrl:
+      'https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json',
     specType: 'openapi',
     authentication: {
       type: 'bearer',
@@ -120,7 +121,8 @@ export const PUBLIC_API_CONFIGS: ApiTestConfig[] = [
   {
     name: 'Stripe API',
     category: 'rest',
-    specUrl: 'https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json',
+    specUrl:
+      'https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json',
     specType: 'openapi',
     authentication: {
       type: 'bearer',
@@ -170,7 +172,8 @@ export const PUBLIC_API_CONFIGS: ApiTestConfig[] = [
   {
     name: 'JSONPlaceholder',
     category: 'rest',
-    specUrl: 'https://gist.githubusercontent.com/jpoehnelt/55741e08156b4bf7c13edc0cd25b501c/raw/openapi.json',
+    specUrl:
+      'https://gist.githubusercontent.com/jpoehnelt/55741e08156b4bf7c13edc0cd25b501c/raw/openapi.json',
     specType: 'openapi',
     authentication: { type: 'none' },
     endpoints: [
@@ -250,7 +253,8 @@ export const PUBLIC_API_CONFIGS: ApiTestConfig[] = [
   {
     name: 'OpenWeatherMap',
     category: 'rest',
-    specUrl: 'https://raw.githubusercontent.com/APIs-guru/openapi-directory/main/APIs/openweathermap.org/2.5/openapi.yaml',
+    specUrl:
+      'https://raw.githubusercontent.com/APIs-guru/openapi-directory/main/APIs/openweathermap.org/2.5/openapi.yaml',
     specType: 'openapi',
     authentication: {
       type: 'apiKey',
@@ -319,7 +323,8 @@ export const PUBLIC_API_CONFIGS: ApiTestConfig[] = [
   {
     name: 'Spotify Web API',
     category: 'rest',
-    specUrl: 'https://raw.githubusercontent.com/sonallux/spotify-web-api/main/fixed-spotify-open-api.yml',
+    specUrl:
+      'https://raw.githubusercontent.com/sonallux/spotify-web-api/main/fixed-spotify-open-api.yml',
     specType: 'openapi',
     authentication: {
       type: 'bearer',
@@ -348,7 +353,8 @@ export const PUBLIC_API_CONFIGS: ApiTestConfig[] = [
   {
     name: 'The Movie Database',
     category: 'rest',
-    specUrl: 'https://raw.githubusercontent.com/bvandercar-vt/tmdb-api-spec/master/openapi.json',
+    specUrl:
+      'https://raw.githubusercontent.com/bvandercar-vt/tmdb-api-spec/master/openapi.json',
     specType: 'openapi',
     authentication: {
       type: 'apiKey',
@@ -411,7 +417,8 @@ export const PUBLIC_API_CONFIGS: ApiTestConfig[] = [
   {
     name: 'REST Countries',
     category: 'rest',
-    specUrl: 'https://raw.githubusercontent.com/apilayer/restcountries/master/openapi.json',
+    specUrl:
+      'https://raw.githubusercontent.com/apilayer/restcountries/master/openapi.json',
     specType: 'openapi',
     authentication: { type: 'none' },
     endpoints: [
@@ -437,15 +444,19 @@ export const PUBLIC_API_CONFIGS: ApiTestConfig[] = [
  * Helper function to get API config by name
  */
 export function getApiConfig(name: string): ApiTestConfig | undefined {
-  return PUBLIC_API_CONFIGS.find(config => config.name === name);
+  return PUBLIC_API_CONFIGS.find((config) => config.name === name);
 }
 
 /**
  * Helper function to get all APIs that support a specific pagination strategy
  */
-export function getApisByPaginationStrategy(strategy: PaginationStrategy): ApiTestConfig[] {
-  return PUBLIC_API_CONFIGS.filter(config =>
-    config.endpoints.some(endpoint => endpoint.paginationStrategy === strategy)
+export function getApisByPaginationStrategy(
+  strategy: PaginationStrategy,
+): ApiTestConfig[] {
+  return PUBLIC_API_CONFIGS.filter((config) =>
+    config.endpoints.some(
+      (endpoint) => endpoint.paginationStrategy === strategy,
+    ),
   );
 }
 
@@ -454,7 +465,7 @@ export function getApisByPaginationStrategy(strategy: PaginationStrategy): ApiTe
  */
 export function getPublicApis(): ApiTestConfig[] {
   return PUBLIC_API_CONFIGS.filter(
-    config => !config.authentication || config.authentication.type === 'none'
+    (config) => !config.authentication || config.authentication.type === 'none',
   );
 }
 

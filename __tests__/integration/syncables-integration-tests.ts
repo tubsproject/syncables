@@ -13,7 +13,13 @@ interface PublicApiTestCase {
   name: string;
   specUrl: string;
   syncableName: string;
-  paginationStrategy: 'pageNumber' | 'offset' | 'pageToken' | 'dateRange' | 'rangeHeader' | 'confirmationBased';
+  paginationStrategy:
+    | 'pageNumber'
+    | 'offset'
+    | 'pageToken'
+    | 'dateRange'
+    | 'rangeHeader'
+    | 'confirmationBased';
   description: string;
   expectedMinItems?: number;
 }
@@ -21,7 +27,8 @@ interface PublicApiTestCase {
 const PUBLIC_API_TEST_CASES: PublicApiTestCase[] = [
   {
     name: 'GitHub API - Page Number',
-    specUrl: 'https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json',
+    specUrl:
+      'https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json',
     syncableName: 'repositories',
     paginationStrategy: 'pageNumber',
     description: 'Tests page number pagination with per_page parameter',
@@ -29,7 +36,8 @@ const PUBLIC_API_TEST_CASES: PublicApiTestCase[] = [
   },
   {
     name: 'Stripe API - Cursor Pagination',
-    specUrl: 'https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json',
+    specUrl:
+      'https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json',
     syncableName: 'customers',
     paginationStrategy: 'pageToken',
     description: 'Tests cursor-based pagination with starting_after',
@@ -37,7 +45,8 @@ const PUBLIC_API_TEST_CASES: PublicApiTestCase[] = [
   },
   {
     name: 'JSONPlaceholder - Simple Pagination',
-    specUrl: 'https://gist.githubusercontent.com/jpoehnelt/55741e08156b4bf7c13edc0cd25b501c/raw/openapi.json',
+    specUrl:
+      'https://gist.githubusercontent.com/jpoehnelt/55741e08156b4bf7c13edc0cd25b501c/raw/openapi.json',
     syncableName: 'posts',
     paginationStrategy: 'pageNumber',
     description: 'Tests basic page number pagination',
@@ -74,7 +83,7 @@ class MockDataGenerator {
     page: number,
     pageSize: number,
     totalItems: number,
-    strategy: string
+    strategy: string,
   ): any {
     const start = (page - 1) * pageSize;
     const end = Math.min(start + pageSize, totalItems);
@@ -111,14 +120,16 @@ class MockDataGenerator {
  * Integration tests for various pagination strategies
  */
 describe('Syncables Integration Tests - Public APIs', () => {
-  const dbConn = process.env.TEST_DB_CONN || 'postgresql://syncables:syncables@localhost:5432/db_integration_tests';
+  const dbConn =
+    process.env.TEST_DB_CONN ||
+    'postgresql://syncables:syncables@localhost:5432/db_integration_tests';
 
   describe('Page Number Pagination', () => {
     it('should sync GitHub-style page number pagination', async () => {
       // Test implementation will use mock server
       const totalItems = 150;
       const pageSize = 30;
-      
+
       // This test would set up mock responses and verify full sync
       expect(totalItems).toBeGreaterThan(0);
     });
@@ -133,7 +144,7 @@ describe('Syncables Integration Tests - Public APIs', () => {
     it('should sync Petstore-style offset pagination', async () => {
       const totalItems = 75;
       const limit = 25;
-      
+
       // Verify offset pagination works correctly
       expect(Math.ceil(totalItems / limit)).toBe(3);
     });
@@ -141,7 +152,7 @@ describe('Syncables Integration Tests - Public APIs', () => {
     it('should handle large offset values correctly', async () => {
       const totalItems = 1000;
       const offset = 900;
-      
+
       // Test boundary conditions for large offsets
       expect(offset).toBeLessThan(totalItems);
     });
@@ -163,7 +174,7 @@ describe('Syncables Integration Tests - Public APIs', () => {
     it('should sync date range based pagination', async () => {
       const startDate = new Date('2024-01-01');
       const endDate = new Date('2024-12-31');
-      
+
       // Test date-based pagination
       expect(endDate.getTime()).toBeGreaterThan(startDate.getTime());
     });
@@ -190,7 +201,7 @@ describe('Syncables Integration Tests - Public APIs', () => {
     it('should handle large datasets efficiently', async () => {
       const totalItems = 10000;
       const pageSize = 100;
-      
+
       // Verify performance with large datasets
       expect(Math.ceil(totalItems / pageSize)).toBe(100);
     });
@@ -216,7 +227,7 @@ class OpenApiSpecGenerator {
   static generate(
     path: string,
     strategy: string,
-    itemsPath: string[] = ['data']
+    itemsPath: string[] = ['data'],
   ): string {
     const spec = {
       openapi: '3.0.0',
@@ -232,7 +243,11 @@ class OpenApiSpecGenerator {
                 content: {
                   'application/json': {
                     schema: this.generateSchema(strategy, itemsPath),
-                    syncable: this.generateSyncableConfig(path.slice(1), strategy, itemsPath),
+                    syncable: this.generateSyncableConfig(
+                      path.slice(1),
+                      strategy,
+                      itemsPath,
+                    ),
                   },
                 },
               },
@@ -294,7 +309,11 @@ class OpenApiSpecGenerator {
     return baseSchema;
   }
 
-  private static generateSyncableConfig(name: string, strategy: string, itemsPath: string[]): any {
+  private static generateSyncableConfig(
+    name: string,
+    strategy: string,
+    itemsPath: string[],
+  ): any {
     return {
       name,
       paginationStrategy: strategy,

@@ -13,7 +13,7 @@ import { join } from 'path';
 export async function fetchAndCacheSpec(
   name: string,
   url: string,
-  cacheDir: string = './test-cache/specs'
+  cacheDir: string = './test-cache/specs',
 ): Promise<string> {
   const cachePath = join(cacheDir, `${name}.json`);
 
@@ -24,18 +24,18 @@ export async function fetchAndCacheSpec(
   }
 
   console.log(`Fetching spec for ${name} from ${url}`);
-  
+
   try {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    
+
     const spec = await response.text();
-    
+
     // Cache for future use
     writeFileSync(cachePath, spec, 'utf-8');
-    
+
     return spec;
   } catch (error) {
     throw new Error(`Failed to fetch spec for ${name}: ${error.message}`);
@@ -47,14 +47,14 @@ export async function fetchAndCacheSpec(
  */
 export async function applyOverlay(
   baseSpec: string,
-  overlayPath: string
+  overlayPath: string,
 ): Promise<string> {
   // This would use the overlayjs library in a real implementation
   // For now, return the base spec
   // const { Overlay } = await import('@overlay-spec/overlay');
   // const overlay = new Overlay(baseSpec, overlayPath);
   // return overlay.apply();
-  
+
   return baseSpec;
 }
 
@@ -103,7 +103,7 @@ export async function testPagination(
   options: {
     pageSize?: number;
     maxPages?: number;
-  } = {}
+  } = {},
 ): Promise<{
   totalItems: number;
   pagesVisited: number;
@@ -113,7 +113,7 @@ export async function testPagination(
   const allItems: any[] = [];
   let pagesVisited = 0;
   let hasMore = true;
-  
+
   // Strategy-specific parameters
   let page = 1;
   let offset = 0;
@@ -121,7 +121,7 @@ export async function testPagination(
 
   while (hasMore && pagesVisited < maxPages) {
     let url = `${baseUrl}${path}?`;
-    
+
     switch (strategy) {
       case 'pageNumber':
         url += `page=${page}&per_page=${pageSize}`;
@@ -140,10 +140,10 @@ export async function testPagination(
 
     const response = await fetch(url);
     const data = await response.json();
-    
+
     // Extract items based on common response patterns
     const items = data.data || data.items || data.results || data;
-    
+
     if (!Array.isArray(items) || items.length === 0) {
       hasMore = false;
       break;
@@ -156,7 +156,7 @@ export async function testPagination(
     page++;
     offset += pageSize;
     pageToken = data.nextPageToken || data.next_page_token;
-    
+
     // Check if there are more pages
     if (strategy === 'pageToken' && !pageToken) {
       hasMore = false;
@@ -177,11 +177,11 @@ export async function testPagination(
  */
 export function validateResponseStructure(
   response: any,
-  expectedFields: string[]
+  expectedFields: string[],
 ): { valid: boolean; missing: string[] } {
   const missing: string[] = [];
-  
-  expectedFields.forEach(field => {
+
+  expectedFields.forEach((field) => {
     if (!response.hasOwnProperty(field)) {
       missing.push(field);
     }
@@ -198,7 +198,7 @@ export function validateResponseStructure(
  */
 export function generateMockData(
   count: number,
-  template: (index: number) => any
+  template: (index: number) => any,
 ): any[] {
   return Array.from({ length: count }, (_, i) => template(i));
 }
@@ -248,13 +248,9 @@ export async function retryRequest<T>(
     maxRetries?: number;
     delayMs?: number;
     backoffMultiplier?: number;
-  } = {}
+  } = {},
 ): Promise<T> {
-  const {
-    maxRetries = 3,
-    delayMs = 1000,
-    backoffMultiplier = 2,
-  } = options;
+  const { maxRetries = 3, delayMs = 1000, backoffMultiplier = 2 } = options;
 
   let lastError: Error | undefined;
   let currentDelay = delayMs;
@@ -264,16 +260,20 @@ export async function retryRequest<T>(
       return await fn();
     } catch (error) {
       lastError = error as Error;
-      
+
       if (attempt < maxRetries) {
-        console.log(`Attempt ${attempt + 1} failed, retrying in ${currentDelay}ms...`);
-        await new Promise(resolve => setTimeout(resolve, currentDelay));
+        console.log(
+          `Attempt ${attempt + 1} failed, retrying in ${currentDelay}ms...`,
+        );
+        await new Promise((resolve) => setTimeout(resolve, currentDelay));
         currentDelay *= backoffMultiplier;
       }
     }
   }
 
-  throw new Error(`Request failed after ${maxRetries + 1} attempts: ${lastError?.message}`);
+  throw new Error(
+    `Request failed after ${maxRetries + 1} attempts: ${lastError?.message}`,
+  );
 }
 
 /**
@@ -298,7 +298,7 @@ export class RateLimiter {
       const timePassed = (now - this.lastRefill) / 1000;
       this.tokens = Math.min(
         this.maxTokens,
-        this.tokens + timePassed * this.refillRate
+        this.tokens + timePassed * this.refillRate,
       );
       this.lastRefill = now;
 
@@ -308,7 +308,7 @@ export class RateLimiter {
       }
 
       const waitTime = ((1 - this.tokens) / this.refillRate) * 1000;
-      await new Promise(resolve => setTimeout(resolve, waitTime));
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
     }
   }
 }
@@ -349,7 +349,10 @@ export function getRequiredEnvVar(name: string): string {
   return value;
 }
 
-export function getOptionalEnvVar(name: string, defaultValue: string = ''): string {
+export function getOptionalEnvVar(
+  name: string,
+  defaultValue: string = '',
+): string {
   return process.env[name] || defaultValue;
 }
 
@@ -388,14 +391,14 @@ export class PerformanceMonitor {
 
   start(label: string): () => void {
     const startTime = Date.now();
-    
+
     return () => {
       const duration = Date.now() - startTime;
-      
+
       if (!this.measurements.has(label)) {
         this.measurements.set(label, []);
       }
-      
+
       this.measurements.get(label)!.push(duration);
     };
   }
@@ -413,7 +416,7 @@ export class PerformanceMonitor {
     }
 
     const sorted = [...measurements].sort((a, b) => a - b);
-    
+
     return {
       count: measurements.length,
       min: sorted[0],
@@ -425,7 +428,7 @@ export class PerformanceMonitor {
 
   report(): void {
     console.log('\n=== Performance Report ===');
-    
+
     for (const [label, _] of this.measurements) {
       const stats = this.getStats(label);
       if (stats) {
@@ -437,7 +440,7 @@ export class PerformanceMonitor {
         console.log(`  Median: ${stats.median}ms`);
       }
     }
-    
+
     console.log('\n========================\n');
   }
 }
