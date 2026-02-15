@@ -82,16 +82,16 @@ const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toStrin
 
 const syncable = new Syncable<Entry>({
   specStr,
-  syncableName: 'widgets',
+  syncableName: 'calendarList',
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
   },
-  dbConn: 'postgresql://syncables:syncables@localhost:5432/db_unit_tests'
+  dbConn: 'postgresql://syncables:syncables@localhost:5432/db_unit_tests?sslmode=disable'
 });
 await syncable.fullFetch();
 ```
 
-You can use the [`showcase-google-calendar` branch of this repo]() to run a simple OAuth client that can obtain a value for the `GOOGLE_BEARER_TOKEN` environment variable.
+You can use the [`showcase-google-calendar` branch of this repo](https://github.com/tubsproject/syncables/tree/showcase-google-calendar) to run a simple OAuth client that can obtain a value for the `GOOGLE_BEARER_TOKEN` environment variable (look for a log line that reads `Received OAuth token: ...`).
 
 ## Development
 ```sh
