@@ -9,7 +9,7 @@ const specStr = readFileSync(specFilename).toString();
 const syncable = new Syncable<Entry>({
   specStr,
   specFilename,
-  syncableName: 'widgets',
+  syncableName: 'calendarList',
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
   },
