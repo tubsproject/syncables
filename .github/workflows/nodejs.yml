@@ -16,7 +16,7 @@ jobs:
       - run: npm install -g pnpm
       - run: pnpm install
       - run: docker compose build db
-      - run: docker compose up -d db
+      - run: docker compose -f compose.test.yaml up -d db
       - run: sleep 10 # wait for db to be ready
       - run: pnpm prettier:check
 

@@ -36,7 +36,7 @@ const calendars = new Syncable<Entry>({
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
   },
   fetchFunction,
-  dbConn: 'postgresql://syncables:syncables@localhost:5432/db_unit_tests?sslmode=disable',
+  dbConn: 'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
 });
 const acls = new Syncable<Entry>({
   specStr,

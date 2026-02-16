@@ -86,7 +86,7 @@ const syncable = new Syncable<Entry>({
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
   },
-  dbConn: 'postgresql://syncables:syncables@localhost:5432/db_unit_tests?sslmode=disable'
+  dbConn: 'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable'
 });
 await syncable.fullFetch();
 ```
