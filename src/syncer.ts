@@ -510,11 +510,15 @@ export class Syncer<T> extends EventEmitter {
             if (k === i) {
               singledOut[pattern] = [parents[pattern][j]];
             } else {
-              singledOut[Object.keys(parents)[k]] = parents[Object.keys(parents)[k]];
+              singledOut[Object.keys(parents)[k]] =
+                parents[Object.keys(parents)[k]];
             }
           }
           // console.log('singled out a combination of parents', singledOut);
-          const itemsForThisParent = await this.doFullFetch(syncableName, singledOut);
+          const itemsForThisParent = await this.doFullFetch(
+            syncableName,
+            singledOut,
+          );
           allItems = allItems.concat(itemsForThisParent);
         }
         return allItems;
@@ -623,7 +627,10 @@ export class Syncer<T> extends EventEmitter {
       //   Object.keys(allData).length,
       //   Object.keys(this.syncables).length,
       // );
-    } while (newData && Object.keys(allData).length < Object.keys(this.syncables).length);
+    } while (
+      newData &&
+      Object.keys(allData).length < Object.keys(this.syncables).length
+    );
     if (this.client) {
       await this.client.end();
     }
