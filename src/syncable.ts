@@ -230,7 +230,9 @@ export class Syncable<T> extends EventEmitter {
       nextPageToken,
     };
   }
-  private async pageNumberFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
+  private async pageNumberFetch(parents: {
+    [parentName: string]: string[];
+  }): Promise<T[]> {
     let allData: T[] = [];
     let page = 1;
     let hasMore = true;
@@ -262,7 +264,9 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  private async offsetFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
+  private async offsetFetch(parents: {
+    [parentName: string]: string[];
+  }): Promise<T[]> {
     let allData: T[] = [];
     let offset = 0;
     let hasMore = true;
@@ -294,7 +298,9 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  private async pageTokenFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
+  private async pageTokenFetch(parents: {
+    [parentName: string]: string[];
+  }): Promise<T[]> {
     let allData: T[] = [];
     let nextPageToken: string | null = null;
 
@@ -330,13 +336,21 @@ export class Syncable<T> extends EventEmitter {
 
     let urlPath = this.config.urlPath;
     if (Object.keys(parents).length > 0) {
-      console.log('Filling in pattern', urlPath, pattern, 'with', parents[Object.keys(parents)[0]][0]);
+      console.log(
+        'Filling in pattern',
+        urlPath,
+        pattern,
+        'with',
+        parents[Object.keys(parents)[0]][0],
+      );
       urlPath = urlPath.replace(pattern, parents[Object.keys(parents)[0]][0]);
     }
     const joined = urljoin(this.config.baseUrl, urlPath);
     return new URL(joined);
   }
-  private async dateRangeFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
+  private async dateRangeFetch(parents: {
+    [parentName: string]: string[];
+  }): Promise<T[]> {
     let allData: T[] = [];
     let startDate: number = parseInt(this.config.startDate, 10);
     let endDate: number = parseInt(this.config.endDate, 10);
@@ -368,7 +382,9 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  private async rangeHeaderFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
+  private async rangeHeaderFetch(parents: {
+    [parentName: string]: string[];
+  }): Promise<T[]> {
     let allData: T[] = [];
     const numItemsPerPage = this.config.forcePageSize || 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
@@ -400,7 +416,9 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  private async confirmationBasedFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
+  private async confirmationBasedFetch(parents: {
+    [parentName: string]: string[];
+  }): Promise<T[]> {
     let allData: T[] = [];
     let thisBatch: { items: T[]; hasMore?: boolean; nextPageToken?: string };
     do {
@@ -427,7 +445,9 @@ export class Syncable<T> extends EventEmitter {
     } while (thisBatch.hasMore);
     return allData;
   }
-  private async doFullFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
+  private async doFullFetch(parents: {
+    [parentName: string]: string[];
+  }): Promise<T[]> {
     switch (this.config['paginationStrategy']) {
       case 'pageNumber':
         return this.pageNumberFetch(parents);
@@ -448,7 +468,9 @@ export class Syncable<T> extends EventEmitter {
     }
   }
 
-  async fullFetch(parents: { [parentName: string]: string[] } = {}): Promise<T[]> {
+  async fullFetch(
+    parents: { [parentName: string]: string[] } = {},
+  ): Promise<T[]> {
     const schema = await this.parseSpec();
     const data = await this.doFullFetch(parents);
     if (this.client) {
