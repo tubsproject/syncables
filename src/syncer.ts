@@ -51,6 +51,7 @@ export class Syncer<T> extends EventEmitter {
   baseUrl: string;
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
+  dbConn: string | null = null;
   constructor({
     specStr,
     authHeaders = {},
@@ -66,16 +67,20 @@ export class Syncer<T> extends EventEmitter {
     this.specStr = specStr;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
-    if (dbConn) {
-      this.client = new Client({
-        connectionString: dbConn,
-        ssl: {
-          rejectUnauthorized: process.env.NODE_ENV === 'production',
-        },
-      });
-    }
+    this.dbConn = dbConn || null;
   }
 
+  private async initDb() {
+    if (this.dbConn && !this.client) {
+      this.client = new Client({
+        connectionString: this.dbConn,
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      });
+      await this.client.connect();
+    }
+  }
   async parseSpec(): Promise<object> {
     let specObj;
     try {
@@ -507,13 +512,16 @@ export class Syncer<T> extends EventEmitter {
     for (const specName of Object.keys(this.syncables)) {
       const syncable = this.syncables[specName];
       const data = await this.doFullFetch(specName, parents);
+      // console.log('initDb start');
+      await this.initDb();
+      // console.log('initDb end');
       if (this.client) {
-        await this.client.connect();
         const fields = getFields(
           schema,
           syncable.path,
           syncable.spec.itemsPathInResponse.join('.'),
         );
+        // console.log('creating table with fields', fields);
         await createSqlTable(this.client, specName, fields);
         await insertData(
           this.client,
