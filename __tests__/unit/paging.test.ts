@@ -19,9 +19,9 @@ test('pageNumber paging (unkown page size)', async () => {
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
-  console.log('fullFetch start');
+  // console.log('fullFetch start');
   const data = await syncable.fullFetch();
-  console.log('fullFetch end');
+  // console.log('fullFetch end');
   expect(data).toEqual({
     todos: mockResponses[0].items.concat(mockResponses[1].items),
   });

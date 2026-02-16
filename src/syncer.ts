@@ -513,7 +513,7 @@ export class Syncer<T> extends EventEmitter {
               singledOut[Object.keys(parents)[k]] = parents[Object.keys(parents)[k]];
             }
           }
-          console.log('singled out a combination of parents', singledOut);
+          // console.log('singled out a combination of parents', singledOut);
           const itemsForThisParent = await this.doFullFetch(syncableName, singledOut);
           allItems = allItems.concat(itemsForThisParent);
         }
@@ -525,7 +525,7 @@ export class Syncer<T> extends EventEmitter {
     Object.keys(parents).forEach((pattern) => {
       theseParents[pattern] = parents[pattern][0];
     });
-    console.log('now we can call doOneFetch for syncable', syncableName, 'with theseParents', theseParents);
+    // console.log('now we can call doOneFetch for syncable', syncableName, 'with theseParents', theseParents);
     return await this.doOneFetch(syncableName, theseParents);
   }
   async fetchOneSyncable(
@@ -534,7 +534,7 @@ export class Syncer<T> extends EventEmitter {
     parents: { [pattern: string]: string[] },
   ): Promise<T[]> {
     const syncable = this.syncables[specName];
-    console.log(`Fetching syncable ${specName} with parents`, parents);
+    // console.log(`Fetching syncable ${specName} with parents`, parents);
     const data = await this.doFullFetch(specName, parents);
     // console.log('initDb start');
     await this.initDb();
@@ -599,7 +599,7 @@ export class Syncer<T> extends EventEmitter {
               }
               // const idField = this.syncables[parentName].idField || 'id'; FIXME - can't we reuse this from there?
               const idField = reference.split('.')[1];
-              console.log('filling in parent pattern', pattern, 'with data from parent', parentName, 'using id field', idField);
+              // console.log('filling in parent pattern', pattern, 'with data from parent', parentName, 'using id field', idField);
               parents[pattern] = allData[parentName].map((item) =>
                 item[idField].toString(),
               );
