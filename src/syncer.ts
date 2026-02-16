@@ -103,10 +103,7 @@ export class Syncer<T> extends EventEmitter {
             const response = (pathItem.get.responses['200'] as any).content[
               contentType
             ];
-            if (
-              response.syncable &&
-              response.syncable.name === this.syncableName
-            ) {
+            if (response.syncable) {
               const config: SyncerConfig = {
                 baseUrl:
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -177,9 +174,7 @@ export class Syncer<T> extends EventEmitter {
     if (solution) {
       return solution;
     }
-    throw new Error(
-      `Syncable with name "${this.syncableName}" not found in spec`,
-    );
+    throw new Error(`No syncables found in spec`);
   }
 
   private async doFetch(
