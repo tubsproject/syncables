@@ -1,6 +1,9 @@
 import { stringify } from 'yaml';
 import { SyncableSpec } from '../../src/syncer.js';
-export function createSpec(baseUrl: string, configs: { [path: string]: SyncableSpec }): string {
+export function createSpec(
+  baseUrl: string,
+  configs: { [path: string]: SyncableSpec },
+): string {
   const specObj = {
     openapi: '3.0.0',
     info: {

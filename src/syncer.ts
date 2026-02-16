@@ -78,22 +78,25 @@ export class Syncer<T> extends EventEmitter {
 
   async parseSpec(): Promise<object> {
     let specObj;
-    try { 
+    try {
       specObj = parse(this.specStr);
     } catch (err1) {
       try {
         specObj = JSON.parse(this.specStr);
       } catch (err2) {
-        throw new Error(`Spec is not valid JSON or YAML: ${err1.message} / ${err2.message}`);
+        throw new Error(
+          `Spec is not valid JSON or YAML: ${err1.message} / ${err2.message}`,
+        );
       }
     }
     const schema = await dereference(specObj);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.baseUrl = (schema as any).servers && (schema as any).servers.length > 0
-                    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      (schema as any).servers[0].url
-                    : '';
+    this.baseUrl =
+      (schema as any).servers && (schema as any).servers.length > 0
+        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (schema as any).servers[0].url
+        : '';
     let solution: object | null = null;
     for (const path of Object.keys(schema.paths)) {
       const pathItem = schema.paths[path];
@@ -227,9 +230,12 @@ export class Syncer<T> extends EventEmitter {
       nextPageToken,
     };
   }
-  private async pageNumberFetch(syncableName: string, parents: {
-    [parentName: string]: string[];
-  }): Promise<T[]> {
+  private async pageNumberFetch(
+    syncableName: string,
+    parents: {
+      [parentName: string]: string[];
+    },
+  ): Promise<T[]> {
     let allData: T[] = [];
     let page = 1;
     let hasMore = true;
@@ -240,10 +246,7 @@ export class Syncer<T> extends EventEmitter {
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      url.searchParams.append(
-        spec.pageNumberParamInQuery,
-        page.toString(),
-      );
+      url.searchParams.append(spec.pageNumberParamInQuery, page.toString());
       if (spec.forcePageSize) {
         const param = spec.forcePageSizeParamInQuery || 'pageSize';
         url.searchParams.append(param, spec.forcePageSize.toString());
@@ -263,9 +266,12 @@ export class Syncer<T> extends EventEmitter {
     return allData;
   }
 
-  private async offsetFetch(syncableName: string, parents: {
-    [parentName: string]: string[];
-  }): Promise<T[]> {
+  private async offsetFetch(
+    syncableName: string,
+    parents: {
+      [parentName: string]: string[];
+    },
+  ): Promise<T[]> {
     let allData: T[] = [];
     let offset = 0;
     let hasMore = true;
@@ -276,10 +282,7 @@ export class Syncer<T> extends EventEmitter {
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      url.searchParams.append(
-        spec.offsetParamInQuery,
-        offset.toString(),
-      );
+      url.searchParams.append(spec.offsetParamInQuery, offset.toString());
       if (spec.forcePageSize) {
         const param = spec.forcePageSizeParamInQuery || 'pageSize';
         url.searchParams.append(param, spec.forcePageSize.toString());
@@ -299,9 +302,12 @@ export class Syncer<T> extends EventEmitter {
     return allData;
   }
 
-  private async pageTokenFetch(syncableName: string, parents: {
-    [parentName: string]: string[];
-  }): Promise<T[]> {
+  private async pageTokenFetch(
+    syncableName: string,
+    parents: {
+      [parentName: string]: string[];
+    },
+  ): Promise<T[]> {
     let allData: T[] = [];
     let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
@@ -315,10 +321,7 @@ export class Syncer<T> extends EventEmitter {
         url.searchParams.append(param, spec.forcePageSize.toString());
       }
       if (nextPageToken) {
-        url.searchParams.append(
-          spec.pageTokenParamInQuery,
-          nextPageToken,
-        );
+        url.searchParams.append(spec.pageTokenParamInQuery, nextPageToken);
       }
       const data = await this.doFetch(
         spec,
@@ -333,7 +336,10 @@ export class Syncer<T> extends EventEmitter {
 
     return allData;
   }
-  private getUrl(urlPath: string, parents: { [parentName: string]: string[] }): URL {
+  private getUrl(
+    urlPath: string,
+    parents: { [parentName: string]: string[] },
+  ): URL {
     const pattern = `{${Object.keys(parents)[0]}Id}`;
 
     if (Object.keys(parents).length > 0) {
@@ -349,9 +355,12 @@ export class Syncer<T> extends EventEmitter {
     const joined = urljoin(this.baseUrl, urlPath);
     return new URL(joined);
   }
-  private async dateRangeFetch(syncableName: string, parents: {
-    [parentName: string]: string[];
-  }): Promise<T[]> {
+  private async dateRangeFetch(
+    syncableName: string,
+    parents: {
+      [parentName: string]: string[];
+    },
+  ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
     let allData: T[] = [];
     let startDate: number = parseInt(spec.startDate, 10);
@@ -384,9 +393,12 @@ export class Syncer<T> extends EventEmitter {
     return allData;
   }
 
-  private async rangeHeaderFetch(syncableName: string, parents: {
-    [parentName: string]: string[];
-  }): Promise<T[]> {
+  private async rangeHeaderFetch(
+    syncableName: string,
+    parents: {
+      [parentName: string]: string[];
+    },
+  ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
     let allData: T[] = [];
     const numItemsPerPage = spec.forcePageSize || 20;
@@ -420,14 +432,20 @@ export class Syncer<T> extends EventEmitter {
     return allData;
   }
 
-  private async confirmationBasedFetch(syncableName: string, parents: {
-    [parentName: string]: string[];
-  }): Promise<T[]> {
+  private async confirmationBasedFetch(
+    syncableName: string,
+    parents: {
+      [parentName: string]: string[];
+    },
+  ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
     let allData: T[] = [];
     let thisBatch: { items: T[]; hasMore?: boolean; nextPageToken?: string };
     do {
-      thisBatch = await this.doFetch(spec, this.getUrl(this.syncables[syncableName].path, parents).toString());
+      thisBatch = await this.doFetch(
+        spec,
+        this.getUrl(this.syncables[syncableName].path, parents).toString(),
+      );
       // console.log('fetched batch', thisBatch.items.length, thisBatch);
       // console.log('confirming', spec.confirmOperation);
       allData = allData.concat(thisBatch.items);
@@ -450,9 +468,12 @@ export class Syncer<T> extends EventEmitter {
     } while (thisBatch.hasMore);
     return allData;
   }
-  private async doFullFetch(syncableName: string, parents: {
-    [parentName: string]: string[];
-  }): Promise<T[]> {
+  private async doFullFetch(
+    syncableName: string,
+    parents: {
+      [parentName: string]: string[];
+    },
+  ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
     switch (spec['paginationStrategy']) {
       case 'pageNumber':
@@ -498,7 +519,7 @@ export class Syncer<T> extends EventEmitter {
           ),
         );
       }
-     await this.client.end();
+      await this.client.end();
     }
     return [];
   }
