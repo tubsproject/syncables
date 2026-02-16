@@ -133,6 +133,7 @@ export class Syncer<T> extends EventEmitter {
                 forcePageSizeParamInQuery:
                   response.syncable.forcePageSizeParamInQuery,
                 idField: response.syncable.idField || 'id',
+                params: response.syncable.params || {},
               };
               // console.log('baseUrl:', config.baseUrl, (schema as any).servers);
               if (response.syncable.paginationStrategy === 'pageNumber') {
@@ -240,7 +241,7 @@ export class Syncer<T> extends EventEmitter {
   private async pageNumberFetch(
     syncableName: string,
     parents: {
-      [parentName: string]: string[];
+      [pattern: string]: string[];
     },
   ): Promise<T[]> {
     let allData: T[] = [];
@@ -276,7 +277,7 @@ export class Syncer<T> extends EventEmitter {
   private async offsetFetch(
     syncableName: string,
     parents: {
-      [parentName: string]: string[];
+      [pattern: string]: string[];
     },
   ): Promise<T[]> {
     let allData: T[] = [];
@@ -312,7 +313,7 @@ export class Syncer<T> extends EventEmitter {
   private async pageTokenFetch(
     syncableName: string,
     parents: {
-      [parentName: string]: string[];
+      [pattern: string]: string[];
     },
   ): Promise<T[]> {
     let allData: T[] = [];
@@ -345,9 +346,9 @@ export class Syncer<T> extends EventEmitter {
   }
   private getUrl(
     urlPath: string,
-    parents: { [parentName: string]: string[] },
+    parents: { [pattern: string]: string[] },
   ): URL {
-    const pattern = `{${Object.keys(parents)[0]}Id}`;
+    const pattern = `{${Object.keys(parents)[0]}}`
 
     if (Object.keys(parents).length > 0) {
       console.log(
@@ -365,7 +366,7 @@ export class Syncer<T> extends EventEmitter {
   private async dateRangeFetch(
     syncableName: string,
     parents: {
-      [parentName: string]: string[];
+      [pattern: string]: string[];
     },
   ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
@@ -403,7 +404,7 @@ export class Syncer<T> extends EventEmitter {
   private async rangeHeaderFetch(
     syncableName: string,
     parents: {
-      [parentName: string]: string[];
+      [pattern: string]: string[];
     },
   ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
@@ -442,7 +443,7 @@ export class Syncer<T> extends EventEmitter {
   private async confirmationBasedFetch(
     syncableName: string,
     parents: {
-      [parentName: string]: string[];
+      [pattern: string]: string[];
     },
   ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
@@ -478,7 +479,7 @@ export class Syncer<T> extends EventEmitter {
   private async doFullFetch(
     syncableName: string,
     parents: {
-      [parentName: string]: string[];
+      [pattern: string]: string[];
     },
   ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
@@ -501,40 +502,69 @@ export class Syncer<T> extends EventEmitter {
         );
     }
   }
-
-  async fullFetch(
-    parents: { [parentName: string]: string[] } = {},
-  ): Promise<{ [syncableName: string]: T[] }> {
+  async fetchOneSyncable(schema: object, specName: string, parents: { [pattern: string]: string[] }): Promise<T[]> {
+    const syncable = this.syncables[specName];
+    console.log(`Fetching syncable ${specName} with parents`, parents);
+    const data = await this.doFullFetch(specName, parents);
+    // console.log('initDb start');
+    await this.initDb();
+    // console.log('initDb end');
+    if (this.client) {
+      const fields = getFields(
+        schema,
+        syncable.path,
+        syncable.spec.itemsPathInResponse.join('.'),
+      );
+      // console.log('creating table with fields', fields);
+      await createSqlTable(this.client, specName, fields);
+      await insertData(
+        this.client,
+        specName,
+        data,
+        Object.keys(fields).filter(
+          (f) => ['string'].indexOf(fields[f].type) !== -1,
+        ),
+      );
+    }
+    return data;
+  }
+  async fullFetch(): Promise<{ [syncableName: string]: T[] }> {
     const allData: {
       [syncableName: string]: T[];
     } = {};
     const schema = await this.parseSpec();
-    for (const specName of Object.keys(this.syncables)) {
-      const syncable = this.syncables[specName];
-      const data = await this.doFullFetch(specName, parents);
-      // console.log('initDb start');
-      await this.initDb();
-      // console.log('initDb end');
-      if (this.client) {
-        const fields = getFields(
-          schema,
-          syncable.path,
-          syncable.spec.itemsPathInResponse.join('.'),
-        );
-        // console.log('creating table with fields', fields);
-        await createSqlTable(this.client, specName, fields);
-        await insertData(
-          this.client,
-          specName,
-          data,
-          Object.keys(fields).filter(
-            (f) => ['string'].indexOf(fields[f].type) !== -1,
-          ),
-        );
+    do {
+      console.log('Starting loop of fetching all syncables, currently have data for syncables', Object.keys(allData));
+      for (const specName of Object.keys(this.syncables)) {
+        const syncable = this.syncables[specName];
+        console.log('checking if we need parents for', specName, syncable.spec.params);
+        const parents = {};
+        if (syncable.spec.params) {
+          console.log(`Syncable ${specName} has params, determining parent data...`, syncable.spec.params);
+          let missingParentData = false;
+          Object.entries(syncable.spec.params).forEach(([pattern, reference]) => {
+            const parentName = reference.split('.')[0];
+            if (!allData[parentName]) {
+              console.log(`Still missing parent data for syncable ${specName}: need parent ${parentName} based on param ${pattern}: ${reference}`);
+              missingParentData = true;
+              return;
+            }
+            // const idField = this.syncables[parentName].idField || 'id'; FIXME - can't we reuse this from there?
+            const idField = reference.split('.')[1];
+            parents[pattern] = allData[parentName].map((item) => item[idField].toString());
+          });
+          if (missingParentData) {
+            console.log(`Skipping syncable ${specName} for now because we're still missing parent data...`);
+            continue;
+          }
+          console.log('all parents for syncable', specName, parents);
+        }
+        const data = await this.fetchOneSyncable(schema, specName, parents);
+        // console.log('Fetched data for syncable', specName, data);
+        allData[specName] = data;
       }
-      // console.log('Fetched data for syncable', specName, data);
-      allData[specName] = data;
-    }
+      console.log('Finished one loop of fetching all syncables, checking if we have all data we need...', Object.keys(allData).length, Object.keys(this.syncables).length);
+    } while (Object.keys(allData).length < Object.keys(this.syncables).length);
     if (this.client) {
       await this.client.end();
     }
