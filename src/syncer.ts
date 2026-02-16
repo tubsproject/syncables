@@ -249,7 +249,7 @@ export class Syncer<T> extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
       const spec = this.syncables[syncableName].spec;
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -286,7 +286,7 @@ export class Syncer<T> extends EventEmitter {
     const spec = this.syncables[syncableName].spec;
 
     while (hasMore) {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -320,7 +320,7 @@ export class Syncer<T> extends EventEmitter {
     let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
     do {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -344,10 +344,10 @@ export class Syncer<T> extends EventEmitter {
 
     return allData;
   }
-  private getUrl(
+  private getUrls(
     urlPath: string,
     parents: { [pattern: string]: string[] },
-  ): URL {
+  ): URL[] {
     const pattern = `{${Object.keys(parents)[0]}}`;
 
     if (Object.keys(parents).length > 0) {
@@ -361,7 +361,7 @@ export class Syncer<T> extends EventEmitter {
       urlPath = urlPath.replace(pattern, parents[Object.keys(parents)[0]][0]);
     }
     const joined = urljoin(this.baseUrl, urlPath);
-    return new URL(joined);
+    return [new URL(joined)];
   }
   private async dateRangeFetch(
     syncableName: string,
@@ -382,7 +382,7 @@ export class Syncer<T> extends EventEmitter {
     let cursor = startDate;
     const increment: number = /* spec.increment || */ 10000000000; // yearly increments
     while (cursor <= endDate) {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -413,7 +413,7 @@ export class Syncer<T> extends EventEmitter {
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -452,7 +452,7 @@ export class Syncer<T> extends EventEmitter {
     do {
       thisBatch = await this.doFetch(
         spec,
-        this.getUrl(this.syncables[syncableName].path, parents).toString(),
+        this.getUrls(this.syncables[syncableName].path, parents).toString(),
       );
       // console.log('fetched batch', thisBatch.items.length, thisBatch);
       // console.log('confirming', spec.confirmOperation);
@@ -537,11 +537,13 @@ export class Syncer<T> extends EventEmitter {
       [syncableName: string]: T[];
     } = {};
     const schema = await this.parseSpec();
+    let newData: boolean;
     do {
       // console.log(
       //   'Starting loop of fetching all syncables, currently have data for syncables',
       //   Object.keys(allData),
       // );
+      newData = false;
       for (const specName of Object.keys(this.syncables)) {
         if (allData[specName]) {
           continue;
@@ -571,6 +573,14 @@ export class Syncer<T> extends EventEmitter {
               }
               // const idField = this.syncables[parentName].idField || 'id'; FIXME - can't we reuse this from there?
               const idField = reference.split('.')[1];
+              console.log(
+                'filling in parent pattern',
+                pattern,
+                'with data from parent',
+                parentName,
+                'using id field',
+                idField,
+              );
               parents[pattern] = allData[parentName].map((item) =>
                 item[idField].toString(),
               );
@@ -587,13 +597,17 @@ export class Syncer<T> extends EventEmitter {
         const data = await this.fetchOneSyncable(schema, specName, parents);
         // console.log('Fetched data for syncable', specName, data);
         allData[specName] = data;
+        newData = true;
       }
       // console.log(
       //   'Finished one loop of fetching all syncables, checking if we have all data we need...',
       //   Object.keys(allData).length,
       //   Object.keys(this.syncables).length,
       // );
-    } while (Object.keys(allData).length < Object.keys(this.syncables).length);
+    } while (
+      newData &&
+      Object.keys(allData).length < Object.keys(this.syncables).length
+    );
     if (this.client) {
       await this.client.end();
     }

@@ -12,7 +12,6 @@ describe('Google Calendar List', () => {
   const { fetchMock } = createFetchMock(true);
   const syncer = new Syncer<Entry>({
     specStr,
-    authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   it('fetches calendar list entries', async () => {
