@@ -12,7 +12,12 @@ export async function getPostgresClient(): Promise<Client> {
       rejectUnauthorized: process.env.NODE_ENV === 'production',
     },
   });
-  await client.connect();
+  try {
+    await client.connect();
+  } catch (err) {
+    await client.end();
+    throw new Error(`Failed to connect to database: ${err}`);
+  }
   return client;
 }
 
