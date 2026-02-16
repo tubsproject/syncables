@@ -101,6 +101,7 @@ pnpm install
 pnpm generate
 pnpm build
 pnpm test
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_tests -c "\d+"
 pnpm prettier
 pnpm login
 pnpm publish
@@ -109,8 +110,9 @@ pnpm publish
 ## Usage
 ```sh
 docker compose up -d
-# run your code that calls syncable.fullFetch();
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_tests -c "\d+"
+# run your code that calls syncable.fullFetch(); for instance:
+pnpm start
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 ```
 
 ## Acknowledgements
