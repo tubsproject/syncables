@@ -38,7 +38,7 @@
     "vitest": "^3.0.8"
   },
   "scripts": {
-    "start": "node build/src/cron.js",
+    "start": "node build/src/readme-example.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
     "generate": "sh ./ts-gen.sh",

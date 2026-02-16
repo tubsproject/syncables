@@ -376,6 +376,7 @@ paths:
                 paginationStrategy: dateRange
                 startDateParamInQuery: startDate
                 endDateParamInQuery: endDate
+                startDate: '20210101000000'
         '400':
           description: Missing or invalid parameters
         '404':

@@ -230,13 +230,13 @@ export class Syncable<T> extends EventEmitter {
       nextPageToken,
     };
   }
-  private async pageNumberFetch(): Promise<T[]> {
+  private async pageNumberFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
     let allData: T[] = [];
     let page = 1;
     let hasMore = true;
 
     while (hasMore) {
-      const url = this.getUrl();
+      const url = this.getUrl(parents);
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -262,13 +262,13 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  private async offsetFetch(): Promise<T[]> {
+  private async offsetFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
     let allData: T[] = [];
     let offset = 0;
     let hasMore = true;
 
     while (hasMore) {
-      const url = this.getUrl();
+      const url = this.getUrl(parents);
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -294,12 +294,12 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  private async pageTokenFetch(): Promise<T[]> {
+  private async pageTokenFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
     let allData: T[] = [];
     let nextPageToken: string | null = null;
 
     do {
-      const url = this.getUrl();
+      const url = this.getUrl(parents);
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -325,11 +325,18 @@ export class Syncable<T> extends EventEmitter {
 
     return allData;
   }
-  private getUrl(): URL {
-    const joined = urljoin(this.config.baseUrl, this.config.urlPath);
+  private getUrl(parents: { [parentName: string]: string[] }): URL {
+    const pattern = `{${Object.keys(parents)[0]}Id}`;
+
+    let urlPath = this.config.urlPath;
+    if (Object.keys(parents).length > 0) {
+      console.log('Filling in pattern', urlPath, pattern, 'with', parents[Object.keys(parents)[0]][0]);
+      urlPath = urlPath.replace(pattern, parents[Object.keys(parents)[0]][0]);
+    }
+    const joined = urljoin(this.config.baseUrl, urlPath);
     return new URL(joined);
   }
-  private async dateRangeFetch(): Promise<T[]> {
+  private async dateRangeFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
     let allData: T[] = [];
     let startDate: number = parseInt(this.config.startDate, 10);
     let endDate: number = parseInt(this.config.endDate, 10);
@@ -342,7 +349,7 @@ export class Syncable<T> extends EventEmitter {
     let cursor = startDate;
     const increment: number = /* this.config.increment || */ 10000000000; // yearly increments
     while (cursor <= endDate) {
-      const url = this.getUrl();
+      const url = this.getUrl(parents);
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -361,13 +368,13 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  private async rangeHeaderFetch(): Promise<T[]> {
+  private async rangeHeaderFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
     let allData: T[] = [];
     const numItemsPerPage = this.config.forcePageSize || 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {
-      const url = this.getUrl();
+      const url = this.getUrl(parents);
       Object.entries(this.config.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -393,11 +400,11 @@ export class Syncable<T> extends EventEmitter {
     return allData;
   }
 
-  private async confirmationBasedFetch(): Promise<T[]> {
+  private async confirmationBasedFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
     let allData: T[] = [];
     let thisBatch: { items: T[]; hasMore?: boolean; nextPageToken?: string };
     do {
-      thisBatch = await this.doFetch(this.getUrl().toString());
+      thisBatch = await this.doFetch(this.getUrl(parents).toString());
       // console.log('fetched batch', thisBatch.items.length, thisBatch);
       // console.log('confirming', this.config.confirmOperation);
       allData = allData.concat(thisBatch.items);
@@ -420,20 +427,20 @@ export class Syncable<T> extends EventEmitter {
     } while (thisBatch.hasMore);
     return allData;
   }
-  private async doFullFetch(): Promise<T[]> {
+  private async doFullFetch(parents: { [parentName: string]: string[] }): Promise<T[]> {
     switch (this.config['paginationStrategy']) {
       case 'pageNumber':
-        return this.pageNumberFetch();
+        return this.pageNumberFetch(parents);
       case 'offset':
-        return this.offsetFetch();
+        return this.offsetFetch(parents);
       case 'pageToken':
-        return this.pageTokenFetch();
+        return this.pageTokenFetch(parents);
       case 'dateRange':
-        return this.dateRangeFetch();
+        return this.dateRangeFetch(parents);
       case 'rangeHeader':
-        return this.rangeHeaderFetch();
+        return this.rangeHeaderFetch(parents);
       case 'confirmationBased':
-        return this.confirmationBasedFetch();
+        return this.confirmationBasedFetch(parents);
       default:
         throw new Error(
           `Unknown paging strategy: ${this.config['paginationStrategy']}`,
@@ -441,10 +448,9 @@ export class Syncable<T> extends EventEmitter {
     }
   }
 
-  async fullFetch(): Promise<T[]> {
+  async fullFetch(parents: { [parentName: string]: string[] } = {}): Promise<T[]> {
     const schema = await this.parseSpec();
-
-    const data = await this.doFullFetch();
+    const data = await this.doFullFetch(parents);
     if (this.client) {
       await this.client.connect();
       const fields = getFields(
