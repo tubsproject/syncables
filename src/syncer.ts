@@ -241,7 +241,7 @@ export class Syncer<T> extends EventEmitter {
   private async pageNumberFetch(
     syncableName: string,
     parents: {
-      [pattern: string]: string[];
+      [pattern: string]: string;
     },
   ): Promise<T[]> {
     let allData: T[] = [];
@@ -249,7 +249,7 @@ export class Syncer<T> extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
       const spec = this.syncables[syncableName].spec;
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -277,7 +277,7 @@ export class Syncer<T> extends EventEmitter {
   private async offsetFetch(
     syncableName: string,
     parents: {
-      [pattern: string]: string[];
+      [pattern: string]: string;
     },
   ): Promise<T[]> {
     let allData: T[] = [];
@@ -286,7 +286,7 @@ export class Syncer<T> extends EventEmitter {
     const spec = this.syncables[syncableName].spec;
 
     while (hasMore) {
-      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -313,14 +313,14 @@ export class Syncer<T> extends EventEmitter {
   private async pageTokenFetch(
     syncableName: string,
     parents: {
-      [pattern: string]: string[];
+      [pattern: string]: string;
     },
   ): Promise<T[]> {
     let allData: T[] = [];
     let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
     do {
-      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -344,29 +344,21 @@ export class Syncer<T> extends EventEmitter {
 
     return allData;
   }
-  private getUrls(
+  private getUrl(
     urlPath: string,
-    parents: { [pattern: string]: string[] },
-  ): URL[] {
-    const pattern = `{${Object.keys(parents)[0]}}`;
-
-    if (Object.keys(parents).length > 0) {
-      // console.log(
-      //   'Filling in pattern',
-      //   urlPath,
-      //   pattern,
-      //   'with',
-      //   parents[Object.keys(parents)[0]][0],
-      // );
-      urlPath = urlPath.replace(pattern, parents[Object.keys(parents)[0]][0]);
-    }
+    theseParents: { [pattern: string]: string },
+  ): URL {
+    Object.entries(theseParents).forEach(([pattern, id]) => {
+      const placeholder = `{${pattern}}`;
+      urlPath = urlPath.replace(placeholder, id);
+    });
     const joined = urljoin(this.baseUrl, urlPath);
-    return [new URL(joined)];
+    return new URL(joined);
   }
   private async dateRangeFetch(
     syncableName: string,
     parents: {
-      [pattern: string]: string[];
+      [pattern: string]: string;
     },
   ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
@@ -382,7 +374,7 @@ export class Syncer<T> extends EventEmitter {
     let cursor = startDate;
     const increment: number = /* spec.increment || */ 10000000000; // yearly increments
     while (cursor <= endDate) {
-      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -404,7 +396,7 @@ export class Syncer<T> extends EventEmitter {
   private async rangeHeaderFetch(
     syncableName: string,
     parents: {
-      [pattern: string]: string[];
+      [pattern: string]: string;
     },
   ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
@@ -413,7 +405,7 @@ export class Syncer<T> extends EventEmitter {
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {
-      const url = this.getUrls(this.syncables[syncableName].path, parents)[0];
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -443,7 +435,7 @@ export class Syncer<T> extends EventEmitter {
   private async confirmationBasedFetch(
     syncableName: string,
     parents: {
-      [pattern: string]: string[];
+      [pattern: string]: string;
     },
   ): Promise<T[]> {
     const spec = this.syncables[syncableName].spec;
@@ -452,7 +444,7 @@ export class Syncer<T> extends EventEmitter {
     do {
       thisBatch = await this.doFetch(
         spec,
-        this.getUrls(this.syncables[syncableName].path, parents).toString(),
+        this.getUrl(this.syncables[syncableName].path, parents).toString(),
       );
       // console.log('fetched batch', thisBatch.items.length, thisBatch);
       // console.log('confirming', spec.confirmOperation);
@@ -476,31 +468,65 @@ export class Syncer<T> extends EventEmitter {
     } while (thisBatch.hasMore);
     return allData;
   }
+  private async doOneFetch(
+    syncableName: string,
+    theseParents: {
+      [pattern: string]: string;
+    },
+  ): Promise<T[]> {
+    const spec = this.syncables[syncableName].spec;
+    switch (spec['paginationStrategy']) {
+      case 'pageNumber':
+        return this.pageNumberFetch(syncableName, theseParents);
+      case 'offset':
+        return this.offsetFetch(syncableName, theseParents);
+      case 'pageToken':
+        return this.pageTokenFetch(syncableName, theseParents);
+      case 'dateRange':
+        return this.dateRangeFetch(syncableName, theseParents);
+      case 'rangeHeader':
+        return this.rangeHeaderFetch(syncableName, theseParents);
+      case 'confirmationBased':
+        return this.confirmationBasedFetch(syncableName, theseParents);
+      default:
+        throw new Error(
+          `Unknown paging strategy: ${spec['paginationStrategy']}`,
+        );
+    }
+  }
   private async doFullFetch(
     syncableName: string,
     parents: {
       [pattern: string]: string[];
     },
   ): Promise<T[]> {
-    const spec = this.syncables[syncableName].spec;
-    switch (spec['paginationStrategy']) {
-      case 'pageNumber':
-        return this.pageNumberFetch(syncableName, parents);
-      case 'offset':
-        return this.offsetFetch(syncableName, parents);
-      case 'pageToken':
-        return this.pageTokenFetch(syncableName, parents);
-      case 'dateRange':
-        return this.dateRangeFetch(syncableName, parents);
-      case 'rangeHeader':
-        return this.rangeHeaderFetch(syncableName, parents);
-      case 'confirmationBased':
-        return this.confirmationBasedFetch(syncableName, parents);
-      default:
-        throw new Error(
-          `Unknown paging strategy: ${spec['paginationStrategy']}`,
-        );
+    for (let i = 0; i < Object.keys(parents).length; i++) {
+      const pattern = Object.keys(parents)[i];
+      if (parents[pattern].length > 1) {
+        let allItems: T[] = [];
+        for (let j = 0; j < parents[pattern].length; j++) {
+          const singledOut = {};
+          for (let k = 0; k < Object.keys(parents).length; k++) {
+            if (k === i) {
+              singledOut[pattern] = [parents[pattern][j]];
+            } else {
+              singledOut[Object.keys(parents)[k]] = parents[Object.keys(parents)[k]];
+            }
+          }
+          console.log('singled out a combination of parents', singledOut);
+          const itemsForThisParent = await this.doFullFetch(syncableName, singledOut);
+          allItems = allItems.concat(itemsForThisParent);
+        }
+        return allItems;
+      }
     }
+    // if we reach here then all the parent patterns only have one value, so we can just fill those in and do one fetch
+    const theseParents: { [pattern: string]: string } = {};
+    Object.keys(parents).forEach((pattern) => {
+      theseParents[pattern] = parents[pattern][0];
+    });
+    console.log('now we can call doOneFetch for syncable', syncableName, 'with theseParents', theseParents);
+    return await this.doOneFetch(syncableName, theseParents);
   }
   async fetchOneSyncable(
     schema: object,
@@ -508,7 +534,7 @@ export class Syncer<T> extends EventEmitter {
     parents: { [pattern: string]: string[] },
   ): Promise<T[]> {
     const syncable = this.syncables[specName];
-    // console.log(`Fetching syncable ${specName} with parents`, parents);
+    console.log(`Fetching syncable ${specName} with parents`, parents);
     const data = await this.doFullFetch(specName, parents);
     // console.log('initDb start');
     await this.initDb();
@@ -573,14 +599,7 @@ export class Syncer<T> extends EventEmitter {
               }
               // const idField = this.syncables[parentName].idField || 'id'; FIXME - can't we reuse this from there?
               const idField = reference.split('.')[1];
-              console.log(
-                'filling in parent pattern',
-                pattern,
-                'with data from parent',
-                parentName,
-                'using id field',
-                idField,
-              );
+              console.log('filling in parent pattern', pattern, 'with data from parent', parentName, 'using id field', idField);
               parents[pattern] = allData[parentName].map((item) =>
                 item[idField].toString(),
               );
@@ -604,10 +623,7 @@ export class Syncer<T> extends EventEmitter {
       //   Object.keys(allData).length,
       //   Object.keys(this.syncables).length,
       // );
-    } while (
-      newData &&
-      Object.keys(allData).length < Object.keys(this.syncables).length
-    );
+    } while (newData && Object.keys(allData).length < Object.keys(this.syncables).length);
     if (this.client) {
       await this.client.end();
     }
