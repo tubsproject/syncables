@@ -8,7 +8,7 @@ openapi
 docker
 .env
 .prettierrc
-comppse.yaml
+compose.yaml
 eslint.config.mjs
 nlnet-milestones.md
 ts-gen.sh
