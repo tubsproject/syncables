@@ -23,7 +23,6 @@ describe('Google Calendar List', async () => {
   const syncable = new Syncer<Entry>({
     specStr,
     specFilename,
-    syncableName: 'calendars',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
     dbConn,

@@ -17,7 +17,6 @@ test('pageNumber paging (unkown page size)', async () => {
       itemsPathInResponse: ['items'],
     }),
     specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -55,7 +54,6 @@ test('pageNumber paging (default page size', async () => {
       defaultPageSize: 2,
     }),
     specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -89,7 +87,6 @@ test('pageNumber paging (force page size', async () => {
       forcePageSize: 2,
     }),
     specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -122,7 +119,6 @@ test('offset paging (unknown page size)', async () => {
       itemsPathInResponse: ['items'],
     }),
     specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -160,7 +156,6 @@ test('offset paging (default page size)', async () => {
       defaultPageSize: 2,
     }),
     specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -194,7 +189,6 @@ test('offset paging (force page size)', async () => {
       forcePageSize: 2,
     }),
     specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -228,7 +222,6 @@ test('pageToken paging', async () => {
       itemsPathInResponse: ['items'],
     }),
     specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -263,7 +256,6 @@ test('rangeHeader paging', async () => {
       forcePageSize: 2,
     }),
     specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });

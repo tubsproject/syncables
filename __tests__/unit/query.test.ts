@@ -18,7 +18,6 @@ test('query', async () => {
       itemsPathInResponse: ['items'],
     }),
     specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
