@@ -50,6 +50,7 @@ Under `paths['/widgets']['get']['responses']['200']['content']['application/json
 * for a `dateRange` pagination strategy, you can add `startDateParamInQuery` if it's not `startDate`, `endDateParamInQuery` if it's not `endDate`, `startDate` if it's not `'20000101000000'`, and `endDate` if it's not `'99990101000000'`
 * for a `confirmationBased` pagination strategy, `confirmOperation.path` and `confirmOperation.method`. Then at that operation, you can add `confirmOperation.pathTemplate`.
 * `idField` to indicate which property of response items is used as the unique identifier (currently only used for confirmationBased pagination).
+* `params` for templated syncables an object whose keys are template identifiers like `calendarId` and whose values are fields from other syncables, like `calendars.id`.
 
 ## Usage
 ### Create the OAD
