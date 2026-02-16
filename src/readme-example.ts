@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import { createHash } from 'crypto';
 import { components } from './types/google-calendar.js';
-import { Syncable } from './syncable.js';
+import { Syncer } from './syncer.js';
 
 type Entry = components['schemas']['CalendarListEntry'];
 const specFilename = './openapi/generated/google-calendar.yaml';
@@ -32,21 +32,9 @@ const fetchFunction: typeof fetch = async (
   }
 };
 
-const calendars = new Syncable<Entry>({
+const syncer = new Syncer<Entry>({
   specStr,
   specFilename,
-  syncableName: 'calendars',
-  authHeaders: {
-    Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
-  },
-  fetchFunction,
-  dbConn:
-    'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
-});
-const acls = new Syncable<Entry>({
-  specStr,
-  specFilename,
-  syncableName: 'acl',
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
   },
@@ -55,7 +43,4 @@ const acls = new Syncable<Entry>({
     'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
 });
 
-const calendarsData = await calendars.fullFetch();
-const parents = { calendar: calendarsData.map((c) => c.id) };
-console.log('Parents for ACLs:', parents);
-await acls.fullFetch(parents);
+await syncer.fullFetch();

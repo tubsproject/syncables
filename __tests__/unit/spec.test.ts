@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Syncable, SyncableConfig } from '../../src/syncable.js';
+import { Syncer, SyncerConfig } from '../../src/syncer.js';
 import { createSpec } from '../helpers/createSpec.js';
 
 type Widget = {
@@ -10,7 +10,7 @@ type Widget = {
 
 describe('Spec parsing', () => {
   it('can parse the syncable spec out of an OAD', async () => {
-    const config: SyncableConfig = {
+    const config: SyncerConfig = {
       name: 'widgets',
       paginationStrategy: 'pageNumber',
       pageNumberParamInQuery: 'page',
@@ -23,7 +23,7 @@ describe('Spec parsing', () => {
       forcePageSizeParamInQuery: undefined,
       idField: 'id',
     };
-    const syncable = new Syncable<Widget>({
+    const syncable = new Syncer<Widget>({
       specStr: createSpec(config),
       specFilename: '',
       syncableName: 'widgets',

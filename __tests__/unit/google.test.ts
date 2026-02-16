@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { components } from '../../src/types/google-calendar.js';
-import { Syncable } from '../../src/syncable.js';
+import { Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 
@@ -10,7 +10,7 @@ const specStr = readFileSync(specFilename).toString();
 
 describe('Google Calendar List', () => {
   const { fetchMock } = createFetchMock(true);
-  const syncable = new Syncable<Entry>({
+  const syncable = new Syncer<Entry>({
     specStr,
     specFilename,
     syncableName: 'calendarList',

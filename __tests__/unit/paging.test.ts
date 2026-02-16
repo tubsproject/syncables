@@ -1,13 +1,13 @@
 import { createSpec } from '../helpers/createSpec.js';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 import { test, expect } from 'vitest';
-import { Syncable } from '../../src/syncable.js';
+import { Syncer } from '../../src/syncer.js';
 
 test('pageNumber paging (unkown page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncer({
     specStr: createSpec({
       name: 'todos',
       paginationStrategy: 'pageNumber',
@@ -44,7 +44,7 @@ test('pageNumber paging (default page size', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncer({
     specStr: createSpec({
       name: 'todos',
       paginationStrategy: 'pageNumber',
@@ -78,7 +78,7 @@ test('pageNumber paging (force page size', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncer({
     specStr: createSpec({
       name: 'todos',
       paginationStrategy: 'pageNumber',
@@ -112,7 +112,7 @@ test('offset paging (unknown page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncer({
     specStr: createSpec({
       name: 'todos',
       paginationStrategy: 'offset',
@@ -149,7 +149,7 @@ test('offset paging (default page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncer({
     specStr: createSpec({
       name: 'todos',
       paginationStrategy: 'offset',
@@ -183,7 +183,7 @@ test('offset paging (force page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncer({
     specStr: createSpec({
       name: 'todos',
       paginationStrategy: 'offset',
@@ -217,7 +217,7 @@ test('pageToken paging', async () => {
   const { fetchMock, mockResponses } = createFetchMock(true);
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncer({
     specStr: createSpec({
       name: 'todos',
       paginationStrategy: 'pageToken',
@@ -251,7 +251,7 @@ test('rangeHeader paging', async () => {
   const { fetchMock, mockResponses } = createFetchMock(true);
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncer({
     specStr: createSpec({
       name: 'todos',
       paginationStrategy: 'rangeHeader',

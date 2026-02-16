@@ -8,7 +8,7 @@ import { getObjectPath } from '../__tests__/integration/mock-server/apply-pagina
 
 const debug = createDebug('syncable');
 
-export type SyncableConfig = {
+export type SyncerConfig = {
   name: string;
   paginationStrategy:
     | 'pageNumber'
@@ -40,26 +40,23 @@ export type SyncableConfig = {
   };
 };
 
-export class Syncable<T> extends EventEmitter {
+export class Syncer<T> extends EventEmitter {
   fetchFunction: typeof fetch;
-  config: SyncableConfig;
+  config: SyncerConfig;
   specStr: string;
   specFilename: string;
-  syncableName: string;
   spec: { paths: object; servers: { url: string }[] };
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
   constructor({
     specStr,
     specFilename,
-    syncableName,
     authHeaders = {},
     fetchFunction = fetch,
     dbConn,
   }: {
     specStr: string;
     specFilename: string;
-    syncableName: string;
     authHeaders?: { [key: string]: string };
     fetchFunction?: typeof fetch;
     dbConn?: string;
@@ -67,7 +64,6 @@ export class Syncable<T> extends EventEmitter {
     super();
     this.specStr = specStr;
     this.specFilename = specFilename;
-    this.syncableName = syncableName;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
     if (dbConn) {
@@ -111,7 +107,7 @@ export class Syncable<T> extends EventEmitter {
               response.syncable &&
               response.syncable.name === this.syncableName
             ) {
-              const config: SyncableConfig = {
+              const config: SyncerConfig = {
                 baseUrl:
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   (schema as any).servers && (schema as any).servers.length > 0

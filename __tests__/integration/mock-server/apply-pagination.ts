@@ -1,4 +1,4 @@
-import { SyncableConfig } from '../../../src/syncable.js';
+import { SyncerConfig } from '../../../src/syncer.js';
 
 export const confirmedItemIds: { [id: string]: boolean } = {};
 for (let i = 0; i < 50; i += 1) {
@@ -59,7 +59,7 @@ export function setObjectPath(obj: object, path: string[], value: any): object {
 export function applyPagination(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any,
-  spec: SyncableConfig,
+  spec: SyncerConfig,
   query: Record<string, string | undefined>,
   // headers: Record<string, string | undefined>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

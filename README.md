@@ -75,20 +75,19 @@ Now you have the AOD with the definition of the syncable, and the type for the i
 ```ts
 import { readFileSync } from 'fs';
 import { components } from './src/types/google-calendar.js';
-import { Syncable } from 'syncable';
+import { Syncer } from 'syncable';
 
 type Entry = components['schemas']['CalendarListEntry'];
 const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toString();
 
-const syncable = new Syncable<Entry>({
+const syncer = new Syncer<Entry>({
   specStr,
-  syncableName: 'calendarList',
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
   },
   dbConn: 'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable'
 });
-await syncable.fullFetch();
+await syncer.fullFetch();
 ```
 
 You can use the [`showcase-google-calendar` branch of this repo](https://github.com/tubsproject/syncables/tree/showcase-google-calendar) to run a simple OAuth client that can obtain a value for the `GOOGLE_BEARER_TOKEN` environment variable (look for a log line that reads `Received OAuth token: ...`).

@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { Syncable } from '../../src/syncable.js';
+import { Syncer } from '../../src/syncer.js';
 import { createSpec } from '../helpers/createSpec.js';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 
@@ -7,7 +7,7 @@ test('query', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
+  const syncable = new Syncer({
     specStr: createSpec({
       name: 'todos',
       paginationStrategy: 'pageNumber',
