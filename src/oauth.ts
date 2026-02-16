@@ -45,7 +45,7 @@ export function runOAuthClient(oauth2Config: any, port: number, cb: (token: stri
     scope: [
       'https://www.googleapis.com/auth/calendar.readonly',
       'https://www.googleapis.com/auth/calendar.acls.readonly',
-      'https://www.googleapis.com/auth//calendar.calendarlist.readonly'
+      'https://www.googleapis.com/auth/calendar.calendarlist.readonly'
     ]
   }));
   
