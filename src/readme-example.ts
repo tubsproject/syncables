@@ -34,7 +34,6 @@ const fetchFunction: typeof fetch = async (
 
 const syncer = new Syncer<Entry>({
   specStr,
-  specFilename,
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
   },

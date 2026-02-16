@@ -8,7 +8,7 @@ import { getObjectPath } from '../__tests__/integration/mock-server/apply-pagina
 
 const debug = createDebug('syncable');
 
-export type SyncerConfig = {
+export type SyncableSpec = {
   name: string;
   paginationStrategy:
     | 'pageNumber'
@@ -17,8 +17,6 @@ export type SyncerConfig = {
     | 'dateRange'
     | 'rangeHeader'
     | 'confirmationBased';
-  baseUrl: string;
-  urlPath: string;
   pageNumberParamInQuery?: string;
   offsetParamInQuery?: string;
   pageTokenParamInQuery?: string;
@@ -38,32 +36,34 @@ export type SyncerConfig = {
     method: string;
     path: string;
   };
+  params?: { [key: string]: string };
 };
 
 export class Syncer<T> extends EventEmitter {
   fetchFunction: typeof fetch;
-  config: SyncerConfig;
+  syncables: {
+    [syncableName: string]: {
+      path: string;
+      spec: SyncableSpec;
+    };
+  } = {};
   specStr: string;
-  specFilename: string;
-  spec: { paths: object; servers: { url: string }[] };
+  baseUrl: string;
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
   constructor({
     specStr,
-    specFilename,
     authHeaders = {},
     fetchFunction = fetch,
     dbConn,
   }: {
     specStr: string;
-    specFilename: string;
     authHeaders?: { [key: string]: string };
     fetchFunction?: typeof fetch;
     dbConn?: string;
   }) {
     super();
     this.specStr = specStr;
-    this.specFilename = specFilename;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
     if (dbConn) {
@@ -78,12 +78,22 @@ export class Syncer<T> extends EventEmitter {
 
   async parseSpec(): Promise<object> {
     let specObj;
-    if (this.specFilename.endsWith('.json')) {
-      specObj = JSON.parse(this.specStr);
-    } else {
+    try { 
       specObj = parse(this.specStr);
+    } catch (err1) {
+      try {
+        specObj = JSON.parse(this.specStr);
+      } catch (err2) {
+        throw new Error(`Spec is not valid JSON or YAML: ${err1.message} / ${err2.message}`);
+      }
     }
     const schema = await dereference(specObj);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.baseUrl = (schema as any).servers && (schema as any).servers.length > 0
+                    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      (schema as any).servers[0].url
+                    : '';
     let solution: object | null = null;
     for (const path of Object.keys(schema.paths)) {
       const pathItem = schema.paths[path];
@@ -104,14 +114,7 @@ export class Syncer<T> extends EventEmitter {
               contentType
             ];
             if (response.syncable) {
-              const config: SyncerConfig = {
-                baseUrl:
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  (schema as any).servers && (schema as any).servers.length > 0
-                    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      (schema as any).servers[0].url
-                    : '',
-                urlPath: path,
+              const spec: SyncableSpec = {
                 name: response.syncable.name,
                 paginationStrategy: response.syncable.paginationStrategy,
                 query: response.syncable.query || {},
@@ -125,24 +128,24 @@ export class Syncer<T> extends EventEmitter {
               };
               // console.log('baseUrl:', config.baseUrl, (schema as any).servers);
               if (response.syncable.paginationStrategy === 'pageNumber') {
-                config.pageNumberParamInQuery =
+                spec.pageNumberParamInQuery =
                   response.syncable.pageNumberParamInQuery || 'page';
               } else if (response.syncable.paginationStrategy === 'offset') {
-                config.offsetParamInQuery =
+                spec.offsetParamInQuery =
                   response.syncable.offsetParamInQuery || 'offset';
               } else if (response.syncable.paginationStrategy === 'pageToken') {
-                config.pageTokenParamInQuery =
+                spec.pageTokenParamInQuery =
                   response.syncable.pageTokenParamInQuery || 'pageToken';
-                config.nextPageTokenPathInResponse = response.syncable
+                spec.nextPageTokenPathInResponse = response.syncable
                   .nextPageTokenPathInResponse || ['nextPageToken'];
               } else if (response.syncable.paginationStrategy === 'dateRange') {
-                config.startDateParamInQuery =
+                spec.startDateParamInQuery =
                   response.syncable.startDateParamInQuery || 'startDate';
-                config.endDateParamInQuery =
+                spec.endDateParamInQuery =
                   response.syncable.endDateParamInQuery || 'endDate';
-                config.startDate =
+                spec.startDate =
                   response.syncable.startDate || '20000101000000';
-                config.endDate = response.syncable.endDate || '99990101000000';
+                spec.endDate = response.syncable.endDate || '99990101000000';
               } else if (
                 response.syncable.paginationStrategy === 'confirmationBased'
               ) {
@@ -155,7 +158,7 @@ export class Syncer<T> extends EventEmitter {
                   ]?.responses['200']?.content?.['application/json']
                     ?.confirmOperation;
                 // console.log(confirmConfig);
-                config.confirmOperation = {
+                spec.confirmOperation = {
                   pathTemplate: confirmConfig.pathTemplate,
                   method: confirmOperationSpec.method,
                   path: confirmOperationSpec.path,
@@ -163,8 +166,10 @@ export class Syncer<T> extends EventEmitter {
                 // console.log('determined confirmOperation config', config.confirmOperation);
                 // throw new Error('debug');
               }
-              this.config = config;
-              // console.log('Found syncable config:', this.config, response.syncable);
+              this.syncables[response.syncable.name] = {
+                path: path,
+                spec: spec,
+              };
               solution = schema;
             }
           },
@@ -178,6 +183,7 @@ export class Syncer<T> extends EventEmitter {
   }
 
   private async doFetch(
+    spec: SyncableSpec,
     url: string,
     headers: { [key: string]: string } = {},
     minNumItemsToExpect: number = 1,
@@ -193,10 +199,10 @@ export class Syncer<T> extends EventEmitter {
     }
 
     const responseData = await response.json();
-    // console.log('responseData nextPageToken', Object.keys(responseData), this.config.pageTokenParamInQuery, responseData[this.config.pageTokenParamInQuery]);
+    // console.log('responseData nextPageToken', Object.keys(responseData), spec.pageTokenParamInQuery, responseData[spec.pageTokenParamInQuery]);
     let items = responseData;
-    for (let i = 0; i < this.config.itemsPathInResponse.length; i++) {
-      const pathPart = this.config.itemsPathInResponse[i];
+    for (let i = 0; i < spec.itemsPathInResponse.length; i++) {
+      const pathPart = spec.itemsPathInResponse[i];
       if (typeof items !== 'object' || items === null || !(pathPart in items)) {
         throw new Error(
           `Invalid itemsPathInResponse: could not find path part "${pathPart}" in response ${url}`,
@@ -204,12 +210,12 @@ export class Syncer<T> extends EventEmitter {
       }
       items = items[pathPart];
     }
-    // console.log('parsed responseData', responseData, items, this.config.itemsPathInResponse);
+    // console.log('parsed responseData', responseData, items, spec.itemsPathInResponse);
     let nextPageToken: string | undefined = undefined;
     try {
       nextPageToken = getObjectPath(
         responseData,
-        this.config.nextPageTokenPathInResponse || ['nextPageToken'],
+        spec.nextPageTokenPathInResponse || ['nextPageToken'],
       );
     } catch (err) {
       // ignore
@@ -221,7 +227,7 @@ export class Syncer<T> extends EventEmitter {
       nextPageToken,
     };
   }
-  private async pageNumberFetch(parents: {
+  private async pageNumberFetch(syncableName: string, parents: {
     [parentName: string]: string[];
   }): Promise<T[]> {
     let allData: T[] = [];
@@ -229,23 +235,25 @@ export class Syncer<T> extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = this.getUrl(parents);
-      Object.entries(this.config.query || {}).forEach(([key, value]) => {
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const spec = this.syncables[syncableName].spec;
+      Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
       url.searchParams.append(
-        this.config.pageNumberParamInQuery,
+        spec.pageNumberParamInQuery,
         page.toString(),
       );
-      if (this.config.forcePageSize) {
-        const param = this.config.forcePageSizeParamInQuery || 'pageSize';
-        url.searchParams.append(param, this.config.forcePageSize.toString());
+      if (spec.forcePageSize) {
+        const param = spec.forcePageSizeParamInQuery || 'pageSize';
+        url.searchParams.append(param, spec.forcePageSize.toString());
       }
 
       const data = await this.doFetch(
+        spec,
         url.toString(),
         {},
-        this.config.forcePageSize || this.config.defaultPageSize || 1,
+        spec.forcePageSize || spec.defaultPageSize || 1,
       );
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
@@ -255,31 +263,33 @@ export class Syncer<T> extends EventEmitter {
     return allData;
   }
 
-  private async offsetFetch(parents: {
+  private async offsetFetch(syncableName: string, parents: {
     [parentName: string]: string[];
   }): Promise<T[]> {
     let allData: T[] = [];
     let offset = 0;
     let hasMore = true;
+    const spec = this.syncables[syncableName].spec;
 
     while (hasMore) {
-      const url = this.getUrl(parents);
-      Object.entries(this.config.query || {}).forEach(([key, value]) => {
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
       url.searchParams.append(
-        this.config.offsetParamInQuery,
+        spec.offsetParamInQuery,
         offset.toString(),
       );
-      if (this.config.forcePageSize) {
-        const param = this.config.forcePageSizeParamInQuery || 'pageSize';
-        url.searchParams.append(param, this.config.forcePageSize.toString());
+      if (spec.forcePageSize) {
+        const param = spec.forcePageSizeParamInQuery || 'pageSize';
+        url.searchParams.append(param, spec.forcePageSize.toString());
       }
 
       const data = await this.doFetch(
+        spec,
         url.toString(),
         {},
-        this.config.forcePageSize || this.config.defaultPageSize || 1,
+        spec.forcePageSize || spec.defaultPageSize || 1,
       );
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
@@ -289,31 +299,32 @@ export class Syncer<T> extends EventEmitter {
     return allData;
   }
 
-  private async pageTokenFetch(parents: {
+  private async pageTokenFetch(syncableName: string, parents: {
     [parentName: string]: string[];
   }): Promise<T[]> {
     let allData: T[] = [];
     let nextPageToken: string | null = null;
-
+    const spec = this.syncables[syncableName].spec;
     do {
-      const url = this.getUrl(parents);
-      Object.entries(this.config.query || {}).forEach(([key, value]) => {
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      if (this.config.forcePageSize) {
-        const param = this.config.forcePageSizeParamInQuery || 'pageSize';
-        url.searchParams.append(param, this.config.forcePageSize.toString());
+      if (spec.forcePageSize) {
+        const param = spec.forcePageSizeParamInQuery || 'pageSize';
+        url.searchParams.append(param, spec.forcePageSize.toString());
       }
       if (nextPageToken) {
         url.searchParams.append(
-          this.config.pageTokenParamInQuery,
+          spec.pageTokenParamInQuery,
           nextPageToken,
         );
       }
       const data = await this.doFetch(
+        spec,
         url.toString(),
         {},
-        this.config.forcePageSize || this.config.defaultPageSize || 1,
+        spec.forcePageSize || spec.defaultPageSize || 1,
       );
       // console.log('fetched', data);
       allData = allData.concat(data.items);
@@ -322,10 +333,9 @@ export class Syncer<T> extends EventEmitter {
 
     return allData;
   }
-  private getUrl(parents: { [parentName: string]: string[] }): URL {
+  private getUrl(urlPath: string, parents: { [parentName: string]: string[] }): URL {
     const pattern = `{${Object.keys(parents)[0]}Id}`;
 
-    let urlPath = this.config.urlPath;
     if (Object.keys(parents).length > 0) {
       console.log(
         'Filling in pattern',
@@ -336,15 +346,16 @@ export class Syncer<T> extends EventEmitter {
       );
       urlPath = urlPath.replace(pattern, parents[Object.keys(parents)[0]][0]);
     }
-    const joined = urljoin(this.config.baseUrl, urlPath);
+    const joined = urljoin(this.baseUrl, urlPath);
     return new URL(joined);
   }
-  private async dateRangeFetch(parents: {
+  private async dateRangeFetch(syncableName: string, parents: {
     [parentName: string]: string[];
   }): Promise<T[]> {
+    const spec = this.syncables[syncableName].spec;
     let allData: T[] = [];
-    let startDate: number = parseInt(this.config.startDate, 10);
-    let endDate: number = parseInt(this.config.endDate, 10);
+    let startDate: number = parseInt(spec.startDate, 10);
+    let endDate: number = parseInt(spec.endDate, 10);
     if (isNaN(startDate)) {
       startDate = 20000101000000;
     }
@@ -352,10 +363,10 @@ export class Syncer<T> extends EventEmitter {
       endDate = 99990101000000;
     }
     let cursor = startDate;
-    const increment: number = /* this.config.increment || */ 10000000000; // yearly increments
+    const increment: number = /* spec.increment || */ 10000000000; // yearly increments
     while (cursor <= endDate) {
-      const url = this.getUrl(parents);
-      Object.entries(this.config.query || {}).forEach(([key, value]) => {
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
       if (startDate) {
@@ -365,7 +376,7 @@ export class Syncer<T> extends EventEmitter {
         url.searchParams.append('endDate', (cursor + increment - 1).toString());
       }
       // console.log('date range fetching', url.toString());
-      const data = await this.doFetch(url.toString());
+      const data = await this.doFetch(spec, url.toString());
       allData = allData.concat(data.items);
       cursor += increment;
     }
@@ -373,19 +384,21 @@ export class Syncer<T> extends EventEmitter {
     return allData;
   }
 
-  private async rangeHeaderFetch(parents: {
+  private async rangeHeaderFetch(syncableName: string, parents: {
     [parentName: string]: string[];
   }): Promise<T[]> {
+    const spec = this.syncables[syncableName].spec;
     let allData: T[] = [];
-    const numItemsPerPage = this.config.forcePageSize || 20;
+    const numItemsPerPage = spec.forcePageSize || 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {
-      const url = this.getUrl(parents);
-      Object.entries(this.config.query || {}).forEach(([key, value]) => {
+      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
       const data = await this.doFetch(
+        spec,
         url.toString(),
         {
           Range: rangeHeader,
@@ -407,27 +420,28 @@ export class Syncer<T> extends EventEmitter {
     return allData;
   }
 
-  private async confirmationBasedFetch(parents: {
+  private async confirmationBasedFetch(syncableName: string, parents: {
     [parentName: string]: string[];
   }): Promise<T[]> {
+    const spec = this.syncables[syncableName].spec;
     let allData: T[] = [];
     let thisBatch: { items: T[]; hasMore?: boolean; nextPageToken?: string };
     do {
-      thisBatch = await this.doFetch(this.getUrl(parents).toString());
+      thisBatch = await this.doFetch(spec, this.getUrl(this.syncables[syncableName].path, parents).toString());
       // console.log('fetched batch', thisBatch.items.length, thisBatch);
-      // console.log('confirming', this.config.confirmOperation);
+      // console.log('confirming', spec.confirmOperation);
       allData = allData.concat(thisBatch.items);
       const promises = Promise.all(
         thisBatch.items.map(async (item) => {
-          const itemId = item[this.config.idField].toString();
+          const itemId = item[spec.idField].toString();
           // console.log('parsed out item id', item, itemId)
           const confirmationUrl = urljoin(
-            this.config.baseUrl,
-            this.config.confirmOperation.pathTemplate.replace('{id}', itemId),
+            this.baseUrl,
+            spec.confirmOperation.pathTemplate.replace('{id}', itemId),
           );
           // console.log('confirming', confirmationUrl);
           await this.fetchFunction(confirmationUrl, {
-            method: this.config.confirmOperation.method,
+            method: spec.confirmOperation.method,
             headers: Object.assign({}, this.authHeaders),
           });
         }),
@@ -436,25 +450,26 @@ export class Syncer<T> extends EventEmitter {
     } while (thisBatch.hasMore);
     return allData;
   }
-  private async doFullFetch(parents: {
+  private async doFullFetch(syncableName: string, parents: {
     [parentName: string]: string[];
   }): Promise<T[]> {
-    switch (this.config['paginationStrategy']) {
+    const spec = this.syncables[syncableName].spec;
+    switch (spec['paginationStrategy']) {
       case 'pageNumber':
-        return this.pageNumberFetch(parents);
+        return this.pageNumberFetch(syncableName, parents);
       case 'offset':
-        return this.offsetFetch(parents);
+        return this.offsetFetch(syncableName, parents);
       case 'pageToken':
-        return this.pageTokenFetch(parents);
+        return this.pageTokenFetch(syncableName, parents);
       case 'dateRange':
-        return this.dateRangeFetch(parents);
+        return this.dateRangeFetch(syncableName, parents);
       case 'rangeHeader':
-        return this.rangeHeaderFetch(parents);
+        return this.rangeHeaderFetch(syncableName, parents);
       case 'confirmationBased':
-        return this.confirmationBasedFetch(parents);
+        return this.confirmationBasedFetch(syncableName, parents);
       default:
         throw new Error(
-          `Unknown paging strategy: ${this.config['paginationStrategy']}`,
+          `Unknown paging strategy: ${spec['paginationStrategy']}`,
         );
     }
   }
@@ -463,25 +478,28 @@ export class Syncer<T> extends EventEmitter {
     parents: { [parentName: string]: string[] } = {},
   ): Promise<T[]> {
     const schema = await this.parseSpec();
-    const data = await this.doFullFetch(parents);
-    if (this.client) {
-      await this.client.connect();
-      const fields = getFields(
-        schema,
-        this.config.urlPath,
-        this.config.itemsPathInResponse.join('.'),
-      );
-      await createSqlTable(this.client, this.config.name, fields);
-      await insertData(
-        this.client,
-        this.config.name,
-        data,
-        Object.keys(fields).filter(
-          (f) => ['string'].indexOf(fields[f].type) !== -1,
-        ),
-      );
-      await this.client.end();
+    for (const specName of Object.keys(this.syncables)) {
+      const syncable = this.syncables[specName];
+      const data = await this.doFullFetch(specName, parents);
+      if (this.client) {
+        await this.client.connect();
+        const fields = getFields(
+          schema,
+          syncable.path,
+          syncable.spec.itemsPathInResponse.join('.'),
+        );
+        await createSqlTable(this.client, specName, fields);
+        await insertData(
+          this.client,
+          specName,
+          data,
+          Object.keys(fields).filter(
+            (f) => ['string'].indexOf(fields[f].type) !== -1,
+          ),
+        );
+      }
+     await this.client.end();
     }
-    return data;
+    return [];
   }
 }

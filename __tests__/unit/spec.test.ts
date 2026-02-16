@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Syncer, SyncerConfig } from '../../src/syncer.js';
+import { Syncer, SyncableSpec } from '../../src/syncer.js';
 import { createSpec } from '../helpers/createSpec.js';
 
 type Widget = {
@@ -10,12 +10,10 @@ type Widget = {
 
 describe('Spec parsing', () => {
   it('can parse one syncable spec out of an OAD', async () => {
-    const config: SyncerConfig = {
+    const spec: SyncableSpec = {
       name: 'widgets',
       paginationStrategy: 'pageNumber',
       pageNumberParamInQuery: 'page',
-      baseUrl: 'https://example.com/api',
-      urlPath: '/widgets',
       query: { color: 'red' },
       itemsPathInResponse: ['data', 'items'],
       defaultPageSize: undefined,
@@ -24,10 +22,11 @@ describe('Spec parsing', () => {
       idField: 'id',
     };
     const syncable = new Syncer<Widget>({
-      specStr: createSpec(config),
-      specFilename: '',
+      specStr: createSpec('https://example.com/api', {
+        '/widgets/': spec,
+      }),
     });
     await syncable.parseSpec();
-    expect(syncable.config).toEqual(config);
+    expect(syncable.syncables['/widgets/'].spec).toEqual(spec);
   });
 });

@@ -12,7 +12,6 @@ describe('Google Calendar List', () => {
   const { fetchMock } = createFetchMock(true);
   const syncable = new Syncer<Entry>({
     specStr,
-    specFilename,
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });

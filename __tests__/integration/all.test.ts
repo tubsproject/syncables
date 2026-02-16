@@ -86,7 +86,6 @@ describe('Syncables', async () => {
       });
       const syncable = new Syncer<object>({
         specStr: document,
-        specFilename: fileName,
         authHeaders: {
           Authorization: 'Bearer MOCK',
           'X-Api-Key': 'mock-api-key',

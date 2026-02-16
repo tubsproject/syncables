@@ -22,7 +22,6 @@ describe('Google Calendar List', async () => {
   await client.connect();
   const syncable = new Syncer<Entry>({
     specStr,
-    specFilename,
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
     dbConn,
