@@ -70,7 +70,7 @@ export class Syncer<T> extends EventEmitter {
     this.dbConn = dbConn || null;
   }
 
-  private async initDb() {
+  private async initDb(): Promise<void> {
     if (this.dbConn && !this.client) {
       this.client = new Client({
         connectionString: this.dbConn,
@@ -96,8 +96,8 @@ export class Syncer<T> extends EventEmitter {
     }
     const schema = await dereference(specObj);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.baseUrl =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (schema as any).servers && (schema as any).servers.length > 0
         ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (schema as any).servers[0].url

@@ -31,7 +31,7 @@ export function createFetchMock(pagedByToken: boolean = false): {
     delete mockResponses[0]['hasMore'];
     delete mockResponses[1]['hasMore'];
   }
-  let index = {};
+  const index = {};
   return {
     mockResponses,
     fetchMock: vi.fn((url: string) => {
