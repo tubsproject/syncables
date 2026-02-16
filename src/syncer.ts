@@ -202,6 +202,8 @@ export class Syncer<T> extends EventEmitter {
     }
 
     const responseData = await response.json();
+    // console.log('Fetched data from', url, responseData);
+    // console.log('looking for items in response data using path', spec.itemsPathInResponse);
     // console.log('responseData nextPageToken', Object.keys(responseData), spec.pageTokenParamInQuery, responseData[spec.pageTokenParamInQuery]);
     let items = responseData;
     for (let i = 0; i < spec.itemsPathInResponse.length; i++) {
@@ -497,8 +499,8 @@ export class Syncer<T> extends EventEmitter {
 
   async fullFetch(
     parents: { [parentName: string]: string[] } = {},
-  ): Promise<T[]> {
-    const data: {
+  ): Promise<{ [syncableName: string]: T[] }> {
+    const allData: {
       [syncableName: string]: T[];
     } = {};
     const schema = await this.parseSpec();
@@ -522,11 +524,13 @@ export class Syncer<T> extends EventEmitter {
           ),
         );
       }
-      data[specName] = data;
-      if (this.client) {
-        await this.client.end();
-      }
+      // console.log('Fetched data for syncable', specName, data);
+      allData[specName] = data;
     }
-    return data[Object.keys(this.syncables)[0]];
+    if (this.client) {
+      await this.client.end();
+    }
+    // console.log('All data fetched', allData);
+    return allData;
   }
 }

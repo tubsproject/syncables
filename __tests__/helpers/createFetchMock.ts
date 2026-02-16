@@ -31,17 +31,23 @@ export function createFetchMock(pagedByToken: boolean = false): {
     delete mockResponses[0]['hasMore'];
     delete mockResponses[1]['hasMore'];
   }
-  let index = 0;
+  let index = {
+    'https://www.googleapis.com/calendar/v3/users/me/calendarList': 0,
+    'https://www.googleapis.com/calendar/v3/calendars/%7BcalendarId%7D/acl': 0,
+    'https://www.googleapis.com/calendar/v3/calendars/%7BcalendarId%7D/events': 0,
+  };
   return {
     mockResponses,
-    fetchMock: vi.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(mockResponses[index++]),
+    fetchMock: vi.fn((url: string) => {
+      url = url.split('?')[0]; // Remove pageToken for indexing
+      // console.log('Mock fetch called with URL:', url);
+      return Promise.resolve({
+        json: () => Promise.resolve(mockResponses[index[url]++] || mockResponses[0]),
         ok: true,
         status: 200,
         statusText: 'OK',
         text: () => Promise.resolve(''),
-      }),
-    ),
+      });
+    }),
   };
 }

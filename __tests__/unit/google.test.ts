@@ -10,15 +10,57 @@ const specStr = readFileSync(specFilename).toString();
 
 describe('Google Calendar List', () => {
   const { fetchMock } = createFetchMock(true);
-  const syncable = new Syncer<Entry>({
+  const syncer = new Syncer<Entry>({
     specStr,
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   it('fetches calendar list entries', async () => {
-    const data = await syncable.fullFetch();
-    expect(data.length).toBeGreaterThan(0);
-    expect(data[0]).toHaveProperty('id');
-    expect(data[0]).toHaveProperty('title');
+    const data = await syncer.fullFetch();
+    // console.log('Data fetched by syncer:', data);
+    expect(data).toEqual({
+      "acl": [
+        {
+          "id": 1,
+          "title": "Test Todo 1",
+        },
+        {
+          "id": 2,
+          "title": "Test Todo 2",
+        },
+        {
+          "id": 3,
+          "title": "Test Todo 3",
+        },
+      ],
+      "calendars": [
+        {
+          "id": 1,
+          "title": "Test Todo 1",
+        },
+        {
+          "id": 2,
+          "title": "Test Todo 2",
+        },
+        {
+          "id": 3,
+          "title": "Test Todo 3",
+        },
+      ],
+      "events": [
+        {
+          "id": 1,
+          "title": "Test Todo 1",
+        },
+        {
+          "id": 2,
+          "title": "Test Todo 2",
+        },
+        {
+          "id": 3,
+          "title": "Test Todo 3",
+        },
+      ],
+    });
   });
 });
