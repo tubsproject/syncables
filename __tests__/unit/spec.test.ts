@@ -20,6 +20,9 @@ describe('Spec parsing', () => {
       forcePageSize: undefined,
       forcePageSizeParamInQuery: undefined,
       idField: 'id',
+      params: {
+        customerId: 'customers.id',
+      },
     };
     const syncer = new Syncer<Widget>({
       specStr: createSpec('https://example.com/api', {

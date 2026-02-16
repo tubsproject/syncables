@@ -97,7 +97,7 @@ export class Syncer<T> extends EventEmitter {
     const schema = await dereference(specObj);
 
     this.baseUrl =
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (schema as any).servers && (schema as any).servers.length > 0
         ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (schema as any).servers[0].url
@@ -348,16 +348,16 @@ export class Syncer<T> extends EventEmitter {
     urlPath: string,
     parents: { [pattern: string]: string[] },
   ): URL {
-    const pattern = `{${Object.keys(parents)[0]}}`
+    const pattern = `{${Object.keys(parents)[0]}}`;
 
     if (Object.keys(parents).length > 0) {
-      console.log(
-        'Filling in pattern',
-        urlPath,
-        pattern,
-        'with',
-        parents[Object.keys(parents)[0]][0],
-      );
+      // console.log(
+      //   'Filling in pattern',
+      //   urlPath,
+      //   pattern,
+      //   'with',
+      //   parents[Object.keys(parents)[0]][0],
+      // );
       urlPath = urlPath.replace(pattern, parents[Object.keys(parents)[0]][0]);
     }
     const joined = urljoin(this.baseUrl, urlPath);
@@ -502,9 +502,13 @@ export class Syncer<T> extends EventEmitter {
         );
     }
   }
-  async fetchOneSyncable(schema: object, specName: string, parents: { [pattern: string]: string[] }): Promise<T[]> {
+  async fetchOneSyncable(
+    schema: object,
+    specName: string,
+    parents: { [pattern: string]: string[] },
+  ): Promise<T[]> {
     const syncable = this.syncables[specName];
-    console.log(`Fetching syncable ${specName} with parents`, parents);
+    // console.log(`Fetching syncable ${specName} with parents`, parents);
     const data = await this.doFullFetch(specName, parents);
     // console.log('initDb start');
     await this.initDb();
@@ -534,36 +538,61 @@ export class Syncer<T> extends EventEmitter {
     } = {};
     const schema = await this.parseSpec();
     do {
-      console.log('Starting loop of fetching all syncables, currently have data for syncables', Object.keys(allData));
+      // console.log(
+      //   'Starting loop of fetching all syncables, currently have data for syncables',
+      //   Object.keys(allData),
+      // );
       for (const specName of Object.keys(this.syncables)) {
+        if (allData[specName]) {
+          continue;
+        }
         const syncable = this.syncables[specName];
-        console.log('checking if we need parents for', specName, syncable.spec.params);
+        // console.log(
+        //   'checking if we need parents for',
+        //   specName,
+        //   syncable.spec.params,
+        // );
         const parents = {};
         if (syncable.spec.params) {
-          console.log(`Syncable ${specName} has params, determining parent data...`, syncable.spec.params);
+          // console.log(
+          //   `Syncable ${specName} has params, determining parent data...`,
+          //   syncable.spec.params,
+          // );
           let missingParentData = false;
-          Object.entries(syncable.spec.params).forEach(([pattern, reference]) => {
-            const parentName = reference.split('.')[0];
-            if (!allData[parentName]) {
-              console.log(`Still missing parent data for syncable ${specName}: need parent ${parentName} based on param ${pattern}: ${reference}`);
-              missingParentData = true;
-              return;
-            }
-            // const idField = this.syncables[parentName].idField || 'id'; FIXME - can't we reuse this from there?
-            const idField = reference.split('.')[1];
-            parents[pattern] = allData[parentName].map((item) => item[idField].toString());
-          });
+          Object.entries(syncable.spec.params).forEach(
+            ([pattern, reference]) => {
+              const parentName = reference.split('.')[0];
+              if (!allData[parentName]) {
+                // console.log(
+                //   `Still missing parent data for syncable ${specName}: need parent ${parentName} based on param ${pattern}: ${reference}`,
+                // );
+                missingParentData = true;
+                return;
+              }
+              // const idField = this.syncables[parentName].idField || 'id'; FIXME - can't we reuse this from there?
+              const idField = reference.split('.')[1];
+              parents[pattern] = allData[parentName].map((item) =>
+                item[idField].toString(),
+              );
+            },
+          );
           if (missingParentData) {
-            console.log(`Skipping syncable ${specName} for now because we're still missing parent data...`);
+            // console.log(
+            //   `Skipping syncable ${specName} for now because we're still missing parent data...`,
+            // );
             continue;
           }
-          console.log('all parents for syncable', specName, parents);
+          // console.log('all parents for syncable', specName, parents);
         }
         const data = await this.fetchOneSyncable(schema, specName, parents);
         // console.log('Fetched data for syncable', specName, data);
         allData[specName] = data;
       }
-      console.log('Finished one loop of fetching all syncables, checking if we have all data we need...', Object.keys(allData).length, Object.keys(this.syncables).length);
+      // console.log(
+      //   'Finished one loop of fetching all syncables, checking if we have all data we need...',
+      //   Object.keys(allData).length,
+      //   Object.keys(this.syncables).length,
+      // );
     } while (Object.keys(allData).length < Object.keys(this.syncables).length);
     if (this.client) {
       await this.client.end();
