@@ -498,6 +498,9 @@ export class Syncer<T> extends EventEmitter {
   async fullFetch(
     parents: { [parentName: string]: string[] } = {},
   ): Promise<T[]> {
+    const data: {
+      [syncableName: string]: T[];
+    } = {};
     const schema = await this.parseSpec();
     for (const specName of Object.keys(this.syncables)) {
       const syncable = this.syncables[specName];
@@ -519,8 +522,11 @@ export class Syncer<T> extends EventEmitter {
           ),
         );
       }
-      await this.client.end();
+      data[specName] = data;
+      if (this.client) {
+        await this.client.end();
+      }
     }
-    return [];
+    return data[Object.keys(this.syncables)[0]];
   }
 }

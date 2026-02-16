@@ -21,12 +21,13 @@ describe('Spec parsing', () => {
       forcePageSizeParamInQuery: undefined,
       idField: 'id',
     };
-    const syncable = new Syncer<Widget>({
+    const syncer = new Syncer<Widget>({
       specStr: createSpec('https://example.com/api', {
         '/widgets/': spec,
       }),
     });
-    await syncable.parseSpec();
-    expect(syncable.syncables['/widgets/'].spec).toEqual(spec);
+    await syncer.parseSpec();
+    expect(syncer.syncables['widgets'].path).toEqual('/widgets/');
+    expect(syncer.syncables['widgets'].spec).toEqual(spec);
   });
 });
