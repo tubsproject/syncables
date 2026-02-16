@@ -41,7 +41,13 @@ export function runOAuthClient(oauth2Config: any, port: number, cb: (token: stri
   // Redirect the user to the OAuth 2.0 provider for authentication.  When
   // complete, the provider will redirect the user back to the application at
   //     /auth/provider/callback
-  app.get('/auth/provider', passport.authenticate('provider', { scope: ['https://www.googleapis.com/auth/calendar.readonly'] }));
+  app.get('/auth/provider', passport.authenticate('provider', {
+    scope: [
+      'https://www.googleapis.com/auth/calendar.readonly',
+      'https://www.googleapis.com/auth/calendar.acls.readonly',
+      'https://www.googleapis.com/auth//calendar.calendarlist.readonly'
+    ]
+  }));
   
   // The OAuth 2.0 provider has redirected the user back to the application.
   // Finish the authentication process by attempting to obtain an access
