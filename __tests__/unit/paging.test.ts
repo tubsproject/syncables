@@ -5,7 +5,7 @@ import { Syncer } from '../../src/syncer.js';
 
 test('pageNumber paging (unkown page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
-
+  // console.log('Mock responses:', mockResponses);
   // Call the function and assert the result
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
@@ -19,8 +19,10 @@ test('pageNumber paging (unkown page size)', async () => {
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
+  console.log('fullFetch start');
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  console.log('fullFetch end');
+  expect(data).toEqual({ 'todos': mockResponses[0].items.concat(mockResponses[1].items) });
 
   // Check that fetch was called exactly thrice
   expect(fetchMock).toHaveBeenCalledTimes(3);
@@ -56,7 +58,7 @@ test('pageNumber paging (default page size', async () => {
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({ 'todos': mockResponses[0].items.concat(mockResponses[1].items) });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -88,7 +90,7 @@ test('pageNumber paging (force page size', async () => {
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({ 'todos': mockResponses[0].items.concat(mockResponses[1].items) });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -119,7 +121,7 @@ test('offset paging (unknown page size)', async () => {
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({ 'todos': mockResponses[0].items.concat(mockResponses[1].items) });
 
   // Check that fetch was called exactly thrice
   expect(fetchMock).toHaveBeenCalledTimes(3);
@@ -155,7 +157,7 @@ test('offset paging (default page size)', async () => {
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({ 'todos': mockResponses[0].items.concat(mockResponses[1].items) });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -187,7 +189,7 @@ test('offset paging (force page size)', async () => {
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({ 'todos': mockResponses[0].items.concat(mockResponses[1].items) });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -219,7 +221,7 @@ test('pageToken paging', async () => {
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({ 'todos': mockResponses[0].items.concat(mockResponses[1].items) });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -252,7 +254,7 @@ test('rangeHeader paging', async () => {
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({ 'todos': mockResponses[0].items.concat(mockResponses[1].items) });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
