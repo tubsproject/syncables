@@ -93,9 +93,9 @@ describe('Syncables', async () => {
       });
       const data = await syncable.fullFetch();
       const expected = await import(`../integration/expected/${service}.js`);
-      expect(data.length).toBe(expected.default.length);
+      expect(data.integrationTest.length).toBe(expected.default.length);
       for (let i = 0; i < expected.default.length; i++) {
-        expect(data[i]).toEqual(expected.default[i]);
+        expect(data.integrationTest[i]).toEqual(expected.default[i]);
       }
       console.log(`Stopping server for ${service}...`);
       server?.close();
