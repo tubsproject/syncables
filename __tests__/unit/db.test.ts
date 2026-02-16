@@ -23,25 +23,25 @@ describe('Google Calendar List', async () => {
   const syncable = new Syncable<Entry>({
     specStr,
     specFilename,
-    syncableName: 'calendarList',
+    syncableName: 'calendars',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
     dbConn,
   });
   it('stores calendar list entries in the db', async () => {
-    await client.query('DROP TABLE IF EXISTS calendarList;');
+    await client.query('DROP TABLE IF EXISTS calendars;');
     const before = await client.query(
-      `select count(*) from pg_tables where tablename='calendarlist';`,
+      `select count(*) from pg_tables where tablename='calendars';`,
     );
     expect(before.rows[0].count).toEqual('0');
     await syncable.fullFetch();
 
     const after = await client.query(
-      `select count(*) from pg_tables where tablename='calendarlist';`,
+      `select count(*) from pg_tables where tablename='calendars';`,
     );
     // await new Promise((resolve) => setTimeout(resolve, 500)); // wait for a bit to ensure data is committed
     expect(after.rows[0].count).toEqual('1');
-    const data = await client.query('SELECT * FROM "calendarlist";');
+    const data = await client.query('SELECT * FROM "calendars";');
     expect(data.rows.length).toBeGreaterThan(0);
     expect(data.rows[0]).toHaveProperty('Sid');
     expect(data.rows[0]).toHaveProperty('SforegroundColor');
@@ -61,14 +61,14 @@ describe('Google Calendar List', async () => {
       primary: { type: 'boolean' },
       deleted: { type: 'boolean' },
     };
-    await client.query('DROP TABLE IF EXISTS test_calendarlist;');
-    await createSqlTable(client, 'test_calendarlist', whatWeWant);
+    await client.query('DROP TABLE IF EXISTS test_calendars;');
+    await createSqlTable(client, 'test_calendars', whatWeWant);
     const tableExists = await client.query(
-      `select count(*) from pg_tables where tablename='test_calendarlist';`,
+      `select count(*) from pg_tables where tablename='test_calendars';`,
     );
     expect(tableExists.rows[0].count).toEqual('1');
     const tableInfo = await client.query(
-      `SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'test_calendarlist';`,
+      `SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'test_calendars';`,
     );
     const columns: { [key: string]: string } = {};
     tableInfo.rows.forEach((row) => {

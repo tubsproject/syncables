@@ -13,7 +13,7 @@ describe('Google Calendar List', () => {
   const syncable = new Syncable<Entry>({
     specStr,
     specFilename,
-    syncableName: 'calendarList',
+    syncableName: 'calendars',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
