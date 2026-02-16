@@ -21,7 +21,7 @@ test('query', async () => {
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({ 'todos': mockResponses[0].items.concat(mockResponses[1].items) });
 
   // Check that fetch was called exactly once
   expect(fetchMock).toHaveBeenCalledTimes(3);
