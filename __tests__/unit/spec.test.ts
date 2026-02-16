@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Syncable, SyncableConfig } from '../../src/syncable.js';
+import { Syncer, SyncableSpec } from '../../src/syncer.js';
 import { createSpec } from '../helpers/createSpec.js';
 
 type Widget = {
@@ -9,26 +9,28 @@ type Widget = {
 };
 
 describe('Spec parsing', () => {
-  it('can parse the syncable spec out of an OAD', async () => {
-    const config: SyncableConfig = {
+  it('can parse one syncable spec out of an OAD', async () => {
+    const spec: SyncableSpec = {
       name: 'widgets',
       paginationStrategy: 'pageNumber',
       pageNumberParamInQuery: 'page',
-      baseUrl: 'https://example.com/api',
-      urlPath: '/widgets',
       query: { color: 'red' },
       itemsPathInResponse: ['data', 'items'],
       defaultPageSize: undefined,
       forcePageSize: undefined,
       forcePageSizeParamInQuery: undefined,
       idField: 'id',
+      params: {
+        customerId: 'customers.id',
+      },
     };
-    const syncable = new Syncable<Widget>({
-      specStr: createSpec(config),
-      specFilename: '',
-      syncableName: 'widgets',
+    const syncer = new Syncer<Widget>({
+      specStr: createSpec('https://example.com/api', {
+        '/widgets/': spec,
+      }),
     });
-    await syncable.parseSpec();
-    expect(syncable.config).toEqual(config);
+    await syncer.parseSpec();
+    expect(syncer.syncables['widgets'].path).toEqual('/widgets/');
+    expect(syncer.syncables['widgets'].spec).toEqual(spec);
   });
 });

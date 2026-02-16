@@ -1,28 +1,30 @@
 import { createSpec } from '../helpers/createSpec.js';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 import { test, expect } from 'vitest';
-import { Syncable } from '../../src/syncable.js';
+import { Syncer } from '../../src/syncer.js';
 
 test('pageNumber paging (unkown page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
-
+  // console.log('Mock responses:', mockResponses);
   // Call the function and assert the result
-  const syncable = new Syncable({
-    specStr: createSpec({
-      name: 'todos',
-      paginationStrategy: 'pageNumber',
-      baseUrl: 'https://jsonplaceholder.typicode.com',
-      urlPath: '/todos/',
-      pageNumberParamInQuery: 'page',
-      itemsPathInResponse: ['items'],
+  const syncable = new Syncer({
+    specStr: createSpec('https://jsonplaceholder.typicode.com', {
+      '/todos/': {
+        name: 'todos',
+        paginationStrategy: 'pageNumber',
+        pageNumberParamInQuery: 'page',
+        itemsPathInResponse: ['items'],
+      },
     }),
-    specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
+  // console.log('fullFetch start');
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  // console.log('fullFetch end');
+  expect(data).toEqual({
+    todos: mockResponses[0].items.concat(mockResponses[1].items),
+  });
 
   // Check that fetch was called exactly thrice
   expect(fetchMock).toHaveBeenCalledTimes(3);
@@ -44,23 +46,23 @@ test('pageNumber paging (default page size', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
-    specStr: createSpec({
-      name: 'todos',
-      paginationStrategy: 'pageNumber',
-      baseUrl: 'https://jsonplaceholder.typicode.com',
-      urlPath: '/todos/',
-      pageNumberParamInQuery: 'page',
-      itemsPathInResponse: ['items'],
-      defaultPageSize: 2,
+  const syncable = new Syncer({
+    specStr: createSpec('https://jsonplaceholder.typicode.com', {
+      '/todos/': {
+        name: 'todos',
+        paginationStrategy: 'pageNumber',
+        pageNumberParamInQuery: 'page',
+        itemsPathInResponse: ['items'],
+        defaultPageSize: 2,
+      },
     }),
-    specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({
+    todos: mockResponses[0].items.concat(mockResponses[1].items),
+  });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -78,23 +80,23 @@ test('pageNumber paging (force page size', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
-    specStr: createSpec({
-      name: 'todos',
-      paginationStrategy: 'pageNumber',
-      baseUrl: 'https://jsonplaceholder.typicode.com',
-      urlPath: '/todos/',
-      pageNumberParamInQuery: 'page',
-      itemsPathInResponse: ['items'],
-      forcePageSize: 2,
+  const syncable = new Syncer({
+    specStr: createSpec('https://jsonplaceholder.typicode.com', {
+      '/todos/': {
+        name: 'todos',
+        paginationStrategy: 'pageNumber',
+        pageNumberParamInQuery: 'page',
+        itemsPathInResponse: ['items'],
+        forcePageSize: 2,
+      },
     }),
-    specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({
+    todos: mockResponses[0].items.concat(mockResponses[1].items),
+  });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -110,24 +112,24 @@ test('pageNumber paging (force page size', async () => {
 
 test('offset paging (unknown page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
-
-  // Call the function and assert the result
-  const syncable = new Syncable({
-    specStr: createSpec({
+  const specStr = createSpec('https://jsonplaceholder.typicode.com', {
+    '/todos/': {
       name: 'todos',
       paginationStrategy: 'offset',
-      baseUrl: 'https://jsonplaceholder.typicode.com',
-      urlPath: '/todos/',
       offsetParamInQuery: 'offset',
       itemsPathInResponse: ['items'],
-    }),
-    specFilename: '',
-    syncableName: 'todos',
+    },
+  });
+  // Call the function and assert the result
+  const syncable = new Syncer({
+    specStr,
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({
+    todos: mockResponses[0].items.concat(mockResponses[1].items),
+  });
 
   // Check that fetch was called exactly thrice
   expect(fetchMock).toHaveBeenCalledTimes(3);
@@ -149,23 +151,23 @@ test('offset paging (default page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
-    specStr: createSpec({
-      name: 'todos',
-      paginationStrategy: 'offset',
-      baseUrl: 'https://jsonplaceholder.typicode.com',
-      urlPath: '/todos/',
-      offsetParamInQuery: 'offset',
-      itemsPathInResponse: ['items'],
-      defaultPageSize: 2,
+  const syncable = new Syncer({
+    specStr: createSpec('https://jsonplaceholder.typicode.com', {
+      '/todos/': {
+        name: 'todos',
+        paginationStrategy: 'offset',
+        offsetParamInQuery: 'offset',
+        itemsPathInResponse: ['items'],
+        defaultPageSize: 2,
+      },
     }),
-    specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({
+    todos: mockResponses[0].items.concat(mockResponses[1].items),
+  });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -183,23 +185,23 @@ test('offset paging (force page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
-    specStr: createSpec({
-      name: 'todos',
-      paginationStrategy: 'offset',
-      baseUrl: 'https://jsonplaceholder.typicode.com',
-      urlPath: '/todos/',
-      offsetParamInQuery: 'offset',
-      itemsPathInResponse: ['items'],
-      forcePageSize: 2,
+  const syncable = new Syncer({
+    specStr: createSpec('https://jsonplaceholder.typicode.com', {
+      '/todos/': {
+        name: 'todos',
+        paginationStrategy: 'offset',
+        offsetParamInQuery: 'offset',
+        itemsPathInResponse: ['items'],
+        forcePageSize: 2,
+      },
     }),
-    specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({
+    todos: mockResponses[0].items.concat(mockResponses[1].items),
+  });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -217,23 +219,23 @@ test('pageToken paging', async () => {
   const { fetchMock, mockResponses } = createFetchMock(true);
 
   // Call the function and assert the result
-  const syncable = new Syncable({
-    specStr: createSpec({
-      name: 'todos',
-      paginationStrategy: 'pageToken',
-      baseUrl: 'https://jsonplaceholder.typicode.com',
-      urlPath: '/todos/',
-      pageTokenParamInQuery: 'pageToken',
-      nextPageTokenPathInResponse: ['nextPageToken'],
-      itemsPathInResponse: ['items'],
+  const syncable = new Syncer({
+    specStr: createSpec('https://jsonplaceholder.typicode.com', {
+      '/todos/': {
+        name: 'todos',
+        paginationStrategy: 'pageToken',
+        pageTokenParamInQuery: 'pageToken',
+        nextPageTokenPathInResponse: ['nextPageToken'],
+        itemsPathInResponse: ['items'],
+      },
     }),
-    specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({
+    todos: mockResponses[0].items.concat(mockResponses[1].items),
+  });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -251,24 +253,24 @@ test('rangeHeader paging', async () => {
   const { fetchMock, mockResponses } = createFetchMock(true);
 
   // Call the function and assert the result
-  const syncable = new Syncable({
-    specStr: createSpec({
-      name: 'todos',
-      paginationStrategy: 'rangeHeader',
-      baseUrl: 'https://jsonplaceholder.typicode.com',
-      urlPath: '/todos/',
-      pageTokenParamInQuery: 'pageToken',
-      nextPageTokenPathInResponse: ['nextPageToken'],
-      itemsPathInResponse: ['items'],
-      forcePageSize: 2,
+  const syncable = new Syncer({
+    specStr: createSpec('https://jsonplaceholder.typicode.com', {
+      '/todos/': {
+        name: 'todos',
+        paginationStrategy: 'rangeHeader',
+        pageTokenParamInQuery: 'pageToken',
+        nextPageTokenPathInResponse: ['nextPageToken'],
+        itemsPathInResponse: ['items'],
+        forcePageSize: 2,
+      },
     }),
-    specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({
+    todos: mockResponses[0].items.concat(mockResponses[1].items),
+  });
 
   // Check that fetch was called exactly twice
   expect(fetchMock).toHaveBeenCalledTimes(2);

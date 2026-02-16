@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readdirSync } from 'fs';
 import { serve } from '@hono/node-server';
 import { createMockServer } from './mock-server/create-mock-server.js';
-import { Syncable } from '../../src/syncable.js';
+import { Syncer } from '../../src/syncer.js';
 import { overlayFiles, applyOverlay } from 'openapi-overlays-js/src/overlay.js';
 import { parseWithPointers, safeStringify } from '@stoplight/yaml';
 
@@ -84,10 +84,8 @@ describe('Syncables', async () => {
           },
         );
       });
-      const syncable = new Syncable<object>({
+      const syncable = new Syncer<object>({
         specStr: document,
-        specFilename: fileName,
-        syncableName: 'integrationTest',
         authHeaders: {
           Authorization: 'Bearer MOCK',
           'X-Api-Key': 'mock-api-key',
@@ -95,9 +93,9 @@ describe('Syncables', async () => {
       });
       const data = await syncable.fullFetch();
       const expected = await import(`../integration/expected/${service}.js`);
-      expect(data.length).toBe(expected.default.length);
+      expect(data.integrationTest.length).toBe(expected.default.length);
       for (let i = 0; i < expected.default.length; i++) {
-        expect(data[i]).toEqual(expected.default[i]);
+        expect(data.integrationTest[i]).toEqual(expected.default[i]);
       }
       console.log(`Stopping server for ${service}...`);
       server?.close();

@@ -21,7 +21,7 @@ actions:
       name: events
       description: |-
         Events of the calendars of the currently authenticated user.
-      param:
+      params:
         calendarId: calendars.id
       type: collection
       paginationStrategy: pageToken
@@ -33,7 +33,7 @@ actions:
       name: acl
       description: |-
         Access control lists of the calendars of the currently authenticated user.
-      param:
+      params:
         calendarId: calendars.id
       type: collection
       paginationStrategy: pageToken

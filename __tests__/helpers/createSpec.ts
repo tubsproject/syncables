@@ -1,6 +1,9 @@
 import { stringify } from 'yaml';
-import { SyncableConfig } from '../../src/syncable.js';
-export function createSpec(config: SyncableConfig): string {
+import { SyncableSpec } from '../../src/syncer.js';
+export function createSpec(
+  baseUrl: string,
+  configs: { [path: string]: SyncableSpec },
+): string {
   const specObj = {
     openapi: '3.0.0',
     info: {
@@ -9,7 +12,7 @@ export function createSpec(config: SyncableConfig): string {
     },
     servers: [
       {
-        url: config.baseUrl,
+        url: baseUrl,
       },
     ],
     paths: {},
@@ -17,25 +20,28 @@ export function createSpec(config: SyncableConfig): string {
       schemas: {},
     },
   };
-  specObj.paths[config.urlPath] = {
-    get: {
-      responses: {
-        '200': {
-          description: 'A list of items.',
-          content: {
-            'application/json': {
-              syncable: config,
-              schema: {
-                type: 'object',
-                properties: {
-                  items: {
-                    type: 'array',
+  for (const path in configs) {
+    const config = configs[path];
+    specObj.paths[path] = {
+      get: {
+        responses: {
+          '200': {
+            description: 'A list of items.',
+            content: {
+              'application/json': {
+                syncable: config,
+                schema: {
+                  type: 'object',
+                  properties: {
                     items: {
-                      type: 'object',
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                      },
                     },
-                  },
-                  hasMore: {
-                    type: 'boolean',
+                    hasMore: {
+                      type: 'boolean',
+                    },
                   },
                 },
               },
@@ -43,7 +49,7 @@ export function createSpec(config: SyncableConfig): string {
           },
         },
       },
-    },
-  };
+    };
+  }
   return stringify(specObj);
 }

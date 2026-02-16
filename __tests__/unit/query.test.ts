@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { Syncable } from '../../src/syncable.js';
+import { Syncer } from '../../src/syncer.js';
 import { createSpec } from '../helpers/createSpec.js';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 
@@ -7,23 +7,23 @@ test('query', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
 
   // Call the function and assert the result
-  const syncable = new Syncable({
-    specStr: createSpec({
-      name: 'todos',
-      paginationStrategy: 'pageNumber',
-      baseUrl: 'https://jsonplaceholder.typicode.com',
-      urlPath: '/todos/',
-      pageNumberParamInQuery: 'page',
-      query: { userId: '1' },
-      itemsPathInResponse: ['items'],
+  const syncable = new Syncer({
+    specStr: createSpec('https://jsonplaceholder.typicode.com', {
+      '/todos/': {
+        name: 'todos',
+        paginationStrategy: 'pageNumber',
+        pageNumberParamInQuery: 'page',
+        query: { userId: '1' },
+        itemsPathInResponse: ['items'],
+      },
     }),
-    specFilename: '',
-    syncableName: 'todos',
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
-  expect(data).toEqual(mockResponses[0].items.concat(mockResponses[1].items));
+  expect(data).toEqual({
+    todos: mockResponses[0].items.concat(mockResponses[1].items),
+  });
 
   // Check that fetch was called exactly once
   expect(fetchMock).toHaveBeenCalledTimes(3);

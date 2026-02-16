@@ -31,17 +31,23 @@ export function createFetchMock(pagedByToken: boolean = false): {
     delete mockResponses[0]['hasMore'];
     delete mockResponses[1]['hasMore'];
   }
-  let index = 0;
+  const index = {};
   return {
     mockResponses,
-    fetchMock: vi.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(mockResponses[index++]),
+    fetchMock: vi.fn((url: string) => {
+      url = url.split('?')[0]; // Remove pageToken for indexing
+      if (!(url in index)) {
+        index[url] = 0;
+      }
+      // console.log('Mock fetch called with URL:', url);
+      return Promise.resolve({
+        json: () =>
+          Promise.resolve(mockResponses[index[url]++] || mockResponses[0]),
         ok: true,
         status: 200,
         statusText: 'OK',
         text: () => Promise.resolve(''),
-      }),
-    ),
+      });
+    }),
   };
 }

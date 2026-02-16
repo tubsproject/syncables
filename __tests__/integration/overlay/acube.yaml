@@ -21,6 +21,7 @@ actions:
   update:
     syncable:
       name: creditNote
+      paginationStrategy: pageNumber
       description: |-
         Credit Notes received or sent by the authenticated user.
       type: collection

@@ -50,6 +50,7 @@ Under `paths['/widgets']['get']['responses']['200']['content']['application/json
 * for a `dateRange` pagination strategy, you can add `startDateParamInQuery` if it's not `startDate`, `endDateParamInQuery` if it's not `endDate`, `startDate` if it's not `'20000101000000'`, and `endDate` if it's not `'99990101000000'`
 * for a `confirmationBased` pagination strategy, `confirmOperation.path` and `confirmOperation.method`. Then at that operation, you can add `confirmOperation.pathTemplate`.
 * `idField` to indicate which property of response items is used as the unique identifier (currently only used for confirmationBased pagination).
+* `params` for templated syncables an object whose keys are template identifiers like `calendarId` and whose values are fields from other syncables, like `calendars.id`. Use with care, because it will try to exhaustively fetch collections for all combinations of parameters.
 
 ## Usage
 ### Create the OAD
@@ -75,20 +76,19 @@ Now you have the AOD with the definition of the syncable, and the type for the i
 ```ts
 import { readFileSync } from 'fs';
 import { components } from './src/types/google-calendar.js';
-import { Syncable } from 'syncable';
+import { Syncer } from 'syncable';
 
 type Entry = components['schemas']['CalendarListEntry'];
 const specStr = readFileSync('./openapi/generated/google-calendar.yaml').toString();
 
-const syncable = new Syncable<Entry>({
+const syncer = new Syncer<Entry>({
   specStr,
-  syncableName: 'calendarList',
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`
   },
   dbConn: 'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable'
 });
-await syncable.fullFetch();
+await syncer.fullFetch();
 ```
 
 You can use the [`showcase-google-calendar` branch of this repo](https://github.com/tubsproject/syncables/tree/showcase-google-calendar) to run a simple OAuth client that can obtain a value for the `GOOGLE_BEARER_TOKEN` environment variable (look for a log line that reads `Received OAuth token: ...`).
@@ -101,6 +101,7 @@ pnpm install
 pnpm generate
 pnpm build
 pnpm test
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_tests -c "\d+"
 pnpm prettier
 pnpm login
 pnpm publish
@@ -109,8 +110,9 @@ pnpm publish
 ## Usage
 ```sh
 docker compose up -d
-# run your code that calls syncable.fullFetch();
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_tests -c "\d+"
+# run your code that calls syncable.fullFetch(); for instance:
+pnpm start
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 ```
 
 ## Acknowledgements
