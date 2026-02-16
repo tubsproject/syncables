@@ -19,46 +19,46 @@ describe('Google Calendar List', () => {
     const data = await syncer.fullFetch();
     // console.log('Data fetched by syncer:', data);
     expect(data).toEqual({
-      "acl": [
+      acl: [
         {
-          "id": 1,
-          "title": "Test Todo 1",
+          id: 1,
+          title: 'Test Todo 1',
         },
         {
-          "id": 2,
-          "title": "Test Todo 2",
+          id: 2,
+          title: 'Test Todo 2',
         },
         {
-          "id": 3,
-          "title": "Test Todo 3",
-        },
-      ],
-      "calendars": [
-        {
-          "id": 1,
-          "title": "Test Todo 1",
-        },
-        {
-          "id": 2,
-          "title": "Test Todo 2",
-        },
-        {
-          "id": 3,
-          "title": "Test Todo 3",
+          id: 3,
+          title: 'Test Todo 3',
         },
       ],
-      "events": [
+      calendars: [
         {
-          "id": 1,
-          "title": "Test Todo 1",
+          id: 1,
+          title: 'Test Todo 1',
         },
         {
-          "id": 2,
-          "title": "Test Todo 2",
+          id: 2,
+          title: 'Test Todo 2',
         },
         {
-          "id": 3,
-          "title": "Test Todo 3",
+          id: 3,
+          title: 'Test Todo 3',
+        },
+      ],
+      events: [
+        {
+          id: 1,
+          title: 'Test Todo 1',
+        },
+        {
+          id: 2,
+          title: 'Test Todo 2',
+        },
+        {
+          id: 3,
+          title: 'Test Todo 3',
         },
       ],
     });
