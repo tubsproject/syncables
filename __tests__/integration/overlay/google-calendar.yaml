@@ -9,8 +9,6 @@ actions:
       description: |-
         Calendars of the currently authenticated user.
       type: collection
-      field: items
       paginationStrategy: pageToken
-      pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
       itemsPathInResponse:
         - items

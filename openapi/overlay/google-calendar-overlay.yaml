@@ -5,12 +5,37 @@ actions:
 - target: paths['/users/me/calendarList']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
-      name: calendarList
+      name: calendars
       description: |-
         Calendars of the currently authenticated user.
+      sub:
+        - events
+        - acl
       type: collection
-      field: items
       paginationStrategy: pageToken
-      pageTokenParam: nextPageToken # optional for first page, read from response for subsequent pages
+      itemsPathInResponse:
+        - items
+- target: paths['/calendars/{calendarId}/events']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: events
+      description: |-
+        Events of the calendars of the currently authenticated user.
+      param:
+        calendarId: calendars.id
+      type: collection
+      paginationStrategy: pageToken
+      itemsPathInResponse:
+        - items
+- target: paths['/calendars/{calendarId}/acl']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: acl
+      description: |-
+        Access control lists of the calendars of the currently authenticated user.
+      param:
+        calendarId: calendars.id
+      type: collection
+      paginationStrategy: pageToken
       itemsPathInResponse:
         - items
