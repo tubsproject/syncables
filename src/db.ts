@@ -24,26 +24,31 @@ export async function getPostgresClient(): Promise<Client> {
 export function getFields(
   openApiSpec: any,
   endPoint: string,
-  rowsFrom: string,
+  rowsFrom: string[],
 ): { [key: string]: { type: string } } | undefined {
   const successResponseProperties =
     openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
   // console.log(openApiSpec.paths, endPoint);
-  const schema =
+  let schema =
     successResponseProperties?.['application/ld+json']?.schema ||
     successResponseProperties?.['application/json']?.schema;
 
-  // FIXME: why do we have rowsFrom as a string here and not as an array of strings like in the Syncer spec?
-  // Will this work for nested paths? Should write a unit test for that
+  for (let i = 0; i < rowsFrom.length; i++) {
+    const part = rowsFrom[i];
+    if (schema?.properties?.[part]) {
+      schema = schema.properties[part];
+    } else {
+      throw new Error(
+        `Could not find part ${part} in schema for endpoint ${endPoint}`,
+      );
+    }
+  }
 
-  const whatWeWant =
-    rowsFrom.length > 0
-      ? schema?.properties?.[rowsFrom]?.items?.properties
-      : schema?.items?.properties;
-  console.log(
-    `What we want (getFields ${endPoint} ${rowsFrom}):`,
-    JSON.stringify(whatWeWant, null, 2),
-  );
+  const whatWeWant = schema?.items?.properties;
+  // console.log(
+  //   `What we want (getFields ${endPoint} ${rowsFrom}):`,
+  //   JSON.stringify(whatWeWant, null, 2),
+  // );
   return whatWeWant;
 }
 export async function createSqlTable(
@@ -54,10 +59,10 @@ export async function createSqlTable(
   params: { [key: string]: 'string' | 'number' } = {},
 ): Promise<void> {
   const rowSpecs = [];
-  console.log(
-    `What we want (createSqlTable ${tableName}):`,
-    JSON.stringify(whatWeWant, null, 2),
-  );
+  // console.log(
+  //   `What we want (createSqlTable ${tableName}):`,
+  //   JSON.stringify(whatWeWant, null, 2),
+  // );
   if (!whatWeWant) {
     throw new Error(`No fields found for table ${tableName}`);
   }

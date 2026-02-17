@@ -4,7 +4,7 @@ import { default as createDebug } from 'debug';
 import { Client, getFields, createSqlTable, insertData } from './db.js';
 import { dereference } from '@readme/openapi-parser';
 import { parse } from 'yaml';
-import { getObjectPath } from '../__tests__/integration/mock-server/apply-pagination.js';
+import { getObjectPath } from './utils.js';
 
 const debug = createDebug('syncable');
 
@@ -572,7 +572,7 @@ export class Syncer extends EventEmitter {
       const parentFields = getFields(
         schema,
         this.syncables[parentName].path,
-        this.syncables[parentName].spec.itemsPathInResponse.join('.'),
+        this.syncables[parentName].spec.itemsPathInResponse,
       );
       if (!parentFields[parentField]) {
         throw new Error(
@@ -605,7 +605,7 @@ export class Syncer extends EventEmitter {
       const fields = getFields(
         schema,
         syncable.path,
-        syncable.spec.itemsPathInResponse.join('.'),
+        syncable.spec.itemsPathInResponse,
       );
       // console.log('creating table with fields', fields);
       await createSqlTable(

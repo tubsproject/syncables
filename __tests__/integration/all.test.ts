@@ -19,16 +19,16 @@ describe('Syncables', async () => {
     console.log(`Considering ${service} on port ${thisPort}...`);
     if (
       ![
-        // 'acube',
-        // 'arratech',
+        'acube',
+        'arratech',
         'blog',
-        // 'google-calendar',
-        // 'ion',
-        // 'maventa',
-        // 'netfly',
-        // 'peppyrus',
-        // 'recommand',
-        // 'scrada',
+        'google-calendar',
+        'ion',
+        'maventa',
+        'netfly',
+        'peppyrus',
+        'recommand',
+        'scrada',
       ].includes(service)
     ) {
       return;

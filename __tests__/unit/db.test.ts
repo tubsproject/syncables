@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
-import { Client, createSqlTable } from '../../src/db.js';
+import { Client, createSqlTable, getFields } from '../../src/db.js';
 
 const specFilename = './openapi/generated/google-calendar.yaml';
 const specStr = readFileSync(specFilename).toString();
@@ -76,5 +76,48 @@ describe('Google Calendar List', async () => {
     expect(columns['Sselected']).toEqual('boolean');
     expect(columns['SforegroundColor']).toEqual('text');
     expect(columns['SuserId']).toEqual('text');
+  });
+});
+
+describe('getFields', () => {
+  it('retrieves the correct fields from the OpenAPI spec', () => {
+    const openApiSpec = {
+      paths: {
+        '/test/': {
+          get: {
+            responses: {
+              '200': {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        widgets: {
+                          type: 'array',
+                          items: {
+                            type: 'object',
+                            properties: {
+                              id: { type: 'string' },
+                              name: { type: 'string' },
+                              value: { type: 'number' },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+    const fields = getFields(openApiSpec, '/test/', ['widgets']);
+    expect(fields).toEqual({
+      id: { type: 'string' },
+      name: { type: 'string' },
+      value: { type: 'number' },
+    });
   });
 });
