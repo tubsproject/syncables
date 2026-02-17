@@ -541,7 +541,7 @@ export class Syncer extends EventEmitter {
       theseParents[pattern] = parents[pattern][0];
     });
     // console.log('now we can call doOneFetch for syncable', syncableName, 'with theseParents', theseParents);
-    return (await this.doOneFetch(syncableName, theseParents)).map(obj => {
+    return (await this.doOneFetch(syncableName, theseParents)).map((obj) => {
       const copy = Object.assign({}, obj);
       Object.keys(theseParents).forEach((pattern) => {
         copy[pattern] = theseParents[pattern];
@@ -549,7 +549,10 @@ export class Syncer extends EventEmitter {
       return copy;
     });
   }
-  private paramTypes(params: { [key: string]: string }, schema: object): { [key: string]: 'string' | 'number' } {
+  private paramTypes(
+    params: { [key: string]: string },
+    schema: object,
+  ): { [key: string]: 'string' | 'number' } {
     const paramTypes: { [key: string]: 'string' | 'number' } = {};
     Object.entries(params || {}).forEach(([key, reference]) => {
       const [parentName, parentField] = reference.split('.');

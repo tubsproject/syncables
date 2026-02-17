@@ -31,10 +31,19 @@ describe('Params', () => {
     ['users', 'widgets'].forEach((key) => {
       let items = [];
       for (let i = 0; i < (key === 'users' ? 1 : 3); i++) {
-        const userIdAddition = (key === 'users' ? {} : { userId: (i + 1).toString() });
+        const userIdAddition =
+          key === 'users' ? {} : { userId: (i + 1).toString() };
         // console.log('userIdAddition:', key, i, userIdAddition);
-        items = items.concat(mockResponses[0].items.map((item) => Object.assign({}, item, userIdAddition )));
-        items = items.concat(mockResponses[1].items.map((item) => Object.assign({}, item, userIdAddition )));
+        items = items.concat(
+          mockResponses[0].items.map((item) =>
+            Object.assign({}, item, userIdAddition),
+          ),
+        );
+        items = items.concat(
+          mockResponses[1].items.map((item) =>
+            Object.assign({}, item, userIdAddition),
+          ),
+        );
       }
       expect(data[key]).toEqual(items);
     });
