@@ -84,7 +84,7 @@ describe('Syncables', async () => {
           },
         );
       });
-      const syncable = new Syncer<object>({
+      const syncable = new Syncer({
         specStr: document,
         authHeaders: {
           Authorization: 'Bearer MOCK',

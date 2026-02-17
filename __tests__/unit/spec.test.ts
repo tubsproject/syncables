@@ -2,12 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { Syncer, SyncableSpec } from '../../src/syncer.js';
 import { createSpec } from '../helpers/createSpec.js';
 
-type Widget = {
-  id: number;
-  name: string;
-  color: string;
-};
-
 describe('Spec parsing', () => {
   it('can parse one syncable spec out of an OAD', async () => {
     const spec: SyncableSpec = {
@@ -24,7 +18,7 @@ describe('Spec parsing', () => {
         customerId: 'customers.id',
       },
     };
-    const syncer = new Syncer<Widget>({
+    const syncer = new Syncer({
       specStr: createSpec('https://example.com/api', {
         '/widgets/': spec,
       }),

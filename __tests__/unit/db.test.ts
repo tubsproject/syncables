@@ -1,11 +1,9 @@
 import { readFileSync } from 'fs';
-import { components } from '../../src/types/google-calendar.js';
 import { Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 import { Client, createSqlTable } from '../../src/db.js';
 
-type Entry = components['schemas']['CalendarListEntry'];
 const specFilename = './openapi/generated/google-calendar.yaml';
 const specStr = readFileSync(specFilename).toString();
 
@@ -20,7 +18,7 @@ describe('Google Calendar List', async () => {
     },
   });
   await client.connect();
-  const syncable = new Syncer<Entry>({
+  const syncable = new Syncer({
     specStr,
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,

@@ -39,7 +39,7 @@ export type SyncableSpec = {
   params?: { [key: string]: string };
 };
 
-export class Syncer<T> extends EventEmitter {
+export class Syncer extends EventEmitter {
   fetchFunction: typeof fetch;
   syncables: {
     [syncableName: string]: {
@@ -196,7 +196,7 @@ export class Syncer<T> extends EventEmitter {
     url: string,
     headers: { [key: string]: string } = {},
     minNumItemsToExpect: number = 1,
-  ): Promise<{ items: T[]; hasMore?: boolean; nextPageToken?: string }> {
+  ): Promise<{ items: object[]; hasMore?: boolean; nextPageToken?: string }> {
     debug('Fetching', url, headers);
     const response = await this.fetchFunction(url, {
       headers: Object.assign({}, this.authHeaders, headers),
@@ -243,8 +243,8 @@ export class Syncer<T> extends EventEmitter {
     parents: {
       [pattern: string]: string;
     },
-  ): Promise<T[]> {
-    let allData: T[] = [];
+  ): Promise<object[]> {
+    let allData: object[] = [];
     let page = 1;
     let hasMore = true;
 
@@ -279,8 +279,8 @@ export class Syncer<T> extends EventEmitter {
     parents: {
       [pattern: string]: string;
     },
-  ): Promise<T[]> {
-    let allData: T[] = [];
+  ): Promise<object[]> {
+    let allData: object[] = [];
     let offset = 0;
     let hasMore = true;
     const spec = this.syncables[syncableName].spec;
@@ -315,8 +315,8 @@ export class Syncer<T> extends EventEmitter {
     parents: {
       [pattern: string]: string;
     },
-  ): Promise<T[]> {
-    let allData: T[] = [];
+  ): Promise<object[]> {
+    let allData: object[] = [];
     let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
     do {
@@ -360,9 +360,9 @@ export class Syncer<T> extends EventEmitter {
     parents: {
       [pattern: string]: string;
     },
-  ): Promise<T[]> {
+  ): Promise<object[]> {
     const spec = this.syncables[syncableName].spec;
-    let allData: T[] = [];
+    let allData: object[] = [];
     let startDate: number = parseInt(spec.startDate, 10);
     let endDate: number = parseInt(spec.endDate, 10);
     if (isNaN(startDate)) {
@@ -398,9 +398,9 @@ export class Syncer<T> extends EventEmitter {
     parents: {
       [pattern: string]: string;
     },
-  ): Promise<T[]> {
+  ): Promise<object[]> {
     const spec = this.syncables[syncableName].spec;
-    let allData: T[] = [];
+    let allData: object[] = [];
     const numItemsPerPage = spec.forcePageSize || 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
@@ -437,10 +437,14 @@ export class Syncer<T> extends EventEmitter {
     parents: {
       [pattern: string]: string;
     },
-  ): Promise<T[]> {
+  ): Promise<object[]> {
     const spec = this.syncables[syncableName].spec;
-    let allData: T[] = [];
-    let thisBatch: { items: T[]; hasMore?: boolean; nextPageToken?: string };
+    let allData: object[] = [];
+    let thisBatch: {
+      items: object[];
+      hasMore?: boolean;
+      nextPageToken?: string;
+    };
     do {
       thisBatch = await this.doFetch(
         spec,
@@ -473,7 +477,7 @@ export class Syncer<T> extends EventEmitter {
     theseParents: {
       [pattern: string]: string;
     },
-  ): Promise<T[]> {
+  ): Promise<object[]> {
     const spec = this.syncables[syncableName].spec;
     switch (spec['paginationStrategy']) {
       case 'pageNumber':
@@ -499,11 +503,11 @@ export class Syncer<T> extends EventEmitter {
     parents: {
       [pattern: string]: string[];
     },
-  ): Promise<T[]> {
+  ): Promise<object[]> {
     for (let i = 0; i < Object.keys(parents).length; i++) {
       const pattern = Object.keys(parents)[i];
       if (parents[pattern].length > 1) {
-        let allItems: T[] = [];
+        let allItems: object[] = [];
         for (let j = 0; j < parents[pattern].length; j++) {
           const singledOut = {};
           for (let k = 0; k < Object.keys(parents).length; k++) {
@@ -536,7 +540,7 @@ export class Syncer<T> extends EventEmitter {
     schema: object,
     specName: string,
     parents: { [pattern: string]: string[] },
-  ): Promise<T[]> {
+  ): Promise<object[]> {
     const syncable = this.syncables[specName];
     // console.log(`Fetching syncable ${specName} with parents`, parents);
     const data = await this.doFullFetch(specName, parents);
@@ -562,9 +566,9 @@ export class Syncer<T> extends EventEmitter {
     }
     return data;
   }
-  async fullFetch(): Promise<{ [syncableName: string]: T[] }> {
+  async fullFetch(): Promise<{ [syncableName: string]: object[] }> {
     const allData: {
-      [syncableName: string]: T[];
+      [syncableName: string]: object[];
     } = {};
     const schema = await this.parseSpec();
     let newData: boolean;

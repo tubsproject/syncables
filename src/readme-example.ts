@@ -32,7 +32,7 @@ const fetchFunction: typeof fetch = async (
   }
 };
 
-const syncer = new Syncer<Entry>({
+const syncer = new Syncer({
   specStr,
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
@@ -42,4 +42,6 @@ const syncer = new Syncer<Entry>({
     'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
 });
 
-await syncer.fullFetch();
+const allTables = await syncer.fullFetch();
+const calendarEntries: Entry[] = allTables.calendars as Entry[];
+console.log('Fetched calendar entries:', calendarEntries);

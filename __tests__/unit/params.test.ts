@@ -3,12 +3,6 @@ import { Syncer, SyncableSpec } from '../../src/syncer.js';
 import { createSpec } from '../helpers/createSpec.js';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 
-type Widget = {
-  id: number;
-  name: string;
-  color: string;
-};
-
 describe('Params', () => {
   it('can deal with params in syncable specs', async () => {
     const { fetchMock, mockResponses } = createFetchMock(true);
@@ -25,7 +19,7 @@ describe('Params', () => {
         userId: 'users.id',
       },
     };
-    const syncer = new Syncer<Widget>({
+    const syncer = new Syncer({
       specStr: createSpec('https://example.com/api', {
         '/users/': users,
         '/user/{userId}/widgets/': widgets,
@@ -76,7 +70,7 @@ describe('Params', () => {
         userId: 'users.id',
       },
     };
-    const syncer = new Syncer<Widget>({
+    const syncer = new Syncer({
       specStr: createSpec('https://example.com/api', {
         '/users/': users,
         '/user/{userId}/widgets/': widgets,
@@ -109,7 +103,7 @@ describe('Params', () => {
         countryId: 'countries.id',
       },
     };
-    const syncer = new Syncer<Widget>({
+    const syncer = new Syncer({
       specStr: createSpec('https://example.com/api', {
         '/countries/': countries,
         '/users/': users,
