@@ -91,17 +91,20 @@ const syncer = new Syncer<Entry>({
 await syncer.fullFetch();
 ```
 
-## Eample
-You can use the `pnpm oauth` command to run a simple OAuth client that can obtain a value for the `GOOGLE_BEARER_TOKEN` environment variable (look for a log line that reads `Received OAuth token: ...`).
+## Eample (Google Calendar API)
+* In the [Google Cloud Dashboard](https://console.cloud.google.com/apis/credentials) create an OAuth client ID with http://localhost:8000 as an authorized JavaScript origin and http://localhost:8000/callback as an authorized redirect URI.
+* Enable the [calendar API](https://console.cloud.google.com/apis/library/calendar-json.googleapis.com)
+* Set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` environment variables. Check: `echo $GOOGLE_CLIENT_ID and $GOOGLE_CLIENT_SECRET`
+* `pnpm build`
+* Use the `pnpm oauth` command to run a simple OAuth client. Follow the instructions on http://localhost:8000.
+* In the CLI output, look for a log line that reads `Received OAuth token: ...`.
+* Set that value as the `GOOGLE_BEARER_TOKEN` environment variable.
+* Now you can run the example:
 ```sh
 docker compose up -d
-pnpm build
-pnpm oauth
 pnpm start
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 ```
-
-
 
 ## Development
 ```sh
