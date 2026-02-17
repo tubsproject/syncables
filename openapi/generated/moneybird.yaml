@@ -305,6 +305,7 @@ paths:
                       period_start_date: '2026-01-01'
               syncable:
                 name: administrations
+                paginationStrategy: pageNumber
                 query:
                   format: .json
   '/{administration_id}/assets/{id}/disposals{format}':

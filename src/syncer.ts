@@ -190,6 +190,17 @@ export class Syncer extends EventEmitter {
     }
     throw new Error(`No syncables found in spec`);
   }
+  private getUrl(
+    urlPath: string,
+    theseParents: { [pattern: string]: string },
+  ): URL {
+    Object.entries(theseParents).forEach(([pattern, id]) => {
+      const placeholder = `{${pattern}}`;
+      urlPath = urlPath.replace(placeholder, id);
+    });
+    const joined = urljoin(this.baseUrl, urlPath);
+    return new URL(joined);
+  }
 
   private async doFetch(
     spec: SyncableSpec,
@@ -247,7 +258,7 @@ export class Syncer extends EventEmitter {
   }
   private async pageNumberFetch(
     syncableName: string,
-    parents: {
+    theseParents: {
       [pattern: string]: string;
     },
   ): Promise<object[]> {
@@ -256,7 +267,7 @@ export class Syncer extends EventEmitter {
     let hasMore = true;
 
     while (hasMore) {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       const spec = this.syncables[syncableName].spec;
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -283,7 +294,7 @@ export class Syncer extends EventEmitter {
 
   private async offsetFetch(
     syncableName: string,
-    parents: {
+    theseParents: {
       [pattern: string]: string;
     },
   ): Promise<object[]> {
@@ -293,7 +304,7 @@ export class Syncer extends EventEmitter {
     const spec = this.syncables[syncableName].spec;
 
     while (hasMore) {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -319,7 +330,7 @@ export class Syncer extends EventEmitter {
 
   private async pageTokenFetch(
     syncableName: string,
-    parents: {
+    theseParents: {
       [pattern: string]: string;
     },
   ): Promise<object[]> {
@@ -327,7 +338,7 @@ export class Syncer extends EventEmitter {
     let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
     do {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -351,20 +362,9 @@ export class Syncer extends EventEmitter {
 
     return allData;
   }
-  private getUrl(
-    urlPath: string,
-    theseParents: { [pattern: string]: string },
-  ): URL {
-    Object.entries(theseParents).forEach(([pattern, id]) => {
-      const placeholder = `{${pattern}}`;
-      urlPath = urlPath.replace(placeholder, id);
-    });
-    const joined = urljoin(this.baseUrl, urlPath);
-    return new URL(joined);
-  }
   private async dateRangeFetch(
     syncableName: string,
-    parents: {
+    theseParents: {
       [pattern: string]: string;
     },
   ): Promise<object[]> {
@@ -381,7 +381,7 @@ export class Syncer extends EventEmitter {
     let cursor = startDate;
     const increment: number = /* spec.increment || */ 10000000000; // yearly increments
     while (cursor <= endDate) {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -402,7 +402,7 @@ export class Syncer extends EventEmitter {
 
   private async rangeHeaderFetch(
     syncableName: string,
-    parents: {
+    theseParents: {
       [pattern: string]: string;
     },
   ): Promise<object[]> {
@@ -412,7 +412,7 @@ export class Syncer extends EventEmitter {
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {
-      const url = this.getUrl(this.syncables[syncableName].path, parents);
+      const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
@@ -441,7 +441,7 @@ export class Syncer extends EventEmitter {
 
   private async confirmationBasedFetch(
     syncableName: string,
-    parents: {
+    theseParents: {
       [pattern: string]: string;
     },
   ): Promise<object[]> {
@@ -455,7 +455,7 @@ export class Syncer extends EventEmitter {
     do {
       thisBatch = await this.doFetch(
         spec,
-        this.getUrl(this.syncables[syncableName].path, parents).toString(),
+        this.getUrl(this.syncables[syncableName].path, theseParents).toString(),
       );
       // console.log('fetched batch', thisBatch.items.length, thisBatch);
       // console.log('confirming', spec.confirmOperation);
@@ -536,7 +536,8 @@ export class Syncer extends EventEmitter {
       }
     }
     // if we reach here then all the parent patterns only have one value, so we can just fill those in and do one fetch
-    const theseParents: { [pattern: string]: string } = {};
+    // we also fill in any params that might be hardcoded in spec.query, for instance a `{ format: '.json' }`
+    const theseParents: { [pattern: string]: string } = Object.assign({}, this.syncables[syncableName].spec.query || {});
     Object.keys(parents).forEach((pattern) => {
       theseParents[pattern] = parents[pattern][0];
     });
