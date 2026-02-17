@@ -46367,10 +46367,7 @@ components:
             type: integer
   schemas:
     administration_id:
-      allOf:
-        - $ref: '#/components/schemas/identifier'
-          description: A unique record identifier of an administration
-          example: '123'
+      type: string
     administration_response:
       type: object
       unevaluatedProperties: false

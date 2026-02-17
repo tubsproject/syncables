@@ -9,3 +9,9 @@ actions:
       paginationStrategy: none
       query:
         format: .json
+- target: components.schemas
+  update:
+    administration_id:
+      type: string
+- target: components.schemas.administration_id.allOf
+  remove: true

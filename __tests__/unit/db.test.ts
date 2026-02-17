@@ -210,17 +210,20 @@ describe('getFields', () => {
     const fields = getFields(await specStrToObj(moneybird), '/administrations{format}', []);
     console.log(fields);
     expect(fields).toEqual({
-      id: { allOf: [
-       {
-         "description": "A unique record identifier of an administration",
-         "example": "123",
-         "pattern": "^\\d+$",
-         "type": [
-           "string",
-           "integer",
-         ],
-       },
-      ] },
+      id: {
+        type: 'string',
+        // allOf: [
+        //  {
+        //    "description": "A unique record identifier of an administration",
+        //    "example": "123",
+        //    "pattern": "^\\d+$",
+        //    "type": [
+        //      "string",
+        //      "integer",
+        //    ],
+        //  },
+        // ]
+      },
       name: { type: 'string', example: 'Moneybird' },
       language: {
         type: 'string',
