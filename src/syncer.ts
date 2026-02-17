@@ -559,7 +559,7 @@ export class Syncer extends EventEmitter {
         syncable.spec.itemsPathInResponse.join('.'),
       );
       // console.log('creating table with fields', fields);
-      await createSqlTable(this.client, specName, fields);
+      await createSqlTable(this.client, specName, fields, syncable.spec.idField || 'id');
       await insertData(
         this.client,
         specName,
@@ -567,6 +567,7 @@ export class Syncer extends EventEmitter {
         Object.keys(fields).filter(
           (f) => ['string'].indexOf(fields[f].type) !== -1,
         ),
+        syncable.spec.idField || 'id',
       );
     }
     return data;

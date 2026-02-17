@@ -51,6 +51,7 @@ export async function createSqlTable(
   client: Client,
   tableName: string,
   whatWeWant: { [key: string]: { type: string } },
+  idField: string,
 ): Promise<void> {
   const rowSpecs = [];
   // console.log(
@@ -63,11 +64,11 @@ export async function createSqlTable(
   Object.entries(whatWeWant).forEach(([key, value]) => {
     const type = (value as { type: string }).type;
     if (type === 'string') {
-      rowSpecs.push(`"S${key}" TEXT`);
+      rowSpecs.push(`"S${key}" TEXT${key === idField ? ' PRIMARY KEY' : ''}`);
     } else if (type === 'boolean') {
       rowSpecs.push(`"S${key}" BOOLEAN`);
     } else if (type === 'number') {
-      rowSpecs.push(`"S${key}" INTEGER`);
+      rowSpecs.push(`"S${key}" INTEGER${key === idField ? ' PRIMARY KEY' : ''}`);
     }
   });
   const createTableQuery = `
@@ -83,12 +84,13 @@ export async function insertData(
   tableName: string,
   items: any[],
   fields: string[],
+  idField: string,
 ): Promise<void> {
   console.log(`Inserting data into table ${tableName}:`, items);
   await Promise.all(
     items.map((item: any) => {
       // FIXME: use parameterized queries instead of string interpolation to avoid SQL injection issues, and properly handle escaping of values
-      const insertQuery = `INSERT INTO ${tableName.replace('-', '_')} (${fields.map((x) => `"S${x}"`).join(', ')}) VALUES (${fields.map((field) => `'${item[field]?.toString().replace(/'/g, "''")}'`).join(', ')})`;
+      const insertQuery = `INSERT INTO ${tableName.replace('-', '_')} (${fields.map((x) => `"S${x}"`).join(', ')}) VALUES (${fields.map((field) => `'${item[field]?.toString().replace(/'/g, "''")}'`).join(', ')}) ON CONFLICT ("S${idField}") DO NOTHING`;
       console.log(`Executing insert query: ${insertQuery}`);
       return client.query(insertQuery);
     }),

@@ -58,7 +58,7 @@ describe('Google Calendar List', async () => {
       deleted: { type: 'boolean' },
     };
     await client.query('DROP TABLE IF EXISTS test_calendars;');
-    await createSqlTable(client, 'test_calendars', whatWeWant);
+    await createSqlTable(client, 'test_calendars', whatWeWant, 'id');
     const tableExists = await client.query(
       `select count(*) from pg_tables where tablename='test_calendars';`,
     );
