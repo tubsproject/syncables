@@ -413,10 +413,7 @@ describe('getFields', () => {
         type: ['string', 'null'],
       },
       id: {
-        description: 'A unique record identifier',
-        example: '458026356994737217',
-        pattern: '^\\d+$',
-        type: ['string', 'integer'],
+        type: 'string',
       },
       invoice_workflow_id: {
         description: 'A unique record identifier',

@@ -129,7 +129,7 @@ export async function insertData(
   fields: string[],
   idField: string,
 ): Promise<void> {
-  console.log(`Inserting data into table ${tableName}:`, items);
+  // console.log(`Inserting data into table ${tableName}:`, items);
   await Promise.all(
     items.map((item: any) => {
       // FIXME: use parameterized queries instead of string interpolation to avoid SQL injection issues, and properly handle escaping of values
