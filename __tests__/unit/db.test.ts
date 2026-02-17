@@ -58,7 +58,7 @@ describe('Google Calendar List', async () => {
       deleted: { type: 'boolean' },
     };
     await client.query('DROP TABLE IF EXISTS test_calendars;');
-    await createSqlTable(client, 'test_calendars', whatWeWant, 'id');
+    await createSqlTable(client, 'test_calendars', whatWeWant, 'id', { userId: 'string' });
     const tableExists = await client.query(
       `select count(*) from pg_tables where tablename='test_calendars';`,
     );
@@ -73,5 +73,6 @@ describe('Google Calendar List', async () => {
     expect(columns['Sid']).toEqual('text');
     expect(columns['Sselected']).toEqual('boolean');
     expect(columns['SforegroundColor']).toEqual('text');
+    expect(columns['SuserId']).toEqual('text');
   });
 });
