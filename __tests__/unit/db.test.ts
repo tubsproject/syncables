@@ -218,7 +218,7 @@ describe('getFields', () => {
       '/administrations{format}',
       [],
     );
-    console.log(fields);
+    // console.log(fields);
     expect(fields).toEqual({
       id: {
         type: 'string',
