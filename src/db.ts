@@ -68,7 +68,9 @@ export async function createSqlTable(
     } else if (type === 'boolean') {
       rowSpecs.push(`"S${key}" BOOLEAN`);
     } else if (type === 'number') {
-      rowSpecs.push(`"S${key}" INTEGER${key === idField ? ' PRIMARY KEY' : ''}`);
+      rowSpecs.push(
+        `"S${key}" INTEGER${key === idField ? ' PRIMARY KEY' : ''}`,
+      );
     }
   });
   const createTableQuery = `

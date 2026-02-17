@@ -203,7 +203,9 @@ export class Syncer extends EventEmitter {
     });
     if (!response.ok) {
       if (response.status === 404) {
-        console.log(`Warning: received 404 for URL ${url}, returning empty data`);
+        console.log(
+          `Warning: received 404 for URL ${url}, returning empty data`,
+        );
         return { items: [] };
       } else {
         throw new Error(
@@ -559,7 +561,12 @@ export class Syncer extends EventEmitter {
         syncable.spec.itemsPathInResponse.join('.'),
       );
       // console.log('creating table with fields', fields);
-      await createSqlTable(this.client, specName, fields, syncable.spec.idField || 'id');
+      await createSqlTable(
+        this.client,
+        specName,
+        fields,
+        syncable.spec.idField || 'id',
+      );
       await insertData(
         this.client,
         specName,
