@@ -7,4 +7,5 @@ actions:
     syncable:
       name: administrations
       paginationStrategy: none
+      query:
         format: .json
