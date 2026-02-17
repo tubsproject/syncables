@@ -1,0 +1,10 @@
+openapi: 3.0.0
+info:
+  description: Add syncables to the Moneybird API.
+actions:
+- target: paths['/administrations{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: administrations
+      query:
+        format: .json

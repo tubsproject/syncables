@@ -5,7 +5,7 @@ import { fetchFunction } from './caching-fetch.js';
 const authHeaders = {
   'google-calendar': {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
-  }
+  },
 };
 
 const promises = Object.keys(authHeaders).map(async (specName) => {
@@ -18,7 +18,7 @@ const promises = Object.keys(authHeaders).map(async (specName) => {
     dbConn:
       'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
   });
-  
+
   return await syncer.fullFetch();
 });
 await Promise.all(promises);

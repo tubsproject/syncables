@@ -5,39 +5,64 @@ import { OAuth2Strategy } from 'passport-oauth';
 
 // CONFIGURATION
 const port = 8000;
-const authorizationURL = 'https://accounts.google.com/o/oauth2/v2/auth';
-const tokenURL = 'https://oauth2.googleapis.com/token';
-const callbackURL = `http://localhost:${port}/callback`;
-const clientID =
-  process.env.GOOGLE_CLIENT_ID || 'your-client-id.apps.googleusercontent.com';
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET || 'shhh-its-a-secret';
+const configs = {
+  'google-calendar': {
+    authorizationURL: 'https://accounts.google.com/o/oauth2/v2/auth',
+    tokenURL: 'https://oauth2.googleapis.com/token',
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: `http://localhost:${port}/callback`,
+    scope: [
+      'https://www.googleapis.com/auth/calendar.readonly',
+      'https://www.googleapis.com/auth/calendar.acls.readonly',
+      'https://www.googleapis.com/auth/calendar.calendarlist.readonly',
+    ],
+  },
+  moneybird: {
+    authorizationURL: 'https://moneybird.com/oauth/authorize',
+    tokenURL: 'https://moneybird.com/oauth/token',
+    clientID: process.env.MONEYBIRD_CLIENT_ID,
+    clientSecret: process.env.MONEYBIRD_CLIENT_SECRET,
+    callbackURL: `http://localhost:${port}/callback`,
+    scope: [
+      'sales_invoices',
+      'documents',
+      'estimates',
+      'bank',
+      'time_entries',
+      'settings',
+    ],
+  },
+};
 
-function runOAuthClient(): void {
+function runOAuthClient(apiName: string): void {
+  if (
+    typeof configs[apiName].clientID === 'undefined' ||
+    typeof configs[apiName].clientSecret === 'undefined'
+  ) {
+    throw new Error(`Missing clientID or clientSecret for ${apiName}`);
+  }
   passport.use(
     'provider',
-    new OAuth2Strategy(
-      {
-        authorizationURL,
-        tokenURL,
-        clientID,
-        clientSecret,
-        callbackURL,
-      },
-      function (accessToken, refreshToken, profile, done) {
-        console.log(`Received OAuth token: ${accessToken}`);
-        void refreshToken; // To avoid unused variable warning
-        void profile; // To avoid unused variable warning
-        // Here you would typically find or create a user in your database
-        // For this example, we'll just return the profile
-        done(null, profile);
-      },
-    ),
+    new OAuth2Strategy(configs[apiName], function (
+      accessToken,
+      refreshToken,
+      profile,
+      done,
+    ) {
+      console.log(`Received OAuth token: ${accessToken}`);
+      void refreshToken; // To avoid unused variable warning
+      void profile; // To avoid unused variable warning
+      // Here you would typically find or create a user in your database
+      // For this example, we'll just return the profile
+      done(null, profile);
+    }),
   );
 
   const app = express();
   app.use(
     session({
-      secret: clientSecret,
+      secret: configs[apiName].clientSecret,
       resave: false,
       saveUninitialized: true,
       cookie: { secure: true },
@@ -53,7 +78,7 @@ function runOAuthClient(): void {
 
   app.get('/', (req, res) => {
     void req; // To avoid unused variable warning
-    res.send(`<a href="/auth/provider">Log In with OAuth 2.0 Provider</a>`);
+    res.send(`<a href="/auth/provider">Log in to ${apiName}</a>`);
   });
 
   // Redirect the user to the OAuth 2.0 provider for authentication.  When
@@ -62,11 +87,7 @@ function runOAuthClient(): void {
   app.get(
     '/auth/provider',
     passport.authenticate('provider', {
-      scope: [
-        'https://www.googleapis.com/auth/calendar.readonly',
-        'https://www.googleapis.com/auth/calendar.acls.readonly',
-        'https://www.googleapis.com/auth/calendar.calendarlist.readonly',
-      ],
+      scope: configs[apiName].scope,
     }),
   );
 
@@ -88,4 +109,13 @@ function runOAuthClient(): void {
 }
 
 // ...
-runOAuthClient();
+const apiName = process.argv[2];
+if (!apiName) {
+  console.error('Please provide an API name as a command-line argument');
+  process.exit(1);
+}
+if (!configs[apiName]) {
+  console.error(`Unsupported API name: ${apiName}`);
+  process.exit(1);
+}
+runOAuthClient(apiName);

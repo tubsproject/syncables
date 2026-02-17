@@ -97,14 +97,15 @@ const calendarEntries: Entry[] = allTables.calendars as Entry[];
 console.log(calendarEntries[0].backgroundColor);
 ```
 
-## Eample (Google Calendar API)
+## Dev Example
 * In the [Google Cloud Dashboard](https://console.cloud.google.com/apis/credentials) create an OAuth client ID with http://localhost:8000 as an authorized JavaScript origin and http://localhost:8000/callback as an authorized redirect URI.
 * Enable the [calendar API](https://console.cloud.google.com/apis/library/calendar-json.googleapis.com)
 * Set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` environment variables. Check: `echo $GOOGLE_CLIENT_ID and $GOOGLE_CLIENT_SECRET`
 * `pnpm build`
-* Use the `pnpm oauth` command to run a simple OAuth client. Follow the instructions on http://localhost:8000.
+* Use the `pnpm oauth google-calendar` command to run a simple OAuth client. Follow the instructions on http://localhost:8000.
 * In the CLI output, look for a log line that reads `Received OAuth token: ...`.
 * Set that value as the `GOOGLE_BEARER_TOKEN` environment variable.
+* Similarly you can set a bearer token for MONEYBIRD with `pnpm oauth moneybird`.
 * Now you can run the example:
 ```sh
 docker compose up -d
