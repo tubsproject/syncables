@@ -102,16 +102,15 @@ console.log(calendarEntries[0].backgroundColor);
 * Enable the [calendar API](https://console.cloud.google.com/apis/library/calendar-json.googleapis.com)
 * Set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` environment variables. Check: `echo $GOOGLE_CLIENT_ID and $GOOGLE_CLIENT_SECRET`
 * `pnpm build`
-* Use the `pnpm oauth google-calendar` command to run a simple OAuth client. Follow the instructions on http://localhost:8000.
-* In the CLI output, look for a log line that reads `Received OAuth token: ...`.
-* Set that value as the `GOOGLE_BEARER_TOKEN` environment variable.
-* Similarly you can set a bearer token for MONEYBIRD with `pnpm oauth moneybird`.
+* Similarly you can set MONEYBIRD_CLIENT_ID and MONEYBIRD_CLIENT_SECRET.
 * Now you can run the example:
 ```sh
 docker compose up -d
 pnpm start
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 ```
+It will check for existing bearer tokens in the `.tokens` folder and initiate OAuth flows as needed.
+API responses will be cached in the `.fetch-cache` folder for easier development.
 
 ## Development
 ```sh
