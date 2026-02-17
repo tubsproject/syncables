@@ -16,7 +16,8 @@ export type SyncableSpec = {
     | 'pageToken'
     | 'dateRange'
     | 'rangeHeader'
-    | 'confirmationBased';
+    | 'confirmationBased'
+    | 'none';
   pageNumberParamInQuery?: string;
   offsetParamInQuery?: string;
   pageTokenParamInQuery?: string;
@@ -499,6 +500,11 @@ export class Syncer extends EventEmitter {
         return this.rangeHeaderFetch(syncableName, theseParents);
       case 'confirmationBased':
         return this.confirmationBasedFetch(syncableName, theseParents);
+      case 'none':
+        return this.doFetch(
+          spec,
+          this.getUrl(this.syncables[syncableName].path, theseParents).toString(),
+        ).then((res) => res.items);
       default:
         throw new Error(
           `Unknown paging strategy: ${spec['paginationStrategy']}`,
