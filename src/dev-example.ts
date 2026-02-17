@@ -1,10 +1,8 @@
 import { readFileSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import { createHash } from 'crypto';
-import { components } from './types/google-calendar.js';
 import { Syncer } from './syncer.js';
 
-type Entry = components['schemas']['CalendarListEntry'];
 const specFilename = './openapi/generated/google-calendar.yaml';
 const specStr = readFileSync(specFilename).toString();
 
@@ -42,8 +40,4 @@ const syncer = new Syncer({
     'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
 });
 
-const allTables = await syncer.fullFetch();
-void allTables; // To avoid unused variable warning
-// Data coming out of Syncer adheres to types from .d.ts files, autocomplete works for this in VS Code, e.g.:
-// const calendarEntries: Entry[] = allTables.calendars as Entry[];]
-// console.log(calendarEntries[0].backgroundColor);
+await syncer.fullFetch();
