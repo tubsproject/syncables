@@ -95,10 +95,10 @@ export async function createSqlTable(
       rowSpecs[`S${key}`] = `BOOLEAN`;
     } else if (type === 'number') {
       rowSpecs[`S${key}`] = `INTEGER${key === idField ? ' PRIMARY KEY' : ''}`;
-    // } else {
-    //   throw new Error(
-    //     `Unsupported type ${JSON.stringify(type)} for field ${key} in table ${tableName}`,
-    //   );
+      // } else {
+      //   throw new Error(
+      //     `Unsupported type ${JSON.stringify(type)} for field ${key} in table ${tableName}`,
+      //   );
     }
   });
   Object.entries(params).forEach(([key, type]) => {
@@ -106,10 +106,10 @@ export async function createSqlTable(
       rowSpecs[`S${key}`] = `TEXT`;
     } else if (type === 'number') {
       rowSpecs[`S${key}`] = `INTEGER`;
-    // } else {
-    //   throw new Error(
-    //     `Unsupported type ${JSON.stringify(type)} for param ${key} in table ${tableName}`,
-    //   );
+      // } else {
+      //   throw new Error(
+      //     `Unsupported type ${JSON.stringify(type)} for param ${key} in table ${tableName}`,
+      //   );
     }
   });
   const createTableQuery = `
