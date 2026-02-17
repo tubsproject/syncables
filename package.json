@@ -29,6 +29,7 @@
     "eslint-config-prettier": "~9.1",
     "globals": "~15.14",
     "hono": "^4.11.7",
+    "mkdirp": "^3.0.1",
     "prettier": "~3.4",
     "rimraf": "~6.0",
     "ts-api-utils": "~2.0",
