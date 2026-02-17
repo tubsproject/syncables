@@ -202,9 +202,16 @@ export class Syncer extends EventEmitter {
       headers: Object.assign({}, this.authHeaders, headers),
     });
     if (!response.ok) {
-      throw new Error(
-        `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()})`,
-      );
+      if (response.status === 404) {
+        console.log(
+          `Warning: received 404 for URL ${url}, returning empty data`,
+        );
+        return { items: [] };
+      } else {
+        throw new Error(
+          `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()})`,
+        );
+      }
     }
 
     const responseData = await response.json();
@@ -534,7 +541,41 @@ export class Syncer extends EventEmitter {
       theseParents[pattern] = parents[pattern][0];
     });
     // console.log('now we can call doOneFetch for syncable', syncableName, 'with theseParents', theseParents);
-    return await this.doOneFetch(syncableName, theseParents);
+    return (await this.doOneFetch(syncableName, theseParents)).map((obj) => {
+      const copy = Object.assign({}, obj);
+      Object.keys(theseParents).forEach((pattern) => {
+        copy[pattern] = theseParents[pattern];
+      });
+      return copy;
+    });
+  }
+  private paramTypes(
+    params: { [key: string]: string },
+    schema: object,
+  ): { [key: string]: 'string' | 'number' } {
+    const paramTypes: { [key: string]: 'string' | 'number' } = {};
+    Object.entries(params || {}).forEach(([key, reference]) => {
+      const [parentName, parentField] = reference.split('.');
+      const parentFields = getFields(
+        schema,
+        this.syncables[parentName].path,
+        this.syncables[parentName].spec.itemsPathInResponse.join('.'),
+      );
+      if (!parentFields[parentField]) {
+        throw new Error(
+          `Invalid param reference ${reference}: could not find field ${parentField} in parent syncable ${parentName}`,
+        );
+      }
+      const parentFieldType = parentFields[parentField].type;
+      if (parentFieldType === 'string' || parentFieldType === 'number') {
+        paramTypes[key] = parentFieldType;
+      } else {
+        throw new Error(
+          `Unsupported field type for param reference ${reference}: field type is ${parentFieldType}`,
+        );
+      }
+    });
+    return paramTypes;
   }
   async fetchOneSyncable(
     schema: object,
@@ -554,14 +595,26 @@ export class Syncer extends EventEmitter {
         syncable.spec.itemsPathInResponse.join('.'),
       );
       // console.log('creating table with fields', fields);
-      await createSqlTable(this.client, specName, fields);
+      await createSqlTable(
+        this.client,
+        specName,
+        fields,
+        syncable.spec.idField || 'id',
+        this.paramTypes(syncable.spec.params, schema),
+      );
+      const fieldsToInsert: string[] = Object.keys(fields).filter(
+        (f) => ['string'].indexOf(fields[f].type) !== -1,
+      );
+      Object.entries(parents).forEach(([pattern]) => {
+        // console.log('adding parent pattern to fields to insert', pattern);
+        fieldsToInsert.push(pattern);
+      });
       await insertData(
         this.client,
         specName,
         data,
-        Object.keys(fields).filter(
-          (f) => ['string'].indexOf(fields[f].type) !== -1,
-        ),
+        fieldsToInsert,
+        syncable.spec.idField || 'id',
       );
     }
     return data;
