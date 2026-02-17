@@ -32,19 +32,40 @@ export function getFields(
   let schema =
     successResponseProperties?.['application/ld+json']?.schema ||
     successResponseProperties?.['application/json']?.schema;
-
+  // console.log('looking for fields in schema:', JSON.stringify(schema, null, 2));
   for (let i = 0; i < rowsFrom.length; i++) {
     const part = rowsFrom[i];
     if (schema?.properties?.[part]) {
       schema = schema.properties[part];
+    } else if (schema?.allOf) {
+      let foundPart = false;
+      for (let i = 0; i < schema.allOf.length; i++) {
+        if (schema.allOf[i].properties?.[part]) {
+          schema = schema.allOf[i].properties[part];
+          foundPart = true;
+          break;
+        }
+      }
+      if (!foundPart) {
+        throw new Error(
+          `Could not find part ${part} in any of the allOf entries for endpoint ${endPoint}`,
+        );
+      }
     } else {
       throw new Error(
         `Could not find part ${part} in schema for endpoint ${endPoint}`,
       );
     }
   }
-
-  const whatWeWant = schema?.items?.properties;
+  let whatWeWant = schema?.items?.properties;
+  if (!whatWeWant && schema?.items?.allOf) {
+    whatWeWant = {};
+    schema.items.allOf.forEach((entry: any) => {
+      if (entry.properties) {
+        Object.assign(whatWeWant, entry.properties);
+      }
+    });
+  }
   // console.log(
   //   `What we want (getFields ${endPoint} ${rowsFrom}):`,
   //   JSON.stringify(whatWeWant, null, 2),
