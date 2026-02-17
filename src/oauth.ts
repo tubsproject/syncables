@@ -23,9 +23,11 @@ export async function runOAuthClient(apiName: string): Promise<string> {
         done,
       ) {
         console.log(`Received OAuth token: ${accessToken}`);
-        await writeFile(`.tokens/${apiName}.txt`, `${accessToken}\n`).catch((err) => {
-          console.error(`Error writing token for ${apiName}:`, err);
-        });
+        await writeFile(`.tokens/${apiName}.txt`, `${accessToken}\n`).catch(
+          (err) => {
+            console.error(`Error writing token for ${apiName}:`, err);
+          },
+        );
         void refreshToken; // To avoid unused variable warning
         void profile; // To avoid unused variable warning
         // Here you would typically find or create a user in your database
@@ -59,7 +61,9 @@ export async function runOAuthClient(apiName: string): Promise<string> {
 
   app.get('/success', (req, res) => {
     void req; // To avoid unused variable warning
-    res.send(`Logged in to ${apiName}, redirecting...</a><script>setTimeout(() => { window.location = '/ '; }, 3000);</script>`);
+    res.send(
+      `Logged in to ${apiName}, redirecting...</a><script>setTimeout(() => { window.location = '/ '; }, 3000);</script>`,
+    );
   });
 
   // Redirect the user to the OAuth 2.0 provider for authentication.  When
@@ -91,10 +95,12 @@ export async function runOAuthClient(apiName: string): Promise<string> {
   console.log('Received token, giving browser time to render');
   await new Promise((resolve) => setTimeout(resolve, 1000));
   console.log('Shutting down OAuth client server...');
-  const closed = new Promise<void>((resolve) => server.close(() => {
-    console.log('OAuth client server closed');
-    resolve();
-  }));
+  const closed = new Promise<void>((resolve) =>
+    server.close(() => {
+      console.log('OAuth client server closed');
+      resolve();
+    }),
+  );
   server.closeAllConnections();
   await closed;
   console.log('OAuth client server shutdown complete');

@@ -31,4 +31,3 @@ const configs = {
   },
 };
 export { configs, port };
-

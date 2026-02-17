@@ -8,7 +8,9 @@ import { runOAuthClient } from './oauth.js';
 mkdirp.sync('.fetch-cache'); // Ensure the cache directory exists
 mkdirp.sync('.tokens'); // Ensure the tokens directory exists
 
-async function getBearerTokens(apiNames: string[]): Promise<{ [apiName: string]: string }> {
+async function getBearerTokens(
+  apiNames: string[],
+): Promise<{ [apiName: string]: string }> {
   const tokens: { [apiName: string]: string } = {};
   for (const apiName of apiNames) {
     console.log(`Checking for existing token for ${apiName}...`);
@@ -18,7 +20,9 @@ async function getBearerTokens(apiNames: string[]): Promise<{ [apiName: string]:
       tokens[apiName] = token.trim();
     } catch (err) {
       void err;
-      console.error(`File ${tokenPath} not found, initiating OAuth flow for ${apiName}`);
+      console.error(
+        `File ${tokenPath} not found, initiating OAuth flow for ${apiName}`,
+      );
       console.log('Starting OAuth flow for', apiName);
       tokens[apiName] = await runOAuthClient(apiName);
       console.log('Completed OAuth flow for', apiName);
