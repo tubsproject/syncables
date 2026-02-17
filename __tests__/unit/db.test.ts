@@ -5,7 +5,9 @@ import { createFetchMock } from '../helpers/createFetchMock.js';
 import { Client, createSqlTable, getFields } from '../../src/db.js';
 import { specStrToObj } from '../../src/syncer.js';
 
-const googleCalendar = readFileSync('./openapi/generated/google-calendar.yaml').toString();
+const googleCalendar = readFileSync(
+  './openapi/generated/google-calendar.yaml',
+).toString();
 const moneybird = readFileSync('./openapi/generated/moneybird.yaml').toString();
 
 describe('Google Calendar List', async () => {
@@ -199,7 +201,11 @@ describe('getFields', () => {
         },
       },
     };
-    const fields = getFields(openApiSpec, '/test/', ['widgets', 'blurry', 'buggers']);
+    const fields = getFields(openApiSpec, '/test/', [
+      'widgets',
+      'blurry',
+      'buggers',
+    ]);
     expect(fields).toEqual({
       id: { type: 'string' },
       name: { type: 'string' },
@@ -207,7 +213,11 @@ describe('getFields', () => {
     });
   });
   it('can deal with complex schema definitions', async () => {
-    const fields = getFields(await specStrToObj(moneybird), '/administrations{format}', []);
+    const fields = getFields(
+      await specStrToObj(moneybird),
+      '/administrations{format}',
+      [],
+    );
     console.log(fields);
     expect(fields).toEqual({
       id: {
@@ -227,39 +237,40 @@ describe('getFields', () => {
       name: { type: 'string', example: 'Moneybird' },
       language: {
         type: 'string',
-        enum: [ 'nl', 'nl-be', 'en' ],
+        enum: ['nl', 'nl-be', 'en'],
         example: 'nl',
-        description: 'The ISO 639-1 language code used in the administration'
+        description: 'The ISO 639-1 language code used in the administration',
       },
       currency: {
         type: 'string',
         description: 'The ISO 4217 currency code',
-        example: 'EUR'
+        example: 'EUR',
       },
       country: {
         type: 'string',
         description: 'The ISO 3166-1 alpha-2 code the administration country',
-        example: 'NL'
+        example: 'NL',
       },
       time_zone: {
         type: 'string',
         description: 'The time zone of the administration',
-        example: 'Europe/Amsterdam'
+        example: 'Europe/Amsterdam',
       },
       access: {
         type: 'string',
-        enum: [ 'accountant_company', 'user' ],
+        enum: ['accountant_company', 'user'],
         description: 'The type of acess the user has to this administration',
-        example: 'user'
+        example: 'user',
       },
       suspended: { type: 'boolean' },
-      period_locked_until: { type: [ 'string', 'null' ], format: 'date' },
+      period_locked_until: { type: ['string', 'null'], format: 'date' },
       period_start_date: {
         type: 'string',
         format: 'date',
-        description: 'Start of the year in which the administration recorded its first bookkeeping data, based on journal entries.',
-        example: '2024-01-01'
-      }
+        description:
+          'Start of the year in which the administration recorded its first bookkeeping data, based on journal entries.',
+        example: '2024-01-01',
+      },
     });
   });
 });

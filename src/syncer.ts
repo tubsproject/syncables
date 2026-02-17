@@ -8,7 +8,9 @@ import { getObjectPath } from './utils.js';
 
 const debug = createDebug('syncable');
 
-export async function specStrToObj(specStr: string): Promise<{ paths: object }> {
+export async function specStrToObj(
+  specStr: string,
+): Promise<{ paths: object }> {
   let specObj;
   try {
     specObj = parse(specStr);
