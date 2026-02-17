@@ -91,7 +91,17 @@ const syncer = new Syncer<Entry>({
 await syncer.fullFetch();
 ```
 
-You can use the [`showcase-google-calendar` branch of this repo](https://github.com/tubsproject/syncables/tree/showcase-google-calendar) to run a simple OAuth client that can obtain a value for the `GOOGLE_BEARER_TOKEN` environment variable (look for a log line that reads `Received OAuth token: ...`).
+## Eample
+You can use the `pnpm oauth` command to run a simple OAuth client that can obtain a value for the `GOOGLE_BEARER_TOKEN` environment variable (look for a log line that reads `Received OAuth token: ...`).
+```sh
+docker compose up -d
+pnpm build
+pnpm oauth
+pnpm start
+docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
+```
+
+
 
 ## Development
 ```sh
@@ -105,14 +115,6 @@ docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_
 pnpm prettier
 pnpm login
 pnpm publish
-```
-
-## Usage
-```sh
-docker compose up -d
-# run your code that calls syncable.fullFetch(); for instance:
-pnpm start
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 ```
 
 ## Acknowledgements
