@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFile } from 'fs/promises';
 import { mkdirp } from 'mkdirp';
 import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
@@ -14,19 +14,19 @@ async function getBearerTokens(apiNames: string[]): Promise<{ [apiName: string]:
     console.log(`Checking for existing token for ${apiName}...`);
     const tokenPath = `.tokens/${apiName}.txt`;
     try {
-      const token = await readFileSync(tokenPath, 'utf-8');
+      const token = await readFile(tokenPath, 'utf-8');
       tokens[apiName] = token.trim();
     } catch (err) {
       void err;
       console.error(`File ${tokenPath} not found, initiating OAuth flow for ${apiName}`);
+      console.log('Starting OAuth flow for', apiName);
+      tokens[apiName] = await runOAuthClient(apiName);
+      console.log('Completed OAuth flow for', apiName);
       if (!configs[apiName]) {
         console.error(`Unsupported API name: ${apiName}`);
         process.exit(1);
       }
     }
-    console.log('Starting OAuth flow for', apiName);
-    tokens[apiName] = await runOAuthClient(apiName);
-    console.log('Completed OAuth flow for', apiName);
   }
   console.log('Obtained bearer tokens for all APIs');
   return tokens;
@@ -35,7 +35,7 @@ async function getBearerTokens(apiNames: string[]): Promise<{ [apiName: string]:
 const bearerTokens = await getBearerTokens(Object.keys(configs));
 const promises = Object.keys(configs).map(async (specName) => {
   const specFilename = `./openapi/generated/${specName}.yaml`;
-  const specStr = readFileSync(specFilename).toString();
+  const specStr = (await readFile(specFilename)).toString();
   const syncer = new Syncer({
     specStr,
     authHeaders: {
@@ -45,7 +45,7 @@ const promises = Object.keys(configs).map(async (specName) => {
     dbConn:
       'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
   });
-  void syncer;
-  // return await syncer.fullFetch();
+  // void syncer;
+  return await syncer.fullFetch();
 });
 await Promise.all(promises);
