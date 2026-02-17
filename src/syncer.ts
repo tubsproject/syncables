@@ -202,9 +202,14 @@ export class Syncer extends EventEmitter {
       headers: Object.assign({}, this.authHeaders, headers),
     });
     if (!response.ok) {
-      throw new Error(
-        `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()})`,
-      );
+      if (response.status === 404) {
+        console.log(`Warning: received 404 for URL ${url}, returning empty data`);
+        return { items: [] };
+      } else {
+        throw new Error(
+          `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()})`,
+        );
+      }
     }
 
     const responseData = await response.json();
