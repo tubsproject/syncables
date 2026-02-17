@@ -46153,8 +46153,19 @@ components:
         $ref: '#/components/schemas/administration_id'
       description: The unique identifier of the administration
     format:
-      in: query
+      in: path
+      name: format
+      required: true
+      schema:
+        type: string
+        pattern: ^(.(json|xml))?$
+        default: .json
+      description: >-
+        The format in which the response is given, can be empty to use the
+        default format
+    page:
       name: page
+      in: query
       required: false
       schema:
         type:

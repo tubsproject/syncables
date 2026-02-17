@@ -43673,7 +43673,7 @@ components:
       in: path
       name: format
       required: true
-      schema
+      schema:
         type: string
         pattern: ^(.(json|xml))?$
         default: .json
