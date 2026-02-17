@@ -3,9 +3,10 @@ import { Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 import { Client, createSqlTable, getFields } from '../../src/db.js';
+import { specStrToObj } from '../../src/syncer.js';
 
-const specFilename = './openapi/generated/google-calendar.yaml';
-const specStr = readFileSync(specFilename).toString();
+const googleCalendar = readFileSync('./openapi/generated/google-calendar.yaml').toString();
+const moneybird = readFileSync('./openapi/generated/moneybird.yaml').toString();
 
 describe('Google Calendar List', async () => {
   const { fetchMock } = createFetchMock(true);
@@ -19,7 +20,7 @@ describe('Google Calendar List', async () => {
   });
   await client.connect();
   const syncable = new Syncer({
-    specStr,
+    specStr: googleCalendar,
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
     dbConn,
@@ -118,6 +119,144 @@ describe('getFields', () => {
       id: { type: 'string' },
       name: { type: 'string' },
       value: { type: 'number' },
+    });
+  });
+  it('can deal with items in the root', () => {
+    const openApiSpec = {
+      paths: {
+        '/test/': {
+          get: {
+            responses: {
+              '200': {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          id: { type: 'string' },
+                          name: { type: 'string' },
+                          value: { type: 'number' },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+    const fields = getFields(openApiSpec, '/test/', []);
+    expect(fields).toEqual({
+      id: { type: 'string' },
+      name: { type: 'string' },
+      value: { type: 'number' },
+    });
+  });
+  it('can deal with nested objects', () => {
+    const openApiSpec = {
+      paths: {
+        '/test/': {
+          get: {
+            responses: {
+              '200': {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        widgets: {
+                          type: 'object',
+                          properties: {
+                            blurry: {
+                              type: 'object',
+                              properties: {
+                                buggers: {
+                                  type: 'array',
+                                  items: {
+                                    type: 'object',
+                                    properties: {
+                                      id: { type: 'string' },
+                                      name: { type: 'string' },
+                                      value: { type: 'number' },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+    const fields = getFields(openApiSpec, '/test/', ['widgets', 'blurry', 'buggers']);
+    expect(fields).toEqual({
+      id: { type: 'string' },
+      name: { type: 'string' },
+      value: { type: 'number' },
+    });
+  });
+  it('can deal with complex schema definitions', async () => {
+    const fields = getFields(await specStrToObj(moneybird), '/administrations{format}', []);
+    console.log(fields);
+    expect(fields).toEqual({
+      id: { allOf: [
+       {
+         "description": "A unique record identifier of an administration",
+         "example": "123",
+         "pattern": "^\\d+$",
+         "type": [
+           "string",
+           "integer",
+         ],
+       },
+      ] },
+      name: { type: 'string', example: 'Moneybird' },
+      language: {
+        type: 'string',
+        enum: [ 'nl', 'nl-be', 'en' ],
+        example: 'nl',
+        description: 'The ISO 639-1 language code used in the administration'
+      },
+      currency: {
+        type: 'string',
+        description: 'The ISO 4217 currency code',
+        example: 'EUR'
+      },
+      country: {
+        type: 'string',
+        description: 'The ISO 3166-1 alpha-2 code the administration country',
+        example: 'NL'
+      },
+      time_zone: {
+        type: 'string',
+        description: 'The time zone of the administration',
+        example: 'Europe/Amsterdam'
+      },
+      access: {
+        type: 'string',
+        enum: [ 'accountant_company', 'user' ],
+        description: 'The type of acess the user has to this administration',
+        example: 'user'
+      },
+      suspended: { type: 'boolean' },
+      period_locked_until: { type: [ 'string', 'null' ], format: 'date' },
+      period_start_date: {
+        type: 'string',
+        format: 'date',
+        description: 'Start of the year in which the administration recorded its first bookkeeping data, based on journal entries.',
+        example: '2024-01-01'
+      }
     });
   });
 });

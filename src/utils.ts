@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getObjectPath(obj: object, path?: string[]): any {
-//   console.log('getObjectPath', path, obj);
+  //   console.log('getObjectPath', path, obj);
   if (path === undefined) {
     return obj;
   }

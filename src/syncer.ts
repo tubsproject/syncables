@@ -8,6 +8,22 @@ import { getObjectPath } from './utils.js';
 
 const debug = createDebug('syncable');
 
+export async function specStrToObj(specStr: string): Promise<{ paths: object }> {
+  let specObj;
+  try {
+    specObj = parse(specStr);
+  } catch (err1) {
+    try {
+      specObj = JSON.parse(specStr);
+    } catch (err2) {
+      throw new Error(
+        `Spec is not valid JSON or YAML: ${err1.message} / ${err2.message}`,
+      );
+    }
+  }
+  return await dereference(specObj);
+}
+
 export type SyncableSpec = {
   name: string;
   paginationStrategy:
@@ -83,19 +99,7 @@ export class Syncer extends EventEmitter {
     }
   }
   async parseSpec(): Promise<object> {
-    let specObj;
-    try {
-      specObj = parse(this.specStr);
-    } catch (err1) {
-      try {
-        specObj = JSON.parse(this.specStr);
-      } catch (err2) {
-        throw new Error(
-          `Spec is not valid JSON or YAML: ${err1.message} / ${err2.message}`,
-        );
-      }
-    }
-    const schema = await dereference(specObj);
+    const schema = await specStrToObj(this.specStr);
 
     this.baseUrl =
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -163,7 +167,7 @@ export class Syncer extends EventEmitter {
                 const confirmOperationSpec = response.syncable
                   .confirmOperation as { path: string; method: string };
                 const confirmConfig =
-                  specObj.paths[confirmOperationSpec.path][
+                  schema.paths[confirmOperationSpec.path][
                     confirmOperationSpec.method
                   ]?.responses['200']?.content?.['application/json']
                     ?.confirmOperation;
