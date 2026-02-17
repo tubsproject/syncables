@@ -15,14 +15,14 @@ const fetchFunction: typeof fetch = async (
   const hash = createHash('sha256').update(data).digest('hex');
   try {
     const cached = await readFile(`./.fetch-cache/${hash}.json`);
-    console.log('using cached response for', input);
+    console.log('using cached response for', input, hash);
     return new Response(cached, { status: 200 });
   } catch (err) {
     void err;
     const fetched = await fetch(input, init);
     const text = await fetched.text();
     await writeFile(`./.fetch-cache/${hash}.json`, text);
-    console.log('cached response for', input);
+    console.log('cached response for', input, hash);
     return new Response(text, {
       status: fetched.status,
       headers: fetched.headers,
