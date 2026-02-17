@@ -6,6 +6,5 @@ actions:
   update:
     syncable:
       name: administrations
-      paginationStrategy: pageNumber
-      query:
+      paginationStrategy: none
         format: .json
