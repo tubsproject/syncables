@@ -3,8 +3,11 @@ import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 
 const authHeaders = {
-  'google-calendar': {
-    Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
+  // 'google-calendar': {
+  //   Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
+  // },
+  moneybird: {
+    Authorization: `Bearer ${process.env.MONEYBIRD_BEARER_TOKEN}`,
   },
 };
 
