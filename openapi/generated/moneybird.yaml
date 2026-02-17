@@ -1601,7 +1601,7 @@ paths:
                           asset_id: '478856274756240542'
                       sources: []
               syncable:
-                name: administrations
+                name: assets
                 paginationStrategy: pageNumber
                 query:
                   format: .json
@@ -5006,6 +5006,13 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:43:43.310Z'
                           updated_at: '2026-02-12T10:43:43.310Z'
+              syncable:
+                name: contacts
+                paginationStrategy: pageNumber
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
         '400':
           description: Bad request
           content:

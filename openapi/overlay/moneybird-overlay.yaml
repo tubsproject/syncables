@@ -18,11 +18,22 @@ actions:
 - target: paths['/{administration_id}/assets{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
-      name: administrations
+      name: assets
       paginationStrategy: pageNumber
       query:
         format: .json
       params:
         administration_id: administrations.id
+- target: paths['/{administration_id}/contacts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: contacts
+      paginationStrategy: pageNumber
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+
 
 
