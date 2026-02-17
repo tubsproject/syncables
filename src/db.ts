@@ -79,7 +79,7 @@ export async function createSqlTable(
   idField: string,
   params: { [key: string]: 'string' | 'number' } = {},
 ): Promise<void> {
-  const rowSpecs = [];
+  const rowSpecs: { [columnName: string]: string } = {};
   // console.log(
   //   `What we want (createSqlTable ${tableName}):`,
   //   JSON.stringify(whatWeWant, null, 2),
@@ -90,25 +90,33 @@ export async function createSqlTable(
   Object.entries(whatWeWant).forEach(([key, value]) => {
     const type = (value as { type: string }).type;
     if (type === 'string') {
-      rowSpecs.push(`"S${key}" TEXT${key === idField ? ' PRIMARY KEY' : ''}`);
+      rowSpecs[`S${key}`] = `TEXT${key === idField ? ' PRIMARY KEY' : ''}`;
     } else if (type === 'boolean') {
-      rowSpecs.push(`"S${key}" BOOLEAN`);
+      rowSpecs[`S${key}`] = `BOOLEAN`;
     } else if (type === 'number') {
-      rowSpecs.push(
-        `"S${key}" INTEGER${key === idField ? ' PRIMARY KEY' : ''}`,
-      );
+      rowSpecs[`S${key}`] = `INTEGER${key === idField ? ' PRIMARY KEY' : ''}`;
+    // } else {
+    //   throw new Error(
+    //     `Unsupported type ${JSON.stringify(type)} for field ${key} in table ${tableName}`,
+    //   );
     }
   });
   Object.entries(params).forEach(([key, type]) => {
     if (type === 'string') {
-      rowSpecs.push(`"S${key}" TEXT`);
+      rowSpecs[`S${key}`] = `TEXT`;
     } else if (type === 'number') {
-      rowSpecs.push(`"S${key}" INTEGER`);
+      rowSpecs[`S${key}`] = `INTEGER`;
+    // } else {
+    //   throw new Error(
+    //     `Unsupported type ${JSON.stringify(type)} for param ${key} in table ${tableName}`,
+    //   );
     }
   });
   const createTableQuery = `
 CREATE TABLE IF NOT EXISTS ${tableName.replace('-', '_')} (
-  ${rowSpecs.join(',\n  ')}\n
+  ${Object.entries(rowSpecs)
+    .map(([key, value]) => `"${key}" ${value}`)
+    .join(',\n  ')}\n
 );
 `;
   // console.log(createTableQuery);
@@ -121,7 +129,7 @@ export async function insertData(
   fields: string[],
   idField: string,
 ): Promise<void> {
-  // console.log(`Inserting data into table ${tableName}:`, items);
+  console.log(`Inserting data into table ${tableName}:`, items);
   await Promise.all(
     items.map((item: any) => {
       // FIXME: use parameterized queries instead of string interpolation to avoid SQL injection issues, and properly handle escaping of values

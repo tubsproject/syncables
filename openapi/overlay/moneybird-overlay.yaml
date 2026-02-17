@@ -33,7 +33,9 @@ actions:
         format: .json
       params:
         administration_id: administrations.id
-
-
-
-
+- target: components.schemas.base_contact_response.properties
+  update:
+    id:
+      type: string
+- target: components.schemas.base_contact_response.properties.id['$ref']
+  remove: true

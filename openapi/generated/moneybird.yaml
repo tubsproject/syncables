@@ -46538,7 +46538,7 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/identifier'
+          type: string
         administration_id:
           $ref: '#/components/schemas/administration_id'
         company_name: {}

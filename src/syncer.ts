@@ -626,7 +626,9 @@ export class Syncer extends EventEmitter {
       );
       Object.entries(parents).forEach(([pattern]) => {
         // console.log('adding parent pattern to fields to insert', pattern);
-        fieldsToInsert.push(pattern);
+        if (!fieldsToInsert.includes(pattern)) {
+          fieldsToInsert.push(pattern);
+        }
       });
       await insertData(
         this.client,

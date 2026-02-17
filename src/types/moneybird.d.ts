@@ -4585,7 +4585,7 @@ export interface components {
             }[];
         }[];
         base_contact_response: {
-            id?: components["schemas"]["identifier"];
+            id?: string;
             administration_id?: components["schemas"]["administration_id"];
             company_name?: unknown;
             firstname?: string | null;
