@@ -1600,6 +1600,13 @@ paths:
                           externally_booked: false
                           asset_id: '478856274756240542'
                       sources: []
+              syncable:
+                name: administrations
+                paginationStrategy: pageNumber
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
     post:
       summary: Create a new asset
       operationId: post_administration_id_assets

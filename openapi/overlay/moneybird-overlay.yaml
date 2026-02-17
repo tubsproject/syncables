@@ -15,3 +15,14 @@ actions:
       type: string
 - target: components.schemas.administration_id.allOf
   remove: true
+- target: paths['/{administration_id}/assets{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: administrations
+      paginationStrategy: pageNumber
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+
