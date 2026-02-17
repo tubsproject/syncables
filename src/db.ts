@@ -84,11 +84,12 @@ export async function insertData(
   items: any[],
   fields: string[],
 ): Promise<void> {
-  // console.log(`Fetched data:`, items);
+  console.log(`Inserting data into table ${tableName}:`, items);
   await Promise.all(
     items.map((item: any) => {
-      const insertQuery = `INSERT INTO ${tableName.replace('-', '_')} (${fields.map((x) => `"S${x}"`).join(', ')}) VALUES (${fields.map((field) => `'${item[field]}'`).join(', ')})`;
-      // console.log(`Executing insert query: ${insertQuery}`);
+      // FIXME: use parameterized queries instead of string interpolation to avoid SQL injection issues, and properly handle escaping of values
+      const insertQuery = `INSERT INTO ${tableName.replace('-', '_')} (${fields.map((x) => `"S${x}"`).join(', ')}) VALUES (${fields.map((field) => `'${item[field]?.toString().replace(/'/g, "''")}'`).join(', ')})`;
+      console.log(`Executing insert query: ${insertQuery}`);
       return client.query(insertQuery);
     }),
   );
