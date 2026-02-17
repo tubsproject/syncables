@@ -503,7 +503,10 @@ export class Syncer extends EventEmitter {
       case 'none':
         return this.doFetch(
           spec,
-          this.getUrl(this.syncables[syncableName].path, theseParents).toString(),
+          this.getUrl(
+            this.syncables[syncableName].path,
+            theseParents,
+          ).toString(),
         ).then((res) => res.items);
       default:
         throw new Error(
@@ -543,7 +546,10 @@ export class Syncer extends EventEmitter {
     }
     // if we reach here then all the parent patterns only have one value, so we can just fill those in and do one fetch
     // we also fill in any params that might be hardcoded in spec.query, for instance a `{ format: '.json' }`
-    const theseParents: { [pattern: string]: string } = Object.assign({}, this.syncables[syncableName].spec.query || {});
+    const theseParents: { [pattern: string]: string } = Object.assign(
+      {},
+      this.syncables[syncableName].spec.query || {},
+    );
     Object.keys(parents).forEach((pattern) => {
       theseParents[pattern] = parents[pattern][0];
     });
