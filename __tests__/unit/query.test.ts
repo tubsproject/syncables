@@ -22,7 +22,9 @@ test('query', async () => {
   });
   const data = await syncable.fullFetch();
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    todos: mockResponses[0].items
+      .concat(mockResponses[1].items)
+      .map((item) => Object.assign({}, item, { userId: '1' })),
   });
 
   // Check that fetch was called exactly once
