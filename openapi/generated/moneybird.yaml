@@ -23432,7 +23432,7 @@ paths:
                     tax_number: NL817575546B01
               syncables:
                 - type: item
-                  name: default_identities
+                  name: identities.default
                   paginationStrategy: none
                   query:
                     format: .json
@@ -23821,7 +23821,7 @@ paths:
                       chamber_of_commerce: '08155914'
                       tax_number: NL817575546B01
               syncables:
-                - name: identities
+                - name: identities.other
                   paginationStrategy: none
                   query:
                     format: .json

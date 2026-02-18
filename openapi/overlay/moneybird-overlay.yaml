@@ -166,19 +166,18 @@ actions:
 - target: paths['/{administration_id}/identities{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncables:
-    - name: identities
+    - name: identities.other
       paginationStrategy: none
       query:
         format: .json
       params:
         administration_id: administrations.id
 
-# FIXME: should be storing these into the same db table with just a boolean field to indicate whether it's the default identity or not, but for now just storing them separately since it's faster to implement and we don't have support for multiple syncables using the same db table yet.
 - target: paths['/{administration_id}/identities/default{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncables:
     - type: item
-      name: default_identities
+      name: identities.default
       paginationStrategy: none
       query:
         format: .json

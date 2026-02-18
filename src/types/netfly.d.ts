@@ -4,1402 +4,1396 @@
  */
 
 export interface paths {
-  '/sendDocument': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** Submit a Peppol document to the Access Point */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody: {
-        content: {
-          /**
-           * @example <?xml version="1.0" encoding="UTF-8"?>
-           *     <Invoice xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">
-           *       <cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0</cbc:CustomizationID>
-           *       <cbc:ProfileID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</cbc:ProfileID>
-           *       <cbc:ID>Snippet1</cbc:ID>
-           *       <cbc:IssueDate>2017-11-13</cbc:IssueDate>
-           *       <cbc:DueDate>2017-12-01</cbc:DueDate>
-           *       <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
-           *       <cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode>
-           *       <cbc:AccountingCost>4025:123:4343</cbc:AccountingCost>
-           *       <cbc:BuyerReference>0150abc</cbc:BuyerReference>
-           *       <!-- ... more UBL content ... -->
-           *     </Invoice>
-           */
-          'application/xml': Record<string, never>;
+    "/sendDocument": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      responses: {
-        /** @description Document received successfully */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': {
-              success?: boolean;
-              message?: string;
-              code?: string;
+        get?: never;
+        put?: never;
+        /** Submit a Peppol document to the Access Point */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
             };
-          };
-        };
-        /** @description Bad request */
-        400: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/documentsList': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** Retrieve a list of sent or received documents */
-    get: {
-      parameters: {
-        query: {
-          /** @description Start of interval (UTC timestamp, yyyyMMddHHmmss) */
-          startDate: string;
-          /** @description End of interval (UTC timestamp, yyyyMMddHHmmss) */
-          endDate: string;
-          /** @description Flow direction */
-          flow: 'in' | 'out';
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description List of documents returned */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': {
-              id?: number;
-              /** Format: date-time */
-              inputDate?: string;
-              clientNumber?: string;
-              sender?: string;
-              recipient?: string;
-              documentId?: string;
-              documentType?: string;
-              documentVesid?: string;
-              country?: string;
-              status?: string;
-              feedback?: string;
-              retries?: number;
-              /** Format: date-time */
-              lastTry?: string;
-              fileName?: string;
-              apMessage?: string;
-            }[];
-          };
-        };
-        /** @description Missing or invalid parameters */
-        400: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Document not found */
-        404: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/receiveDocument': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** Retrieve a Peppol document by internal ID */
-    get: {
-      parameters: {
-        query: {
-          /** @description Internal document ID */
-          docId: number;
-          /** @description Flow direction (in or out) */
-          flow: 'in' | 'out';
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description Peppol BIS Billing 3.0 XML document */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/xml': string;
-          };
-        };
-        /** @description Missing or invalid parameters */
-        400: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Document not found */
-        404: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/participantManagement': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    /** Update an existing Peppol participant and synchronize document types with the SMP */
-    put: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['Participant'];
-        };
-      };
-      responses: {
-        /** @description Participant updated and SMP synchronized */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ParticipantUpdateResult'];
-          };
-        };
-        /** @description Validation error */
-        400: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Participant not found */
-        404: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-      };
-    };
-    /** Register a new Peppol participant */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['Participant'];
-        };
-      };
-      responses: {
-        /** @description Participant created */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Participant stored but already registered at external SMP (admin notified) */
-        202: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Validation error */
-        400: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Participant already exists in Netfly database */
-        409: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-      };
-    };
-    /** Delete a participant */
-    delete: {
-      parameters: {
-        query: {
-          /** @description Internal participant numeric ID */
-          id: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description Participant deleted */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ParticipantDeleteResult'];
-          };
-        };
-        /** @description Invalid ID */
-        400: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Participant not found */
-        404: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-      };
-    };
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/participantsList': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** List registered participants */
-    get: {
-      parameters: {
-        query?: {
-          name?: string;
-          contactName?: string;
-          contactEmail?: string;
-          participantId?: string;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description List of participants */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['Participant'][];
-          };
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/participantLookup': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Check participant existence and list supported document types
-     * @description Verifies whether a participant exists in the Peppol network. If it exists, queries Netfly smptool to list supported document types.
-     */
-    get: operations['participantLookup'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/businessCard': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get Business Card (XML) for a participant
-     * @description Retrieves the current Peppol Directory Business Card XML for a participant from the SMP.
-     *     The caller must own the participant.
-     */
-    get: operations['businessCardGet'];
-    put?: never;
-    /**
-     * Publish Business Card from participant data (DB → SMP)
-     * @description Creates or updates the participant's Business Card in the SMP using data stored in Netfly (participants table).
-     *     Provide the participant via `scheme` and `participantId`. The caller must own the participant.
-     */
-    post: operations['businessCardPost'];
-    /**
-     * Delete a Business Card
-     * @description Deletes an existing Business Card from the Peppol SMP for a given participant. The authenticated client must own the participant being deleted. This endpoint communicates directly with the PHOSS SMP REST API.
-     */
-    delete: operations['deleteBusinessCard'];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/participantDocuments': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Add document types to a participant
-     * @description Adds one or more Service Metadata document types to an existing participant in the SMP, without changing other participant fields. The caller must own the participant.
-     */
-    post: operations['addParticipantDocumentTypes'];
-    /**
-     * Delete document types from a participant
-     * @description Deletes Service Metadata for a participant.   Provide `?all=true` to remove **all** document types; otherwise pass a JSON body with `documentTypes` to remove specific ones. The caller must own the participant.
-     */
-    delete: operations['deleteParticipantDocumentTypes'];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/webhook': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** Get webhook configuration */
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description Webhook configuration */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': {
-              success?: boolean;
-              webhookUrl?: string;
-              includeXmlPayload?: boolean;
-              /** Format: date-time */
-              inputDate?: string;
-              webhookSecret?: string;
+            requestBody: {
+                content: {
+                    /**
+                     * @example <?xml version="1.0" encoding="UTF-8"?>
+                     *     <Invoice xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">
+                     *       <cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0</cbc:CustomizationID>
+                     *       <cbc:ProfileID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</cbc:ProfileID>
+                     *       <cbc:ID>Snippet1</cbc:ID>
+                     *       <cbc:IssueDate>2017-11-13</cbc:IssueDate>
+                     *       <cbc:DueDate>2017-12-01</cbc:DueDate>
+                     *       <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
+                     *       <cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode>
+                     *       <cbc:AccountingCost>4025:123:4343</cbc:AccountingCost>
+                     *       <cbc:BuyerReference>0150abc</cbc:BuyerReference>
+                     *       <!-- ... more UBL content ... -->
+                     *     </Invoice>
+                     */
+                    "application/xml": Record<string, never>;
+                };
             };
-          };
-        };
-        /** @description Webhook not found */
-        404: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-      };
-    };
-    put?: never;
-    /** Create or update webhook */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['Webhook'];
-        };
-      };
-      responses: {
-        /** @description Webhook created or updated */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Invalid request */
-        400: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Webhook not found */
-        404: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-      };
-    };
-    /** Delete webhook */
-    delete: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description Webhook deleted */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Webhook not found */
-        404: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-        /** @description Server error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-      };
-    };
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/webhookNotification': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Example of webhook notification payload
-     * @description When a document is received from Peppol, Netfly sends this JSON payload to your registered webhook URL. The request includes the header `X-Webhook-Signature` which is an HMAC-SHA256 signature of the body using your webhook secret `X-Webhook-Timestamp` Current time `X-Webhook-Event` Type of event (e.g. documentReceived)
-     */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['WebhookNotification'];
-        };
-      };
-      responses: {
-        /** @description Example only – clients must respond with HTTP 200 to acknowledge. */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/validate/{vesid}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Validate a UBL document by VESID
-     * @description Validates an XML (UBL) document against the specified VESID (e.g. `eu.peppol.bis3:invoice:latest`). The XML body is forwarded to Netfly's validator and the response is returned as-is.
-     */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description Validation identifier (invoice/creditnote; latest or fixed version). */
-          vesid: string;
-        };
-        cookie?: never;
-      };
-      requestBody: {
-        content: {
-          'application/xml': string;
-        };
-      };
-      responses: {
-        /** @description Validation report (passthrough) */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': {
-              [key: string]: unknown;
+            responses: {
+                /** @description Document received successfully */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            success?: boolean;
+                            message?: string;
+                            code?: string;
+                        };
+                    };
+                };
+                /** @description Bad request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
-          };
         };
-        /** @description Bad request (e.g., empty body or invalid XML) */
-        400: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-        /** @description Internal error */
-        500: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['ApiResult'];
-          };
-        };
-      };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+    "/documentsList": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve a list of sent or received documents */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Start of interval (UTC timestamp, yyyyMMddHHmmss) */
+                    startDate: string;
+                    /** @description End of interval (UTC timestamp, yyyyMMddHHmmss) */
+                    endDate: string;
+                    /** @description Flow direction */
+                    flow: "in" | "out";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of documents returned */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id?: number;
+                            /** Format: date-time */
+                            inputDate?: string;
+                            clientNumber?: string;
+                            sender?: string;
+                            recipient?: string;
+                            documentId?: string;
+                            documentType?: string;
+                            documentVesid?: string;
+                            country?: string;
+                            status?: string;
+                            feedback?: string;
+                            retries?: number;
+                            /** Format: date-time */
+                            lastTry?: string;
+                            fileName?: string;
+                            apMessage?: string;
+                        }[];
+                    };
+                };
+                /** @description Missing or invalid parameters */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Document not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/receiveDocument": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve a Peppol document by internal ID */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Internal document ID */
+                    docId: number;
+                    /** @description Flow direction (in or out) */
+                    flow: "in" | "out";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Peppol BIS Billing 3.0 XML document */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/xml": string;
+                    };
+                };
+                /** @description Missing or invalid parameters */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Document not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/participantManagement": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update an existing Peppol participant and synchronize document types with the SMP */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Participant"];
+                };
+            };
+            responses: {
+                /** @description Participant updated and SMP synchronized */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ParticipantUpdateResult"];
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Participant not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+            };
+        };
+        /** Register a new Peppol participant */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Participant"];
+                };
+            };
+            responses: {
+                /** @description Participant created */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Participant stored but already registered at external SMP (admin notified) */
+                202: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Participant already exists in Netfly database */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+            };
+        };
+        /** Delete a participant */
+        delete: {
+            parameters: {
+                query: {
+                    /** @description Internal participant numeric ID */
+                    id: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Participant deleted */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ParticipantDeleteResult"];
+                    };
+                };
+                /** @description Invalid ID */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Participant not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/participantsList": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List registered participants */
+        get: {
+            parameters: {
+                query?: {
+                    name?: string;
+                    contactName?: string;
+                    contactEmail?: string;
+                    participantId?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of participants */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Participant"][];
+                    };
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/participantLookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Check participant existence and list supported document types
+         * @description Verifies whether a participant exists in the Peppol network. If it exists, queries Netfly smptool to list supported document types.
+         */
+        get: operations["participantLookup"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/businessCard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Business Card (XML) for a participant
+         * @description Retrieves the current Peppol Directory Business Card XML for a participant from the SMP.
+         *     The caller must own the participant.
+         */
+        get: operations["businessCardGet"];
+        put?: never;
+        /**
+         * Publish Business Card from participant data (DB → SMP)
+         * @description Creates or updates the participant's Business Card in the SMP using data stored in Netfly (participants table).
+         *     Provide the participant via `scheme` and `participantId`. The caller must own the participant.
+         */
+        post: operations["businessCardPost"];
+        /**
+         * Delete a Business Card
+         * @description Deletes an existing Business Card from the Peppol SMP for a given participant. The authenticated client must own the participant being deleted. This endpoint communicates directly with the PHOSS SMP REST API.
+         */
+        delete: operations["deleteBusinessCard"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/participantDocuments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add document types to a participant
+         * @description Adds one or more Service Metadata document types to an existing participant in the SMP, without changing other participant fields. The caller must own the participant.
+         */
+        post: operations["addParticipantDocumentTypes"];
+        /**
+         * Delete document types from a participant
+         * @description Deletes Service Metadata for a participant.   Provide `?all=true` to remove **all** document types; otherwise pass a JSON body with `documentTypes` to remove specific ones. The caller must own the participant.
+         */
+        delete: operations["deleteParticipantDocumentTypes"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/webhook": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get webhook configuration */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Webhook configuration */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            success?: boolean;
+                            webhookUrl?: string;
+                            includeXmlPayload?: boolean;
+                            /** Format: date-time */
+                            inputDate?: string;
+                            webhookSecret?: string;
+                        };
+                    };
+                };
+                /** @description Webhook not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Create or update webhook */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Webhook"];
+                };
+            };
+            responses: {
+                /** @description Webhook created or updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Invalid request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Webhook not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Delete webhook */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Webhook deleted */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Webhook not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/webhookNotification": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Example of webhook notification payload
+         * @description When a document is received from Peppol, Netfly sends this JSON payload to your registered webhook URL. The request includes the header `X-Webhook-Signature` which is an HMAC-SHA256 signature of the body using your webhook secret `X-Webhook-Timestamp` Current time `X-Webhook-Event` Type of event (e.g. documentReceived)
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["WebhookNotification"];
+                };
+            };
+            responses: {
+                /** @description Example only – clients must respond with HTTP 200 to acknowledge. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/validate/{vesid}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Validate a UBL document by VESID
+         * @description Validates an XML (UBL) document against the specified VESID (e.g. `eu.peppol.bis3:invoice:latest`). The XML body is forwarded to Netfly's validator and the response is returned as-is.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Validation identifier (invoice/creditnote; latest or fixed version). */
+                    vesid: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/xml": string;
+                };
+            };
+            responses: {
+                /** @description Validation report (passthrough) */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            [key: string]: unknown;
+                        };
+                    };
+                };
+                /** @description Bad request (e.g., empty body or invalid XML) */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+                /** @description Internal error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ApiResult"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    ApiResult: {
-      success: boolean;
-      code: string;
-      message: string;
+    schemas: {
+        ApiResult: {
+            success: boolean;
+            code: string;
+            message: string;
+        };
+        /**
+         * @description Simplified document type identifier used in requests.
+         * @enum {string}
+         */
+        DocumentTypeName: "PEPPOL_BIS_BILLING_UBL_INVOICE_V3" | "PEPPOL_BIS_BILLING_UBL_CREDITNOTE_V3" | "PEPPOL_INVOICE_RESPONSE_3" | "PEPPOL_ORDER_TRANSACTION_3" | "EN_16931_CII_INVOICE" | "PEPPOL_MESSAGE_LEVEL_STATUS_1";
+        Participant: {
+            /** @example Company SA */
+            name: string;
+            /** @example Rue de la Gare */
+            street?: string;
+            /** @example 212 */
+            streetNr?: string;
+            /** @example 4219 */
+            zip?: string;
+            /** @example Wasseiges */
+            city?: string;
+            /** @example BE */
+            country: string;
+            /** @example be0123456789 */
+            participantId: string;
+            /** @example 9925 */
+            participantScheme: string;
+            /**
+             * @example iso6523-actorid-upis
+             * @enum {string}
+             */
+            participantPrefix: "iso6523-actorid-upis";
+            /**
+             * Format: uri
+             * @example https://www.company.be
+             */
+            webURI?: string;
+            /** @example CEO */
+            contactType?: string;
+            /** @example John Doe */
+            contactName?: string;
+            /** @example +32 475 123456 */
+            contactPhone?: string;
+            /**
+             * Format: email
+             * @example john@company.be
+             */
+            contactEmail: string;
+            /**
+             * @description One or more simplified document type names.
+             *     See `DocumentTypeName` enum for the full list.
+             */
+            documentTypes: components["schemas"]["DocumentTypeName"][];
+        };
+        ParticipantUpdateResult: components["schemas"]["ApiResult"] & {
+            addedDocumentTypes?: components["schemas"]["DocumentTypeName"][];
+            deletedDocumentTypes?: components["schemas"]["DocumentTypeName"][];
+        };
+        ParticipantDeleteResult: components["schemas"]["ApiResult"] & {
+            /** @example 5 */
+            deletedParticipantId?: number;
+        };
+        ParticipantLookupResult: {
+            /** @example true */
+            success: boolean;
+            /** @example PLK00 */
+            code: string;
+            /** @example iso6523-actorid-upis::0208:0475689186 */
+            participantID: string;
+            /** @enum {string} */
+            environment: "digittest" | "digitprod";
+            /** @example true */
+            exists: boolean;
+            /** @example digittest */
+            sml?: string;
+            /** @example http://smp.netfly.eu.com */
+            smpHostURI?: string;
+            documentTypes: {
+                documentTypeID?: string;
+                niceName?: string;
+                /** @example act */
+                state?: string;
+                /** @example false */
+                isDeprecated?: boolean;
+            }[];
+            queryDurations?: {
+                /** @example 48 */
+                helgerMillis?: number;
+                /** @example 799 */
+                smpToolMillis?: number;
+            };
+        };
+        Webhook: {
+            /** @example https://webhook.client.be */
+            url: string;
+            /** @example true */
+            includeXmlPayload: boolean;
+        };
+        WebhookNotification: {
+            /** @example documentReceived */
+            event?: string;
+            /**
+             * Format: date-time
+             * @example 2025-08-14T09:34:15Z
+             */
+            timestamp?: string;
+            /** @example 9925:BE0475689186 */
+            sender?: string;
+            /** @example BE */
+            senderCountry?: string;
+            /** @example 0208:0486243141 */
+            recipient?: string;
+            /** @example 1234 */
+            documentId?: string;
+            /** @example urn:fdc:peppol.eu:2017:poacc:billing:01:1.0 */
+            documentType?: string;
+            /** @example eu.peppol.bis3:invoice:2024.5 */
+            vesid?: string;
+            /**
+             * Format: uri
+             * @example SFTP_SERVER
+             */
+            downloadUrl?: string;
+            /**
+             * @description Base64 encoded UBL XML document (present only if includeXmlPayload=true)
+             * @example PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGlu... (base64-encoded full UBL XML)
+             */
+            xmlBase64?: string;
+        };
     };
-    /**
-     * @description Simplified document type identifier used in requests.
-     * @enum {string}
-     */
-    DocumentTypeName:
-      | 'PEPPOL_BIS_BILLING_UBL_INVOICE_V3'
-      | 'PEPPOL_BIS_BILLING_UBL_CREDITNOTE_V3'
-      | 'PEPPOL_INVOICE_RESPONSE_3'
-      | 'PEPPOL_ORDER_TRANSACTION_3'
-      | 'EN_16931_CII_INVOICE'
-      | 'PEPPOL_MESSAGE_LEVEL_STATUS_1';
-    Participant: {
-      /** @example Company SA */
-      name: string;
-      /** @example Rue de la Gare */
-      street?: string;
-      /** @example 212 */
-      streetNr?: string;
-      /** @example 4219 */
-      zip?: string;
-      /** @example Wasseiges */
-      city?: string;
-      /** @example BE */
-      country: string;
-      /** @example be0123456789 */
-      participantId: string;
-      /** @example 9925 */
-      participantScheme: string;
-      /**
-       * @example iso6523-actorid-upis
-       * @enum {string}
-       */
-      participantPrefix: 'iso6523-actorid-upis';
-      /**
-       * Format: uri
-       * @example https://www.company.be
-       */
-      webURI?: string;
-      /** @example CEO */
-      contactType?: string;
-      /** @example John Doe */
-      contactName?: string;
-      /** @example +32 475 123456 */
-      contactPhone?: string;
-      /**
-       * Format: email
-       * @example john@company.be
-       */
-      contactEmail: string;
-      /**
-       * @description One or more simplified document type names.
-       *     See `DocumentTypeName` enum for the full list.
-       */
-      documentTypes: components['schemas']['DocumentTypeName'][];
-    };
-    ParticipantUpdateResult: components['schemas']['ApiResult'] & {
-      addedDocumentTypes?: components['schemas']['DocumentTypeName'][];
-      deletedDocumentTypes?: components['schemas']['DocumentTypeName'][];
-    };
-    ParticipantDeleteResult: components['schemas']['ApiResult'] & {
-      /** @example 5 */
-      deletedParticipantId?: number;
-    };
-    ParticipantLookupResult: {
-      /** @example true */
-      success: boolean;
-      /** @example PLK00 */
-      code: string;
-      /** @example iso6523-actorid-upis::0208:0475689186 */
-      participantID: string;
-      /** @enum {string} */
-      environment: 'digittest' | 'digitprod';
-      /** @example true */
-      exists: boolean;
-      /** @example digittest */
-      sml?: string;
-      /** @example http://smp.netfly.eu.com */
-      smpHostURI?: string;
-      documentTypes: {
-        documentTypeID?: string;
-        niceName?: string;
-        /** @example act */
-        state?: string;
-        /** @example false */
-        isDeprecated?: boolean;
-      }[];
-      queryDurations?: {
-        /** @example 48 */
-        helgerMillis?: number;
-        /** @example 799 */
-        smpToolMillis?: number;
-      };
-    };
-    Webhook: {
-      /** @example https://webhook.client.be */
-      url: string;
-      /** @example true */
-      includeXmlPayload: boolean;
-    };
-    WebhookNotification: {
-      /** @example documentReceived */
-      event?: string;
-      /**
-       * Format: date-time
-       * @example 2025-08-14T09:34:15Z
-       */
-      timestamp?: string;
-      /** @example 9925:BE0475689186 */
-      sender?: string;
-      /** @example BE */
-      senderCountry?: string;
-      /** @example 0208:0486243141 */
-      recipient?: string;
-      /** @example 1234 */
-      documentId?: string;
-      /** @example urn:fdc:peppol.eu:2017:poacc:billing:01:1.0 */
-      documentType?: string;
-      /** @example eu.peppol.bis3:invoice:2024.5 */
-      vesid?: string;
-      /**
-       * Format: uri
-       * @example SFTP_SERVER
-       */
-      downloadUrl?: string;
-      /**
-       * @description Base64 encoded UBL XML document (present only if includeXmlPayload=true)
-       * @example PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGlu... (base64-encoded full UBL XML)
-       */
-      xmlBase64?: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  participantLookup: {
-    parameters: {
-      query: {
-        /** @description Participant scheme ID (e.g., `9925` or `0208`) */
-        scheme: string;
-        /** @description Participant identifier value (e.g., `0475689186`) */
-        participant_id: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
+    participantLookup: {
+        parameters: {
+            query: {
+                /** @description Participant scheme ID (e.g., `9925` or `0208`) */
+                scheme: string;
+                /** @description Participant identifier value (e.g., `0475689186`) */
+                participant_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Participant status and (if found) supported document types */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ParticipantLookupResult"];
+                };
+            };
+            /** @description Missing/invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResult"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResult"];
+                };
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResult"];
+                };
+            };
+            /** @description Upstream error (Helger or smptool unavailable) */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResult"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Participant status and (if found) supported document types */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    businessCardGet: {
+        parameters: {
+            query: {
+                /** @description Participant scheme (iso6523 subtype). */
+                scheme: string;
+                /** @description Scheme-specific participant identifier. */
+                participantId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          'application/json': components['schemas']['ParticipantLookupResult'];
+        requestBody?: never;
+        responses: {
+            /** @description Business Card XML */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/xml": string;
+                };
+            };
+            /** @description Unauthorized (missing/invalid token) */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden (participant not owned by caller) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Business Card not found in SMP */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
-      /** @description Missing/invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['ApiResult'];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['ApiResult'];
-        };
-      };
-      /** @description Server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['ApiResult'];
-        };
-      };
-      /** @description Upstream error (Helger or smptool unavailable) */
-      502: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['ApiResult'];
-        };
-      };
     };
-  };
-  businessCardGet: {
-    parameters: {
-      query: {
-        /** @description Participant scheme (iso6523 subtype). */
-        scheme: string;
-        /** @description Scheme-specific participant identifier. */
-        participantId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
+    businessCardPost: {
+        parameters: {
+            query: {
+                /** @description Participant scheme (iso6523 subtype). */
+                scheme: string;
+                /** @description Scheme-specific participant identifier. */
+                participantId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Business Card created/updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example true */
+                        success?: boolean;
+                        /** @example BC200 */
+                        code?: string;
+                        /** @example Business card created/updated from participant data */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Bad request (e.g., missing parameters) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example BC400 */
+                        code?: string;
+                        /** @example Missing parameters: scheme and participantId */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized (missing/invalid token) */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden (participant not found or not owned by caller) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description SMP error / upstream failure */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example BC502 */
+                        code?: string;
+                        /** @example Failed to store business card in SMP */
+                        message?: string;
+                    };
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Business Card XML */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    deleteBusinessCard: {
+        parameters: {
+            query: {
+                /** @description The participant scheme (e.g., `0208` for Belgium). */
+                scheme: string;
+                /** @description The participant identifier without the prefix. */
+                participantId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          'application/xml': string;
+        requestBody?: never;
+        responses: {
+            /** @description Business Card deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example true */
+                        success?: boolean;
+                        /** @example Business card deleted successfully */
+                        message?: string;
+                        /** @example BCD00 */
+                        code?: string;
+                    };
+                };
+            };
+            /** @description Bad request or invalid participant parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example Invalid participantId or scheme */
+                        message?: string;
+                        /** @example BCD400 */
+                        code?: string;
+                    };
+                };
+            };
+            /** @description Authentication failed or missing Bearer token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example Unauthorized */
+                        message?: string;
+                        /** @example BCD401 */
+                        code?: string;
+                    };
+                };
+            };
+            /** @description Business Card not found or already deleted */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example Business card not found */
+                        message?: string;
+                        /** @example BCD404 */
+                        code?: string;
+                    };
+                };
+            };
+            /** @description Internal server error while communicating with the SMP */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example Failed to delete business card from SMP */
+                        message?: string;
+                        /** @example BCD500 */
+                        code?: string;
+                    };
+                };
+            };
         };
-      };
-      /** @description Unauthorized (missing/invalid token) */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Forbidden (participant not owned by caller) */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Business Card not found in SMP */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
     };
-  };
-  businessCardPost: {
-    parameters: {
-      query: {
-        /** @description Participant scheme (iso6523 subtype). */
-        scheme: string;
-        /** @description Scheme-specific participant identifier. */
-        participantId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
+    addParticipantDocumentTypes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description Must be `iso6523-actorid-upis`
+                     * @example iso6523-actorid-upis
+                     */
+                    participantPrefix: string;
+                    /** @example 0208 */
+                    participantScheme: string;
+                    /** @example 0475689186 */
+                    participantId: string;
+                    /** @description Array of simplified document type names */
+                    documentTypes: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description Document types added successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example true */
+                        success?: boolean;
+                        /** @example DTM00 */
+                        code?: string;
+                        /** @example Document types added */
+                        message?: string;
+                        addedDocumentTypes?: string[];
+                    };
+                };
+            };
+            /** @description Missing/invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example DTM02 */
+                        code?: string;
+                        /** @example Missing or invalid participant identifiers */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Participant not found or not owned by client */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example DTM03 */
+                        code?: string;
+                        /** @example Participant not found or not owned by client */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description SMP or internal error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example DTM500 */
+                        code?: string;
+                        /** @example Internal server error */
+                        message?: string;
+                    };
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Business Card created/updated */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    deleteParticipantDocumentTypes: {
+        parameters: {
+            query?: {
+                /** @description When `true`, deletes **all** document types for the participant. */
+                all?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          'application/json': {
-            /** @example true */
-            success?: boolean;
-            /** @example BC200 */
-            code?: string;
-            /** @example Business card created/updated from participant data */
-            message?: string;
-          };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @example iso6523-actorid-upis */
+                    participantPrefix: string;
+                    /** @example 0208 */
+                    participantScheme: string;
+                    /** @example 0475689186 */
+                    participantId: string;
+                    /** @description Required unless `all=true` */
+                    documentTypes?: string[];
+                };
+            };
         };
-      };
-      /** @description Bad request (e.g., missing parameters) */
-      400: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Document types deleted (or nothing to delete) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example true */
+                        success?: boolean;
+                        /** @example DTD00 */
+                        code?: string;
+                        /** @example Document types deleted */
+                        message?: string;
+                        deletedDocumentTypes?: string[];
+                    };
+                };
+            };
+            /** @description Missing/invalid input (or documentTypes missing when all!=true) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example DTD05 */
+                        code?: string;
+                        /** @example documentTypes array required (or use ?all=true) */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Participant not found or not owned by client */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example DTD03 */
+                        code?: string;
+                        /** @example Participant not found or not owned by client */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description SMP or internal error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        success?: boolean;
+                        /** @example DTD500 */
+                        code?: string;
+                        /** @example Internal server error */
+                        message?: string;
+                    };
+                };
+            };
         };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example BC400 */
-            code?: string;
-            /** @example Missing parameters: scheme and participantId */
-            message?: string;
-          };
-        };
-      };
-      /** @description Unauthorized (missing/invalid token) */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Forbidden (participant not found or not owned by caller) */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description SMP error / upstream failure */
-      502: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example BC502 */
-            code?: string;
-            /** @example Failed to store business card in SMP */
-            message?: string;
-          };
-        };
-      };
     };
-  };
-  deleteBusinessCard: {
-    parameters: {
-      query: {
-        /** @description The participant scheme (e.g., `0208` for Belgium). */
-        scheme: string;
-        /** @description The participant identifier without the prefix. */
-        participantId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Business Card deleted successfully */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example true */
-            success?: boolean;
-            /** @example Business card deleted successfully */
-            message?: string;
-            /** @example BCD00 */
-            code?: string;
-          };
-        };
-      };
-      /** @description Bad request or invalid participant parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example Invalid participantId or scheme */
-            message?: string;
-            /** @example BCD400 */
-            code?: string;
-          };
-        };
-      };
-      /** @description Authentication failed or missing Bearer token */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example Unauthorized */
-            message?: string;
-            /** @example BCD401 */
-            code?: string;
-          };
-        };
-      };
-      /** @description Business Card not found or already deleted */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example Business card not found */
-            message?: string;
-            /** @example BCD404 */
-            code?: string;
-          };
-        };
-      };
-      /** @description Internal server error while communicating with the SMP */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example Failed to delete business card from SMP */
-            message?: string;
-            /** @example BCD500 */
-            code?: string;
-          };
-        };
-      };
-    };
-  };
-  addParticipantDocumentTypes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          /**
-           * @description Must be `iso6523-actorid-upis`
-           * @example iso6523-actorid-upis
-           */
-          participantPrefix: string;
-          /** @example 0208 */
-          participantScheme: string;
-          /** @example 0475689186 */
-          participantId: string;
-          /** @description Array of simplified document type names */
-          documentTypes: string[];
-        };
-      };
-    };
-    responses: {
-      /** @description Document types added successfully */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example true */
-            success?: boolean;
-            /** @example DTM00 */
-            code?: string;
-            /** @example Document types added */
-            message?: string;
-            addedDocumentTypes?: string[];
-          };
-        };
-      };
-      /** @description Missing/invalid input */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example DTM02 */
-            code?: string;
-            /** @example Missing or invalid participant identifiers */
-            message?: string;
-          };
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Participant not found or not owned by client */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example DTM03 */
-            code?: string;
-            /** @example Participant not found or not owned by client */
-            message?: string;
-          };
-        };
-      };
-      /** @description SMP or internal error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example DTM500 */
-            code?: string;
-            /** @example Internal server error */
-            message?: string;
-          };
-        };
-      };
-    };
-  };
-  deleteParticipantDocumentTypes: {
-    parameters: {
-      query?: {
-        /** @description When `true`, deletes **all** document types for the participant. */
-        all?: boolean;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          /** @example iso6523-actorid-upis */
-          participantPrefix: string;
-          /** @example 0208 */
-          participantScheme: string;
-          /** @example 0475689186 */
-          participantId: string;
-          /** @description Required unless `all=true` */
-          documentTypes?: string[];
-        };
-      };
-    };
-    responses: {
-      /** @description Document types deleted (or nothing to delete) */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example true */
-            success?: boolean;
-            /** @example DTD00 */
-            code?: string;
-            /** @example Document types deleted */
-            message?: string;
-            deletedDocumentTypes?: string[];
-          };
-        };
-      };
-      /** @description Missing/invalid input (or documentTypes missing when all!=true) */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example DTD05 */
-            code?: string;
-            /** @example documentTypes array required (or use ?all=true) */
-            message?: string;
-          };
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Participant not found or not owned by client */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example DTD03 */
-            code?: string;
-            /** @example Participant not found or not owned by client */
-            message?: string;
-          };
-        };
-      };
-      /** @description SMP or internal error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            /** @example false */
-            success?: boolean;
-            /** @example DTD500 */
-            code?: string;
-            /** @example Internal server error */
-            message?: string;
-          };
-        };
-      };
-    };
-  };
 }
