@@ -96,6 +96,82 @@ actions:
       params:
         administration_id: administrations.id
 
+- target: paths['/{administration_id}/downloads{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: downloads
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/estimates{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: estimates
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/estimates/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/external_sales_invoices{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: external_sales_invoices
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/external_sales_invoices/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# /{administration_id}/external_sales_invoices/{external_sales_invoice_id}/attachments/{id}/download{format}
+
+- target: paths['/{administration_id}/financial_accounts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: financial_accounts
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+
+- target: paths['/{administration_id}/documents/financial_mutations{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: financial_mutations
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/financial_mutations/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+
+- target: paths['/{administration_id}/financial_statements{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: financial_statements
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# /{administration_id}/identities{format} + /{administration_id}/identities/default{format}
+# /{administration_id}/ledger_accounts{format}
+# /{administration_id}/products{format}
+# /{administration_id}/projects{format}
+# /{administration_id}/purchase_transactions{format}
+# /{administration_id}/recurring_sales_invoices{format} [synchronization]
+# ...
+
+
 # The Moneybird spec says identifiers can be strings or integers. What it really means is that
 # it is a stringified integer. We don't have support for that (yet) so overriding it here to just string.
 - target: components.schemas.identifier
@@ -111,18 +187,3 @@ actions:
       type: string
 - target: components.schemas.administration_id.allOf
   remove: true
-
-# /{administration_id}/downloads{format}
-# /{administration_id}/estimates{format} [synchronization]
-# /{administration_id}/external_sales_invoices{format}
-# /{administration_id}/external_sales_invoices/{external_sales_invoice_id}/attachments/{id}/download{format}
-# /{administration_id}/financial_accounts{format}
-# /{administration_id}/financial_mutations{format} [synchronization]
-# /{administration_id}/financial_statements{format}
-# /{administration_id}/identities{format} + /{administration_id}/identities/default{format}
-# /{administration_id}/ledger_accounts{format}
-# /{administration_id}/products{format}
-# /{administration_id}/projects{format}
-# /{administration_id}/purchase_transactions{format}
-# /{administration_id}/recurring_sales_invoices{format} [synchronization]
-# ...
