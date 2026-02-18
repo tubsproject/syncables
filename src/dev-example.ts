@@ -49,6 +49,14 @@ const promises = Object.keys(configs).map(async (specName) => {
     dbConn:
       'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
   });
+  if (process.argv.length > 2) {
+    const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
+    console.log(
+      `Filtering syncables for ${specName} with filter:`,
+      JSON.stringify(filter),
+    );
+    return await syncer.fullFetch(filter);
+  }
   // void syncer;
   return await syncer.fullFetch();
 });

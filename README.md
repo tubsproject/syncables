@@ -107,6 +107,7 @@ console.log(calendarEntries[0].backgroundColor);
 ```sh
 docker compose up -d
 pnpm start
+pnpm start events,contacts
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 ```
 It will check for existing bearer tokens in the `.tokens` folder and initiate OAuth flows as needed.

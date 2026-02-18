@@ -15,6 +15,7 @@ actions:
       type: string
 - target: components.schemas.administration_id.allOf
   remove: true
+
 - target: paths['/{administration_id}/assets{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
@@ -24,11 +25,13 @@ actions:
         format: .json
       params:
         administration_id: administrations.id
+
 - target: paths['/{administration_id}/contacts{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
       name: contacts
       paginationStrategy: pageNumber
+      synchronization: /{administration_id}/contacts/synchronization{format}
       query:
         format: .json
       params:
@@ -39,3 +42,84 @@ actions:
       type: string
 - target: components.schemas.base_contact_response.properties.id['$ref']
   remove: true
+
+- target: paths['/{administration_id}/document_styles{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: document_styles
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/general_documents{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: general_documents
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/general_documents/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/general_journal_documents{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: general_journal_documents
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/general_journal_documents/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/purchase_invoices{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: purchase_invoices
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/purchase_invoices/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/receipts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: receipts
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/receipts/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/typeless_documents{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: typeless_documents
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/typeless_documents/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+
+# /{administration_id}/downloads{format}
+# /{administration_id}/estimates{format} [synchronization]
+# /{administration_id}/external_sales_invoices{format}
+# /{administration_id}/external_sales_invoices/{external_sales_invoice_id}/attachments/{id}/download{format}
+# /{administration_id}/financial_accounts{format}
+# /{administration_id}/financial_mutations{format} [synchronization]
+# /{administration_id}/financial_statements{format}
+# /{administration_id}/identities{format} + /{administration_id}/identities/default{format}
+# /{administration_id}/ledger_accounts{format}
+# /{administration_id}/products{format}
+# /{administration_id}/projects{format}
+# /{administration_id}/purchase_transactions{format}
+# /{administration_id}/recurring_sales_invoices{format} [synchronization]
+# ...

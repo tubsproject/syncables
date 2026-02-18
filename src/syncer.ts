@@ -640,20 +640,28 @@ export class Syncer extends EventEmitter {
     }
     return data;
   }
-  async fullFetch(): Promise<{ [syncableName: string]: object[] }> {
+  async fullFetch(filter?: string[]): Promise<{ [syncableName: string]: object[] }> {
     const allData: {
       [syncableName: string]: object[];
     } = {};
     const schema = await this.parseSpec();
     let newData: boolean;
+    const skipped: { [syncableName: string]: boolean } = {};
     do {
-      // console.log(
-      //   'Starting loop of fetching all syncables, currently have data for syncables',
-      //   Object.keys(allData),
-      // );
+      console.log(
+        'Starting loop of fetching all syncables, currently have data for syncables',
+        Object.keys(allData),
+      );
       newData = false;
       for (const specName of Object.keys(this.syncables)) {
+        if (filter && filter.indexOf(specName) === -1) {
+          console.log('Skipping syncable', specName, 'because it is not in the filter list');
+          continue;
+        } else if (filter) {
+          console.log('Including syncable', specName, 'because it is in the filter list');
+        }
         if (allData[specName]) {
+          console.log(`Already have data for syncable ${specName}, skipping...`);
           continue;
         }
         const syncable = this.syncables[specName];
@@ -691,16 +699,17 @@ export class Syncer extends EventEmitter {
             // console.log(
             //   `Skipping syncable ${specName} for now because we're still missing parent data...`,
             // );
+            skipped[specName] = true;
             continue;
           }
           // console.log('all parents for syncable', specName, parents);
         }
+        skipped[specName] = false;
         const data = await this.fetchOneSyncable(schema, specName, parents);
-        // console.log('Fetched data for syncable', specName, data);
+        console.log('Fetched data for syncable', specName, 'data length:', data.length);
         allData[specName] = data;
         newData = true;
       }
-      // console.log(
       //   'Finished one loop of fetching all syncables, checking if we have all data we need...',
       //   Object.keys(allData).length,
       //   Object.keys(this.syncables).length,
@@ -709,6 +718,20 @@ export class Syncer extends EventEmitter {
       newData &&
       Object.keys(allData).length < Object.keys(this.syncables).length
     );
+    Object.keys(skipped).forEach((specName) => {
+      if (skipped[specName]) {
+        const needed = Object.keys(this.syncables[specName].spec.params).map(
+          (pattern) => {
+            const reference = this.syncables[specName].spec.params[pattern];
+            return reference.split('.')[0];
+          },
+        );
+        const have = Object.keys(allData);
+        console.log(
+          `We had to skip syncable ${specName} because of missing parent data (needs [${needed.join(', ')}] and we have [${have.join(', ')}]).`, 
+        );
+      }
+    });
     if (this.client) {
       await this.client.end();
     }

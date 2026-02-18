@@ -5009,6 +5009,7 @@ paths:
               syncable:
                 name: contacts
                 paginationStrategy: pageNumber
+                synchronization: '/{administration_id}/contacts/synchronization{format}'
                 query:
                   format: .json
                 params:
@@ -5783,6 +5784,13 @@ paths:
                         - field: due_date
                       created_at: '2026-02-12T10:42:07.684Z'
                       updated_at: '2026-02-12T10:42:07.713Z'
+              syncable:
+                name: document_styles
+                paginationStrategy: none
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
   '/{administration_id}/documents/general_documents/synchronization{format}':
     get:
       summary: List ids and versions of general documents
@@ -6570,6 +6578,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:44:04.001Z'
                           updated_at: '2026-02-12T10:44:04.001Z'
+              syncable:
+                name: general_documents
+                paginationStrategy: pageNumber
+                synchronization: >-
+                  /{administration_id}/documents/general_documents/synchronization{format}
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -7999,6 +8016,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:44:00.703Z'
                           updated_at: '2026-02-12T10:44:00.703Z'
+              syncable:
+                name: general_journal_documents
+                paginationStrategy: pageNumber
+                synchronization: >-
+                  /{administration_id}/documents/general_journal_documents/synchronization{format}
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -10217,6 +10243,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:45:53.145Z'
                           updated_at: '2026-02-12T10:45:53.145Z'
+              syncable:
+                name: purchase_invoices
+                paginationStrategy: pageNumber
+                synchronization: >-
+                  /{administration_id}/documents/purchase_invoices/synchronization{format}
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -12417,6 +12452,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:45:46.764Z'
                           updated_at: '2026-02-12T10:45:46.764Z'
+              syncable:
+                name: receipts
+                paginationStrategy: pageNumber
+                synchronization: >-
+                  /{administration_id}/documents/receipts/synchronization{format}
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -13164,6 +13208,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:44:26.411Z'
                           updated_at: '2026-02-12T10:44:26.411Z'
+              syncable:
+                name: typeless_documents
+                paginationStrategy: pageNumber
+                synchronization: >-
+                  /{administration_id}/documents/typeless_documents/synchronization{format}
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
