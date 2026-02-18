@@ -9,12 +9,6 @@ actions:
       paginationStrategy: none
       query:
         format: .json
-- target: components.schemas
-  update:
-    administration_id:
-      type: string
-- target: components.schemas.administration_id.allOf
-  remove: true
 
 - target: paths['/{administration_id}/assets{format}']['get']['responses']['200']['content']['application/json']
   update:
@@ -36,12 +30,6 @@ actions:
         format: .json
       params:
         administration_id: administrations.id
-- target: components.schemas.base_contact_response.properties
-  update:
-    id:
-      type: string
-- target: components.schemas.base_contact_response.properties.id['$ref']
-  remove: true
 
 - target: paths['/{administration_id}/document_styles{format}']['get']['responses']['200']['content']['application/json']
   update:
@@ -108,6 +96,21 @@ actions:
       params:
         administration_id: administrations.id
 
+# The Moneybird spec says identifiers can be strings or integers. What it really means is that
+# it is a stringified integer. We don't have support for that (yet) so overriding it here to just string.
+- target: components.schemas.identifier
+  update:
+    type: string
+    commment: Moneybird identifiers are stringified integers, so we can just treat them as strings.
+
+# This should be covered by the previous edit, but our code can't deal with $ref inside allOf,
+# so need to do it manually here for now. We can add support for $ref inside allOf later, but this is faster to implement for now.:
+- target: components.schemas
+  update:
+    administration_id:
+      type: string
+- target: components.schemas.administration_id.allOf
+  remove: true
 
 # /{administration_id}/downloads{format}
 # /{administration_id}/estimates{format} [synchronization]

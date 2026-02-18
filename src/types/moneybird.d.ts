@@ -4585,7 +4585,7 @@ export interface components {
             }[];
         }[];
         base_contact_response: {
-            id?: string;
+            id?: components["schemas"]["identifier"];
             administration_id?: components["schemas"]["administration_id"];
             company_name?: unknown;
             firstname?: string | null;
@@ -5111,7 +5111,7 @@ export interface components {
          * @description A unique record identifier
          * @example 458026356994737217
          */
-        identifier: string | number;
+        identifier: string;
         /**
          * @description A unique record identifier
          * @example 458026356994737217

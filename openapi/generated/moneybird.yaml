@@ -46591,7 +46591,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          $ref: '#/components/schemas/identifier'
         administration_id:
           $ref: '#/components/schemas/administration_id'
         company_name: {}
@@ -47965,12 +47965,13 @@ components:
         kind:
           type: string
     identifier:
-      type:
-        - string
-        - integer
+      type: string
       pattern: ^\d+$
       description: A unique record identifier
       example: '458026356994737217'
+      commment: >-
+        Moneybird identifiers are stringified integers, so we can just treat
+        them as strings.
     identifier_nullable:
       type:
         - string
