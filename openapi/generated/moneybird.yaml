@@ -31820,13 +31820,6 @@ paths:
                   summary: Returns success for full period
                   value:
                     creditors: []
-              syncable:
-                name: reports_creditors
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -31963,6 +31956,8 @@ paths:
                 paginationStrategy: none
                 query:
                   format: .json
+                itemsPathInResponse:
+                  - debtors
                 params:
                   administration_id: administrations.id
         '400':
@@ -32206,6 +32201,8 @@ paths:
                 paginationStrategy: none
                 query:
                   format: .json
+                itemsPathInResponse:
+                  - debtors
                 params:
                   administration_id: administrations.id
         '400':
@@ -32322,6 +32319,8 @@ paths:
                 paginationStrategy: none
                 query:
                   format: .json
+                itemsPathInResponse:
+                  - expenses_by_contact
                 params:
                   administration_id: administrations.id
         '400':
@@ -32433,13 +32432,6 @@ paths:
                     expenses_by_project:
                       - project_id: null
                         amount: '0'
-              syncable:
-                name: reports_expenses_by_project
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -32949,13 +32941,6 @@ paths:
                       ledger_accounts:
                         - ledger_account_id: '478856495963833882'
                           value: '300.0'
-              syncable:
-                name: reports_general_ledger
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
             application/xml:
               schema:
                 type: object
@@ -33338,13 +33323,6 @@ paths:
                 ReturnsSuccessForFullPeriod:
                   summary: Returns success for full period
                   value: []
-              syncable:
-                name: reports_journal_entries
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -33842,6 +33820,9 @@ paths:
                 paginationStrategy: none
                 query:
                   format: .json
+                itemsPathInResponse:
+                  - revenue_by_ledger_account
+                  - ledger_accounts
                 params:
                   administration_id: administrations.id
             application/xml:
@@ -33981,6 +33962,8 @@ paths:
                 paginationStrategy: none
                 query:
                   format: .json
+                itemsPathInResponse:
+                  - revenue_by_contact
                 params:
                   administration_id: administrations.id
         '400':
@@ -34092,13 +34075,6 @@ paths:
                     revenue_by_project:
                       - project_id: null
                         amount: '0'
-              syncable:
-                name: reports_revenue_by_project
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -34210,13 +34186,6 @@ paths:
                     annual_run_rate: '0'
                     churn_rate: '0'
                     lifetime_value: '0'
-              syncable:
-                name: reports_subscriptions
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -34354,6 +34323,8 @@ paths:
                 paginationStrategy: none
                 query:
                   format: .json
+                itemsPathInResponse:
+                  - tax_rates
                 params:
                   administration_id: administrations.id
         '400':

@@ -126,12 +126,12 @@ export async function insertData(
   fields: string[],
   idField: string,
 ): Promise<void> {
-  // console.log(`Inserting data into table ${tableName}:`, items);
+  console.log(`Inserting data into table ${tableName}:`, items);
   await Promise.all(
     items.map((item: any) => {
       // FIXME: use parameterized queries instead of string interpolation to avoid SQL injection issues, and properly handle escaping of values
       const insertQuery = `INSERT INTO ${tableName.replace('-', '_')} (${fields.map((x) => `"S${x}"`).join(', ')}) VALUES (${fields.map((field) => `'${item[field]?.toString().replace(/'/g, "''")}'`).join(', ')}) ON CONFLICT ("S${idField}") DO NOTHING`;
-      // console.log(`Executing insert query: ${insertQuery}`);
+      console.log(`Executing insert query: ${insertQuery}`);
       return client.query(insertQuery);
     }),
   );

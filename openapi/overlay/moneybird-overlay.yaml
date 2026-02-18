@@ -271,15 +271,17 @@ actions:
 #         format: .json
 #       params:
 #         administration_id: administrations.id
-- target: paths['/{administration_id}/reports/creditors{format}']['get']['responses']['200']['content']['application/json']
-  update:
-    syncable:
-      name: reports_creditors
-      paginationStrategy: none
-      query:
-        format: .json
-      params:
-        administration_id: administrations.id
+
+# FIXME: disabling this because of a 500 erro on Moneybird's side:
+# - target: paths['/{administration_id}/reports/creditors{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       name: reports_creditors
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       params:
+#         administration_id: administrations.id
 - target: paths['/{administration_id}/reports/debtors{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
@@ -287,6 +289,8 @@ actions:
       paginationStrategy: none
       query:
         format: .json
+      itemsPathInResponse:
+        - debtors
       params:
         administration_id: administrations.id
 - target: paths['/{administration_id}/reports/debtors_aging{format}']['get']['responses']['200']['content']['application/json']
@@ -296,6 +300,8 @@ actions:
       paginationStrategy: none
       query:
         format: .json
+      itemsPathInResponse:
+        - debtors
       params:
         administration_id: administrations.id
 - target: paths['/{administration_id}/reports/expenses_by_contact{format}']['get']['responses']['200']['content']['application/json']
@@ -305,17 +311,23 @@ actions:
       paginationStrategy: none
       query:
         format: .json
+      itemsPathInResponse:
+        - expenses_by_contact
       params:
         administration_id: administrations.id
-- target: paths['/{administration_id}/reports/expenses_by_project{format}']['get']['responses']['200']['content']['application/json']
-  update:
-    syncable:
-      name: reports_expenses_by_project
-      paginationStrategy: none
-      query:
-        format: .json
-      params:
-        administration_id: administrations.id
+
+# FIXME: https://github.com/tubsproject/syncables/issues/40
+# - target: paths['/{administration_id}/reports/expenses_by_project{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       name: reports_expenses_by_project
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       itemsPathInResponse:
+#         - expenses_by_project
+#       params:
+#         administration_id: administrations.id
 - target: paths['/{administration_id}/reports/export/auditfile{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
@@ -343,24 +355,30 @@ actions:
         format: .json
       params:
         administration_id: administrations.id
-- target: paths['/{administration_id}/reports/general_ledger{format}']['get']['responses']['200']['content']['application/json']
-  update:
-    syncable:
-      name: reports_general_ledger
-      paginationStrategy: none
-      query:
-        format: .json
-      params:
-        administration_id: administrations.id
-- target: paths['/{administration_id}/reports/journal_entries{format}']['get']['responses']['200']['content']['application/json']
-  update:
-    syncable:
-      name: reports_journal_entries
-      paginationStrategy: none
-      query:
-        format: .json
-      params:
-        administration_id: administrations.id
+
+# FIXME: https://github.com/tubsproject/syncables/issues/41
+# - target: paths['/{administration_id}/reports/general_ledger{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       type: item
+#       name: reports_general_ledger_debit_sums
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       idField: administration_id
+#       params:
+#         administration_id: administrations.id
+
+# FIXME: this requires filtering: at least a contact_id, project_id or ledger_account_id is required. skipping for now.
+# - target: paths['/{administration_id}/reports/journal_entries{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       name: reports_journal_entries
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       params:
+#         administration_id: administrations.id
 - target: paths['/{administration_id}/reports/profit_loss{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
@@ -368,6 +386,9 @@ actions:
       paginationStrategy: none
       query:
         format: .json
+      itemsPathInResponse:
+        - revenue_by_ledger_account
+        - ledger_accounts      
       params:
         administration_id: administrations.id
 - target: paths['/{administration_id}/reports/revenue_by_contact{format}']['get']['responses']['200']['content']['application/json']
@@ -377,26 +398,33 @@ actions:
       paginationStrategy: none
       query:
         format: .json
+      itemsPathInResponse:
+        - revenue_by_contact
       params:
         administration_id: administrations.id
-- target: paths['/{administration_id}/reports/revenue_by_project{format}']['get']['responses']['200']['content']['application/json']
-  update:
-    syncable:
-      name: reports_revenue_by_project
-      paginationStrategy: none
-      query:
-        format: .json
-      params:
-        administration_id: administrations.id
-- target: paths['/{administration_id}/reports/subscriptions{format}']['get']['responses']['200']['content']['application/json']
-  update:
-    syncable:
-      name: reports_subscriptions
-      paginationStrategy: none
-      query:
-        format: .json
-      params:
-        administration_id: administrations.id
+# FIXME: https://github.com/tubsproject/syncables/issues/41
+# - target: paths['/{administration_id}/reports/revenue_by_project{format}']['get']['responses']['200']['content']['application/json']
+  # update:
+    # syncable:
+      # name: reports_revenue_by_project
+      # paginationStrategy: none
+      # query:
+        # format: .json
+      # itemsPathInResponse:
+        # - revenue_by_project
+      # params:
+        # administration_id: administrations.id
+# FIXME: https://github.com/tubsproject/syncables/issues/41
+# - target: paths['/{administration_id}/reports/subscriptions{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       type: item
+#       name: reports_subscriptions
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       params:
+#         administration_id: administrations.id
 - target: paths['/{administration_id}/reports/tax{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
@@ -404,6 +432,8 @@ actions:
       paginationStrategy: none
       query:
         format: .json
+      itemsPathInResponse:
+        - tax_rates
       params:
         administration_id: administrations.id
 
