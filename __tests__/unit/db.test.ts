@@ -101,7 +101,9 @@ describe('getFields', () => {
         },
       },
     };
-    const fields = getFields(schema, {} as SyncableSpec);
+    const fields = getFields(schema, {
+      itemsPathInResponse: ['widgets'],
+    } as SyncableSpec);
     expect(fields).toEqual({
       id: { type: 'string' },
       name: { type: 'string' },
