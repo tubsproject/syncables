@@ -236,6 +236,178 @@ actions:
       params:
         administration_id: administrations.id
 
+- target: paths['/{administration_id}/reports/assets{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_assets
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# FIXME https://github.com/tubsproject/syncables/issues/39
+- target: paths['/{administration_id}/reports/balance_sheet{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_balance_sheet_current_liabilities
+      paginationStrategy: none
+      itemsPathInResponse:
+        - credit
+        - current_liabilities
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# FIXME https://github.com/tubsproject/syncables/issues/39
+# - target: paths['/{administration_id}/reports/cash_flow{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       type: item
+#       name: reports_cash_flow
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       params:
+#         administration_id: administrations.id
+- target: paths['/{administration_id}/reports/creditors{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_creditors
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/debtors{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_debtors
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/debtors_aging{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_debtors_aging
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/expenses_by_contact{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_expenses_by_contact
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/expenses_by_project{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_expenses_by_project
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/export/auditfile{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_export_auditfile
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/export/brugstaat{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_export_brugstaat
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/ledger_accounts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_ledger_accounts
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/general_ledger{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_general_ledger
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/journal_entries{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_journal_entries
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/profit_loss{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_profit_loss
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/revenue_by_contact{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_revenue_by_contact
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/revenue_by_project{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_revenue_by_project
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/subscriptions{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_subscriptions
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/tax{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_tax
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+
 # ...
 
 

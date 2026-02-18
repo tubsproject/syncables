@@ -679,7 +679,7 @@ describe('getFields', () => {
       },
     });
   });
-  it.only('can deal with item-type syncables', async () => {
+  it('can deal with item-type syncables', async () => {
     const specObj = await specStrToObj(moneybird);
     const defaultIdentityFields = getFields(
       specObj.paths['/{administration_id}/identities/default{format}'].get
