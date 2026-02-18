@@ -29,6 +29,9 @@ export function getFields(
   const successResponseProperties =
     openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
   // console.log(openApiSpec.paths, endPoint);
+  const syncableType: string =
+    openApiSpec.paths[endPoint]?.get?.responses?.['200']?.syncable?.type ||
+    'collection';
   let schema =
     successResponseProperties?.['application/ld+json']?.schema ||
     successResponseProperties?.['application/json']?.schema;
@@ -57,10 +60,11 @@ export function getFields(
       );
     }
   }
-  let whatWeWant = schema?.items?.properties;
-  if (!whatWeWant && schema?.items?.allOf) {
+  const sub = syncableType === 'collection' ? schema?.items : schema;
+  let whatWeWant = sub?.properties;
+  if (!whatWeWant && sub?.allOf) {
     whatWeWant = {};
-    schema.items.allOf.forEach((entry: any) => {
+    sub.allOf.forEach((entry: any) => {
       if (entry.properties) {
         Object.assign(whatWeWant, entry.properties);
       }

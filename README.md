@@ -37,6 +37,7 @@ components:
 ```
 
 Under `paths['/widgets']['get']['responses']['200']['content']['application/json']`, add an object `syncable`, in which you can specify:
+* `type`: `collection` or `item`. Defaults to `collection`.
 * `name`: a `string` descriptor of the collection, e.g. `"widgets"`
 * `paginationStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange`, `rangeHeader`,`confirmationBased`, or `none`.
 * `query`: an object containing query parameters to add in addition to the pagination-related ones

@@ -323,10 +323,12 @@ describe('getFields', () => {
         items: {
           properties: {
             id: {
+              commment:
+                'Moneybird identifiers are stringified integers, so we can just treat them as strings.',
               description: 'A unique record identifier',
               example: '458026356994737217',
               pattern: '^\\d+$',
-              type: ['string', 'integer'],
+              type: 'string',
             },
             name: {
               type: 'string',
@@ -398,10 +400,12 @@ describe('getFields', () => {
               type: 'string',
             },
             user_id: {
+              commment:
+                'Moneybird identifiers are stringified integers, so we can just treat them as strings.',
               description: 'A unique record identifier',
               example: '458026356994737217',
               pattern: '^\\d+$',
-              type: ['string', 'integer'],
+              type: 'string',
             },
           },
           type: 'object',
@@ -413,6 +417,11 @@ describe('getFields', () => {
         type: ['string', 'null'],
       },
       id: {
+        commment:
+          'Moneybird identifiers are stringified integers, so we can just treat them as strings.',
+        description: 'A unique record identifier',
+        example: '458026356994737217',
+        pattern: '^\\d+$',
         type: 'string',
       },
       invoice_workflow_id: {
@@ -475,10 +484,12 @@ describe('getFields', () => {
               type: 'string',
             },
             id: {
+              commment:
+                'Moneybird identifiers are stringified integers, so we can just treat them as strings.',
               description: 'A unique record identifier',
               example: '458026356994737217',
               pattern: '^\\d+$',
-              type: ['string', 'integer'],
+              type: 'string',
             },
             note: {
               type: ['string', 'null'],
@@ -574,10 +585,12 @@ describe('getFields', () => {
               type: 'string',
             },
             user_id: {
+              commment:
+                'Moneybird identifiers are stringified integers, so we can just treat them as strings.',
               description: 'A unique record identifier',
               example: '458026356994737217',
               pattern: '^\\d+$',
-              type: ['string', 'integer'],
+              type: 'string',
             },
           },
           type: 'object',

@@ -7,11 +7,13 @@ describe('Params', () => {
   it('can deal with params in syncable specs', async () => {
     const { fetchMock, mockResponses } = createFetchMock(true);
     const users: SyncableSpec = {
+      type: 'collection',
       name: 'users',
       paginationStrategy: 'pageNumber',
       itemsPathInResponse: ['items'],
     };
     const widgets: SyncableSpec = {
+      type: 'collection',
       name: 'widgets',
       paginationStrategy: 'pageNumber',
       itemsPathInResponse: ['items'],
@@ -66,6 +68,7 @@ describe('Params', () => {
   it('can ignore circular references in params', async () => {
     const { fetchMock } = createFetchMock(true);
     const users: SyncableSpec = {
+      type: 'collection',
       name: 'users',
       paginationStrategy: 'pageNumber',
       itemsPathInResponse: ['items'],
@@ -74,6 +77,7 @@ describe('Params', () => {
       },
     };
     const widgets: SyncableSpec = {
+      type: 'collection',
       name: 'widgets',
       paginationStrategy: 'pageNumber',
       itemsPathInResponse: ['items'],
@@ -96,16 +100,19 @@ describe('Params', () => {
   it('can fill in multiple references in params', async () => {
     const { fetchMock, mockResponses } = createFetchMock(true);
     const countries: SyncableSpec = {
+      type: 'collection',
       name: 'countries',
       paginationStrategy: 'pageNumber',
       itemsPathInResponse: ['items'],
     };
     const users: SyncableSpec = {
+      type: 'collection',
       name: 'users',
       paginationStrategy: 'pageNumber',
       itemsPathInResponse: ['items'],
     };
     const widgets: SyncableSpec = {
+      type: 'collection',
       name: 'widgets',
       paginationStrategy: 'pageNumber',
       itemsPathInResponse: ['items'],

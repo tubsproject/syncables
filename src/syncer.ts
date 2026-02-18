@@ -27,6 +27,7 @@ export async function specStrToObj(
 }
 
 export type SyncableSpec = {
+  type: string;
   name: string;
   paginationStrategy:
     | 'pageNumber'
@@ -130,6 +131,7 @@ export class Syncer extends EventEmitter {
             ];
             if (response.syncable) {
               const spec: SyncableSpec = {
+                type: response.syncable.type || 'collection',
                 name: response.syncable.name,
                 paginationStrategy: response.syncable.paginationStrategy,
                 query: response.syncable.query || {},
@@ -245,6 +247,9 @@ export class Syncer extends EventEmitter {
         );
       }
       items = items[pathPart];
+    }
+    if (spec.type === 'item') {
+      items = [items];
     }
     // console.log('parsed responseData', responseData, items, spec.itemsPathInResponse);
     let nextPageToken: string | undefined = undefined;
@@ -640,7 +645,9 @@ export class Syncer extends EventEmitter {
     }
     return data;
   }
-  async fullFetch(filter?: string[]): Promise<{ [syncableName: string]: object[] }> {
+  async fullFetch(
+    filter?: string[],
+  ): Promise<{ [syncableName: string]: object[] }> {
     const allData: {
       [syncableName: string]: object[];
     } = {};
@@ -655,13 +662,23 @@ export class Syncer extends EventEmitter {
       newData = false;
       for (const specName of Object.keys(this.syncables)) {
         if (filter && filter.indexOf(specName) === -1) {
-          console.log('Skipping syncable', specName, 'because it is not in the filter list');
+          console.log(
+            'Skipping syncable',
+            specName,
+            'because it is not in the filter list',
+          );
           continue;
         } else if (filter) {
-          console.log('Including syncable', specName, 'because it is in the filter list');
+          console.log(
+            'Including syncable',
+            specName,
+            'because it is in the filter list',
+          );
         }
         if (allData[specName]) {
-          console.log(`Already have data for syncable ${specName}, skipping...`);
+          console.log(
+            `Already have data for syncable ${specName}, skipping...`,
+          );
           continue;
         }
         const syncable = this.syncables[specName];
@@ -706,7 +723,12 @@ export class Syncer extends EventEmitter {
         }
         skipped[specName] = false;
         const data = await this.fetchOneSyncable(schema, specName, parents);
-        console.log('Fetched data for syncable', specName, 'data length:', data.length);
+        console.log(
+          'Fetched data for syncable',
+          specName,
+          'data length:',
+          data.length,
+        );
         allData[specName] = data;
         newData = true;
       }
@@ -728,7 +750,7 @@ export class Syncer extends EventEmitter {
         );
         const have = Object.keys(allData);
         console.log(
-          `We had to skip syncable ${specName} because of missing parent data (needs [${needed.join(', ')}] and we have [${have.join(', ')}]).`, 
+          `We had to skip syncable ${specName} because of missing parent data (needs [${needed.join(', ')}] and we have [${have.join(', ')}]).`,
         );
       }
     });

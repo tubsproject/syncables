@@ -128,7 +128,7 @@ actions:
       params:
         administration_id: administrations.id
 
-# /{administration_id}/external_sales_invoices/{external_sales_invoice_id}/attachments/{id}/download{format}
+# FIXME: Should we add /{administration_id}/external_sales_invoices/{external_sales_invoice_id}/attachments/{id}/download{format}?
 
 - target: paths['/{administration_id}/financial_accounts{format}']['get']['responses']['200']['content']['application/json']
   update:
@@ -163,12 +163,79 @@ actions:
       params:
         administration_id: administrations.id
 
-# /{administration_id}/identities{format} + /{administration_id}/identities/default{format}
-# /{administration_id}/ledger_accounts{format}
-# /{administration_id}/products{format}
-# /{administration_id}/projects{format}
-# /{administration_id}/purchase_transactions{format}
-# /{administration_id}/recurring_sales_invoices{format} [synchronization]
+- target: paths['/{administration_id}/identities{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: identities
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# FIXME: should be storing these into the same db table with just a boolean field to indicate whether it's the default identity or not, but for now just storing them separately since it's faster to implement and we don't have support for multiple syncables using the same db table yet.
+- target: paths['/{administration_id}/identities/default{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      type: item
+      name: default_identities
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/ledger_accounts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: ledger_accounts
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/products{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: products
+      paginationStrategy: pageNumber
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/projects{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: projects
+      paginationStrategy: pageNumber
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/purchase_transactions{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: purchase_transactions
+      paginationStrategy: pageNumber
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/recurring_sales_invoices{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: recurring_sales_invoices
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/recurring_sales_invoices/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
 # ...
 
 

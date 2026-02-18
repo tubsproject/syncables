@@ -10,6 +10,7 @@ test('query', async () => {
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
       '/todos/': {
+        type: 'collection',
         name: 'todos',
         paginationStrategy: 'pageNumber',
         pageNumberParamInQuery: 'page',

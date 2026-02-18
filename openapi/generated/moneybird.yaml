@@ -23430,6 +23430,14 @@ paths:
                     created_at: '2026-02-12T10:42:06.824Z'
                     chamber_of_commerce: '08155914'
                     tax_number: NL817575546B01
+              syncable:
+                type: item
+                name: default_identities
+                paginationStrategy: none
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
     patch:
       summary: Updates the default identity
       operationId: patch_administration_id_identities_default
@@ -23812,6 +23820,13 @@ paths:
                       created_at: '2026-02-12T10:45:50.076Z'
                       chamber_of_commerce: '08155914'
                       tax_number: NL817575546B01
+              syncable:
+                name: identities
+                paginationStrategy: none
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
     post:
       summary: Creates an identity
       operationId: post_administration_id_identities
@@ -26777,6 +26792,13 @@ paths:
                         name_english: Pre-invoiced revenue
                         reference: '1210260'
                       financial_account_id: null
+              syncable:
+                name: ledger_accounts
+                paginationStrategy: none
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
     post:
       summary: Creates a new ledger account
       operationId: post_administration_id_ledger_accounts
@@ -27534,6 +27556,13 @@ paths:
                       ledger_account_id: '478856248335271033'
                       created_at: '2026-02-12T10:42:56.224Z'
                       updated_at: '2026-02-12T10:42:56.224Z'
+              syncable:
+                name: products
+                paginationStrategy: pageNumber
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -27897,6 +27926,13 @@ paths:
                       name: Project Blackbird
                       state: archived
                       budget: 10
+              syncable:
+                name: projects
+                paginationStrategy: pageNumber
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -28499,6 +28535,13 @@ paths:
                 DoesNotListPaidTransactions:
                   summary: Does not list paid transactions
                   value: []
+              syncable:
+                name: purchase_transactions
+                paginationStrategy: pageNumber
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
   '/{administration_id}/recurring_sales_invoices/synchronization{format}':
     get:
       summary: List all IDs and versions
@@ -30883,6 +30926,15 @@ paths:
                           created_at: '2026-02-12T10:45:42.723Z'
                           updated_at: '2026-02-12T10:45:42.723Z'
                       subscription: null
+              syncable:
+                name: recurring_sales_invoices
+                paginationStrategy: pageNumber
+                synchronization: >-
+                  /{administration_id}/recurring_sales_invoices/synchronization{format}
+                query:
+                  format: .json
+                params:
+                  administration_id: administrations.id
         '400':
           description: Bad request
           content:

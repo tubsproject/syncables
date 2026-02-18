@@ -5,6 +5,7 @@ import { createSpec } from '../helpers/createSpec.js';
 describe('Spec parsing', () => {
   it('can parse one syncable spec out of an OAD', async () => {
     const spec: SyncableSpec = {
+      type: 'collection',
       name: 'widgets',
       paginationStrategy: 'pageNumber',
       pageNumberParamInQuery: 'page',
