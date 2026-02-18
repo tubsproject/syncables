@@ -32,9 +32,9 @@ export async function getPostgresClient(): Promise<Client> {
 export function getFields(
   schema: OpenAPIV3.SchemaObject,
   spec: SyncableSpec,
-  rowsFrom: string[],
 ): { [key: string]: { type: string } } | undefined {
   const syncableType: string = spec?.type || 'collection';
+  const rowsFrom = spec?.itemsPathInResponse || [];
   // console.log('looking for fields in schema:', JSON.stringify(schema, null, 2));
   for (let i = 0; i < rowsFrom.length; i++) {
     const part = rowsFrom[i];
@@ -55,9 +55,7 @@ export function getFields(
         );
       }
     } else {
-      throw new Error(
-        `Could not find part ${part} in schema`,
-      );
+      throw new Error(`Could not find part ${part} in schema`);
     }
   }
   const sub = syncableType === 'collection' ? schema?.items : schema;

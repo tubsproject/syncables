@@ -64,7 +64,7 @@ export class Syncer extends EventEmitter {
   fetchFunction: typeof fetch;
   syncables: {
     [syncableName: string]: {
-      path: string;     
+      path: string;
       spec: SyncableSpec;
       schema: object;
     };
@@ -107,31 +107,21 @@ export class Syncer extends EventEmitter {
     const schema = await specStrToObj(this.specStr);
 
     this.baseUrl =
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (schema as any).servers && (schema as any).servers.length > 0
-        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (schema as any).servers[0].url
-        : '';
+      schema.servers && schema.servers.length > 0 ? schema.servers[0].url : '';
     let solution: object | null = null;
     for (const path of Object.keys(schema.paths)) {
       const pathItem = schema.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
-        // console.log('Checking 200 response content', path, typeof (pathItem.get.responses['200'] as any).content);
-        if (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          typeof (pathItem.get.responses['200'] as any).content !== 'object'
-        ) {
+        // console.log('Checking 200 response content', path, typeof pathItem.get.responses['200'].content);
+        if (typeof pathItem.get.responses['200'].content !== 'object') {
           continue;
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        Object.keys((pathItem.get.responses['200'] as any).content).forEach(
+        Object.keys(pathItem.get.responses['200'].content).forEach(
           (contentType) => {
             // console.log('Checking path', path, contentType);
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const response = (pathItem.get.responses['200'] as any).content[
-              contentType
-            ];
+            const response = pathItem.get.responses['200'].content[contentType];
             if (response.syncable) {
+              // console.log('Found syncable response at path', path, contentType, response.syncable);
               const spec: SyncableSpec = {
                 type: response.syncable.type || 'collection',
                 name: response.syncable.name,
@@ -146,7 +136,7 @@ export class Syncer extends EventEmitter {
                 idField: response.syncable.idField || 'id',
                 params: response.syncable.params || {},
               };
-              // console.log('baseUrl:', config.baseUrl, (schema as any).servers);
+              // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
               if (response.syncable.paginationStrategy === 'pageNumber') {
                 spec.pageNumberParamInQuery =
                   response.syncable.pageNumberParamInQuery || 'page';
@@ -576,17 +566,15 @@ export class Syncer extends EventEmitter {
       return copy;
     });
   }
-  private paramTypes(
-    params: { [key: string]: string },
-    document: OpenAPIV3.Document,
-  ): { [key: string]: 'string' | 'number' } {
+  private paramTypes(params: { [key: string]: string }): {
+    [key: string]: 'string' | 'number';
+  } {
     const paramTypes: { [key: string]: 'string' | 'number' } = {};
     Object.entries(params || {}).forEach(([key, reference]) => {
       const [parentName, parentField] = reference.split('.');
       const parentFields = getFields(
-        document.paths[this.syncables[parentName].path].get.responses['200'].content['application/json'].schema,
-        document.paths[this.syncables[parentName].path].get.responses['200'].content['application/json'].syncable,
-        this.syncables[parentName].spec.itemsPathInResponse,
+        this.syncables[parentName].schema,
+        this.syncables[parentName].spec,
       );
       if (!parentFields[parentField]) {
         throw new Error(
@@ -605,7 +593,6 @@ export class Syncer extends EventEmitter {
     return paramTypes;
   }
   async fetchOneSyncable(
-    document: OpenAPIV3.Document,
     specName: string,
     parents: { [pattern: string]: string[] },
   ): Promise<object[]> {
@@ -616,18 +603,14 @@ export class Syncer extends EventEmitter {
     await this.initDb();
     // console.log('initDb end');
     if (this.client) {
-      const fields = getFields(
-        syncable.schema,
-        syncable.spec,
-        syncable.spec.itemsPathInResponse,
-      );
+      const fields = getFields(syncable.schema, syncable.spec);
       // console.log('creating table with fields', fields);
       await createSqlTable(
         this.client,
         specName,
         fields,
         syncable.spec.idField || 'id',
-        this.paramTypes(syncable.spec.params, document),
+        this.paramTypes(syncable.spec.params || {}),
       );
       const fieldsToInsert: string[] = Object.keys(fields).filter(
         (f) => ['string'].indexOf(fields[f].type) !== -1,
@@ -654,34 +637,34 @@ export class Syncer extends EventEmitter {
     const allData: {
       [syncableName: string]: object[];
     } = {};
-    const schema = await this.parseSpec();
     let newData: boolean;
     const skipped: { [syncableName: string]: boolean } = {};
+    await this.parseSpec();
     do {
-      console.log(
-        'Starting loop of fetching all syncables, currently have data for syncables',
-        Object.keys(allData),
-      );
+      // console.log(
+      //   'Starting loop of fetching all syncables, currently have data for syncables',
+      //   Object.keys(allData),
+      // );
       newData = false;
       for (const specName of Object.keys(this.syncables)) {
         if (filter && filter.indexOf(specName) === -1) {
-          console.log(
-            'Skipping syncable',
-            specName,
-            'because it is not in the filter list',
-          );
+          // console.log(
+          //   'Skipping syncable',
+          //   specName,
+          //   'because it is not in the filter list',
+          // );
           continue;
-        } else if (filter) {
-          console.log(
-            'Including syncable',
-            specName,
-            'because it is in the filter list',
-          );
+          // } else if (filter) {
+          //   console.log(
+          //     'Including syncable',
+          //     specName,
+          //     'because it is in the filter list',
+          //   );
         }
         if (allData[specName]) {
-          console.log(
-            `Already have data for syncable ${specName}, skipping...`,
-          );
+          // console.log(
+          //   `Already have data for syncable ${specName}, skipping...`,
+          // );
           continue;
         }
         const syncable = this.syncables[specName];
@@ -725,13 +708,13 @@ export class Syncer extends EventEmitter {
           // console.log('all parents for syncable', specName, parents);
         }
         skipped[specName] = false;
-        const data = await this.fetchOneSyncable(schema, specName, parents);
-        console.log(
-          'Fetched data for syncable',
-          specName,
-          'data length:',
-          data.length,
-        );
+        const data = await this.fetchOneSyncable(specName, parents);
+        // console.log(
+        //   'Fetched data for syncable',
+        //   specName,
+        //   'data length:',
+        //   data.length,
+        // );
         allData[specName] = data;
         newData = true;
       }

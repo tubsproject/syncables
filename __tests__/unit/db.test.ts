@@ -101,7 +101,7 @@ describe('getFields', () => {
         },
       },
     };
-    const fields = getFields(schema, {} as SyncableSpec, ['widgets']);
+    const fields = getFields(schema, {} as SyncableSpec);
     expect(fields).toEqual({
       id: { type: 'string' },
       name: { type: 'string' },
@@ -120,7 +120,7 @@ describe('getFields', () => {
         },
       },
     };
-    const fields = getFields(schema, {} as SyncableSpec, []);
+    const fields = getFields(schema, {} as SyncableSpec);
     expect(fields).toEqual({
       id: { type: 'string' },
       name: { type: 'string' },
@@ -154,7 +154,9 @@ describe('getFields', () => {
         },
       },
     };
-    const fields = getFields(schema, {} as SyncableSpec, ['widgets', 'blurry', 'buggers']);
+    const fields = getFields(schema, {
+      itemsPathInResponse: ['widgets', 'blurry', 'buggers'],
+    } as SyncableSpec);
     expect(fields).toEqual({
       id: { type: 'string' },
       name: { type: 'string' },
@@ -164,14 +166,16 @@ describe('getFields', () => {
   it('can deal with complex schema definitions', async () => {
     const specObj = await specStrToObj(moneybird);
     const administrationFields = getFields(
-      specObj.paths['/administrations{format}'].get.responses['200'].content['application/json'].schema,
+      specObj.paths['/administrations{format}'].get.responses['200'].content[
+        'application/json'
+      ].schema,
       {} as SyncableSpec,
-      [],
     );
     const contactFields = getFields(
-      specObj.paths['/{administration_id}/contacts{format}'].get.responses['200'].content['application/json'].schema,
+      specObj.paths['/{administration_id}/contacts{format}'].get.responses[
+        '200'
+      ].content['application/json'].schema,
       {} as SyncableSpec,
-      [],
     );
     expect(contactFields).toEqual({
       address1: {
@@ -678,128 +682,92 @@ describe('getFields', () => {
   it.only('can deal with item-type syncables', async () => {
     const specObj = await specStrToObj(moneybird);
     const defaultIdentityFields = getFields(
-      specObj.paths['/{administration_id}/identities/default{format}'].get.responses['200'].content['application/json'].schema,
-      specObj.paths['/{administration_id}/identities/default{format}'].get.responses['200'].content['application/json'].syncable as SyncableSpec,
-      [],
+      specObj.paths['/{administration_id}/identities/default{format}'].get
+        .responses['200'].content['application/json'].schema,
+      specObj.paths['/{administration_id}/identities/default{format}'].get
+        .responses['200'].content['application/json'].syncable as SyncableSpec,
     );
     expect(defaultIdentityFields).toEqual({
-      "address1": {
-        "type": [
-          "string",
-          "null",
-        ],
+      address1: {
+        type: ['string', 'null'],
       },
-      "address2": {
-        "type": [
-          "string",
-          "null",
-        ],
+      address2: {
+        type: ['string', 'null'],
       },
-      "administration_id": {
-        "type": "string",
+      administration_id: {
+        type: 'string',
       },
-      "bank_account_bic": {
-        "type": [
-          "string",
-          "null",
-        ],
+      bank_account_bic: {
+        type: ['string', 'null'],
       },
-      "bank_account_name": {
-        "type": [
-          "string",
-          "null",
-        ],
+      bank_account_name: {
+        type: ['string', 'null'],
       },
-      "bank_account_number": {
-        "type": [
-          "string",
-          "null",
-        ],
+      bank_account_number: {
+        type: ['string', 'null'],
       },
-      "chamber_of_commerce": {
-        "type": [
-          "string",
-          "null",
-        ],
+      chamber_of_commerce: {
+        type: ['string', 'null'],
       },
-      "city": {
-        "type": [
-          "string",
-          "null",
-        ],
+      city: {
+        type: ['string', 'null'],
       },
-      "company_name": {
-        "type": [
-          "string",
-          "null",
-        ],
+      company_name: {
+        type: ['string', 'null'],
       },
-      "country": {
-        "type": [
-          "string",
-          "null",
-        ],
+      country: {
+        type: ['string', 'null'],
       },
-      "created_at": {
-        "format": "date-time",
-        "type": "string",
+      created_at: {
+        format: 'date-time',
+        type: 'string',
       },
-      "custom_fields": {
-        "items": {
-          "properties": {
-            "id": {
-              "commment": "Moneybird identifiers are stringified integers, so we can just treat them as strings.",
-              "description": "A unique record identifier",
-              "example": "458026356994737217",
-              "pattern": "^\\d+$",
-              "type": "string",
+      custom_fields: {
+        items: {
+          properties: {
+            id: {
+              commment:
+                'Moneybird identifiers are stringified integers, so we can just treat them as strings.',
+              description: 'A unique record identifier',
+              example: '458026356994737217',
+              pattern: '^\\d+$',
+              type: 'string',
             },
-            "name": {
-              "type": "string",
+            name: {
+              type: 'string',
             },
-            "value": {
-              "type": "string",
+            value: {
+              type: 'string',
             },
           },
-          "type": "object",
-          "unevaluatedProperties": false,
+          type: 'object',
+          unevaluatedProperties: false,
         },
-        "type": "array",
+        type: 'array',
       },
-      "email": {
-        "type": [
-          "string",
-          "null",
-        ],
+      email: {
+        type: ['string', 'null'],
       },
-      "id": {
-        "commment": "Moneybird identifiers are stringified integers, so we can just treat them as strings.",
-        "description": "A unique record identifier",
-        "example": "458026356994737217",
-        "pattern": "^\\d+$",
-        "type": "string",
+      id: {
+        commment:
+          'Moneybird identifiers are stringified integers, so we can just treat them as strings.',
+        description: 'A unique record identifier',
+        example: '458026356994737217',
+        pattern: '^\\d+$',
+        type: 'string',
       },
-      "phone": {
-        "type": [
-          "string",
-          "null",
-        ],
+      phone: {
+        type: ['string', 'null'],
       },
-      "tax_number": {
-        "type": [
-          "string",
-          "null",
-        ],
+      tax_number: {
+        type: ['string', 'null'],
       },
-      "updated_at": {
-        "format": "date-time",
-        "type": "string",
+      updated_at: {
+        format: 'date-time',
+        type: 'string',
       },
-      "zipcode": {
-        "type": [
-          "string",
-          "null",
-        ],
+      zipcode: {
+        type: ['string', 'null'],
       },
     });
   });
