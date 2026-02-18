@@ -103,14 +103,66 @@ export class Syncer extends EventEmitter {
       await this.client.connect();
     }
   }
+  private normaliseSyncableSpec(
+    syncable: SyncableSpec,
+    doc: OpenAPIV3.Document,
+  ): SyncableSpec {
+    const spec: SyncableSpec = {
+      type: syncable.type || 'collection',
+      name: syncable.name,
+      paginationStrategy: syncable.paginationStrategy,
+      query: syncable.query || {},
+      itemsPathInResponse: syncable.itemsPathInResponse || [],
+      defaultPageSize: syncable.defaultPageSize,
+      forcePageSize: syncable.forcePageSize,
+      forcePageSizeParamInQuery: syncable.forcePageSizeParamInQuery,
+      idField: syncable.idField || 'id',
+      params: syncable.params || {},
+    };
+    // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
+    if (syncable.paginationStrategy === 'pageNumber') {
+      spec.pageNumberParamInQuery = syncable.pageNumberParamInQuery || 'page';
+    } else if (syncable.paginationStrategy === 'offset') {
+      spec.offsetParamInQuery = syncable.offsetParamInQuery || 'offset';
+    } else if (syncable.paginationStrategy === 'pageToken') {
+      spec.pageTokenParamInQuery =
+        syncable.pageTokenParamInQuery || 'pageToken';
+      spec.nextPageTokenPathInResponse =
+        syncable.nextPageTokenPathInResponse || ['nextPageToken'];
+    } else if (syncable.paginationStrategy === 'dateRange') {
+      spec.startDateParamInQuery =
+        syncable.startDateParamInQuery || 'startDate';
+      spec.endDateParamInQuery = syncable.endDateParamInQuery || 'endDate';
+      spec.startDate = syncable.startDate || '20000101000000';
+      spec.endDate = syncable.endDate || '99990101000000';
+    } else if (syncable.paginationStrategy === 'confirmationBased') {
+      // console.log('setting confirmOperation', syncable.confirmOperation);
+      const confirmOperationSpec = syncable.confirmOperation as {
+        path: string;
+        method: string;
+      };
+      const confirmConfig =
+        doc.paths[confirmOperationSpec.path][confirmOperationSpec.method]
+          ?.responses['200']?.content?.['application/json']?.confirmOperation;
+      // console.log(confirmConfig);
+      spec.confirmOperation = {
+        pathTemplate: confirmConfig.pathTemplate,
+        method: confirmOperationSpec.method,
+        path: confirmOperationSpec.path,
+      };
+      // console.log('determined confirmOperation config', config.confirmOperation);
+      // throw new Error('debug');
+    }
+    return spec;
+  }
   async parseSpec(): Promise<object> {
-    const schema = await specStrToObj(this.specStr);
+    const doc = await specStrToObj(this.specStr);
 
     this.baseUrl =
-      schema.servers && schema.servers.length > 0 ? schema.servers[0].url : '';
+      doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';
     let solution: object | null = null;
-    for (const path of Object.keys(schema.paths)) {
-      const pathItem = schema.paths[path];
+    for (const path of Object.keys(doc.paths)) {
+      const pathItem = doc.paths[path];
       if (pathItem.get && pathItem.get.responses['200']) {
         // console.log('Checking 200 response content', path, typeof pathItem.get.responses['200'].content);
         if (typeof pathItem.get.responses['200'].content !== 'object') {
@@ -122,66 +174,16 @@ export class Syncer extends EventEmitter {
             const response = pathItem.get.responses['200'].content[contentType];
             if (response.syncable) {
               // console.log('Found syncable response at path', path, contentType, response.syncable);
-              const spec: SyncableSpec = {
-                type: response.syncable.type || 'collection',
-                name: response.syncable.name,
-                paginationStrategy: response.syncable.paginationStrategy,
-                query: response.syncable.query || {},
-                itemsPathInResponse:
-                  response.syncable.itemsPathInResponse || [],
-                defaultPageSize: response.syncable.defaultPageSize,
-                forcePageSize: response.syncable.forcePageSize,
-                forcePageSizeParamInQuery:
-                  response.syncable.forcePageSizeParamInQuery,
-                idField: response.syncable.idField || 'id',
-                params: response.syncable.params || {},
-              };
-              // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
-              if (response.syncable.paginationStrategy === 'pageNumber') {
-                spec.pageNumberParamInQuery =
-                  response.syncable.pageNumberParamInQuery || 'page';
-              } else if (response.syncable.paginationStrategy === 'offset') {
-                spec.offsetParamInQuery =
-                  response.syncable.offsetParamInQuery || 'offset';
-              } else if (response.syncable.paginationStrategy === 'pageToken') {
-                spec.pageTokenParamInQuery =
-                  response.syncable.pageTokenParamInQuery || 'pageToken';
-                spec.nextPageTokenPathInResponse = response.syncable
-                  .nextPageTokenPathInResponse || ['nextPageToken'];
-              } else if (response.syncable.paginationStrategy === 'dateRange') {
-                spec.startDateParamInQuery =
-                  response.syncable.startDateParamInQuery || 'startDate';
-                spec.endDateParamInQuery =
-                  response.syncable.endDateParamInQuery || 'endDate';
-                spec.startDate =
-                  response.syncable.startDate || '20000101000000';
-                spec.endDate = response.syncable.endDate || '99990101000000';
-              } else if (
-                response.syncable.paginationStrategy === 'confirmationBased'
-              ) {
-                // console.log('setting confirmOperation', response.syncable.confirmOperation);
-                const confirmOperationSpec = response.syncable
-                  .confirmOperation as { path: string; method: string };
-                const confirmConfig =
-                  schema.paths[confirmOperationSpec.path][
-                    confirmOperationSpec.method
-                  ]?.responses['200']?.content?.['application/json']
-                    ?.confirmOperation;
-                // console.log(confirmConfig);
-                spec.confirmOperation = {
-                  pathTemplate: confirmConfig.pathTemplate,
-                  method: confirmOperationSpec.method,
-                  path: confirmOperationSpec.path,
-                };
-                // console.log('determined confirmOperation config', config.confirmOperation);
-                // throw new Error('debug');
-              }
+              const spec: SyncableSpec = this.normaliseSyncableSpec(
+                response.syncable,
+                doc,
+              );
               this.syncables[response.syncable.name] = {
                 path,
                 schema: response.schema,
                 spec: spec,
               };
-              solution = schema;
+              solution = doc;
             }
           },
         );
