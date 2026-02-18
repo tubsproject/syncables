@@ -1,58 +1,63 @@
-import { readFileSync } from 'fs';
-import { readFile, writeFile } from 'fs/promises';
-import { createHash } from 'crypto';
+import { readFile } from 'fs/promises';
+import { mkdirp } from 'mkdirp';
 import { Syncer } from './syncer.js';
+import { fetchFunction } from './caching-fetch.js';
+import { configs } from './configs.js';
+import { runOAuthClient } from './oauth.js';
 
-const specFilename = './openapi/generated/google-calendar.yaml';
-const specStr = readFileSync(specFilename).toString();
+mkdirp.sync('.fetch-cache'); // Ensure the cache directory exists
+mkdirp.sync('.tokens'); // Ensure the tokens directory exists
 
-const fetchFunction: typeof fetch = async (
-  input: RequestInfo,
-  init?: RequestInit,
-): Promise<Response> => {
-  console.log('Fetch called with args:', input, init);
-  const data = JSON.stringify([input, init]);
-  const hash = createHash('sha256').update(data).digest('hex');
-  try {
-    const cachedStr = await readFile(`./.fetch-cache/${hash}.json`);
-    const cached = JSON.parse(cachedStr.toString());
-    console.log('using cached response for', input, hash);
-    return new Response(cached.body, {
-      status: cached.status,
-      headers: cached.headers,
-    });
-  } catch (err) {
-    void err;
-    const fetched = await fetch(input, init);
-    const text = await fetched.text();
-    const cached = {
-      body: text,
-      status: fetched.status,
-      headers: Object.fromEntries(
-        (
-          fetched.headers as unknown as {
-            entries: () => Iterable<[string, string]>;
-          }
-        ).entries(),
-      ),
-    };
-    await writeFile(`./.fetch-cache/${hash}.json`, JSON.stringify(cached));
-    console.log('cached response for', input, hash);
-    return new Response(text, {
-      status: fetched.status,
-      headers: fetched.headers,
-    });
+async function getBearerTokens(
+  apiNames: string[],
+): Promise<{ [apiName: string]: string }> {
+  const tokens: { [apiName: string]: string } = {};
+  for (const apiName of apiNames) {
+    console.log(`Checking for existing token for ${apiName}...`);
+    const tokenPath = `.tokens/${apiName}.txt`;
+    try {
+      const token = await readFile(tokenPath, 'utf-8');
+      tokens[apiName] = token.trim();
+    } catch (err) {
+      void err;
+      console.error(
+        `File ${tokenPath} not found, initiating OAuth flow for ${apiName}`,
+      );
+      console.log('Starting OAuth flow for', apiName);
+      tokens[apiName] = await runOAuthClient(apiName);
+      console.log('Completed OAuth flow for', apiName);
+      if (!configs[apiName]) {
+        console.error(`Unsupported API name: ${apiName}`);
+        process.exit(1);
+      }
+    }
   }
-};
+  console.log('Obtained bearer tokens for all APIs');
+  return tokens;
+}
 
-const syncer = new Syncer({
-  specStr,
-  authHeaders: {
-    Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
-  },
-  fetchFunction,
-  dbConn:
-    'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
+const bearerTokens = await getBearerTokens(Object.keys(configs));
+const promises = Object.keys(configs).map(async (specName) => {
+  const specFilename = `./openapi/generated/${specName}.yaml`;
+  const specStr = (await readFile(specFilename)).toString();
+  const syncer = new Syncer({
+    specStr,
+    authHeaders: {
+      Authorization: `Bearer ${bearerTokens[specName]}`,
+    },
+    fetchFunction,
+    dbConn:
+      'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
+  });
+  if (process.argv.length > 2) {
+    const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
+    console.log(
+      `Filtering syncables for ${specName} with filter:`,
+      JSON.stringify(filter),
+    );
+    return await syncer.fullFetch(filter);
+  }
+  // void syncer;
+  return await syncer.fullFetch();
 });
-
-await syncer.fullFetch();
+await Promise.all(promises);

@@ -10,6 +10,7 @@ test('pageNumber paging (unkown page size)', async () => {
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
       '/todos/': {
+        type: 'collection',
         name: 'todos',
         paginationStrategy: 'pageNumber',
         pageNumberParamInQuery: 'page',
@@ -49,6 +50,7 @@ test('pageNumber paging (default page size', async () => {
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
       '/todos/': {
+        type: 'collection',
         name: 'todos',
         paginationStrategy: 'pageNumber',
         pageNumberParamInQuery: 'page',
@@ -83,6 +85,7 @@ test('pageNumber paging (force page size', async () => {
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
       '/todos/': {
+        type: 'collection',
         name: 'todos',
         paginationStrategy: 'pageNumber',
         pageNumberParamInQuery: 'page',
@@ -114,6 +117,7 @@ test('offset paging (unknown page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
   const specStr = createSpec('https://jsonplaceholder.typicode.com', {
     '/todos/': {
+      type: 'collection',
       name: 'todos',
       paginationStrategy: 'offset',
       offsetParamInQuery: 'offset',
@@ -154,6 +158,7 @@ test('offset paging (default page size)', async () => {
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
       '/todos/': {
+        type: 'collection',
         name: 'todos',
         paginationStrategy: 'offset',
         offsetParamInQuery: 'offset',
@@ -188,6 +193,7 @@ test('offset paging (force page size)', async () => {
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
       '/todos/': {
+        type: 'collection',
         name: 'todos',
         paginationStrategy: 'offset',
         offsetParamInQuery: 'offset',
@@ -222,6 +228,7 @@ test('pageToken paging', async () => {
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
       '/todos/': {
+        type: 'collection',
         name: 'todos',
         paginationStrategy: 'pageToken',
         pageTokenParamInQuery: 'pageToken',
@@ -256,6 +263,7 @@ test('rangeHeader paging', async () => {
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
       '/todos/': {
+        type: 'collection',
         name: 'todos',
         paginationStrategy: 'rangeHeader',
         pageTokenParamInQuery: 'pageToken',

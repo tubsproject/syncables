@@ -2,8 +2,12 @@ openapi: 3.0.0
 info:
   description: Add syncables to the Google Calendar API.
 actions:
-- target: paths['/posts']['get']['responses']['200']['content']['application/json']
+- target: paths['/three']['get']['responses']['200']['content']['application/json']
   update:
     syncable:
       name: integrationTest
       paginationStrategy: pageNumber
+      itemsPathInResponse:
+      - news
+      - you
+      - posts

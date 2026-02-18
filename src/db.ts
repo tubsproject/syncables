@@ -1,5 +1,7 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
+import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { Client } from 'pg';
+import { SyncableSpec } from './syncer.js';
 export { Client } from 'pg';
 
 export async function getPostgresClient(): Promise<Client> {
@@ -22,28 +24,48 @@ export async function getPostgresClient(): Promise<Client> {
 }
 
 export function getFields(
-  openApiSpec: any,
-  endPoint: string,
-  rowsFrom: string | undefined,
+  schema: OpenAPIV3.SchemaObject,
+  spec: SyncableSpec,
 ): { [key: string]: { type: string } } | undefined {
-  const successResponseProperties =
-    openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
-  // console.log(openApiSpec.paths, endPoint);
-  const schema =
-    successResponseProperties?.['application/ld+json']?.schema ||
-    successResponseProperties?.['application/json']?.schema;
-  // console.log(`Schema for ${endPoint}:`, JSON.stringify(schema, null, 2));
-  // if (typeof schema['$ref'] !== 'undefined') {
-  //   schema = resolveRef(openApiSpec, schema['$ref']);
-  // }
-  // const whatWeWant = schema?.properties?.[rowsFrom].items?.properties;
-  const whatWeWant =
-    typeof rowsFrom === 'string'
-      ? schema?.properties?.[rowsFrom]?.items?.properties
-      : schema?.items?.properties;
+  const syncableType: string = spec?.type || 'collection';
+  const rowsFrom = spec?.itemsPathInResponse || [];
+  // console.log('looking for fields in schema:', JSON.stringify(schema, null, 2));
+  for (let i = 0; i < rowsFrom.length; i++) {
+    const part = rowsFrom[i];
+    if (schema?.properties?.[part]) {
+      schema = schema.properties[part];
+    } else if (schema?.allOf) {
+      let foundPart = false;
+      for (let i = 0; i < schema.allOf.length; i++) {
+        if (schema.allOf[i].properties?.[part]) {
+          schema = schema.allOf[i].properties[part];
+          foundPart = true;
+          break;
+        }
+      }
+      if (!foundPart) {
+        throw new Error(
+          `Could not find part ${part} in any of the allOf entries`,
+        );
+      }
+    } else {
+      throw new Error(`Could not find part ${part} in schema`);
+    }
+  }
+  const sub = syncableType === 'collection' ? schema?.items : schema;
+  // console.log(syncableType, sub);
+  let whatWeWant = sub?.properties;
+  if (!whatWeWant && sub?.allOf) {
+    whatWeWant = {};
+    sub.allOf.forEach((entry: OpenAPIV3.SchemaObject) => {
+      if (entry.properties) {
+        Object.assign(whatWeWant, entry.properties);
+      }
+    });
+  }
   // console.log(
-  // `What we want (getFields ${endPoint} ${rowsFrom}):`,
-  // JSON.stringify(whatWeWant, null, 2),
+  //   `What we want (getFields ${endPoint} ${rowsFrom}):`,
+  //   JSON.stringify(whatWeWant, null, 2),
   // );
   return whatWeWant;
 }
@@ -54,7 +76,7 @@ export async function createSqlTable(
   idField: string,
   params: { [key: string]: 'string' | 'number' } = {},
 ): Promise<void> {
-  const rowSpecs = [];
+  const rowSpecs: { [columnName: string]: string } = {};
   // console.log(
   //   `What we want (createSqlTable ${tableName}):`,
   //   JSON.stringify(whatWeWant, null, 2),
@@ -65,25 +87,33 @@ export async function createSqlTable(
   Object.entries(whatWeWant).forEach(([key, value]) => {
     const type = (value as { type: string }).type;
     if (type === 'string') {
-      rowSpecs.push(`"S${key}" TEXT${key === idField ? ' PRIMARY KEY' : ''}`);
+      rowSpecs[`S${key}`] = `TEXT${key === idField ? ' PRIMARY KEY' : ''}`;
     } else if (type === 'boolean') {
-      rowSpecs.push(`"S${key}" BOOLEAN`);
+      rowSpecs[`S${key}`] = `BOOLEAN`;
     } else if (type === 'number') {
-      rowSpecs.push(
-        `"S${key}" INTEGER${key === idField ? ' PRIMARY KEY' : ''}`,
-      );
+      rowSpecs[`S${key}`] = `INTEGER${key === idField ? ' PRIMARY KEY' : ''}`;
+      // } else {
+      //   throw new Error(
+      //     `Unsupported type ${JSON.stringify(type)} for field ${key} in table ${tableName}`,
+      //   );
     }
   });
   Object.entries(params).forEach(([key, type]) => {
     if (type === 'string') {
-      rowSpecs.push(`"S${key}" TEXT`);
+      rowSpecs[`S${key}`] = `TEXT`;
     } else if (type === 'number') {
-      rowSpecs.push(`"S${key}" INTEGER`);
+      rowSpecs[`S${key}`] = `INTEGER`;
+      // } else {
+      //   throw new Error(
+      //     `Unsupported type ${JSON.stringify(type)} for param ${key} in table ${tableName}`,
+      //   );
     }
   });
   const createTableQuery = `
 CREATE TABLE IF NOT EXISTS ${tableName.replace('-', '_')} (
-  ${rowSpecs.join(',\n  ')}\n
+  ${Object.entries(rowSpecs)
+    .map(([key, value]) => `"${key}" ${value}`)
+    .join(',\n  ')}\n
 );
 `;
   // console.log(createTableQuery);

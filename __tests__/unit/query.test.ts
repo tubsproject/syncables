@@ -10,6 +10,7 @@ test('query', async () => {
   const syncable = new Syncer({
     specStr: createSpec('https://jsonplaceholder.typicode.com', {
       '/todos/': {
+        type: 'collection',
         name: 'todos',
         paginationStrategy: 'pageNumber',
         pageNumberParamInQuery: 'page',
@@ -22,7 +23,9 @@ test('query', async () => {
   });
   const data = await syncable.fullFetch();
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    todos: mockResponses[0].items
+      .concat(mockResponses[1].items)
+      .map((item) => Object.assign({}, item, { userId: '1' })),
   });
 
   // Check that fetch was called exactly once

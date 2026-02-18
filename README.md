@@ -37,8 +37,9 @@ components:
 ```
 
 Under `paths['/widgets']['get']['responses']['200']['content']['application/json']`, add an object `syncable`, in which you can specify:
+* `type`: `collection` or `item`. Defaults to `collection`.
 * `name`: a `string` descriptor of the collection, e.g. `"widgets"`
-* `paginationStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange`, `rangeHeader`, or `confirmationBased`.
+* `paginationStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange`, `rangeHeader`,`confirmationBased`, or `none`.
 * `query`: an object containing query parameters to add in addition to the pagination-related ones
 * `itemsPathInResponse`: path within the response body schema, as an array of strings, that contains the array of items (default: `[]` for the response body root)
 * `defaultPageSize`: tell Syncable how many items per page (max) to expect by default
@@ -97,20 +98,21 @@ const calendarEntries: Entry[] = allTables.calendars as Entry[];
 console.log(calendarEntries[0].backgroundColor);
 ```
 
-## Eample (Google Calendar API)
+## Dev Example
 * In the [Google Cloud Dashboard](https://console.cloud.google.com/apis/credentials) create an OAuth client ID with http://localhost:8000 as an authorized JavaScript origin and http://localhost:8000/callback as an authorized redirect URI.
 * Enable the [calendar API](https://console.cloud.google.com/apis/library/calendar-json.googleapis.com)
 * Set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` environment variables. Check: `echo $GOOGLE_CLIENT_ID and $GOOGLE_CLIENT_SECRET`
 * `pnpm build`
-* Use the `pnpm oauth` command to run a simple OAuth client. Follow the instructions on http://localhost:8000.
-* In the CLI output, look for a log line that reads `Received OAuth token: ...`.
-* Set that value as the `GOOGLE_BEARER_TOKEN` environment variable.
+* Similarly you can set MONEYBIRD_CLIENT_ID and MONEYBIRD_CLIENT_SECRET.
 * Now you can run the example:
 ```sh
 docker compose up -d
 pnpm start
+pnpm start events,contacts
 docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 ```
+It will check for existing bearer tokens in the `.tokens` folder and initiate OAuth flows as needed.
+API responses will be cached in the `.fetch-cache` folder for easier development.
 
 ## Development
 ```sh

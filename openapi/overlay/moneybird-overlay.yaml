@@ -1,0 +1,458 @@
+openapi: 3.0.0
+info:
+  description: Add syncables to the Moneybird API.
+actions:
+- target: paths['/administrations{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: administrations
+      paginationStrategy: none
+      query:
+        format: .json
+
+- target: paths['/{administration_id}/assets{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: assets
+      paginationStrategy: pageNumber
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/contacts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: contacts
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/contacts/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/document_styles{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: document_styles
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/general_documents{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: general_documents
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/general_documents/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/general_journal_documents{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: general_journal_documents
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/general_journal_documents/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/purchase_invoices{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: purchase_invoices
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/purchase_invoices/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/receipts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: receipts
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/receipts/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/typeless_documents{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: typeless_documents
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/typeless_documents/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/downloads{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: downloads
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/estimates{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: estimates
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/estimates/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/documents/external_sales_invoices{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: external_sales_invoices
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/external_sales_invoices/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# FIXME: Should we add /{administration_id}/external_sales_invoices/{external_sales_invoice_id}/attachments/{id}/download{format}?
+
+- target: paths['/{administration_id}/financial_accounts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: financial_accounts
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+
+- target: paths['/{administration_id}/documents/financial_mutations{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: financial_mutations
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/documents/financial_mutations/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+
+- target: paths['/{administration_id}/financial_statements{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: financial_statements
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/identities{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: identities
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# FIXME: should be storing these into the same db table with just a boolean field to indicate whether it's the default identity or not, but for now just storing them separately since it's faster to implement and we don't have support for multiple syncables using the same db table yet.
+- target: paths['/{administration_id}/identities/default{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      type: item
+      name: default_identities
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/ledger_accounts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: ledger_accounts
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/products{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: products
+      paginationStrategy: pageNumber
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/projects{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: projects
+      paginationStrategy: pageNumber
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/purchase_transactions{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: purchase_transactions
+      paginationStrategy: pageNumber
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/recurring_sales_invoices{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: recurring_sales_invoices
+      paginationStrategy: pageNumber
+      synchronization: /{administration_id}/recurring_sales_invoices/synchronization{format}
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+- target: paths['/{administration_id}/reports/assets{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_assets
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# FIXME https://github.com/tubsproject/syncables/issues/39
+- target: paths['/{administration_id}/reports/balance_sheet{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_balance_sheet_current_liabilities
+      paginationStrategy: none
+      itemsPathInResponse:
+        - credit
+        - current_liabilities
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# FIXME https://github.com/tubsproject/syncables/issues/39
+# - target: paths['/{administration_id}/reports/cash_flow{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       type: item
+#       name: reports_cash_flow
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       params:
+#         administration_id: administrations.id
+
+# FIXME: disabling this because of a 500 erro on Moneybird's side:
+# - target: paths['/{administration_id}/reports/creditors{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       name: reports_creditors
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       params:
+#         administration_id: administrations.id
+- target: paths['/{administration_id}/reports/debtors{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_debtors
+      paginationStrategy: none
+      query:
+        format: .json
+      itemsPathInResponse:
+        - debtors
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/debtors_aging{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_debtors_aging
+      paginationStrategy: none
+      query:
+        format: .json
+      itemsPathInResponse:
+        - debtors
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/expenses_by_contact{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_expenses_by_contact
+      paginationStrategy: none
+      query:
+        format: .json
+      itemsPathInResponse:
+        - expenses_by_contact
+      params:
+        administration_id: administrations.id
+
+# FIXME: https://github.com/tubsproject/syncables/issues/40
+# - target: paths['/{administration_id}/reports/expenses_by_project{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       name: reports_expenses_by_project
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       itemsPathInResponse:
+#         - expenses_by_project
+#       params:
+#         administration_id: administrations.id
+- target: paths['/{administration_id}/reports/export/auditfile{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_export_auditfile
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/export/brugstaat{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_export_brugstaat
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/ledger_accounts{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_ledger_accounts
+      paginationStrategy: none
+      query:
+        format: .json
+      params:
+        administration_id: administrations.id
+
+# FIXME: https://github.com/tubsproject/syncables/issues/41
+# - target: paths['/{administration_id}/reports/general_ledger{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       type: item
+#       name: reports_general_ledger_debit_sums
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       idField: administration_id
+#       params:
+#         administration_id: administrations.id
+
+# FIXME: this requires filtering: at least a contact_id, project_id or ledger_account_id is required. skipping for now.
+# - target: paths['/{administration_id}/reports/journal_entries{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       name: reports_journal_entries
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       params:
+#         administration_id: administrations.id
+- target: paths['/{administration_id}/reports/profit_loss{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_profit_loss
+      paginationStrategy: none
+      query:
+        format: .json
+      itemsPathInResponse:
+        - revenue_by_ledger_account
+        - ledger_accounts      
+      params:
+        administration_id: administrations.id
+- target: paths['/{administration_id}/reports/revenue_by_contact{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_revenue_by_contact
+      paginationStrategy: none
+      query:
+        format: .json
+      itemsPathInResponse:
+        - revenue_by_contact
+      params:
+        administration_id: administrations.id
+# FIXME: https://github.com/tubsproject/syncables/issues/41
+# - target: paths['/{administration_id}/reports/revenue_by_project{format}']['get']['responses']['200']['content']['application/json']
+  # update:
+    # syncable:
+      # name: reports_revenue_by_project
+      # paginationStrategy: none
+      # query:
+        # format: .json
+      # itemsPathInResponse:
+        # - revenue_by_project
+      # params:
+        # administration_id: administrations.id
+# FIXME: https://github.com/tubsproject/syncables/issues/41
+# - target: paths['/{administration_id}/reports/subscriptions{format}']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncable:
+#       type: item
+#       name: reports_subscriptions
+#       paginationStrategy: none
+#       query:
+#         format: .json
+#       params:
+#         administration_id: administrations.id
+- target: paths['/{administration_id}/reports/tax{format}']['get']['responses']['200']['content']['application/json']
+  update:
+    syncable:
+      name: reports_tax
+      paginationStrategy: none
+      query:
+        format: .json
+      itemsPathInResponse:
+        - tax_rates
+      params:
+        administration_id: administrations.id
+
+
+# ...
+
+
+# The Moneybird spec says identifiers can be strings or integers. What it really means is that
+# it is a stringified integer. We don't have support for that (yet) so overriding it here to just string.
+- target: components.schemas.identifier
+  update:
+    type: string
+    commment: Moneybird identifiers are stringified integers, so we can just treat them as strings.
+
+# This should be covered by the previous edit, but our code can't deal with $ref inside allOf,
+# so need to do it manually here for now. We can add support for $ref inside allOf later, but this is faster to implement for now.:
+- target: components.schemas
+  update:
+    administration_id:
+      type: string
+- target: components.schemas.administration_id.allOf
+  remove: true
