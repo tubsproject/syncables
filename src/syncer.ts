@@ -172,18 +172,16 @@ export class Syncer extends EventEmitter {
           (contentType) => {
             // console.log('Checking path', path, contentType);
             const response = pathItem.get.responses['200'].content[contentType];
-            if (response.syncable) {
-              // console.log('Found syncable response at path', path, contentType, response.syncable);
-              const spec: SyncableSpec = this.normaliseSyncableSpec(
-                response.syncable,
-                doc,
-              );
-              this.syncables[response.syncable.name] = {
-                path,
-                schema: response.schema,
-                spec: spec,
-              };
-              solution = doc;
+            if (Array.isArray(response.syncables)) {
+              response.syncables.forEach((syncable) => {
+                // console.log('Found syncable response at path', path, contentType, syncable);
+                this.syncables[syncable.name] = {
+                  path,
+                  schema: response.schema,
+                  spec: this.normaliseSyncableSpec(syncable, doc),
+                };
+                solution = doc;
+              });
             }
           },
         );

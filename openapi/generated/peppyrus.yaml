@@ -7,7 +7,7 @@ info:
   contact:
     email: support@tigron.be
 servers:
-  - url: 'https://api.test.peppyrus.be/v1'
+  - url: /v1
 tags:
   - name: message
     description: Operations on messages
@@ -98,6 +98,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageList'
+              syncables:
+                - name: integrationTest
+                  paginationStrategy: pageNumber
+                  itemsPathInResponse:
+                    - items
         '401':
           description: Authentication failure
         '404':
@@ -748,20 +753,4 @@ components:
           type: string
           description: Technical contact for this service
           example: support@peppyrus.be
-syncables:
-  message:
-    description: >-
-      Invoice and Credit Note Documents received or sent by the authenticated
-      user.
-    type: collection
-    list:
-      path: /message/list
-      field: items
-      paging:
-        pageParam: page
-        pageSizeParam: perPage
-    add-doc:
-      path: /message
-      method: POST
-      translation: toPeppyrusMessageBody
 

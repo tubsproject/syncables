@@ -14,15 +14,15 @@ actions:
             type: string
 - target: paths['/invoices']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
-      name: invoice
+    syncables:
+    - name: invoice
       description: |-
         Invoice Documents received or sent by the authenticated user.
       type: collection
 - target: paths['/credit-notes']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
-      name: creditNote
+    syncables:
+    - name: creditNote
       description: |-
         Credit Notes received or sent by the authenticated user.
       type: collection

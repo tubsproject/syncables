@@ -262,17 +262,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Acl'
-              syncable:
-                name: acl
-                description: >-
-                  Access control lists of the calendars of the currently
-                  authenticated user.
-                params:
-                  calendarId: calendars.id
-                type: collection
-                paginationStrategy: pageToken
-                itemsPathInResponse:
-                  - items
+              syncables:
+                - name: acl
+                  description: >-
+                    Access control lists of the calendars of the currently
+                    authenticated user.
+                  params:
+                    calendarId: calendars.id
+                  type: collection
+                  paginationStrategy: pageToken
+                  itemsPathInResponse:
+                    - items
           description: Successful response
       security:
         - Oauth2:
@@ -865,15 +865,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Events'
-              syncable:
-                name: events
-                description: Events of the calendars of the currently authenticated user.
-                params:
-                  calendarId: calendars.id
-                type: collection
-                paginationStrategy: pageToken
-                itemsPathInResponse:
-                  - items
+              syncables:
+                - name: events
+                  description: Events of the calendars of the currently authenticated user.
+                  params:
+                    calendarId: calendars.id
+                  type: collection
+                  paginationStrategy: pageToken
+                  itemsPathInResponse:
+                    - items
           description: Successful response
       security:
         - Oauth2:
@@ -2129,16 +2129,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CalendarList'
-              syncable:
-                name: calendars
-                description: Calendars of the currently authenticated user.
-                sub:
-                  - events
-                  - acl
-                type: collection
-                paginationStrategy: pageToken
-                itemsPathInResponse:
-                  - items
+              syncables:
+                - name: calendars
+                  description: Calendars of the currently authenticated user.
+                  sub:
+                    - events
+                    - acl
+                  type: collection
+                  paginationStrategy: pageToken
+                  itemsPathInResponse:
+                    - items
           description: Successful response
       security:
         - Oauth2:

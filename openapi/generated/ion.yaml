@@ -2828,15 +2828,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedReceiveTransactionList'
-              syncable:
-                name: receiveTransactions
-                description: >-
-                  Invoice and Credit Note Documents received by the
-                  authenticated user.
-                type: collection
-                field: results
-                paginationStrategy: offset
-                offsetParam: offset
+              syncables:
+                - name: receiveTransactions
+                  description: >-
+                    Invoice and Credit Note Documents received by the
+                    authenticated user.
+                  type: collection
+                  field: results
+                  paginationStrategy: offset
+                  offsetParam: offset
           description: ''
     post:
       operationId: receive_transactions_create
@@ -3402,15 +3402,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedSendTransactionList'
-              syncable:
-                name: sendTransactions
-                description: >-
-                  Invoice and Credit Note Documents sent by the authenticated
-                  user.
-                type: collection
-                field: results
-                paginationStrategy: offset
-                offsetParam: offset
+              syncables:
+                - name: sendTransactions
+                  description: >-
+                    Invoice and Credit Note Documents sent by the authenticated
+                    user.
+                  type: collection
+                  field: results
+                  paginationStrategy: offset
+                  offsetParam: offset
           description: ''
   '/api/v2/send-transactions/{id}':
     get:

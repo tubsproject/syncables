@@ -303,11 +303,11 @@ paths:
                       suspended: false
                       period_locked_until: null
                       period_start_date: '2026-01-01'
-              syncable:
-                name: administrations
-                paginationStrategy: none
-                query:
-                  format: .json
+              syncables:
+                - name: administrations
+                  paginationStrategy: none
+                  query:
+                    format: .json
   '/{administration_id}/assets/{id}/disposals{format}':
     post:
       summary: Create a disposal
@@ -1600,13 +1600,13 @@ paths:
                           externally_booked: false
                           asset_id: '478856274756240542'
                       sources: []
-              syncable:
-                name: assets
-                paginationStrategy: pageNumber
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: assets
+                  paginationStrategy: pageNumber
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
     post:
       summary: Create a new asset
       operationId: post_administration_id_assets
@@ -5006,14 +5006,14 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:43:43.310Z'
                           updated_at: '2026-02-12T10:43:43.310Z'
-              syncable:
-                name: contacts
-                paginationStrategy: pageNumber
-                synchronization: '/{administration_id}/contacts/synchronization{format}'
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: contacts
+                  paginationStrategy: pageNumber
+                  synchronization: '/{administration_id}/contacts/synchronization{format}'
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -5784,13 +5784,13 @@ paths:
                         - field: due_date
                       created_at: '2026-02-12T10:42:07.684Z'
                       updated_at: '2026-02-12T10:42:07.713Z'
-              syncable:
-                name: document_styles
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: document_styles
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
   '/{administration_id}/documents/general_documents/synchronization{format}':
     get:
       summary: List ids and versions of general documents
@@ -6578,15 +6578,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:44:04.001Z'
                           updated_at: '2026-02-12T10:44:04.001Z'
-              syncable:
-                name: general_documents
-                paginationStrategy: pageNumber
-                synchronization: >-
-                  /{administration_id}/documents/general_documents/synchronization{format}
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: general_documents
+                  paginationStrategy: pageNumber
+                  synchronization: >-
+                    /{administration_id}/documents/general_documents/synchronization{format}
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -8016,15 +8016,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:44:00.703Z'
                           updated_at: '2026-02-12T10:44:00.703Z'
-              syncable:
-                name: general_journal_documents
-                paginationStrategy: pageNumber
-                synchronization: >-
-                  /{administration_id}/documents/general_journal_documents/synchronization{format}
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: general_journal_documents
+                  paginationStrategy: pageNumber
+                  synchronization: >-
+                    /{administration_id}/documents/general_journal_documents/synchronization{format}
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -10243,15 +10243,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:45:53.145Z'
                           updated_at: '2026-02-12T10:45:53.145Z'
-              syncable:
-                name: purchase_invoices
-                paginationStrategy: pageNumber
-                synchronization: >-
-                  /{administration_id}/documents/purchase_invoices/synchronization{format}
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: purchase_invoices
+                  paginationStrategy: pageNumber
+                  synchronization: >-
+                    /{administration_id}/documents/purchase_invoices/synchronization{format}
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -12452,15 +12452,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:45:46.764Z'
                           updated_at: '2026-02-12T10:45:46.764Z'
-              syncable:
-                name: receipts
-                paginationStrategy: pageNumber
-                synchronization: >-
-                  /{administration_id}/documents/receipts/synchronization{format}
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: receipts
+                  paginationStrategy: pageNumber
+                  synchronization: >-
+                    /{administration_id}/documents/receipts/synchronization{format}
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -13208,15 +13208,15 @@ paths:
                           data: {}
                           created_at: '2026-02-12T10:44:26.411Z'
                           updated_at: '2026-02-12T10:44:26.411Z'
-              syncable:
-                name: typeless_documents
-                paginationStrategy: pageNumber
-                synchronization: >-
-                  /{administration_id}/documents/typeless_documents/synchronization{format}
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: typeless_documents
+                  paginationStrategy: pageNumber
+                  synchronization: >-
+                    /{administration_id}/documents/typeless_documents/synchronization{format}
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -13581,13 +13581,13 @@ paths:
                       downloaded: false
                       created_at: '2026-02-12T10:43:02.758Z'
                       updated_at: '2026-02-12T10:43:02.758Z'
-              syncable:
-                name: downloads
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: downloads
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -22209,13 +22209,13 @@ paths:
                       active: true
                       created_at: '2026-02-12T10:45:51.691Z'
                       updated_at: '2026-02-12T10:45:51.691Z'
-              syncable:
-                name: financial_accounts
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: financial_accounts
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
   '/{administration_id}/financial_mutations/synchronization{format}':
     get:
       summary: List all ids and versions
@@ -23430,14 +23430,14 @@ paths:
                     created_at: '2026-02-12T10:42:06.824Z'
                     chamber_of_commerce: '08155914'
                     tax_number: NL817575546B01
-              syncable:
-                type: item
-                name: default_identities
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - type: item
+                  name: default_identities
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
     patch:
       summary: Updates the default identity
       operationId: patch_administration_id_identities_default
@@ -23820,13 +23820,13 @@ paths:
                       created_at: '2026-02-12T10:45:50.076Z'
                       chamber_of_commerce: '08155914'
                       tax_number: NL817575546B01
-              syncable:
-                name: identities
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: identities
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
     post:
       summary: Creates an identity
       operationId: post_administration_id_identities
@@ -26792,13 +26792,13 @@ paths:
                         name_english: Pre-invoiced revenue
                         reference: '1210260'
                       financial_account_id: null
-              syncable:
-                name: ledger_accounts
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: ledger_accounts
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
     post:
       summary: Creates a new ledger account
       operationId: post_administration_id_ledger_accounts
@@ -27556,13 +27556,13 @@ paths:
                       ledger_account_id: '478856248335271033'
                       created_at: '2026-02-12T10:42:56.224Z'
                       updated_at: '2026-02-12T10:42:56.224Z'
-              syncable:
-                name: products
-                paginationStrategy: pageNumber
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: products
+                  paginationStrategy: pageNumber
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -28535,13 +28535,13 @@ paths:
                 DoesNotListPaidTransactions:
                   summary: Does not list paid transactions
                   value: []
-              syncable:
-                name: purchase_transactions
-                paginationStrategy: pageNumber
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: purchase_transactions
+                  paginationStrategy: pageNumber
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
   '/{administration_id}/recurring_sales_invoices/synchronization{format}':
     get:
       summary: List all IDs and versions
@@ -30926,15 +30926,15 @@ paths:
                           created_at: '2026-02-12T10:45:42.723Z'
                           updated_at: '2026-02-12T10:45:42.723Z'
                       subscription: null
-              syncable:
-                name: recurring_sales_invoices
-                paginationStrategy: pageNumber
-                synchronization: >-
-                  /{administration_id}/recurring_sales_invoices/synchronization{format}
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: recurring_sales_invoices
+                  paginationStrategy: pageNumber
+                  synchronization: >-
+                    /{administration_id}/recurring_sales_invoices/synchronization{format}
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -31330,13 +31330,13 @@ paths:
                       divestment: '0.0'
                       value_changes: '0.0'
                       value_at_end: '12345.67'
-              syncable:
-                name: reports_assets
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: reports_assets
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -31529,16 +31529,16 @@ paths:
                       open_years:
                         - year: '2024'
                           value: '100.0'
-              syncable:
-                name: reports_balance_sheet_current_liabilities
-                paginationStrategy: none
-                itemsPathInResponse:
-                  - credit
-                  - current_liabilities
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: reports_balance_sheet_current_liabilities
+                  paginationStrategy: none
+                  itemsPathInResponse:
+                    - credit
+                    - current_liabilities
+                  query:
+                    format: .json
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -31951,15 +31951,15 @@ paths:
                   summary: Returns success for full period
                   value:
                     debtors: []
-              syncable:
-                name: reports_debtors
-                paginationStrategy: none
-                query:
-                  format: .json
-                itemsPathInResponse:
-                  - debtors
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: reports_debtors
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  itemsPathInResponse:
+                    - debtors
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -32196,15 +32196,15 @@ paths:
                             amount: '300.0'
                           - name: Totaal
                             amount: '600.0'
-              syncable:
-                name: reports_debtors_aging
-                paginationStrategy: none
-                query:
-                  format: .json
-                itemsPathInResponse:
-                  - debtors
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: reports_debtors_aging
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  itemsPathInResponse:
+                    - debtors
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -32314,15 +32314,15 @@ paths:
                   summary: Returns success for full period
                   value:
                     expenses_by_contact: []
-              syncable:
-                name: reports_expenses_by_contact
-                paginationStrategy: none
-                query:
-                  format: .json
-                itemsPathInResponse:
-                  - expenses_by_contact
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: reports_expenses_by_contact
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  itemsPathInResponse:
+                    - expenses_by_contact
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -33815,16 +33815,16 @@ paths:
                     net_profit: '66.0'
                     total_expenses: '34.0'
                     total_revenue: '100.0'
-              syncable:
-                name: reports_profit_loss
-                paginationStrategy: none
-                query:
-                  format: .json
-                itemsPathInResponse:
-                  - revenue_by_ledger_account
-                  - ledger_accounts
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: reports_profit_loss
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  itemsPathInResponse:
+                    - revenue_by_ledger_account
+                    - ledger_accounts
+                  params:
+                    administration_id: administrations.id
             application/xml:
               schema:
                 type: object
@@ -33957,15 +33957,15 @@ paths:
                   summary: Returns success for full period
                   value:
                     revenue_by_contact: []
-              syncable:
-                name: reports_revenue_by_contact
-                paginationStrategy: none
-                query:
-                  format: .json
-                itemsPathInResponse:
-                  - revenue_by_contact
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: reports_revenue_by_contact
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  itemsPathInResponse:
+                    - revenue_by_contact
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:
@@ -34318,15 +34318,15 @@ paths:
                   summary: Returns success for full period
                   value:
                     tax_rates: []
-              syncable:
-                name: reports_tax
-                paginationStrategy: none
-                query:
-                  format: .json
-                itemsPathInResponse:
-                  - tax_rates
-                params:
-                  administration_id: administrations.id
+              syncables:
+                - name: reports_tax
+                  paginationStrategy: none
+                  query:
+                    format: .json
+                  itemsPathInResponse:
+                    - tax_rates
+                  params:
+                    administration_id: administrations.id
         '400':
           description: Bad request
           content:

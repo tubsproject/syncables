@@ -2,6 +2,6 @@ openapi: 3.0.0
 actions:
 - target: paths['/v1/invoices']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
-      name: integrationTest
+    syncables:
+    - name: integrationTest
       paginationStrategy: pageNumber

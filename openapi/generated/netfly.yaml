@@ -365,18 +365,16 @@ paths:
                       type: string
                     apMessage:
                       type: string
-              syncable:
-                name: documentsOut
-                description: >-
-                  Invoice and Credit Note Documents sent by the authenticated
-                  user.
-                type: collection
-                query:
-                  flow: in
-                paginationStrategy: dateRange
-                startDateParamInQuery: startDate
-                endDateParamInQuery: endDate
-                startDate: '20210101000000'
+              syncables:
+                - name: documentsIn
+                  description: >-
+                    Invoice and Credit Note Documents sent by the authenticated
+                    user.
+                  type: collection
+                  query:
+                    flow: in
+                  paginationStrategy: dateRange
+                  startDate: '20210101000000'
         '400':
           description: Missing or invalid parameters
         '404':
