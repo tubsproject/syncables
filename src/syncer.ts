@@ -1,3 +1,4 @@
+import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { EventEmitter } from 'events';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
@@ -10,7 +11,7 @@ const debug = createDebug('syncable');
 
 export async function specStrToObj(
   specStr: string,
-): Promise<{ paths: object }> {
+): Promise<OpenAPIV3.Document> {
   let specObj;
   try {
     specObj = parse(specStr);
@@ -63,8 +64,9 @@ export class Syncer extends EventEmitter {
   fetchFunction: typeof fetch;
   syncables: {
     [syncableName: string]: {
-      path: string;
+      path: string;     
       spec: SyncableSpec;
+      schema: object;
     };
   } = {};
   specStr: string;
@@ -185,7 +187,8 @@ export class Syncer extends EventEmitter {
                 // throw new Error('debug');
               }
               this.syncables[response.syncable.name] = {
-                path: path,
+                path,
+                schema: response.schema,
                 spec: spec,
               };
               solution = schema;
@@ -575,14 +578,14 @@ export class Syncer extends EventEmitter {
   }
   private paramTypes(
     params: { [key: string]: string },
-    schema: object,
+    document: OpenAPIV3.Document,
   ): { [key: string]: 'string' | 'number' } {
     const paramTypes: { [key: string]: 'string' | 'number' } = {};
     Object.entries(params || {}).forEach(([key, reference]) => {
       const [parentName, parentField] = reference.split('.');
       const parentFields = getFields(
-        schema,
-        this.syncables[parentName].path,
+        document.paths[this.syncables[parentName].path].get.responses['200'].content['application/json'].schema,
+        document.paths[this.syncables[parentName].path].get.responses['200'].content['application/json'].syncable,
         this.syncables[parentName].spec.itemsPathInResponse,
       );
       if (!parentFields[parentField]) {
@@ -602,7 +605,7 @@ export class Syncer extends EventEmitter {
     return paramTypes;
   }
   async fetchOneSyncable(
-    schema: object,
+    document: OpenAPIV3.Document,
     specName: string,
     parents: { [pattern: string]: string[] },
   ): Promise<object[]> {
@@ -614,8 +617,8 @@ export class Syncer extends EventEmitter {
     // console.log('initDb end');
     if (this.client) {
       const fields = getFields(
-        schema,
-        syncable.path,
+        syncable.schema,
+        syncable.spec,
         syncable.spec.itemsPathInResponse,
       );
       // console.log('creating table with fields', fields);
@@ -624,7 +627,7 @@ export class Syncer extends EventEmitter {
         specName,
         fields,
         syncable.spec.idField || 'id',
-        this.paramTypes(syncable.spec.params, schema),
+        this.paramTypes(syncable.spec.params, document),
       );
       const fieldsToInsert: string[] = Object.keys(fields).filter(
         (f) => ['string'].indexOf(fields[f].type) !== -1,

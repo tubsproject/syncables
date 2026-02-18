@@ -1,5 +1,7 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
+import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { Client } from 'pg';
+import { SyncableSpec } from './syncer.js';
 export { Client } from 'pg';
 
 export async function getPostgresClient(): Promise<Client> {
@@ -21,20 +23,18 @@ export async function getPostgresClient(): Promise<Client> {
   return client;
 }
 
+// FIXME: in Syncer.syncables we are only storing the path, so here we're
+// guessing that the response code is '200' and the content-type is probably
+// either 'application/json' or 'application/ld+json'.
+// This is not necessary because we know the exact place where the syncable is specified
+// So maybe instead of path we should store an array of strings which is the exact location
+// inside the spec.
 export function getFields(
-  openApiSpec: any,
-  endPoint: string,
+  schema: OpenAPIV3.SchemaObject,
+  spec: SyncableSpec,
   rowsFrom: string[],
 ): { [key: string]: { type: string } } | undefined {
-  const successResponseProperties =
-    openApiSpec.paths[endPoint]?.get?.responses?.['200']?.content;
-  // console.log(openApiSpec.paths, endPoint);
-  const syncableType: string =
-    openApiSpec.paths[endPoint]?.get?.responses?.['200']?.syncable?.type ||
-    'collection';
-  let schema =
-    successResponseProperties?.['application/ld+json']?.schema ||
-    successResponseProperties?.['application/json']?.schema;
+  const syncableType: string = spec?.type || 'collection';
   // console.log('looking for fields in schema:', JSON.stringify(schema, null, 2));
   for (let i = 0; i < rowsFrom.length; i++) {
     const part = rowsFrom[i];
@@ -51,20 +51,21 @@ export function getFields(
       }
       if (!foundPart) {
         throw new Error(
-          `Could not find part ${part} in any of the allOf entries for endpoint ${endPoint}`,
+          `Could not find part ${part} in any of the allOf entries`,
         );
       }
     } else {
       throw new Error(
-        `Could not find part ${part} in schema for endpoint ${endPoint}`,
+        `Could not find part ${part} in schema`,
       );
     }
   }
   const sub = syncableType === 'collection' ? schema?.items : schema;
+  // console.log(syncableType, sub);
   let whatWeWant = sub?.properties;
   if (!whatWeWant && sub?.allOf) {
     whatWeWant = {};
-    sub.allOf.forEach((entry: any) => {
+    sub.allOf.forEach((entry: OpenAPIV3.SchemaObject) => {
       if (entry.properties) {
         Object.assign(whatWeWant, entry.properties);
       }

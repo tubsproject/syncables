@@ -1,5 +1,6 @@
+import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { readFileSync } from 'fs';
-import { Syncer } from '../../src/syncer.js';
+import { SyncableSpec, Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 import { Client, createSqlTable, getFields } from '../../src/db.js';
@@ -84,39 +85,23 @@ describe('Google Calendar List', async () => {
 
 describe('getFields', () => {
   it('retrieves the correct fields from the OpenAPI spec', () => {
-    const openApiSpec = {
-      paths: {
-        '/test/': {
-          get: {
-            responses: {
-              '200': {
-                content: {
-                  'application/json': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        widgets: {
-                          type: 'array',
-                          items: {
-                            type: 'object',
-                            properties: {
-                              id: { type: 'string' },
-                              name: { type: 'string' },
-                              value: { type: 'number' },
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
+    const schema: OpenAPIV3.SchemaObject = {
+      type: 'object',
+      properties: {
+        widgets: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              name: { type: 'string' },
+              value: { type: 'number' },
             },
           },
         },
       },
     };
-    const fields = getFields(openApiSpec, '/test/', ['widgets']);
+    const fields = getFields(schema, {} as SyncableSpec, ['widgets']);
     expect(fields).toEqual({
       id: { type: 'string' },
       name: { type: 'string' },
@@ -124,34 +109,18 @@ describe('getFields', () => {
     });
   });
   it('can deal with items in the root', () => {
-    const openApiSpec = {
-      paths: {
-        '/test/': {
-          get: {
-            responses: {
-              '200': {
-                content: {
-                  'application/json': {
-                    schema: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        properties: {
-                          id: { type: 'string' },
-                          name: { type: 'string' },
-                          value: { type: 'number' },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
+    const schema: OpenAPIV3.SchemaObject = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          name: { type: 'string' },
+          value: { type: 'number' },
         },
       },
     };
-    const fields = getFields(openApiSpec, '/test/', []);
+    const fields = getFields(schema, {} as SyncableSpec, []);
     expect(fields).toEqual({
       id: { type: 'string' },
       name: { type: 'string' },
@@ -159,39 +128,23 @@ describe('getFields', () => {
     });
   });
   it('can deal with nested objects', () => {
-    const openApiSpec = {
-      paths: {
-        '/test/': {
-          get: {
-            responses: {
-              '200': {
-                content: {
-                  'application/json': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        widgets: {
-                          type: 'object',
-                          properties: {
-                            blurry: {
-                              type: 'object',
-                              properties: {
-                                buggers: {
-                                  type: 'array',
-                                  items: {
-                                    type: 'object',
-                                    properties: {
-                                      id: { type: 'string' },
-                                      name: { type: 'string' },
-                                      value: { type: 'number' },
-                                    },
-                                  },
-                                },
-                              },
-                            },
-                          },
-                        },
-                      },
+    const schema: OpenAPIV3.SchemaObject = {
+      type: 'object',
+      properties: {
+        widgets: {
+          type: 'object',
+          properties: {
+            blurry: {
+              type: 'object',
+              properties: {
+                buggers: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'string' },
+                      name: { type: 'string' },
+                      value: { type: 'number' },
                     },
                   },
                 },
@@ -201,11 +154,7 @@ describe('getFields', () => {
         },
       },
     };
-    const fields = getFields(openApiSpec, '/test/', [
-      'widgets',
-      'blurry',
-      'buggers',
-    ]);
+    const fields = getFields(schema, {} as SyncableSpec, ['widgets', 'blurry', 'buggers']);
     expect(fields).toEqual({
       id: { type: 'string' },
       name: { type: 'string' },
@@ -215,13 +164,13 @@ describe('getFields', () => {
   it('can deal with complex schema definitions', async () => {
     const specObj = await specStrToObj(moneybird);
     const administrationFields = getFields(
-      specObj,
-      '/administrations{format}',
+      specObj.paths['/administrations{format}'].get.responses['200'].content['application/json'].schema,
+      {} as SyncableSpec,
       [],
     );
     const contactFields = getFields(
-      specObj,
-      '/{administration_id}/contacts{format}',
+      specObj.paths['/{administration_id}/contacts{format}'].get.responses['200'].content['application/json'].schema,
+      {} as SyncableSpec,
       [],
     );
     expect(contactFields).toEqual({
@@ -723,6 +672,134 @@ describe('getFields', () => {
         description:
           'Start of the year in which the administration recorded its first bookkeeping data, based on journal entries.',
         example: '2024-01-01',
+      },
+    });
+  });
+  it.only('can deal with item-type syncables', async () => {
+    const specObj = await specStrToObj(moneybird);
+    const defaultIdentityFields = getFields(
+      specObj.paths['/{administration_id}/identities/default{format}'].get.responses['200'].content['application/json'].schema,
+      specObj.paths['/{administration_id}/identities/default{format}'].get.responses['200'].content['application/json'].syncable as SyncableSpec,
+      [],
+    );
+    expect(defaultIdentityFields).toEqual({
+      "address1": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "address2": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "administration_id": {
+        "type": "string",
+      },
+      "bank_account_bic": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "bank_account_name": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "bank_account_number": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "chamber_of_commerce": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "city": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "company_name": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "country": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "created_at": {
+        "format": "date-time",
+        "type": "string",
+      },
+      "custom_fields": {
+        "items": {
+          "properties": {
+            "id": {
+              "commment": "Moneybird identifiers are stringified integers, so we can just treat them as strings.",
+              "description": "A unique record identifier",
+              "example": "458026356994737217",
+              "pattern": "^\\d+$",
+              "type": "string",
+            },
+            "name": {
+              "type": "string",
+            },
+            "value": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+          "unevaluatedProperties": false,
+        },
+        "type": "array",
+      },
+      "email": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "id": {
+        "commment": "Moneybird identifiers are stringified integers, so we can just treat them as strings.",
+        "description": "A unique record identifier",
+        "example": "458026356994737217",
+        "pattern": "^\\d+$",
+        "type": "string",
+      },
+      "phone": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "tax_number": {
+        "type": [
+          "string",
+          "null",
+        ],
+      },
+      "updated_at": {
+        "format": "date-time",
+        "type": "string",
+      },
+      "zipcode": {
+        "type": [
+          "string",
+          "null",
+        ],
       },
     });
   });
