@@ -31677,14 +31677,6 @@ paths:
                       ledger_accounts: []
                     opening_balance: '0'
                     closing_balance: '0.0'
-              syncable:
-                type: item
-                name: reports_cash_flow
-                paginationStrategy: none
-                query:
-                  format: .json
-                params:
-                  administration_id: administrations.id
             application/xml:
               schema:
                 type: object
