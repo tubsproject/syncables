@@ -157,7 +157,7 @@ export class Syncer extends EventEmitter {
   }
   async parseSpec(): Promise<object> {
     const doc = await specStrToObj(this.specStr);
-
+    // console.log('Parsed spec document', doc);
     this.baseUrl =
       doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';
     let solution: object | null = null;
@@ -173,6 +173,7 @@ export class Syncer extends EventEmitter {
             // console.log('Checking path', path, contentType);
             const response = pathItem.get.responses['200'].content[contentType];
             if (Array.isArray(response.syncables)) {
+              // console.log('Found syncables in response for path', path, contentType);
               response.syncables.forEach((syncable) => {
                 // console.log('Found syncable response at path', path, contentType, syncable);
                 this.syncables[syncable.name] = {
@@ -187,9 +188,11 @@ export class Syncer extends EventEmitter {
         );
       }
     }
+    // console.log('found syncables', this.syncables);
     if (solution) {
       return solution;
     }
+
     throw new Error(`No syncables found in spec`);
   }
   private getUrl(
@@ -255,6 +258,8 @@ export class Syncer extends EventEmitter {
       // ignore
       void err;
     }
+    // console.log('hasMore', items.length, minNumItemsToExpect);
+    // throw new Error('debug');
     return {
       items,
       hasMore: items.length >= minNumItemsToExpect,
@@ -491,6 +496,8 @@ export class Syncer extends EventEmitter {
     },
   ): Promise<object[]> {
     const spec = this.syncables[syncableName].spec;
+    console.log('switching on pagination strategy', spec.paginationStrategy);
+    // throw new Error('debug');
     switch (spec['paginationStrategy']) {
       case 'pageNumber':
         return this.pageNumberFetch(syncableName, theseParents);

@@ -17,11 +17,3 @@ actions:
     syncables:
     - name: integrationTest
       paginationStrategy: pageNumber
-- target: paths['/credit-notes']['get']['responses']['200']['content']['application/json']
-  update:
-    syncables:
-    - name: creditNote
-      paginationStrategy: pageNumber
-      description: |-
-        Credit Notes received or sent by the authenticated user.
-      type: collection
