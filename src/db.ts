@@ -23,12 +23,6 @@ export async function getPostgresClient(): Promise<Client> {
   return client;
 }
 
-// FIXME: in Syncer.syncables we are only storing the path, so here we're
-// guessing that the response code is '200' and the content-type is probably
-// either 'application/json' or 'application/ld+json'.
-// This is not necessary because we know the exact place where the syncable is specified
-// So maybe instead of path we should store an array of strings which is the exact location
-// inside the spec.
 export function getFields(
   schema: OpenAPIV3.SchemaObject,
   spec: SyncableSpec,
