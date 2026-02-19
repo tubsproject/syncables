@@ -98,6 +98,18 @@ const calendarEntries: Entry[] = allTables.calendars as Entry[];
 console.log(calendarEntries[0].backgroundColor);
 ```
 
+### Authorization
+We ignore the `security` entry in the OAD root (design decision: https://github.com/tubsproject/syncables/issues/48).
+Instead, in `src/dev-example.ts` you see how the `securityScheme` to use is explicitly picked.
+If your API is called ACME Widgets, then its environment variable names will start with 'ACME_WIDGETS_'. Substitute that string in the following examples of supported security schemes:
+* for type='oauth2', flow='clientCredentials' you will need to specify tokenUrl (and optionally audience, scope and vendorApiKey), and add ACME_WIDGETS_CLIENT_ID and ACME_WIDGETS_CLIENT_SECRET at runtime.
+* for type='oauth2', flow='authorizationCode' you will need to specify authorizationUrl, tokenUrl and scopes, and add ACME_WIDGETS_CLIENT_ID and ACME_WIDGETS_CLIENT_SECRET at runtime.
+* for type='cognito' you will need to specify cognitoUrl, and add ACME_WIDGETS_CLIENT_ID, ACME_WIDGETS_USERNAME and ACME_WIDGETS_PASSWORD at runtime.
+* for type='api-key' and 'string-token' you will need to add ACME_WIDGETS_API_KEY at runtime.
+* for type='api-key-password' you will need to add ACME_WIDGETS_API_KEY and ACME_WIDGETS_PASSWORD at runtime.
+* for type='basic' you will need to add ACME_WIDGETS_USER and ACME_WIDGETS_PASSWORD at runtime.
+* for type='acube' you will need to add ACME_WIDGETS_EMAIL and ACME_WIDGETS_PASSWORD at runtime.
+
 ## Dev Example
 * In the [Google Cloud Dashboard](https://console.cloud.google.com/apis/credentials) create an OAuth client ID with http://localhost:8000 as an authorized JavaScript origin and http://localhost:8000/callback as an authorized redirect URI.
 * Enable the [calendar API](https://console.cloud.google.com/apis/library/calendar-json.googleapis.com)

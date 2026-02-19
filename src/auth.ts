@@ -285,7 +285,7 @@ async function cognitoFlow(
   return { Authorization: `Bearer ${accessToken}` };
 }
 
-function pickFlow(
+async function pickFlow(
   apiName: string,
   securityScheme: OpenAPIV3.SecuritySchemeObject,
 ): Promise<{ [header: string]: string }> {
@@ -316,6 +316,49 @@ function pickFlow(
       securityScheme as { email: string; password: string; loginUrl: string },
     );
   }
+  if ((securityScheme.type as string) === 'api-key') {
+    const key = process.env[`${apiName.toUpperCase().replace('-', '_')}_API_KEY`];
+    if (!key) {
+      throw new Error(`Missing API key for ${apiName}`);
+    }
+    return {
+      'X-Api-Key': key,
+    };
+  }
+  if ((securityScheme.type as string) === 'api-key-password') {
+    const key = process.env[`${apiName.toUpperCase().replace('-', '_')}_API_KEY`];
+    const password = process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
+    if (!key) {
+      throw new Error(`Missing API key for ${apiName}`);
+    }
+    if (!password) {
+      throw new Error(`Missing password for ${apiName}`);
+    }
+    return {
+      'X-Api-Key': key,
+      'X-Password': password,
+    };
+  }
+  if ((securityScheme.type as string) === 'string-token') {
+    const key = process.env[`${apiName.toUpperCase().replace('-', '_')}_API_KEY`];
+    if (!key) {
+      throw new Error(`Missing API key for ${apiName}`);
+    }
+    return {
+      'Authorization': `Token ${key}`,
+    };
+  }
+  if ((securityScheme.type as string) === 'basic') {
+    const user = process.env[`${apiName.toUpperCase().replace('-', '_')}_USER`];
+    const password = process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
+    if (!user || !password) {
+      throw new Error(`Missing credentials for ${apiName}`);
+    }
+    return {
+      'Authorization': `Basic ${Buffer.from(`${user}:${password}`).toString('base64')}`,
+    };
+  }
+  
   throw new Error('Unsupported security scheme');
 }
 
