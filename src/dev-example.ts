@@ -61,7 +61,7 @@ async function main(): Promise<void> {
 
   const authHeaders = await getAuthHeaderSets(apiNames, securitySchemeObjects);
   console.log('Obtained bearer tokens for all APIs');
-  
+
   console.log('Obtained bearer tokens for all APIs');
   await Promise.all(
     apiNames.map(async (specName) => {

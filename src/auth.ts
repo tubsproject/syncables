@@ -10,7 +10,7 @@ const port = 8000;
 async function authorizationCodeFlow(
   apiName: string,
   securityScheme: OpenAPIV3.SecuritySchemeObject,
-): Promise<string> {
+): Promise<{ [header: string]: string }> {
   const app = express();
   const passportConfig = {
     authorizationURL: securityScheme.flows?.authorizationCode?.authorizationUrl,
@@ -118,13 +118,13 @@ async function authorizationCodeFlow(
   server.closeAllConnections();
   await closed;
   console.log('OAuth client server shutdown complete');
-  return token;
+  return { Authorization: `Bearer ${token}` };
 }
 
 async function clientCredentialsFlow(
   apiName: string,
   securityScheme: OpenAPIV3.SecuritySchemeObject,
-): Promise<string> {
+): Promise<{ [header: string]: string }> {
   const tokenUrl = securityScheme.flows?.clientCredentials?.tokenUrl;
   const clientId =
     process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_ID`];
@@ -181,16 +181,14 @@ async function clientCredentialsFlow(
       `No access token in response for ${apiName}: ${JSON.stringify(data)}`,
     );
   }
-  await writeFile(`.tokens/${apiName}.txt`, `${accessToken}\n`).catch((err) => {
-    console.error(`Error writing token for ${apiName}:`, err);
-  });
-  return accessToken;
+  const authHeaders = { Authorization: `Bearer ${accessToken}` };
+  return authHeaders;
 }
 
 async function acubeFlow(
   apiName: string,
   securityScheme: { email: string; password: string; loginUrl: string },
-): Promise<string> {
+): Promise<{ [header: string]: string }> {
   const email = process.env[`${apiName.toUpperCase().replace('-', '_')}_EMAIL`];
   const password =
     process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
@@ -225,16 +223,14 @@ async function acubeFlow(
       `No access token in response for ${apiName}: ${JSON.stringify(data)}`,
     );
   }
-  await writeFile(`.tokens/${apiName}.txt`, `${accessToken}\n`).catch((err) => {
-    console.error(`Error writing token for ${apiName}:`, err);
-  });
-  return accessToken;
+  const authHeaders = { Authorization: `Bearer ${accessToken}` };
+  return authHeaders;
 }
 
 async function cognitoFlow(
   apiName: string,
   securityScheme: { cognitoUrl: string },
-): Promise<string> {
+): Promise<{ [header: string]: string }> {
   const clientId =
     process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_ID`];
   const username =
@@ -286,16 +282,13 @@ async function cognitoFlow(
       `No access token in response for ${apiName}: ${JSON.stringify(data)}`,
     );
   }
-  await writeFile(`.tokens/${apiName}.txt`, `${accessToken}\n`).catch((err) => {
-    console.error(`Error writing token for ${apiName}:`, err);
-  });
-  return accessToken;
+  return { Authorization: `Bearer ${accessToken}` };
 }
 
-function authorize(
+function pickFlow(
   apiName: string,
   securityScheme: OpenAPIV3.SecuritySchemeObject,
-): Promise<string> {
+): Promise<{ [header: string]: string }> {
   if (securityScheme.type === 'oauth2') {
     if (securityScheme.flows?.clientCredentials) {
       console.log('Selected client credentials flow for', apiName);
@@ -326,44 +319,34 @@ function authorize(
   throw new Error('Unsupported security scheme');
 }
 
-async function getBearerTokens(
-  apiNames: string[],
-  securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject },
-): Promise<{ [apiName: string]: string }> {
-  const tokens: { [apiName: string]: string } = {};
-  for (const apiName of apiNames) {
-    console.log(`Checking for existing token for ${apiName}...`);
-    const tokenPath = `.tokens/${apiName}.txt`;
-    try {
-      const token = await readFile(tokenPath, 'utf-8');
-      tokens[apiName] = token.trim();
-    } catch (err) {
-      void err;
-      console.error(
-        `File ${tokenPath} not found for ${apiName}`,
-      );
-      console.log('Starting authorization flow for', apiName);
-      tokens[apiName] = await authorize(
-        apiName,
-        securitySchemeObjects[apiName],
-      );
-      console.log('Completed authorization flow for', apiName);
-    }
-  }
-  console.log('Obtained bearer tokens for all APIs');
-  return tokens;
-}
-
 export async function getAuthHeaderSets(
   apiNames: string[],
   securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject },
 ): Promise<{ [apiName: string]: { [header: string]: string } }> {
-  const bearerTokens = await getBearerTokens(apiNames, securitySchemeObjects);
-  const authHeaders: { [apiName: string]: { Authorization: string } } = {};
+  const authHeaders: { [apiName: string]: { [header: string]: string } } = {};
   for (const apiName of apiNames) {
-    authHeaders[apiName] = {
-      Authorization: `Bearer ${bearerTokens[apiName]}`,
-    };
+    console.log(`Checking for existing auth headers for ${apiName}...`);
+    const tokenPath = `.tokens/${apiName}.json`;
+    try {
+      const authHeadersStr = await readFile(tokenPath, 'utf-8');
+      authHeaders[apiName] = JSON.parse(authHeadersStr);
+    } catch (err) {
+      void err;
+      console.error(`File ${tokenPath} not found for ${apiName}`);
+      console.log('Starting authorization flow for', apiName);
+      authHeaders[apiName] = await pickFlow(
+        apiName,
+        securitySchemeObjects[apiName],
+      );
+      await writeFile(
+        `.tokens/${apiName}.json`,
+        JSON.stringify(authHeaders),
+      ).catch((err) => {
+        console.error(`Error writing token for ${apiName}:`, err);
+      });
+      console.log('Completed authorization flow for', apiName);
+    }
   }
+  console.log('Obtained auth headers for all APIs');
   return authHeaders;
 }

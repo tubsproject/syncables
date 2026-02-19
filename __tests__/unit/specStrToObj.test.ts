@@ -17,27 +17,30 @@ actions:
       description: FIXME
 `;
     const doc = await specStrToObj(specStr, overlayStr);
-    console.log('Result of specStrToObj with overlay', JSON.stringify(doc, null, 2));
+    console.log(
+      'Result of specStrToObj with overlay',
+      JSON.stringify(doc, null, 2),
+    );
     expect(doc).toEqual({
-      "components": {
-        "schemas": {
-          "CreateWebhook": {
-            "description": "FIXME"
+      components: {
+        schemas: {
+          CreateWebhook: {
+            description: 'FIXME',
           },
-          "UpdateWebhook": {
-            "description": "FIXME"
+          UpdateWebhook: {
+            description: 'FIXME',
           },
         },
       },
-      "info": {
-        "title": "Test API",
-        "version": "1.0.0",
+      info: {
+        title: 'Test API',
+        version: '1.0.0',
       },
-      "openapi": "3.0.0",
-      "paths": {},
-      "servers": [
+      openapi: '3.0.0',
+      paths: {},
+      servers: [
         {
-          "url": "https://example.com",
+          url: 'https://example.com',
         },
       ],
     });
