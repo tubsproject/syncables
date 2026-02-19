@@ -31530,64 +31530,11 @@ paths:
                         - year: '2024'
                           value: '100.0'
               syncables:
-                - name: balance_sheet.current_assets
-                  paginationStrategy: none
-                  itemsPathInResponse:
-                    - debit
-                    - current_assets
-                  query:
-                    format: .json
-                  params:
-                    administration_id: administrations.id
-                - name: balance_sheet.non_current_assets
-                  paginationStrategy: none
-                  itemsPathInResponse:
-                    - debit
-                    - non_current_assets
-                  query:
-                    format: .json
-                  params:
-                    administration_id: administrations.id
-                - name: balance_sheet.equity
-                  paginationStrategy: none
-                  itemsPathInResponse:
-                    - credit
-                    - equity
-                  query:
-                    format: .json
-                  params:
-                    administration_id: administrations.id
-                - name: balance_sheet.provisions
-                  paginationStrategy: none
-                  itemsPathInResponse:
-                    - credit
-                    - provisions
-                  query:
-                    format: .json
-                  params:
-                    administration_id: administrations.id
-                - name: balance_sheet.non_current_liabilities
-                  paginationStrategy: none
-                  itemsPathInResponse:
-                    - credit
-                    - non_current_liabilities
-                  query:
-                    format: .json
-                  params:
-                    administration_id: administrations.id
                 - name: balance_sheet.current_liabilities
                   paginationStrategy: none
                   itemsPathInResponse:
                     - credit
                     - current_liabilities
-                  query:
-                    format: .json
-                  params:
-                    administration_id: administrations.id
-                - name: open_years
-                  paginationStrategy: none
-                  itemsPathInResponse:
-                    - open_years
                   query:
                     format: .json
                   params:
