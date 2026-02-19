@@ -26,7 +26,10 @@ async function getBearerTokens(
         `File ${tokenPath} not found, initiating OAuth flow for ${apiName}`,
       );
       console.log('Starting OAuth flow for', apiName);
-      tokens[apiName] = await runOAuthClient(apiName, securitySchemeObjects[apiName]);
+      tokens[apiName] = await runOAuthClient(
+        apiName,
+        securitySchemeObjects[apiName],
+      );
       console.log('Completed OAuth flow for', apiName);
     }
   }
@@ -34,43 +37,56 @@ async function getBearerTokens(
   return tokens;
 }
 
-const apiNames = [
-  'google-calendar',
-  'moneybird',
-];
-const securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject } = {};
+const apiNames = ['google-calendar', 'moneybird'];
+const securitySchemeObjects: {
+  [apiName: string]: OpenAPIV3.SecuritySchemeObject;
+} = {};
 const specStrs: { [apiName: string]: string } = {};
-await Promise.all(apiNames.map(async (apiName: string) => {
-  const specFilename = `./openapi/generated/${apiName}.yaml`;
-  specStrs[apiName] = (await readFile(specFilename, 'utf-8')).toString();
-  const spec: OpenAPIV3.Document = await specStrToObj(specStrs[apiName]);
-  console.log(Object.keys(spec.components ?? {}));
-  console.log('security schemes', spec.components?.securitySchemes);
-  console.log('selecting security scheme for', apiName, securitySchemeNames[apiName], 'from', Object.keys(spec.components?.securitySchemes ?? {}));
-  securitySchemeObjects[apiName] = spec.components?.securitySchemes?.[securitySchemeNames[apiName]] as OpenAPIV3.SecuritySchemeObject;
-}));
-console.log('Selected security scheme objects for all APIs', securitySchemeObjects);
-const bearerTokens = await getBearerTokens(apiNames, securitySchemeObjects);
-await Promise.all(apiNames.map(async (specName) => {
-  const specStr = specStrs[specName];
-  const syncer = new Syncer({
-    specStr,
-    authHeaders: {
-      Authorization: `Bearer ${bearerTokens[specName]}`,
-    },
-    fetchFunction,
-    dbConn:
-      'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
-  });
-  if (process.argv.length > 2) {
-    const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
+await Promise.all(
+  apiNames.map(async (apiName: string) => {
+    const specFilename = `./openapi/generated/${apiName}.yaml`;
+    specStrs[apiName] = (await readFile(specFilename, 'utf-8')).toString();
+    const spec: OpenAPIV3.Document = await specStrToObj(specStrs[apiName]);
+    console.log(Object.keys(spec.components ?? {}));
+    console.log('security schemes', spec.components?.securitySchemes);
     console.log(
-      `Filtering syncables for ${specName} with filter:`,
-      JSON.stringify(filter),
+      'selecting security scheme for',
+      apiName,
+      securitySchemeNames[apiName],
+      'from',
+      Object.keys(spec.components?.securitySchemes ?? {}),
     );
-    return await syncer.fullFetch(filter);
-  }
-  // void syncer;
-  return await syncer.fullFetch();
-}));
-
+    securitySchemeObjects[apiName] = spec.components?.securitySchemes?.[
+      securitySchemeNames[apiName]
+    ] as OpenAPIV3.SecuritySchemeObject;
+  }),
+);
+console.log(
+  'Selected security scheme objects for all APIs',
+  securitySchemeObjects,
+);
+const bearerTokens = await getBearerTokens(apiNames, securitySchemeObjects);
+await Promise.all(
+  apiNames.map(async (specName) => {
+    const specStr = specStrs[specName];
+    const syncer = new Syncer({
+      specStr,
+      authHeaders: {
+        Authorization: `Bearer ${bearerTokens[specName]}`,
+      },
+      fetchFunction,
+      dbConn:
+        'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
+    });
+    if (process.argv.length > 2) {
+      const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
+      console.log(
+        `Filtering syncables for ${specName} with filter:`,
+        JSON.stringify(filter),
+      );
+      return await syncer.fullFetch(filter);
+    }
+    // void syncer;
+    return await syncer.fullFetch();
+  }),
+);
