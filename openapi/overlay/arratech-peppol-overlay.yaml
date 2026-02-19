@@ -2,6 +2,12 @@ openapi: 3.0.0
 info:
   description: Add syncables to the Ion Peppol API.
 actions:
+- target: components.securitySchemes
+  update:
+    oauth2:
+      type: cognito
+...
+
 - target: $
   update:
     servers:

@@ -6,10 +6,19 @@ import { createFetchMock } from '../helpers/createFetchMock.js';
 import { Client, createSqlTable, getFields } from '../../src/db.js';
 import { specStrToObj } from '../../src/syncer.js';
 
-const googleCalendar = readFileSync(
-  './openapi/generated/google-calendar.yaml',
+const googleCalendarSpec = readFileSync(
+  './openapi/oad/google-calendar.yaml',
 ).toString();
-const moneybird = readFileSync('./openapi/generated/moneybird.yaml').toString();
+const googleCalendarOverlay = readFileSync(
+  './openapi/overlay/google-calendar-overlay.yaml',
+).toString();
+// const googleCalendar = await specStrToObj(
+//   googleCalendarSpec,
+//   googleCalendarOverlay,
+// );
+const moneybirdSpec = readFileSync('./openapi/oad/moneybird.yaml').toString();
+const moneybirdOverlay = readFileSync('./openapi/overlay/moneybird-overlay.yaml').toString();  
+const moneybird = await specStrToObj(moneybirdSpec, moneybirdOverlay);
 
 describe('Google Calendar List', async () => {
   const { fetchMock } = createFetchMock(true);
@@ -23,7 +32,8 @@ describe('Google Calendar List', async () => {
   });
   await client.connect();
   const syncable = new Syncer({
-    specStr: googleCalendar,
+    specStr: googleCalendarSpec,
+    overlayStr: googleCalendarOverlay,
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
     dbConn,
@@ -166,15 +176,14 @@ describe('getFields', () => {
     });
   });
   it('can deal with complex schema definitions', async () => {
-    const specObj = await specStrToObj(moneybird);
     const administrationFields = getFields(
-      specObj.paths['/administrations{format}'].get.responses['200'].content[
+      moneybird.paths['/administrations{format}'].get.responses['200'].content[
         'application/json'
       ].schema,
       {} as SyncableSpec,
     );
     const contactFields = getFields(
-      specObj.paths['/{administration_id}/contacts{format}'].get.responses[
+      moneybird.paths['/{administration_id}/contacts{format}'].get.responses[
         '200'
       ].content['application/json'].schema,
       {} as SyncableSpec,
@@ -682,11 +691,10 @@ describe('getFields', () => {
     });
   });
   it('can deal with item-type syncables', async () => {
-    const specObj = await specStrToObj(moneybird);
     const defaultIdentityFields = getFields(
-      specObj.paths['/{administration_id}/identities/default{format}'].get
+      moneybird.paths['/{administration_id}/identities/default{format}'].get
         .responses['200'].content['application/json'].schema,
-      specObj.paths['/{administration_id}/identities/default{format}'].get
+      moneybird.paths['/{administration_id}/identities/default{format}'].get
         .responses['200'].content['application/json']
         .syncables[0] as SyncableSpec,
     );

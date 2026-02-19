@@ -1,17 +1,16 @@
-import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { EventEmitter } from 'events';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
+import type { OpenAPIV3 } from '@scalar/openapi-types';
+import { applyOverlay } from 'openapi-overlays-js/src/overlay.js';
 import { Client, getFields, createSqlTable, insertData } from './db.js';
 import { dereference } from '@readme/openapi-parser';
 import { parse } from 'yaml';
 import { getObjectPath } from './utils.js';
 
-const debug = createDebug('syncable');
 
-export async function specStrToObj(
-  specStr: string,
-): Promise<OpenAPIV3.Document> {
+const debug = createDebug('syncable');
+async function parseSpecStr(specStr: string): Promise<object> {
   let specObj;
   try {
     specObj = parse(specStr);
@@ -24,6 +23,13 @@ export async function specStrToObj(
       );
     }
   }
+  return specObj;
+}
+export async function specStrToObj(
+  specStr: string,
+  overlayStr: string | null = null,
+): Promise<OpenAPIV3.Document> {
+  const specObj: OpenAPIV3.Document = await parseSpecStr(specStr);
   if (typeof specObj !== 'object' || specObj === null) {
     throw new Error('Spec is not a valid object');
   }
@@ -39,7 +45,12 @@ export async function specStrToObj(
   if (typeof specObj.components !== 'object' || specObj.components === null) {
     throw new Error('Spec does not have valid components');
   }
-  const dereferenced = await dereference(specObj);
+  if (overlayStr) {
+    const overlayObj = await parseSpecStr(overlayStr);
+    applyOverlay(specObj, overlayObj);
+  }
+
+  const dereferenced = await dereference(specObj as any);
   if (typeof dereferenced !== 'object' || dereferenced === null) {
     throw new Error('Dereferenced spec is not a valid object');
   }
@@ -95,23 +106,27 @@ export class Syncer extends EventEmitter {
     };
   } = {};
   specStr: string;
+  overlayStr: string | null = null;
   baseUrl: string;
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
   dbConn: string | null = null;
   constructor({
     specStr,
+    overlayStr,
     authHeaders = {},
     fetchFunction = fetch,
     dbConn,
   }: {
     specStr: string;
+    overlayStr?: string | null;
     authHeaders?: { [key: string]: string };
     fetchFunction?: typeof fetch;
     dbConn?: string;
   }) {
     super();
     this.specStr = specStr;
+    this.overlayStr = overlayStr || null;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
     this.dbConn = dbConn || null;
@@ -181,7 +196,7 @@ export class Syncer extends EventEmitter {
     return spec;
   }
   async parseSpec(): Promise<object> {
-    const doc = await specStrToObj(this.specStr);
+    const doc = await specStrToObj(this.specStr, this.overlayStr);
     // console.log('Parsed spec document', doc);
     this.baseUrl =
       doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';

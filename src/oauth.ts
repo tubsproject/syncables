@@ -130,28 +130,43 @@ async function clientCredentialsFlow(
     process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_ID`];
   const clientSecret =
     process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_SECRET`];
-  const audience = securityScheme.flows?.clientCredentials?.audience;
   if (!tokenUrl || !clientId || !clientSecret) {
     throw new Error(
       `Missing configuration for client credentials flow of ${apiName}`,
     );
   }
-  const params = new URLSearchParams();
-  params.append('grant_type', 'client_credentials');
+  const bodyObj: { [key: string]: string } = {
+    client_id: clientId,
+    client_secret: clientSecret,
+    grant_type: 'client_credentials',
+  };
+  const audience = securityScheme.flows?.clientCredentials?.audience;
   if (audience) {
-    params.append('audience', audience);
+    bodyObj.audience = audience;
+  }
+  if (securityScheme.flows?.clientCredentials?.scopes) {
+    const scopeStr = Object.keys(
+      securityScheme.flows.clientCredentials.scopes,
+    ).join(' ');
+    bodyObj.scope = scopeStr;
+  }
+  // this is used by maventa
+  if (securityScheme.flows?.clientCredentials?.vendorApiKey) {
+    const vendorApiKey =
+      process.env[`${apiName.toUpperCase().replace('-', '_')}_VENDOR_API_KEY`];
+    if (!vendorApiKey) {
+      throw new Error(
+        `Missing vendor API key for client credentials flow of ${apiName}`,
+      );
+    }
+    bodyObj.vendor_api_key = vendorApiKey;
   }
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      client_id: clientId,
-      client_secret: clientSecret,
-      audience,
-      grant_type: 'client_credentials',
-    }),
+    body: JSON.stringify(bodyObj),
   };
   console.log(
     `Requesting token from ${tokenUrl} for ${apiName} with client ID ${clientId}`,
