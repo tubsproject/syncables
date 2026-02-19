@@ -24,7 +24,32 @@ export async function specStrToObj(
       );
     }
   }
-  return await dereference(specObj);
+  if (typeof specObj !== 'object' || specObj === null) {
+    throw new Error('Spec is not a valid object');
+  }
+  if (
+    typeof specObj.openapi !== 'string' ||
+    !specObj.openapi.startsWith('3.')
+  ) {
+    throw new Error('Spec is not a valid OpenAPI 3.x document');
+  }
+  if (typeof specObj.paths !== 'object' || specObj.paths === null) {
+    throw new Error('Spec does not have valid paths');
+  }
+  if (typeof specObj.components !== 'object' || specObj.components === null) {
+    throw new Error('Spec does not have valid components');
+  }
+  const dereferenced = await dereference(specObj);
+  if (typeof dereferenced !== 'object' || dereferenced === null) {
+    throw new Error('Dereferenced spec is not a valid object');
+  }
+  if (
+    typeof dereferenced.components !== 'object' ||
+    dereferenced.components === null
+  ) {
+    throw new Error('Dereferenced spec does not have valid components');
+  }
+  return dereferenced;
 }
 
 export type SyncableSpec = {

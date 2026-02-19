@@ -2,6 +2,22 @@ openapi: 3.0.0
 info:
   description: Add syncables to the Moneybird API.
 actions:
+- target: components.securitySchemes
+  update:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://moneybird.com/oauth/authorize'
+          tokenUrl: 'https://moneybird.com/oauth/token'
+          scopes:
+            sales_invoices: Access to sales invoices
+            documents: Access to documents
+            estimates: Access to estimates
+            bank: Access to bank information
+            time_entries: Access to time entries
+            settings: Access to settings
+
 - target: paths['/administrations{format}']['get']['responses']['200']['content']['application/json']
   update:
     syncables:
