@@ -151,14 +151,9 @@ async function clientCredentialsFlow(
     bodyObj.scope = scopeStr;
   }
   // this is used by maventa
-  if (securityScheme.flows?.clientCredentials?.vendorApiKey) {
-    const vendorApiKey =
-      process.env[`${apiName.toUpperCase().replace('-', '_')}_VENDOR_API_KEY`];
-    if (!vendorApiKey) {
-      throw new Error(
-        `Missing vendor API key for client credentials flow of ${apiName}`,
-      );
-    }
+  const vendorApiKey =
+    process.env[`${apiName.toUpperCase().replace('-', '_')}_VENDOR_API_KEY`];
+  if (vendorApiKey) {
     bodyObj.vendor_api_key = vendorApiKey;
   }
   const options = {

@@ -8,7 +8,7 @@ import { authorize } from './oauth.js';
 const securitySchemeNames = {
   // acube: 'acube',
   // 'google-calendar': 'Oauth2c',
-  maventa: 'oauth2',
+  'maventa-peppol': 'oauth2',
   // moneybird: 'oauth2',
   // netfly: 'oauth2', this is a nice example of client credentials flow and I think I got the implementation right, but my test account for netfly was deactivated on 19 January 2026
 };
