@@ -13,10 +13,17 @@ export async function runOAuthClient(apiName: string): Promise<string> {
     throw new Error(`Missing clientID or clientSecret for ${apiName}`);
   }
   const app = express();
+  const passportConfig = {
+    authorizationURL: configs[apiName].spec.authorizationUrl,
+    tokenURL: configs[apiName].spec.tokenUrl,
+    clientID: configs[apiName].clientID,
+    clientSecret: configs[apiName].clientSecret,
+    callbackURL: configs[apiName].callbackURL,
+  };
   const promise: Promise<string> = new Promise((resolve) => {
     passport.use(
       'provider',
-      new OAuth2Strategy(configs[apiName], async function (
+      new OAuth2Strategy(passportConfig, async function (
         accessToken,
         refreshToken,
         profile,
