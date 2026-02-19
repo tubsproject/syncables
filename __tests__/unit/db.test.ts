@@ -4,7 +4,7 @@ import { SyncableSpec, Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 import { Client, createSqlTable, getFields } from '../../src/db.js';
-import { specStrToObj } from '../../src/syncer.js';
+import { specStrToObj } from '../../src/utils.js';
 
 const googleCalendarSpec = readFileSync(
   './openapi/oad/google-calendar.yaml',

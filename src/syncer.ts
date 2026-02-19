@@ -2,65 +2,10 @@ import { EventEmitter } from 'events';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
 import type { OpenAPIV3 } from '@scalar/openapi-types';
-import { applyOverlay } from 'openapi-overlays-js/src/overlay.js';
 import { Client, getFields, createSqlTable, insertData } from './db.js';
-import { dereference } from '@readme/openapi-parser';
-import { parse } from 'yaml';
-import { getObjectPath } from './utils.js';
+import { specStrToObj, getObjectPath } from './utils.js';
 
 const debug = createDebug('syncable');
-async function parseSpecStr(specStr: string): Promise<object> {
-  let specObj;
-  try {
-    specObj = parse(specStr);
-  } catch (err1) {
-    try {
-      specObj = JSON.parse(specStr);
-    } catch (err2) {
-      throw new Error(
-        `Spec is not valid JSON or YAML: ${err1.message} / ${err2.message}`,
-      );
-    }
-  }
-  return specObj;
-}
-export async function specStrToObj(
-  specStr: string,
-  overlayStr: string | null = null,
-): Promise<OpenAPIV3.Document> {
-  const specObj: OpenAPIV3.Document = await parseSpecStr(specStr);
-  if (typeof specObj !== 'object' || specObj === null) {
-    throw new Error('Spec is not a valid object');
-  }
-  if (
-    typeof specObj.openapi !== 'string' ||
-    !specObj.openapi.startsWith('3.')
-  ) {
-    throw new Error('Spec is not a valid OpenAPI 3.x document');
-  }
-  if (typeof specObj.paths !== 'object' || specObj.paths === null) {
-    throw new Error('Spec does not have valid paths');
-  }
-  if (typeof specObj.components !== 'object' || specObj.components === null) {
-    throw new Error('Spec does not have valid components');
-  }
-  if (overlayStr) {
-    const overlayObj = await parseSpecStr(overlayStr);
-    applyOverlay(specObj, overlayObj);
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dereferenced = await dereference(specObj as any);
-  if (typeof dereferenced !== 'object' || dereferenced === null) {
-    throw new Error('Dereferenced spec is not a valid object');
-  }
-  if (
-    typeof dereferenced.components !== 'object' ||
-    dereferenced.components === null
-  ) {
-    throw new Error('Dereferenced spec does not have valid components');
-  }
-  return dereferenced;
-}
 
 export type SyncableSpec = {
   type: string;

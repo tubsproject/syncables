@@ -233,7 +233,7 @@ async function acubeFlow(
 
 async function cognitoFlow(
   apiName: string,
-  securityScheme: { username: string; password: string; loginUrl: string },
+  securityScheme: { cognitoUrl: string },
 ): Promise<string> {
   const clientId =
     process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_ID`];
@@ -241,8 +241,17 @@ async function cognitoFlow(
     process.env[`${apiName.toUpperCase().replace('-', '_')}_USERNAME`];
   const password =
     process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
-  if (!username || !password || !clientId) {
-    throw new Error(`Missing credentials for cognito flow of ${apiName}`);
+  if (!securityScheme.cognitoUrl) {
+    throw new Error(`Missing Cognito URL for ${apiName}`);
+  }
+  if (!username) {
+    throw new Error(`Missing username for cognito flow of ${apiName}`);
+  }
+  if (!password) {
+    throw new Error(`Missing password for cognito flow of ${apiName}`);
+  }
+  if (!clientId) {
+    throw new Error(`Missing client ID for cognito flow of ${apiName}`);
   }
   const options = {
     method: 'POST',
@@ -260,10 +269,10 @@ async function cognitoFlow(
     }),
   };
   console.log(
-    `Requesting token from ${securityScheme.loginUrl} for ${apiName} with username ${username}`,
+    `Requesting token from ${securityScheme.cognitoUrl} for ${apiName} with username ${username}`,
     options,
   );
-  const response = await fetch(securityScheme.loginUrl, options);
+  const response = await fetch(securityScheme.cognitoUrl, options);
   if (!response.ok) {
     const errorText = await response.text();
     throw new Error(
@@ -289,19 +298,22 @@ function authorize(
 ): Promise<string> {
   if (securityScheme.type === 'oauth2') {
     if (securityScheme.flows?.clientCredentials) {
+      console.log('Selected client credentials flow for', apiName);
       return clientCredentialsFlow(apiName, securityScheme);
     }
     if (securityScheme.flows?.authorizationCode) {
+      console.log('Selected authorization code flow for', apiName);
       return authorizationCodeFlow(apiName, securityScheme);
     }
   }
   if ((securityScheme.type as string) === 'cognito') {
+    console.log('Selected Cognito flow for', apiName, securityScheme);
     return cognitoFlow(
       apiName,
       securityScheme as {
         username: string;
         password: string;
-        loginUrl: string;
+        cognitoUrl: string;
       },
     );
   }
@@ -328,14 +340,14 @@ export async function getBearerTokens(
     } catch (err) {
       void err;
       console.error(
-        `File ${tokenPath} not found, initiating OAuth flow for ${apiName}`,
+        `File ${tokenPath} not found for ${apiName}`,
       );
-      console.log('Starting OAuth flow for', apiName);
+      console.log('Starting authorization flow for', apiName);
       tokens[apiName] = await authorize(
         apiName,
         securitySchemeObjects[apiName],
       );
-      console.log('Completed OAuth flow for', apiName);
+      console.log('Completed authorization flow for', apiName);
     }
   }
   console.log('Obtained bearer tokens for all APIs');

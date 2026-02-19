@@ -1,10 +1,10 @@
 import { readdir } from 'fs/promises';
 import { mkdirp } from 'mkdirp';
 import { OpenAPIV3 } from '@scalar/openapi-types';
-import { Syncer, specStrToObj } from './syncer.js';
+import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getBearerTokens } from './auth.js';
-import { readSpec } from './utils.js';
+import { readSpec, specStrToObj } from './utils.js';
 
 const securitySchemeNames = {
   // acube: 'acube',
