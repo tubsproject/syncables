@@ -326,7 +326,7 @@ function authorize(
   throw new Error('Unsupported security scheme');
 }
 
-export async function getBearerTokens(
+async function getBearerTokens(
   apiNames: string[],
   securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject },
 ): Promise<{ [apiName: string]: string }> {
@@ -352,4 +352,18 @@ export async function getBearerTokens(
   }
   console.log('Obtained bearer tokens for all APIs');
   return tokens;
+}
+
+export async function getAuthHeaderSets(
+  apiNames: string[],
+  securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject },
+): Promise<{ [apiName: string]: { [header: string]: string } }> {
+  const bearerTokens = await getBearerTokens(apiNames, securitySchemeObjects);
+  const authHeaders: { [apiName: string]: { Authorization: string } } = {};
+  for (const apiName of apiNames) {
+    authHeaders[apiName] = {
+      Authorization: `Bearer ${bearerTokens[apiName]}`,
+    };
+  }
+  return authHeaders;
 }

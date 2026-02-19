@@ -3,16 +3,16 @@ import { mkdirp } from 'mkdirp';
 import { OpenAPIV3 } from '@scalar/openapi-types';
 import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
-import { getBearerTokens } from './auth.js';
+import { getAuthHeaderSets } from './auth.js';
 import { readSpec, specStrToObj } from './utils.js';
 
 const securitySchemeNames = {
   // acube: 'acube',
-  'arratech-peppol': 'cognito',
+  // 'arratech-peppol': 'cognito',
   // 'google-calendar': 'Oauth2c',
   // 'maventa-peppol': 'oauth2',
   // moneybird: 'oauth2',
-  // netfly: 'oauth2', this is a nice example of client credentials flow and I think I got the implementation right, but my test account for netfly was deactivated on 19 January 2026
+  // netfly: 'oauth2',
 };
 
 async function main(): Promise<void> {
@@ -58,7 +58,11 @@ async function main(): Promise<void> {
     'Selected security scheme objects for all APIs',
     securitySchemeObjects,
   );
-  const bearerTokens = await getBearerTokens(apiNames, securitySchemeObjects);
+
+  const authHeaders = await getAuthHeaderSets(apiNames, securitySchemeObjects);
+  console.log('Obtained bearer tokens for all APIs');
+  
+  console.log('Obtained bearer tokens for all APIs');
   await Promise.all(
     apiNames.map(async (specName) => {
       const specStr = specStrs[specName];
@@ -66,9 +70,7 @@ async function main(): Promise<void> {
       const syncer = new Syncer({
         specStr,
         overlayStr,
-        authHeaders: {
-          Authorization: `Bearer ${bearerTokens[specName]}`,
-        },
+        authHeaders: authHeaders[specName],
         fetchFunction,
         dbConn:
           'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
