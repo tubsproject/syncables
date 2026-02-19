@@ -3,8 +3,9 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import { OAuth2Strategy } from 'passport-oauth';
-import { port } from './configs.js';
 import { writeFile } from 'fs/promises';
+
+const port = 8000;
 
 export async function runOAuthClient(
   apiName: string,
