@@ -687,7 +687,8 @@ describe('getFields', () => {
       specObj.paths['/{administration_id}/identities/default{format}'].get
         .responses['200'].content['application/json'].schema,
       specObj.paths['/{administration_id}/identities/default{format}'].get
-        .responses['200'].content['application/json'].syncable as SyncableSpec,
+        .responses['200'].content['application/json']
+        .syncables[0] as SyncableSpec,
     );
     expect(defaultIdentityFields).toEqual({
       address1: {

@@ -1389,10 +1389,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Invoices_HttpApi_Entities_Invoice'
-              syncable:
-                name: invoices
-                description: Invoice Documents received or sent by the authenticated user.
-                type: collection
+              syncables:
+                - name: invoices
+                  description: >-
+                    Invoice Documents received or sent by the authenticated
+                    user.
+                  type: collection
       security:
         - company_auth:
             - 'invoice:send'

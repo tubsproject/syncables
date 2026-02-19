@@ -29,7 +29,7 @@ export function createSpec(
             description: 'A list of items.',
             content: {
               'application/json': {
-                syncable: config,
+                syncables: [config],
                 schema: {
                   type: 'object',
                   properties: {

@@ -4,8 +4,8 @@ info:
 actions:
 - target: paths['/users/me/calendarList']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
-      name: calendars
+    syncables:
+    - name: calendars
       description: |-
         Calendars of the currently authenticated user.
       sub:
@@ -17,8 +17,8 @@ actions:
         - items
 - target: paths['/calendars/{calendarId}/events']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
-      name: events
+    syncables:
+    - name: events
       description: |-
         Events of the calendars of the currently authenticated user.
       params:
@@ -29,8 +29,8 @@ actions:
         - items
 - target: paths['/calendars/{calendarId}/acl']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
-      name: acl
+    syncables:
+    - name: acl
       description: |-
         Access control lists of the calendars of the currently authenticated user.
       params:

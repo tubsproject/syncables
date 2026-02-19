@@ -198,15 +198,21 @@ export async function mockHandlerResponse(
     //   operation.responses[statusCode.toString()].content['application/json']
     //     .syncable,
     // );
+    const response =
+      operation.responses[statusCode.toString()].content['application/json'];
     if (
-      typeof operation.responses[statusCode.toString()].content[
-        'application/json'
-      ].syncable === 'object'
+      Array.isArray(response.syncables) &&
+      typeof response.syncables[0] === 'object'
     ) {
+      if (response.syncables.length > 1) {
+        throw new Error(
+          'Multiple syncables in one response is not supported yet in mock server',
+        );
+      }
       result = applyPagination(
         result,
         operation.responses[statusCode.toString()].content['application/json']
-          .syncable,
+          .syncables[0],
         c.req.query(),
       );
     }

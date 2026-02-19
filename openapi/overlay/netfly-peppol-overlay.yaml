@@ -4,7 +4,7 @@ info:
 actions:
 - target: paths['/documentsList']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
+    syncables:
       name: documentsOut
       description: |-
         Invoice and Credit Note Documents sent by the authenticated user.
@@ -16,8 +16,8 @@ actions:
       endDateParamInQuery: endDate
 - target: paths['/documentsList']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
-      name: documentsOut
+    syncables:
+    - name: documentsIn
       description: |-
         Invoice and Credit Note Documents sent by the authenticated user.
       type: collection

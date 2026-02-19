@@ -402,10 +402,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CreditNote.CreditNoteOutput'
-              syncable:
-                name: creditNote
-                description: Credit Notes received or sent by the authenticated user.
-                type: collection
+              syncables:
+                - name: creditNote
+                  description: Credit Notes received or sent by the authenticated user.
+                  type: collection
             text/html:
               schema:
                 type: array
@@ -1872,10 +1872,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Invoice.InvoiceOutput'
-              syncable:
-                name: invoice
-                description: Invoice Documents received or sent by the authenticated user.
-                type: collection
+              syncables:
+                - name: invoice
+                  description: >-
+                    Invoice Documents received or sent by the authenticated
+                    user.
+                  type: collection
             text/html:
               schema:
                 type: array

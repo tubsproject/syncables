@@ -4709,15 +4709,15 @@ paths:
                 required:
                   - items
                   - pagination
-              syncable:
-                name: toNetwork
-                description: >-
-                  Invoice and Credit Note Documents sent by the authenticated
-                  user.
-                type: collection
-                field: items
-                paginationStrategy: pageToken
-                pageTokenParam: lastEvaluatedKey
+              syncables:
+                - name: toNetwork
+                  description: >-
+                    Invoice and Credit Note Documents sent by the authenticated
+                    user.
+                  type: collection
+                  field: items
+                  paginationStrategy: pageToken
+                  pageTokenParam: lastEvaluatedKey
         '400':
           description: Bad Request - Invalid pagination parameters
           content:
@@ -4807,15 +4807,15 @@ paths:
                 required:
                   - items
                   - pagination
-              syncable:
-                name: fromNetwork
-                description: >-
-                  Invoice and Credit Note Documents received by the
-                  authenticated user.
-                type: collection
-                field: items
-                paginationStrategy: pageToken
-                pageTokenParam: lastEvaluatedKey
+              syncables:
+                - name: fromNetwork
+                  description: >-
+                    Invoice and Credit Note Documents received by the
+                    authenticated user.
+                  type: collection
+                  field: items
+                  paginationStrategy: pageToken
+                  pageTokenParam: lastEvaluatedKey
         '400':
           description: Bad Request - Invalid pagination parameters
           content:

@@ -8,8 +8,8 @@ actions:
     - url: https://test.ion-ap.net
 - target: paths['/api/v2/send-transactions']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
-      name: sendTransactions
+    syncables:
+    - name: sendTransactions
       description: |-
         Invoice and Credit Note Documents sent by the authenticated user.
       type: collection
@@ -18,8 +18,8 @@ actions:
       offsetParam: offset # optional for first page, multiple of limit for subsequent pages
 - target: paths['/api/v2/receive-transactions']['get']['responses']['200']['content']['application/json']
   update:
-    syncable:
-      name: receiveTransactions
+    syncables:
+    - name: receiveTransactions
       description: |-
         Invoice and Credit Note Documents received by the authenticated user.
       type: collection

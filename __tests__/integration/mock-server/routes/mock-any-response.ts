@@ -119,8 +119,16 @@ export function mockAnyResponse(
           mode: 'read',
         })
       : null;
-  if (typeof acceptedResponse.syncable === 'object') {
-    body = applyPagination(body, acceptedResponse.syncable, c.req.query());
+  if (
+    Array.isArray(acceptedResponse.syncables) &&
+    typeof acceptedResponse.syncables[0] === 'object'
+  ) {
+    if (acceptedResponse.syncables.length > 1) {
+      throw new Error(
+        'Multiple syncables in one response is not supported yet in mock server',
+      );
+    }
+    body = applyPagination(body, acceptedResponse.syncables[0], c.req.query());
   }
   c.status(statusCode);
 
