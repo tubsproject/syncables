@@ -6,7 +6,7 @@ actions:
   update:
     oauth2:
       type: cognito
-...
+      cognitoUrl: 'https://cognito-idp.eu-central-1.amazonaws.com/'
 
 - target: $
   update:

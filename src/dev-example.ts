@@ -1,52 +1,26 @@
-import { readFile, readdir } from 'fs/promises';
+import { readdir } from 'fs/promises';
 import { mkdirp } from 'mkdirp';
 import { OpenAPIV3 } from '@scalar/openapi-types';
 import { Syncer, specStrToObj } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
-import { authorize } from './oauth.js';
+import { getBearerTokens } from './auth.js';
+import { readSpec } from './utils.js';
 
 const securitySchemeNames = {
   // acube: 'acube',
+  'arratech-peppol': 'cognito',
   // 'google-calendar': 'Oauth2c',
-  'maventa-peppol': 'oauth2',
+  // 'maventa-peppol': 'oauth2',
   // moneybird: 'oauth2',
   // netfly: 'oauth2', this is a nice example of client credentials flow and I think I got the implementation right, but my test account for netfly was deactivated on 19 January 2026
 };
-
-async function getBearerTokens(
-  apiNames: string[],
-  securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject },
-): Promise<{ [apiName: string]: string }> {
-  const tokens: { [apiName: string]: string } = {};
-  for (const apiName of apiNames) {
-    console.log(`Checking for existing token for ${apiName}...`);
-    const tokenPath = `.tokens/${apiName}.txt`;
-    try {
-      const token = await readFile(tokenPath, 'utf-8');
-      tokens[apiName] = token.trim();
-    } catch (err) {
-      void err;
-      console.error(
-        `File ${tokenPath} not found, initiating OAuth flow for ${apiName}`,
-      );
-      console.log('Starting OAuth flow for', apiName);
-      tokens[apiName] = await authorize(
-        apiName,
-        securitySchemeObjects[apiName],
-      );
-      console.log('Completed OAuth flow for', apiName);
-    }
-  }
-  console.log('Obtained bearer tokens for all APIs');
-  return tokens;
-}
 
 async function main(): Promise<void> {
   await mkdirp('.fetch-cache'); // Ensure the cache directory exists
   await mkdirp('.tokens'); // Ensure the tokens directory exists
   const specFileNames = await readdir('./openapi/oad/');
   const apiNames = specFileNames
-    .map((fileName) => fileName.replace('.yaml', ''))
+    .map((fileName) => fileName.replace('.yaml', '').replace('.json', ''))
     .filter((name) => {
       console.log('checking name', name, Object.keys(securitySchemeNames));
       return Object.keys(securitySchemeNames).includes(name);
@@ -60,12 +34,8 @@ async function main(): Promise<void> {
   const overlayStrs: { [apiName: string]: string } = {};
   await Promise.all(
     apiNames.map(async (apiName: string) => {
-      const specFilename = `./openapi/oad/${apiName}.yaml`;
-      const overlayFilename = `./openapi/overlay/${apiName}-overlay.yaml`;
-      specStrs[apiName] = (await readFile(specFilename, 'utf-8')).toString();
-      overlayStrs[apiName] = (
-        await readFile(overlayFilename, 'utf-8')
-      ).toString();
+      specStrs[apiName] = await readSpec('spec', apiName);
+      overlayStrs[apiName] = await readSpec('overlay', apiName);
       const spec: OpenAPIV3.Document = await specStrToObj(
         specStrs[apiName],
         overlayStrs[apiName],

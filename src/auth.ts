@@ -3,7 +3,7 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import { OAuth2Strategy } from 'passport-oauth';
-import { writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 
 const port = 8000;
 
@@ -231,7 +231,59 @@ async function acubeFlow(
   return accessToken;
 }
 
-export function authorize(
+async function cognitoFlow(
+  apiName: string,
+  securityScheme: { username: string; password: string; loginUrl: string },
+): Promise<string> {
+  const clientId =
+    process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_ID`];
+  const username =
+    process.env[`${apiName.toUpperCase().replace('-', '_')}_USERNAME`];
+  const password =
+    process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
+  if (!username || !password || !clientId) {
+    throw new Error(`Missing credentials for cognito flow of ${apiName}`);
+  }
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth',
+    },
+    body: JSON.stringify({
+      AuthFlow: 'USER_PASSWORD_AUTH',
+      AuthParameters: {
+        USERNAME: username,
+        PASSWORD: password,
+      },
+      ClientId: clientId,
+    }),
+  };
+  console.log(
+    `Requesting token from ${securityScheme.loginUrl} for ${apiName} with username ${username}`,
+    options,
+  );
+  const response = await fetch(securityScheme.loginUrl, options);
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(
+      `Failed to obtain token for ${apiName}: ${response.status} ${response.statusText} - ${errorText}`,
+    );
+  }
+  const data = await response.json();
+  const accessToken = data.AuthenticationResult?.AccessToken; // as opposed to access_token which OAuth Client Credentials returns
+  if (!accessToken) {
+    throw new Error(
+      `No access token in response for ${apiName}: ${JSON.stringify(data)}`,
+    );
+  }
+  await writeFile(`.tokens/${apiName}.txt`, `${accessToken}\n`).catch((err) => {
+    console.error(`Error writing token for ${apiName}:`, err);
+  });
+  return accessToken;
+}
+
+function authorize(
   apiName: string,
   securityScheme: OpenAPIV3.SecuritySchemeObject,
 ): Promise<string> {
@@ -243,6 +295,16 @@ export function authorize(
       return authorizationCodeFlow(apiName, securityScheme);
     }
   }
+  if ((securityScheme.type as string) === 'cognito') {
+    return cognitoFlow(
+      apiName,
+      securityScheme as {
+        username: string;
+        password: string;
+        loginUrl: string;
+      },
+    );
+  }
   if ((securityScheme.type as string) === 'acube') {
     return acubeFlow(
       apiName,
@@ -250,4 +312,32 @@ export function authorize(
     );
   }
   throw new Error('Unsupported security scheme');
+}
+
+export async function getBearerTokens(
+  apiNames: string[],
+  securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject },
+): Promise<{ [apiName: string]: string }> {
+  const tokens: { [apiName: string]: string } = {};
+  for (const apiName of apiNames) {
+    console.log(`Checking for existing token for ${apiName}...`);
+    const tokenPath = `.tokens/${apiName}.txt`;
+    try {
+      const token = await readFile(tokenPath, 'utf-8');
+      tokens[apiName] = token.trim();
+    } catch (err) {
+      void err;
+      console.error(
+        `File ${tokenPath} not found, initiating OAuth flow for ${apiName}`,
+      );
+      console.log('Starting OAuth flow for', apiName);
+      tokens[apiName] = await authorize(
+        apiName,
+        securitySchemeObjects[apiName],
+      );
+      console.log('Completed OAuth flow for', apiName);
+    }
+  }
+  console.log('Obtained bearer tokens for all APIs');
+  return tokens;
 }

@@ -1,3 +1,5 @@
+import { readFile } from 'fs/promises';
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getObjectPath(obj: object, path?: string[]): any {
   //   console.log('getObjectPath', path, obj);
@@ -48,4 +50,26 @@ export function setObjectPath(obj: object, path: string[], value: any): object {
     }
   }
   return obj;
+}
+
+export async function readSpec(
+  type: 'spec' | 'overlay',
+  apiName: string,
+): Promise<string> {
+  const filenameBase = `./openapi/${type === 'spec' ? 'oad' : 'overlay'}/${apiName}${
+    type === 'overlay' ? '-overlay' : ''
+  }`;
+  try {
+    return await readFile(`${filenameBase}.yaml`, 'utf-8');
+  } catch (err1) {
+    void err1;
+    try {
+      return await readFile(`${filenameBase}.json`, 'utf-8');
+    } catch (err2) {
+      void err2;
+      throw new Error(
+        `Error reading ${type} file for ${apiName} (both ${filenameBase}.yaml and .json)`,
+      );
+    }
+  }
 }
