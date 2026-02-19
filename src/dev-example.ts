@@ -44,7 +44,7 @@ async function getBearerTokens(
 async function main(): Promise<void> {
   await mkdirp('.fetch-cache'); // Ensure the cache directory exists
   await mkdirp('.tokens'); // Ensure the tokens directory exists
-  const specFileNames = await readdir('./openapi/generated/');
+  const specFileNames = await readdir('./openapi/oad/');
   const apiNames = specFileNames
     .map((fileName) => fileName.replace('.yaml', ''))
     .filter((name) => {
@@ -55,12 +55,21 @@ async function main(): Promise<void> {
   const securitySchemeObjects: {
     [apiName: string]: OpenAPIV3.SecuritySchemeObject;
   } = {};
+
   const specStrs: { [apiName: string]: string } = {};
+  const overlayStrs: { [apiName: string]: string } = {};
   await Promise.all(
     apiNames.map(async (apiName: string) => {
-      const specFilename = `./openapi/generated/${apiName}.yaml`;
+      const specFilename = `./openapi/oad/${apiName}.yaml`;
+      const overlayFilename = `./openapi/overlay/${apiName}-overlay.yaml`;
       specStrs[apiName] = (await readFile(specFilename, 'utf-8')).toString();
-      const spec: OpenAPIV3.Document = await specStrToObj(specStrs[apiName]);
+      overlayStrs[apiName] = (
+        await readFile(overlayFilename, 'utf-8')
+      ).toString();
+      const spec: OpenAPIV3.Document = await specStrToObj(
+        specStrs[apiName],
+        overlayStrs[apiName],
+      );
       console.log(Object.keys(spec.components ?? {}));
       console.log('security schemes', spec.components?.securitySchemes);
       console.log(
@@ -83,8 +92,10 @@ async function main(): Promise<void> {
   await Promise.all(
     apiNames.map(async (specName) => {
       const specStr = specStrs[specName];
+      const overlayStr = overlayStrs[specName];
       const syncer = new Syncer({
         specStr,
+        overlayStr,
         authHeaders: {
           Authorization: `Bearer ${bearerTokens[specName]}`,
         },

@@ -8,7 +8,6 @@ import { dereference } from '@readme/openapi-parser';
 import { parse } from 'yaml';
 import { getObjectPath } from './utils.js';
 
-
 const debug = createDebug('syncable');
 async function parseSpecStr(specStr: string): Promise<object> {
   let specObj;
@@ -49,7 +48,7 @@ export async function specStrToObj(
     const overlayObj = await parseSpecStr(overlayStr);
     applyOverlay(specObj, overlayObj);
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dereferenced = await dereference(specObj as any);
   if (typeof dereferenced !== 'object' || dereferenced === null) {
     throw new Error('Dereferenced spec is not a valid object');

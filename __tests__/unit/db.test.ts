@@ -17,7 +17,9 @@ const googleCalendarOverlay = readFileSync(
 //   googleCalendarOverlay,
 // );
 const moneybirdSpec = readFileSync('./openapi/oad/moneybird.yaml').toString();
-const moneybirdOverlay = readFileSync('./openapi/overlay/moneybird-overlay.yaml').toString();  
+const moneybirdOverlay = readFileSync(
+  './openapi/overlay/moneybird-overlay.yaml',
+).toString();
 const moneybird = await specStrToObj(moneybirdSpec, moneybirdOverlay);
 
 describe('Google Calendar List', async () => {
