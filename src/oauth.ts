@@ -141,7 +141,7 @@ async function clientCredentialsFlow(
   if (audience) {
     params.append('audience', audience);
   }
-  const response = await fetch(tokenUrl, {
+  const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -152,7 +152,12 @@ async function clientCredentialsFlow(
       audience,
       grant_type: 'client_credentials',
     }),
-  });
+  };
+  console.log(
+    `Requesting token from ${tokenUrl} for ${apiName} with client ID ${clientId}`,
+    options,
+  );
+  const response = await fetch(tokenUrl, options);
   if (!response.ok) {
     const errorText = await response.text();
     throw new Error(
@@ -161,6 +166,50 @@ async function clientCredentialsFlow(
   }
   const data = await response.json();
   const accessToken = data.access_token;
+  if (!accessToken) {
+    throw new Error(
+      `No access token in response for ${apiName}: ${JSON.stringify(data)}`,
+    );
+  }
+  await writeFile(`.tokens/${apiName}.txt`, `${accessToken}\n`).catch((err) => {
+    console.error(`Error writing token for ${apiName}:`, err);
+  });
+  return accessToken;
+}
+
+async function acubeFlow(
+  apiName: string,
+  securityScheme: { email: string; password: string; loginUrl: string },
+): Promise<string> {
+  const email = process.env[`${apiName.toUpperCase().replace('-', '_')}_EMAIL`];
+  const password =
+    process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
+  if (!email || !password) {
+    throw new Error(`Missing credentials for acube flow of ${apiName}`);
+  }
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  };
+  console.log(
+    `Requesting token from ${securityScheme.loginUrl} for ${apiName} with email ${email}`,
+    options,
+  );
+  const response = await fetch(securityScheme.loginUrl, options);
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(
+      `Failed to obtain token for ${apiName}: ${response.status} ${response.statusText} - ${errorText}`,
+    );
+  }
+  const data = await response.json();
+  const accessToken = data.token; // as opposed to access_token which OAuth Client Credentials returns
   if (!accessToken) {
     throw new Error(
       `No access token in response for ${apiName}: ${JSON.stringify(data)}`,
@@ -183,6 +232,12 @@ export function authorize(
     if (securityScheme.flows?.authorizationCode) {
       return authorizationCodeFlow(apiName, securityScheme);
     }
+  }
+  if ((securityScheme.type as string) === 'acube') {
+    return acubeFlow(
+      apiName,
+      securityScheme as { email: string; password: string; loginUrl: string },
+    );
   }
   throw new Error('Unsupported security scheme');
 }

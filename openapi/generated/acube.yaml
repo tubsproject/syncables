@@ -7101,6 +7101,9 @@ components:
       description: Value for the Authorization header parameter.
       name: Authorization
       in: header
+    acube:
+      type: acube
+      loginUrl: 'https://common-sandbox.api.acubeapi.com/login'
 x-tagGroups:
   - name: Invoicing
     tags:
