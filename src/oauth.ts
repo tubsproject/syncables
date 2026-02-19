@@ -1,25 +1,21 @@
+import { OpenAPIV3 } from '@scalar/openapi-types';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import { OAuth2Strategy } from 'passport-oauth';
-import { configs, port } from './configs.js';
+import { port } from './configs.js';
 import { writeFile } from 'fs/promises';
 
-export async function runOAuthClient(apiName: string): Promise<string> {
-  if (
-    typeof configs[apiName].clientID === 'undefined' ||
-    typeof configs[apiName].clientSecret === 'undefined'
-  ) {
-    throw new Error(`Missing clientID or clientSecret for ${apiName}`);
-  }
+export async function runOAuthClient(apiName: string, securityScheme: OpenAPIV3.SecuritySchemeObject): Promise<string> {
   const app = express();
   const passportConfig = {
-    authorizationURL: configs[apiName].spec.authorizationUrl,
-    tokenURL: configs[apiName].spec.tokenUrl,
-    clientID: configs[apiName].clientID,
-    clientSecret: configs[apiName].clientSecret,
-    callbackURL: configs[apiName].callbackURL,
+    authorizationURL: securityScheme.flows?.authorizationCode?.authorizationUrl,
+    tokenURL: securityScheme.flows?.authorizationCode?.tokenUrl,
+    clientID: process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_ID`],
+    clientSecret: process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_SECRET`],
+    callbackURL:  `http://localhost:${port}/callback`,
   };
+  console.log('passportConfig:', apiName, passportConfig);
   const promise: Promise<string> = new Promise((resolve) => {
     passport.use(
       'provider',
@@ -46,7 +42,7 @@ export async function runOAuthClient(apiName: string): Promise<string> {
   });
   app.use(
     session({
-      secret: configs[apiName].clientSecret,
+      secret: process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_SECRET`] || 'default_secret',
       resave: false,
       saveUninitialized: true,
       cookie: { secure: true },
@@ -79,7 +75,7 @@ export async function runOAuthClient(apiName: string): Promise<string> {
   app.get(
     '/auth/provider',
     passport.authenticate('provider', {
-      scope: configs[apiName].scope,
+      scope: securityScheme.flows?.authorizationCode?.scopes ? Object.keys(securityScheme.flows.authorizationCode.scopes) : [],
     }),
   );
 

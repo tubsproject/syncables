@@ -1,15 +1,17 @@
 import { readFile } from 'fs/promises';
 import { mkdirp } from 'mkdirp';
-import { Syncer } from './syncer.js';
+import { OpenAPIV3 } from '@scalar/openapi-types';
+import { Syncer, specStrToObj } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
-import { configs } from './configs.js';
 import { runOAuthClient } from './oauth.js';
+import { securitySchemeNames } from './configs.js';
 
 mkdirp.sync('.fetch-cache'); // Ensure the cache directory exists
 mkdirp.sync('.tokens'); // Ensure the tokens directory exists
 
 async function getBearerTokens(
   apiNames: string[],
+  securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject },
 ): Promise<{ [apiName: string]: string }> {
   const tokens: { [apiName: string]: string } = {};
   for (const apiName of apiNames) {
@@ -24,22 +26,33 @@ async function getBearerTokens(
         `File ${tokenPath} not found, initiating OAuth flow for ${apiName}`,
       );
       console.log('Starting OAuth flow for', apiName);
-      tokens[apiName] = await runOAuthClient(apiName);
+      tokens[apiName] = await runOAuthClient(apiName, securitySchemeObjects[apiName]);
       console.log('Completed OAuth flow for', apiName);
-      if (!configs[apiName]) {
-        console.error(`Unsupported API name: ${apiName}`);
-        process.exit(1);
-      }
     }
   }
   console.log('Obtained bearer tokens for all APIs');
   return tokens;
 }
 
-const bearerTokens = await getBearerTokens(Object.keys(configs));
-const promises = Object.keys(configs).map(async (specName) => {
-  const specFilename = `./openapi/generated/${specName}.yaml`;
-  const specStr = (await readFile(specFilename)).toString();
+const apiNames = [
+  'google-calendar',
+  'moneybird',
+];
+const securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject } = {};
+const specStrs: { [apiName: string]: string } = {};
+await Promise.all(apiNames.map(async (apiName: string) => {
+  const specFilename = `./openapi/generated/${apiName}.yaml`;
+  specStrs[apiName] = (await readFile(specFilename, 'utf-8')).toString();
+  const spec: OpenAPIV3.Document = await specStrToObj(specStrs[apiName]);
+  console.log(Object.keys(spec.components ?? {}));
+  console.log('security schemes', spec.components?.securitySchemes);
+  console.log('selecting security scheme for', apiName, securitySchemeNames[apiName], 'from', Object.keys(spec.components?.securitySchemes ?? {}));
+  securitySchemeObjects[apiName] = spec.components?.securitySchemes?.[securitySchemeNames[apiName]] as OpenAPIV3.SecuritySchemeObject;
+}));
+console.log('Selected security scheme objects for all APIs', securitySchemeObjects);
+const bearerTokens = await getBearerTokens(apiNames, securitySchemeObjects);
+await Promise.all(apiNames.map(async (specName) => {
+  const specStr = specStrs[specName];
   const syncer = new Syncer({
     specStr,
     authHeaders: {
@@ -59,5 +72,5 @@ const promises = Object.keys(configs).map(async (specName) => {
   }
   // void syncer;
   return await syncer.fullFetch();
-});
-await Promise.all(promises);
+}));
+

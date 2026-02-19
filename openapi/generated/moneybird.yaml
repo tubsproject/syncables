@@ -49990,4 +49990,17 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://moneybird.com/oauth/authorize'
+          tokenUrl: 'https://moneybird.com/oauth/token'
+          scopes:
+            sales_invoices: Access to sales invoices
+            documents: Access to documents
+            estimates: Access to estimates
+            bank: Access to bank information
+            time_entries: Access to time entries
+            settings: Access to settings
 
