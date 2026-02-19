@@ -18,6 +18,12 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://netfly-test.eu.auth0.com/oauth/token'
+          audience: 'https://netfly-test.eu.auth0.com/api/v2/'
   schemas:
     ApiResult:
       type: object

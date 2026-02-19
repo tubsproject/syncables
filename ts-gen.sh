@@ -18,7 +18,7 @@
 # npx openapi-typescript openapi/generated/recommand.yaml -o ./src/types/recommand.d.ts
 # ./node_modules/.bin/overlayjs --openapi ./openapi/oad/scrada-peppol.json --overlay ./openapi/overlay/scrada-peppol-overlay.yaml > openapi/generated/scrada.yaml
 # npx openapi-typescript openapi/generated/scrada.yaml -o ./src/types/scrada.d.ts
-# ./node_modules/.bin/overlayjs --openapi ./openapi/oad/netfly-peppol.yaml --overlay ./openapi/overlay/netfly-peppol-overlay.yaml > openapi/generated/netfly.yaml
-# npx openapi-typescript openapi/generated/netfly.yaml -o ./src/types/netfly.d.ts
+./node_modules/.bin/overlayjs --openapi ./openapi/oad/netfly-peppol.yaml --overlay ./openapi/overlay/netfly-peppol-overlay.yaml > openapi/generated/netfly.yaml
+npx openapi-typescript openapi/generated/netfly.yaml -o ./src/types/netfly.d.ts
 ./node_modules/.bin/overlayjs --openapi ./openapi/oad/moneybird.yaml --overlay ./openapi/overlay/moneybird-overlay.yaml > openapi/generated/moneybird.yaml
 npx openapi-typescript openapi/generated/moneybird.yaml -o ./src/types/moneybird.d.ts

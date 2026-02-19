@@ -7,7 +7,7 @@ import { writeFile } from 'fs/promises';
 
 const port = 8000;
 
-export async function runOAuthClient(
+async function authorizationCodeFlow(
   apiName: string,
   securityScheme: OpenAPIV3.SecuritySchemeObject,
 ): Promise<string> {
@@ -119,4 +119,70 @@ export async function runOAuthClient(
   await closed;
   console.log('OAuth client server shutdown complete');
   return token;
+}
+
+async function clientCredentialsFlow(
+  apiName: string,
+  securityScheme: OpenAPIV3.SecuritySchemeObject,
+): Promise<string> {
+  const tokenUrl = securityScheme.flows?.clientCredentials?.tokenUrl;
+  const clientId =
+    process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_ID`];
+  const clientSecret =
+    process.env[`${apiName.toUpperCase().replace('-', '_')}_CLIENT_SECRET`];
+  const audience = securityScheme.flows?.clientCredentials?.audience;
+  if (!tokenUrl || !clientId || !clientSecret) {
+    throw new Error(
+      `Missing configuration for client credentials flow of ${apiName}`,
+    );
+  }
+  const params = new URLSearchParams();
+  params.append('grant_type', 'client_credentials');
+  if (audience) {
+    params.append('audience', audience);
+  }
+  const response = await fetch(tokenUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      client_id: clientId,
+      client_secret: clientSecret,
+      audience,
+      grant_type: 'client_credentials',
+    }),
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(
+      `Failed to obtain token for ${apiName}: ${response.status} ${response.statusText} - ${errorText}`,
+    );
+  }
+  const data = await response.json();
+  const accessToken = data.access_token;
+  if (!accessToken) {
+    throw new Error(
+      `No access token in response for ${apiName}: ${JSON.stringify(data)}`,
+    );
+  }
+  await writeFile(`.tokens/${apiName}.txt`, `${accessToken}\n`).catch((err) => {
+    console.error(`Error writing token for ${apiName}:`, err);
+  });
+  return accessToken;
+}
+
+export function authorize(
+  apiName: string,
+  securityScheme: OpenAPIV3.SecuritySchemeObject,
+): Promise<string> {
+  if (securityScheme.type === 'oauth2') {
+    if (securityScheme.flows?.clientCredentials) {
+      return clientCredentialsFlow(apiName, securityScheme);
+    }
+    if (securityScheme.flows?.authorizationCode) {
+      return authorizationCodeFlow(apiName, securityScheme);
+    }
+  }
+  throw new Error('Unsupported security scheme');
 }

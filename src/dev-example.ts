@@ -3,11 +3,12 @@ import { mkdirp } from 'mkdirp';
 import { OpenAPIV3 } from '@scalar/openapi-types';
 import { Syncer, specStrToObj } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
-import { runOAuthClient } from './oauth.js';
+import { authorize } from './oauth.js';
 
 const securitySchemeNames = {
   'google-calendar': 'Oauth2c',
   moneybird: 'oauth2',
+  netfly: 'oauth2',
 };
 
 async function getBearerTokens(
@@ -27,7 +28,7 @@ async function getBearerTokens(
         `File ${tokenPath} not found, initiating OAuth flow for ${apiName}`,
       );
       console.log('Starting OAuth flow for', apiName);
-      tokens[apiName] = await runOAuthClient(
+      tokens[apiName] = await authorize(
         apiName,
         securitySchemeObjects[apiName],
       );
@@ -42,10 +43,12 @@ async function main(): Promise<void> {
   await mkdirp('.fetch-cache'); // Ensure the cache directory exists
   await mkdirp('.tokens'); // Ensure the tokens directory exists
   const specFileNames = await readdir('./openapi/generated/');
-  const apiNames = specFileNames.map((fileName) => fileName.replace('.yaml', '')).filter((name) => {
-    console.log('checking name', name, Object.keys(securitySchemeNames));
-    return Object.keys(securitySchemeNames).includes(name);
-  });
+  const apiNames = specFileNames
+    .map((fileName) => fileName.replace('.yaml', ''))
+    .filter((name) => {
+      console.log('checking name', name, Object.keys(securitySchemeNames));
+      return Object.keys(securitySchemeNames).includes(name);
+    });
   console.log('Found API specs for:', apiNames);
   const securitySchemeObjects: {
     [apiName: string]: OpenAPIV3.SecuritySchemeObject;
