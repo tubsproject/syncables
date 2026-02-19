@@ -2,6 +2,14 @@ openapi: 3.0.0
 info:
   description: Add syncables to the Maventa Peppol API.
 actions:
+- target: components.securitySchemes
+  update:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://ax-stage.maventa.com/oauth2/token'
+
 - target: paths['/v1/invoices']['get']['responses']['200']['content']['application/json']
   update:
     syncables:

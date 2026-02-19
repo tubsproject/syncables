@@ -42,7 +42,7 @@
     "start": "node build/src/dev-example.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
-    "generate": "sh ./ts-gen.sh",
+    "generate": "sh ./ts-gen.sh; prettier \"src/types/**/*.d.ts\" --config .prettierrc --write",
     "oauth": "node build/src/oauth.js",
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
