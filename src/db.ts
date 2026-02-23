@@ -104,12 +104,16 @@ export async function createSqlTable(
   Object.entries(params).forEach(([key, type]) => {
     rowSpecs[`S${key}`] = getDataType({ type }, key === idField ? ' PRIMARY KEY' : '');
   });
-  const fieldTypes = Object.entries(rowSpecs)
-    .map(([key, value]) => [key, value]);
-  console.log(`Creating table ${tableName} with fields:`, fieldTypes);
-  const createTableQuery = withArray(`CREATE TABLE IF NOT EXISTS %I %L`, [ tableName, fieldTypes ]);
+  const placeHolders: string[] = [];
+  const names: string[] = [ tableName];
+  Object.entries(rowSpecs).forEach(([key, value]) => {
+    placeHolders.push(`%I %s`);
+    names.push(key)
+    names.push(value);
+  });
+  const createTableQuery = withArray(`CREATE TABLE IF NOT EXISTS %s (${placeHolders.join(', ')})`, names);
   
-  console.log(createTableQuery);
+  // console.log(createTableQuery);
   // throw new Error('stop');
   await client.query(createTableQuery);
 }
@@ -120,15 +124,18 @@ export async function insertData(
   fields: string[],
   idField: string,
 ): Promise<void> {
-  console.log(`Inserting data into table ${tableName}:`, items);
-  let placeHolders: string[] = [];
-  let args: (string | object)[] = [ tableName ];
+  // console.log(`Inserting data into table ${tableName}:`, items);
+  const placeHolders: string[] = [];
+  const args: (string | object)[] = [ tableName ];
   fields.forEach((field) => {
-    placeHolders.push(`%L`);
+    placeHolders.push(`%I`);
     args.push(`S${field}`);
   });
-  args.push(items);
-  const insertQuery = withArray(`INSERT INTO %L (${placeHolders}) VALUES %L ON CONFLICT ("S${idField}") DO NOTHING`, args);
-  console.log
+  args.push(items.map((item) => {
+    return fields.map((field) => item[field]);
+  }));
+  const insertQuery = withArray(`INSERT INTO %s (${placeHolders}) VALUES %L ON CONFLICT ("S${idField}") DO NOTHING`, args);
+  // console.log(insertQuery);
+  // throw new Error('stop');
   return client.query(insertQuery);
 }

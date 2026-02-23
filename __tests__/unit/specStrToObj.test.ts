@@ -17,10 +17,10 @@ actions:
       description: FIXME
 `;
     const doc = await specStrToObj(specStr, overlayStr);
-    console.log(
-      'Result of specStrToObj with overlay',
-      JSON.stringify(doc, null, 2),
-    );
+    // console.log(
+    //   'Result of specStrToObj with overlay',
+    //   JSON.stringify(doc, null, 2),
+    // );
     expect(doc).toEqual({
       components: {
         schemas: {
