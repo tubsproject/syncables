@@ -4,11 +4,18 @@ import session from 'express-session';
 import passport from 'passport';
 import { OAuth2Strategy } from 'passport-oauth';
 import { readFile, writeFile } from 'fs/promises';
+import { mkdirp } from 'mkdirp';
 
 const port = 8000;
 
 export const CREDENTIALS_DIR = '.credentials';
 
+let credentialsDirExistenceChecked = false;
+const ensureCredentialsDirExists = async () => {
+  if (credentialsDirExistenceChecked) return;
+  await mkdirp(CREDENTIALS_DIR);
+  credentialsDirExistenceChecked = true;
+};
 async function authorizationCodeFlow(
   apiName: string,
   securityScheme: OpenAPIV3.SecuritySchemeObject,
@@ -368,6 +375,8 @@ export async function getAuthHeaderSets(
   apiNames: string[],
   securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject },
 ): Promise<{ [apiName: string]: { [header: string]: string } }> {
+  await ensureCredentialsDirExists(); // Ensure the tokens directory exists
+
   const authHeaders: { [apiName: string]: { [header: string]: string } } = {};
   for (const apiName of apiNames) {
     console.log(`Checking for existing auth headers for ${apiName}...`);

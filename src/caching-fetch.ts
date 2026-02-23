@@ -1,13 +1,22 @@
 import { readFile, writeFile } from 'fs/promises';
 import { createHash } from 'crypto';
+import { mkdirp } from 'mkdirp';
 
 export const FETCH_CACHE_DIR = '.fetch-cache';
+
+let cacheDirExistenceChecked = false;
+const ensureCacheDirExists = async () => {
+  if (cacheDirExistenceChecked) return;
+  await mkdirp(FETCH_CACHE_DIR);
+  cacheDirExistenceChecked = true;
+};
 
 const fetchFunction: typeof fetch = async (
   input: RequestInfo,
   init?: RequestInit,
 ): Promise<Response> => {
   console.log('Fetch called with args:', input, init);
+  await ensureCacheDirExists();
   const data = JSON.stringify([input, init]);
   const hash = createHash('sha256').update(data).digest('hex');
   try {

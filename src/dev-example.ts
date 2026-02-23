@@ -1,9 +1,8 @@
 import { readdir } from 'fs/promises';
-import { mkdirp } from 'mkdirp';
 import { OpenAPIV3 } from '@scalar/openapi-types';
 import { Syncer } from './syncer.js';
-import { fetchFunction, FETCH_CACHE_DIR } from './caching-fetch.js';
-import { getAuthHeaderSets, CREDENTIALS_DIR } from './auth.js';
+import { fetchFunction } from './caching-fetch.js';
+import { getAuthHeaderSets } from './auth.js';
 import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
 
 const securitySchemeNames = {
@@ -16,8 +15,6 @@ const securitySchemeNames = {
 };
 
 async function main(): Promise<void> {
-  await mkdirp(FETCH_CACHE_DIR); // Ensure the cache directory exists
-  await mkdirp(CREDENTIALS_DIR); // Ensure the tokens directory exists
   const overlayFileNames = await readdir('./openapi/overlay/');
   const apiNames = overlayFileNames
     .map((fileName) =>
