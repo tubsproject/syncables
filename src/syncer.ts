@@ -4,6 +4,7 @@ import { default as createDebug } from 'debug';
 import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { Client, getFields, createSqlTable, insertData } from './db.js';
 import { specStrToObj, getObjectPath } from './utils.js';
+import { default as parse } from 'parse-link-header';
 
 const debug = createDebug('syncable');
 
@@ -17,6 +18,7 @@ export type SyncableSpec = {
     | 'dateRange'
     | 'rangeHeader'
     | 'confirmationBased'
+    | 'linkHeader'
     | 'none';
   pageNumberParamInQuery?: string;
   offsetParamInQuery?: string;
@@ -201,7 +203,7 @@ export class Syncer extends EventEmitter {
     url: string,
     headers: { [key: string]: string } = {},
     minNumItemsToExpect: number = 1,
-  ): Promise<{ items: object[]; hasMore?: boolean; nextPageToken?: string }> {
+  ): Promise<{ items: object[]; hasMore?: boolean; nextPageToken?: string; nextUrl?: string }> {
     debug('Fetching', url, headers);
     const response = await this.fetchFunction(url, {
       headers: Object.assign({}, this.authHeaders, headers),
@@ -247,12 +249,23 @@ export class Syncer extends EventEmitter {
       // ignore
       void err;
     }
+    const responseLinkHeaders = response.headers.get('Link');
+    const parsed = parse(responseLinkHeaders || '');
+    let nextUrl: string | undefined = undefined;
+    if (parsed && parsed.next && parsed.next.url) {
+      nextPageToken = parsed.next.url;
+      nextUrl = parsed.next.url;
+    }
+    // console.log('response link headers', responseLinkHeaders, parsed);
+    // const responseHeaders = Object.fromEntries((response.headers as unknown as { entries: () => Iterable<[string, string]> }).entries());
+    // console.log('response headers', responseHeaders);
     // console.log('hasMore', items.length, minNumItemsToExpect);
     // throw new Error('debug');
     return {
       items,
       hasMore: items.length >= minNumItemsToExpect,
       nextPageToken,
+      nextUrl,
     };
   }
   private async pageNumberFetch(
@@ -357,7 +370,49 @@ export class Syncer extends EventEmitter {
       // console.log('fetched', data);
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
+      if (nextPageToken === null) {
+        throw new Error('find the next page token now');
+      }
     } while (nextPageToken);
+
+    return allData;
+  }
+  private async linkHeaderFetch(
+    syncableName: string,
+    theseParents: {
+      [pattern: string]: string;
+    },
+  ): Promise<object[]> {
+    let allData: object[] = [];
+    let nextPageToken: string | null = null;
+    const spec = this.syncables[syncableName].spec;
+    let url = this.getUrl(this.syncables[syncableName].path, theseParents);
+    do {
+      Object.entries(spec.query || {}).forEach(([key, value]) => {
+        url.searchParams.append(key, value);
+      });
+      if (spec.forcePageSize) {
+        const param = spec.forcePageSizeParamInQuery || 'pageSize';
+        url.searchParams.append(param, spec.forcePageSize.toString());
+      }
+      if (nextPageToken) {
+        url.searchParams.append(spec.pageTokenParamInQuery, nextPageToken);
+      }
+      const data = await this.doFetch(
+        spec,
+        url.toString(),
+        {},
+        spec.forcePageSize || spec.defaultPageSize || 1,
+      );
+      // console.log('fetched', data);
+      allData = allData.concat(data.items);
+      if (data.nextUrl) {
+        url = new URL(data.nextUrl);
+      } else {
+        url = null;
+      }
+      console.log('URL is now', url);
+    } while (url);
 
     return allData;
   }
@@ -509,6 +564,8 @@ export class Syncer extends EventEmitter {
         return this.rangeHeaderFetch(syncableName, theseParents);
       case 'confirmationBased':
         return this.confirmationBasedFetch(syncableName, theseParents);
+      case 'linkHeader':
+        return this.linkHeaderFetch(syncableName, theseParents);
       case 'none':
         return this.doFetch(
           spec,
