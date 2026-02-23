@@ -153,7 +153,10 @@ export async function insertData(
       );
     }),
   );
-  console.log(`Inserting data into table ${tableName} with fields ${fields}:`, items);
+  console.log(
+    `Inserting data into table ${tableName} with fields ${fields}:`,
+    items,
+  );
   const insertQuery = withArray(
     `INSERT INTO %s (${placeHolders}) VALUES %L ON CONFLICT ("S${idField}") DO NOTHING`,
     args,
