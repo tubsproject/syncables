@@ -8,7 +8,7 @@ import { readSpec, specStrToObj } from './utils.js';
 
 const securitySchemeNames = {
   acube: 'acube',
-  'arratech-peppol': 'cognito',
+  // 'arratech-peppol': 'cognito',
   'google-calendar': 'Oauth2c',
   'maventa-peppol': 'oauth2',
   moneybird: 'oauth2',
