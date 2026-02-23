@@ -1,6 +1,7 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { Client } from 'pg';
+import { withArray } from 'pg-format'
 import { SyncableSpec } from './syncer.js';
 export { Client } from 'pg';
 
@@ -69,6 +70,19 @@ export function getFields(
   // );
   return whatWeWant;
 }
+function getDataType(value: any, idField: string): string {
+  const type = (value as { type: string }).type;
+  if (type === 'string') {
+    return `TEXT${idField ? ' PRIMARY KEY' : ''}`;
+  } else if (type === 'boolean') {
+    return `BOOLEAN`;
+  } else if (type === 'number') {
+    return `INTEGER${idField ? ' PRIMARY KEY' : ''}`;
+  } else {
+    // we will JSON stringify
+    return `TEXT${idField ? ' PRIMARY KEY' : ''}`;
+  }
+}
 export async function createSqlTable(
   client: Client,
   tableName: string,
@@ -85,38 +99,18 @@ export async function createSqlTable(
     throw new Error(`No fields found for table ${tableName}`);
   }
   Object.entries(whatWeWant).forEach(([key, value]) => {
-    const type = (value as { type: string }).type;
-    if (type === 'string') {
-      rowSpecs[`S${key}`] = `TEXT${key === idField ? ' PRIMARY KEY' : ''}`;
-    } else if (type === 'boolean') {
-      rowSpecs[`S${key}`] = `BOOLEAN`;
-    } else if (type === 'number') {
-      rowSpecs[`S${key}`] = `INTEGER${key === idField ? ' PRIMARY KEY' : ''}`;
-      // } else {
-      //   throw new Error(
-      //     `Unsupported type ${JSON.stringify(type)} for field ${key} in table ${tableName}`,
-      //   );
-    }
+    rowSpecs[`S${key}`] = getDataType(value, key === idField ? ' PRIMARY KEY' : '');
   });
   Object.entries(params).forEach(([key, type]) => {
-    if (type === 'string') {
-      rowSpecs[`S${key}`] = `TEXT`;
-    } else if (type === 'number') {
-      rowSpecs[`S${key}`] = `INTEGER`;
-      // } else {
-      //   throw new Error(
-      //     `Unsupported type ${JSON.stringify(type)} for param ${key} in table ${tableName}`,
-      //   );
-    }
+    rowSpecs[`S${key}`] = getDataType({ type }, key === idField ? ' PRIMARY KEY' : '');
   });
-  const createTableQuery = `
-CREATE TABLE IF NOT EXISTS ${tableName.replace('-', '_')} (
-  ${Object.entries(rowSpecs)
-    .map(([key, value]) => `"${key}" ${value}`)
-    .join(',\n  ')}\n
-);
-`;
-  // console.log(createTableQuery);
+  const fieldTypes = Object.entries(rowSpecs)
+    .map(([key, value]) => [key, value]);
+  console.log(`Creating table ${tableName} with fields:`, fieldTypes);
+  const createTableQuery = withArray(`CREATE TABLE IF NOT EXISTS %I %L`, [ tableName, fieldTypes ]);
+  
+  console.log(createTableQuery);
+  // throw new Error('stop');
   await client.query(createTableQuery);
 }
 export async function insertData(
@@ -126,13 +120,15 @@ export async function insertData(
   fields: string[],
   idField: string,
 ): Promise<void> {
-  // console.log(`Inserting data into table ${tableName}:`, items);
-  await Promise.all(
-    items.map((item: any) => {
-      // FIXME: use parameterized queries instead of string interpolation to avoid SQL injection issues, and properly handle escaping of values
-      const insertQuery = `INSERT INTO ${tableName.replace('-', '_')} (${fields.map((x) => `"S${x}"`).join(', ')}) VALUES (${fields.map((field) => `'${item[field]?.toString().replace(/'/g, "''")}'`).join(', ')}) ON CONFLICT ("S${idField}") DO NOTHING`;
-      // console.log(`Executing insert query: ${insertQuery}`);
-      return client.query(insertQuery);
-    }),
-  );
+  console.log(`Inserting data into table ${tableName}:`, items);
+  let placeHolders: string[] = [];
+  let args: (string | object)[] = [ tableName ];
+  fields.forEach((field) => {
+    placeHolders.push(`%L`);
+    args.push(`S${field}`);
+  });
+  args.push(items);
+  const insertQuery = withArray(`INSERT INTO %L (${placeHolders}) VALUES %L ON CONFLICT ("S${idField}") DO NOTHING`, args);
+  console.log
+  return client.query(insertQuery);
 }

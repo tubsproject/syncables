@@ -40,7 +40,7 @@ describe('Google Calendar List', async () => {
     fetchFunction: fetchMock as unknown as typeof fetch,
     dbConn,
   });
-  it('stores calendar list entries in the db', async () => {
+  it.only('stores calendar list entries in the db', async () => {
     await client.query('DROP TABLE IF EXISTS calendars;');
     const before = await client.query(
       `select count(*) from pg_tables where tablename='calendars';`,

@@ -480,7 +480,7 @@ export class Syncer extends EventEmitter {
     },
   ): Promise<object[]> {
     const spec = this.syncables[syncableName].spec;
-    console.log('switching on pagination strategy', spec.paginationStrategy);
+    // console.log('switching on pagination strategy', spec.paginationStrategy);
     // throw new Error('debug');
     switch (spec['paginationStrategy']) {
       case 'pageNumber':

@@ -114,11 +114,11 @@ export async function specStrToObj(
   }
   if (overlayStr) {
     const overlayObj = await parseSpecStr(overlayStr);
-    console.log('parsed overlay object', JSON.stringify(overlayObj, null, 2));
+    // console.log('parsed overlay object', JSON.stringify(overlayObj, null, 2));
     applyOverlay(specObj, overlayObj);
   }
-  console.log('starting dereference of spec');
-  console.log(Object.keys(specObj.components?.schemas));
+  // console.log('starting dereference of spec');
+  // console.log(Object.keys(specObj.components?.schemas));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dereferenced = await dereference(specObj as any);
   if (typeof dereferenced !== 'object' || dereferenced === null) {
