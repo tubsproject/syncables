@@ -7,6 +7,8 @@ import { readFile, writeFile } from 'fs/promises';
 
 const port = 8000;
 
+const CREDENTIALS_DIR = '.credentials';
+
 async function authorizationCodeFlow(
   apiName: string,
   securityScheme: OpenAPIV3.SecuritySchemeObject,
@@ -369,7 +371,7 @@ export async function getAuthHeaderSets(
   const authHeaders: { [apiName: string]: { [header: string]: string } } = {};
   for (const apiName of apiNames) {
     console.log(`Checking for existing auth headers for ${apiName}...`);
-    const tokenPath = `.tokens/${apiName}.json`;
+    const tokenPath = `${CREDENTIALS_DIR}/${apiName}.json`;
     try {
       const authHeadersStr = await readFile(tokenPath, 'utf-8');
       authHeaders[apiName] = JSON.parse(authHeadersStr);
@@ -382,7 +384,7 @@ export async function getAuthHeaderSets(
         securitySchemeObjects[apiName],
       );
       await writeFile(
-        `.tokens/${apiName}.json`,
+        `${CREDENTIALS_DIR}/${apiName}.json`,
         JSON.stringify(authHeaders[apiName], null, 2),
       ).catch((err) => {
         console.error(`Error writing token for ${apiName}:`, err);
