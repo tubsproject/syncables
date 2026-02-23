@@ -803,7 +803,9 @@ describe('createSqlTable', () => {
     const params: { [key: string]: 'string' | 'number' } = { userId: 'string' };
     await createSqlTable(client, tableName, whatWeWant, idField, params);
     const query = queryFn.mock.calls[0][0];
-    expect(query).toBe("CREATE TABLE IF NOT EXISTS test_table (\"Sid\" TEXT PRIMARY KEY, \"Sname\" TEXT, \"Svalue\" INTEGER, \"Sactive\" BOOLEAN, \"Smetadata\" TEXT, \"SuserId\" TEXT)");
+    expect(query).toBe(
+      'CREATE TABLE IF NOT EXISTS test_table ("Sid" TEXT PRIMARY KEY, "Sname" TEXT, "Svalue" INTEGER, "Sactive" BOOLEAN, "Smetadata" TEXT, "SuserId" TEXT)',
+    );
   });
 });
 describe('insertData', () => {
@@ -830,6 +832,8 @@ describe('insertData', () => {
     const ifFields = 'id';
     await insertData(client, tableName, items, fields, ifFields);
     const query = queryFn.mock.calls[0][0];
-    expect(query).toBe("INSERT INTO test_table (\"Sid\",\"Sname\",\"Svalue\",\"Sactive\",\"Smetadata\") VALUES ('\"123\"', '\"Test Item\"', '42', 'true', '{\"foo\":\"bar\"}') ON CONFLICT (\"Sid\") DO NOTHING");
+    expect(query).toBe(
+      'INSERT INTO test_table ("Sid","Sname","Svalue","Sactive","Smetadata") VALUES (\'"123"\', \'"Test Item"\', \'42\', \'true\', \'{"foo":"bar"}\') ON CONFLICT ("Sid") DO NOTHING',
+    );
   });
 });

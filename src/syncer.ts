@@ -380,7 +380,14 @@ export class Syncer extends EventEmitter {
     let cursor = startDate;
     const increment: number = /* spec.increment || */ 10000000000; // yearly increments
     while (cursor <= endDate) {
-      console.log('getting URL for date range fetch with cursor', cursor, 'and increment', increment, 'and theseParents', theseParents);
+      console.log(
+        'getting URL for date range fetch with cursor',
+        cursor,
+        'and increment',
+        increment,
+        'and theseParents',
+        theseParents,
+      );
       console.log('syncable details', this.syncables[syncableName]);
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
