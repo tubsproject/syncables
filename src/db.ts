@@ -142,7 +142,8 @@ export async function insertData(
   });
   args.push(
     items.map((item) => {
-      return fields.map((field) => item[field]);
+      const structured = (typeof item === 'object' && item !== null) || Array.isArray(item);
+      return fields.map((field) => (structured ? JSON.stringify(item[field]) : item[field]));
     }),
   );
   const insertQuery = withArray(

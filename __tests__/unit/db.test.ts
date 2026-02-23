@@ -1,9 +1,10 @@
 import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { readFileSync } from 'fs';
+import { vi, Mock } from 'vitest';
 import { SyncableSpec, Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
-import { Client, createSqlTable, getFields } from '../../src/db.js';
+import { Client, createSqlTable, getFields, insertData } from '../../src/db.js';
 import { specStrToObj } from '../../src/utils.js';
 
 const googleCalendarSpec = readFileSync(
@@ -783,5 +784,52 @@ describe('getFields', () => {
         type: ['string', 'null'],
       },
     });
+  });
+});
+
+describe('createSqlTable', () => {
+  it('correctly formats values based on their type', async () => {
+    const queryFn: Mock = vi.fn();
+    const client = { query: queryFn } as unknown as Client;
+    const tableName = 'test_table';
+    const whatWeWant = {
+      id: { type: 'string' },
+      name: { type: 'string' },
+      value: { type: 'number' },
+      active: { type: 'boolean' },
+      metadata: { type: 'object' },
+    };
+    const idField = 'id';
+    const params: { [key: string]: 'string' | 'number' } = { userId: 'string' };
+    await createSqlTable(client, tableName, whatWeWant, idField, params);
+    const query = queryFn.mock.calls[0][0];
+    expect(query).toBe("CREATE TABLE IF NOT EXISTS test_table (\"Sid\" TEXT PRIMARY KEY, \"Sname\" TEXT, \"Svalue\" INTEGER, \"Sactive\" BOOLEAN, \"Smetadata\" TEXT, \"SuserId\" TEXT)");
+  });
+});
+describe('insertData', () => {
+  it('correctly formats values based on their type', async () => {
+    const fieldTypes = {
+      id: { type: 'string' },
+      name: { type: 'string' },
+      value: { type: 'number' },
+      active: { type: 'boolean' },
+      metadata: { type: 'object' },
+    };
+    const item = {
+      id: '123',
+      name: 'Test Item',
+      value: 42,
+      active: true,
+      metadata: { foo: 'bar' },
+    };
+    const queryFn: Mock = vi.fn();
+    const client = { query: queryFn } as unknown as Client;
+    const tableName = 'test_table';
+    const items = [item];
+    const fields = Object.keys(fieldTypes);
+    const ifFields = 'id';
+    await insertData(client, tableName, items, fields, ifFields);
+    const query = queryFn.mock.calls[0][0];
+    expect(query).toBe("INSERT INTO test_table (\"Sid\",\"Sname\",\"Svalue\",\"Sactive\",\"Smetadata\") VALUES ('\"123\"', '\"Test Item\"', '42', 'true', '{\"foo\":\"bar\"}') ON CONFLICT (\"Sid\") DO NOTHING");
   });
 });
