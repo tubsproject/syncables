@@ -829,11 +829,21 @@ describe('insertData', () => {
     const tableName = 'test_table';
     const items = [item];
     const fields = Object.keys(fieldTypes);
-    const ifFields = 'id';
-    await insertData(client, tableName, items, fields, ifFields);
+    const ifField = 'id';
+    await insertData(client, tableName, items, fields, ifField);
     const query = queryFn.mock.calls[0][0];
     expect(query).toBe(
       'INSERT INTO test_table ("Sid","Sname","Svalue","Sactive","Smetadata") VALUES (\'"123"\', \'"Test Item"\', \'42\', \'true\', \'{"foo":"bar"}\') ON CONFLICT ("Sid") DO NOTHING',
     );
+  });
+  it('handles empty items array', async () => {
+    const queryFn: Mock = vi.fn();
+    const client = { query: queryFn } as unknown as Client;
+    const tableName = 'test_table';
+    const items: object[] = [];
+    const fields = ['id', 'name'];
+    const ifField = 'id';
+    await insertData(client, tableName, items, fields, ifField);
+    expect(queryFn).not.toHaveBeenCalled();
   });
 });
