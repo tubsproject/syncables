@@ -375,9 +375,6 @@ export class Syncer extends EventEmitter {
       // console.log('fetched', data);
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
-      if (nextPageToken === null) {
-        throw new Error('find the next page token now');
-      }
     } while (nextPageToken);
 
     return allData;

@@ -3,14 +3,14 @@ import { readdirSync } from 'fs';
 import { serve } from '@hono/node-server';
 import { createMockServer } from './mock-server/create-mock-server.js';
 import { Syncer } from '../../src/syncer.js';
-import { overlayFiles, applyOverlay } from 'openapi-overlays-js/src/overlay.js';
-import { parseWithPointers, safeStringify } from '@stoplight/yaml';
+import { readSpec, getSpecFromOverlay, specStrToObj } from '../../src/utils.js';
+import { applyOverlay } from 'openapi-overlays-js/src/overlay.js';
+import { safeStringify } from '@stoplight/yaml';
 
-const OAD_DIR = './__tests__/integration/oad/';
 const OVERLAY_DIR = './__tests__/integration/overlay/';
 
 describe('Syncables', async () => {
-  const files = readdirSync(OAD_DIR);
+  const files = readdirSync(OVERLAY_DIR);
   let port = 3001;
   files.forEach(async (fileName) => {
     const service = fileName.split('.')[0];
@@ -24,22 +24,20 @@ describe('Syncables', async () => {
         'blog',
         // 'google-calendar',
         // 'ion',
-        // 'maventa',
-        // 'netfly',
-        // 'peppyrus',
-        // 'recommand',
+        'maventa',
+        'netfly',
+        'peppyrus',
+        'recommand',
         // 'scrada',
       ].includes(service)
     ) {
       return;
     }
     it(`can sync ${service}`, async () => {
-      // Your OpenAPI document
-      const overlayed = overlayFiles(
-        `${OAD_DIR}${fileName}`,
-        `${OVERLAY_DIR}${service}.yaml`,
-      ).toString();
-      const parsed = parseWithPointers(overlayed).data;
+      console.log('readSpec in integrationTest:', service, fileName);
+      const overlayStr = await readSpec('integrationTest', service);
+      const specStr = await getSpecFromOverlay(overlayStr);
+      const parsed = await specStrToObj(specStr, overlayStr);
       const applied = applyOverlay(parsed, {
         openapi: '3.0.0',
         info: {

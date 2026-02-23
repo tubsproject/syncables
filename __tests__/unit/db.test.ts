@@ -5,22 +5,16 @@ import { SyncableSpec, Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 import { Client, createSqlTable, getFields, insertData } from '../../src/db.js';
-import { specStrToObj } from '../../src/utils.js';
+import { getSpecFromOverlay, specStrToObj } from '../../src/utils.js';
 
-const googleCalendarSpec = readFileSync(
-  './openapi/oad/google-calendar.yaml',
-).toString();
 const googleCalendarOverlay = readFileSync(
   './openapi/overlay/google-calendar-overlay.yaml',
 ).toString();
-// const googleCalendar = await specStrToObj(
-//   googleCalendarSpec,
-//   googleCalendarOverlay,
-// );
-const moneybirdSpec = readFileSync('./openapi/oad/moneybird.yaml').toString();
+const googleCalendarSpec = await getSpecFromOverlay(googleCalendarOverlay);
 const moneybirdOverlay = readFileSync(
   './openapi/overlay/moneybird-overlay.yaml',
 ).toString();
+const moneybirdSpec = await getSpecFromOverlay(moneybirdOverlay);
 const moneybird = await specStrToObj(moneybirdSpec, moneybirdOverlay);
 
 describe('Google Calendar List', async () => {

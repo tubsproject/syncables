@@ -2,14 +2,14 @@ import { readFileSync } from 'fs';
 import { Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
+import { getSpecFromOverlay } from '../../src/utils.js';
 
-const specFilename = './openapi/oad/google-calendar.yaml';
 const overlayFilename = './openapi/overlay/google-calendar-overlay.yaml';
-const specStr = readFileSync(specFilename).toString();
 const overlayStr = readFileSync(overlayFilename).toString();
 
-describe('Google Calendar List', () => {
+describe('Google Calendar List', async () => {
   const { fetchMock } = createFetchMock(true);
+  const specStr = await getSpecFromOverlay(overlayStr);
   const syncer = new Syncer({
     specStr,
     overlayStr,

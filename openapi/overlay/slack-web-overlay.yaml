@@ -1,16 +1,10 @@
 openapi: 3.0.0
+extends: https://raw.githubusercontent.com/tubsproject/syncables/refs/tags/v0.14.0/openapi/oad/slack-web.yaml
 actions:
-- target: components
+- target: components.securitySchemes.slackAuth.flows.authorizationCode
   update:
-    securitySchemes:
-      oauth2:
-        type: oauth2
-        flows:
-          authorizationCode:
-            authorizationUrl: https://slack.com/oauth/v2/authorize
-            tokenUrl: https://slack.com/api/oauth.v2.access
-            scopes:
-              users:read.email: Grants read access to a user's profile information and presence status.
+    scopes:
+      users:read.email: Grants read access to a user's profile information and presence status.
 - target: paths['/conversations.list']['get']['responses']['200']['content']['application/json']
   update:
     syncables:
