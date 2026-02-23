@@ -144,6 +144,9 @@ export class Syncer extends EventEmitter {
     // console.log('Parsed spec document', doc);
     this.baseUrl =
       doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';
+    if (this.baseUrl.startsWith('//')) {
+      this.baseUrl = 'https:' + this.baseUrl;
+    }
     let solution: object | null = null;
     for (const path of Object.keys(doc.paths)) {
       const pathItem = doc.paths[path];
@@ -187,7 +190,9 @@ export class Syncer extends EventEmitter {
       const placeholder = `{${pattern}}`;
       urlPath = urlPath.replace(placeholder, id);
     });
+    console.log('joining URL for path', urlPath, 'with parents', theseParents);
     const joined = urljoin(this.baseUrl, urlPath);
+    console.log('joined URL', joined);
     return new URL(joined);
   }
 
@@ -375,6 +380,8 @@ export class Syncer extends EventEmitter {
     let cursor = startDate;
     const increment: number = /* spec.increment || */ 10000000000; // yearly increments
     while (cursor <= endDate) {
+      console.log('getting URL for date range fetch with cursor', cursor, 'and increment', increment, 'and theseParents', theseParents);
+      console.log('syncable details', this.syncables[syncableName]);
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -505,7 +512,7 @@ export class Syncer extends EventEmitter {
         ).then((res) => res.items);
       default:
         throw new Error(
-          `Unknown paging strategy: ${spec['paginationStrategy']}`,
+          `Unknown paging strategy for ${syncableName}: ${spec['paginationStrategy']}`,
         );
     }
   }

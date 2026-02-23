@@ -20,12 +20,13 @@ describe('Spec parsing', () => {
       },
     };
     const syncer = new Syncer({
-      specStr: createSpec('https://example.com/api', {
+      specStr: createSpec('//example.com/api', {
         '/widgets/': spec,
       }),
     });
     await syncer.parseSpec();
     expect(syncer.syncables['widgets'].path).toEqual('/widgets/');
     expect(syncer.syncables['widgets'].spec).toEqual(spec);
+    expect(syncer.baseUrl).toEqual('https://example.com/api');
   });
 });

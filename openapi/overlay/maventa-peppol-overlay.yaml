@@ -17,3 +17,4 @@ actions:
       description: |-
         Invoice Documents received or sent by the authenticated user.
       type: collection
+      paginationStrategy: dateRange
