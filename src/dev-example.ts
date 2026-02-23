@@ -2,22 +2,22 @@ import { readdir } from 'fs/promises';
 import { mkdirp } from 'mkdirp';
 import { OpenAPIV3 } from '@scalar/openapi-types';
 import { Syncer } from './syncer.js';
-import { fetchFunction } from './caching-fetch.js';
-import { getAuthHeaderSets } from './auth.js';
+import { fetchFunction, FETCH_CACHE_DIR } from './caching-fetch.js';
+import { getAuthHeaderSets, CREDENTIALS_DIR } from './auth.js';
 import { readSpec, specStrToObj } from './utils.js';
 
 const securitySchemeNames = {
-  // acube: 'acube',
+  acube: 'acube',
   // 'arratech-peppol': 'cognito',
-  // 'google-calendar': 'Oauth2c',
-  'maventa-peppol': 'oauth2',
-  // moneybird: 'oauth2',
-  // netfly: 'oauth2',
+  'google-calendar': 'Oauth2c',
+  // 'maventa-peppol': 'oauth2',
+  moneybird: 'oauth2',
+  netfly: 'oauth2',
 };
 
 async function main(): Promise<void> {
-  await mkdirp('.fetch-cache'); // Ensure the cache directory exists
-  await mkdirp('.tokens'); // Ensure the tokens directory exists
+  await mkdirp(FETCH_CACHE_DIR); // Ensure the cache directory exists
+  await mkdirp(CREDENTIALS_DIR); // Ensure the tokens directory exists
   const specFileNames = await readdir('./openapi/oad/');
   const apiNames = specFileNames
     .map((fileName) => fileName.replace('.yaml', '').replace('.json', ''))

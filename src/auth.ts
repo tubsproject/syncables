@@ -7,7 +7,7 @@ import { readFile, writeFile } from 'fs/promises';
 
 const port = 8000;
 
-const CREDENTIALS_DIR = '.credentials';
+export const CREDENTIALS_DIR = '.credentials';
 
 async function authorizationCodeFlow(
   apiName: string,
