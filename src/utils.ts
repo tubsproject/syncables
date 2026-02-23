@@ -1,4 +1,5 @@
 import { readFile } from 'fs/promises';
+import { fetchFunction } from './caching-fetch.js';
 import { applyOverlay } from 'openapi-overlays-js/src/overlay.js';
 import { dereference } from '@readme/openapi-parser';
 import { parse } from 'yaml';
@@ -57,12 +58,15 @@ export function setObjectPath(obj: object, path: string[], value: any): object {
 }
 
 export async function readSpec(
-  type: 'spec' | 'overlay',
+  type: 'overlay' | 'integrationTest',
   apiName: string,
 ): Promise<string> {
-  const filenameBase = `./openapi/${type === 'spec' ? 'oad' : 'overlay'}/${apiName}${
-    type === 'overlay' ? '-overlay' : ''
-  }`;
+  const dir =
+    type === 'integrationTest'
+      ? `./__tests__/integration/overlay`
+      : `./openapi/overlay`;
+  const filenameBase = `${dir}/${apiName}${type === 'overlay' ? '-overlay' : ''}`;
+  console.log('readSpec', type, apiName, filenameBase);
   try {
     return await readFile(`${filenameBase}.yaml`, 'utf-8');
   } catch (err1) {
@@ -77,7 +81,9 @@ export async function readSpec(
     }
   }
 }
-export async function parseSpecStr(specStr: string): Promise<object> {
+export async function parseSpecStr(
+  specStr: string,
+): Promise<OpenAPIV3.Document> {
   let specObj;
   try {
     specObj = parse(specStr);
@@ -131,4 +137,32 @@ export async function specStrToObj(
     throw new Error('Dereferenced spec does not have valid components');
   }
   return dereferenced;
+}
+
+export async function getSpecFromOverlay(overlayStr: string): Promise<string> {
+  const overlayObj = await parseSpecStr(overlayStr);
+  if (typeof overlayObj !== 'object' || overlayObj === null) {
+    throw new Error(`Overlay is not a valid object`);
+  }
+  if (
+    typeof overlayObj.openapi !== 'string' ||
+    !overlayObj.openapi.startsWith('3.')
+  ) {
+    throw new Error(`Overlay is not a valid OpenAPI 3.x document`);
+  }
+  const specUrl = (overlayObj as OpenAPIV3.Document & { extends: string })
+    .extends;
+  if (typeof specUrl !== 'string') {
+    throw new Error(`Overlay does not have a valid extends URL`);
+  }
+  console.log(`Fetching base spec from ${specUrl}`);
+  const fetchResult = await fetchFunction(specUrl);
+  if (!fetchResult.ok) {
+    throw new Error(
+      `Failed to fetch base spec from ${specUrl}: ${fetchResult.status} ${fetchResult.statusText}`,
+    );
+  }
+  const specStr = await fetchResult.text();
+  console.log(`Fetched base spec, now processing overlay`);
+  return specStr;
 }

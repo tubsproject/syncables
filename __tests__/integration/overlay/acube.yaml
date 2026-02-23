@@ -1,4 +1,5 @@
 openapi: 3.0.0
+extends: https://raw.githubusercontent.com/tubsproject/syncables/refs/tags/v0.14.0/__tests__/integration/oad/acube.yaml
 info:
   description: Add syncables to the A-Cube Peppol API.
 actions:

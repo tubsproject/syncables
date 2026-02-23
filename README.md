@@ -55,17 +55,9 @@ Under `paths['/widgets']['get']['responses']['200']['content']['application/json
 
 ## Usage
 ### Create the OAD
-You start with an OAD, for instance one from [here](https://github.com/tubsproject/syncables/tree/main/openapi/oad).
+You start with an OAD, for instance one from [APIs-guru](https://github.com/APIs-guru/openapi-directory).
 Probably the API you want to use is not specifying syncables yet, so you'll need to add those yourself using an overlay, something like the ones you see [here](https://github.com/tubsproject/syncables/tree/main/openapi/overlay).
-To compute the effect of the overlay you can run a command like:
-```sh
-./node_modules/.bin/overlayjs --openapi ./openapi/oad/acube-peppol.yaml --overlay ./openapi/overlay/acube-peppol-overlay.yaml > openapi/generated/acube.yaml
-```
-### Generate the type
-Assuming you're working in TypeScript, you can benefit from generating types from the OAD, like so:
-```ts
-npx openapi-typescript openapi/generated/acube.yaml -o ./src/types/acube.d.ts
-```
+
 ### Install syncables
 Depending on your preferred package manager, you can run something like this to install [syncables from npm](https://www.npmjs.com/package/syncables):
 ```sh

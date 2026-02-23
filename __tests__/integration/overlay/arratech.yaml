@@ -1,17 +1,18 @@
 openapi: 3.0.0
+extends: https://raw.githubusercontent.com/tubsproject/syncables/refs/tags/v0.14.0/__tests__/integration/oad/arratech.yaml
 info:
   description: Add syncables to the Ion Peppol API.
 actions:
-- target: $
-  update:
-    servers:
-    - url: https://test.ion-ap.net
 - target: components.schemas
   update:
     CreateWebhook:
       description: FIXME
     UpdateWebhook:
       description: FIXME
+- target: $
+  update:
+    servers:
+    - url: https://test.ion-ap.net
 - target: paths['/orgs/{orgId}/transactions/to_network']['get']['responses']['200']['content']['application/json']
   update:
     syncables:
@@ -19,10 +20,6 @@ actions:
       description: |-
         Invoice and Credit Note Documents sent by the authenticated user.
       type: collection
-      itemsPathInResponse:
-        - items
+      field: items
       paginationStrategy: pageToken
       pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
-      nextPageTokenPathInResponse:
-       - pagination
-       - lastEvaluatedKey

@@ -1,0 +1,14 @@
+openapi: 3.0.0
+extends: https://raw.githubusercontent.com/tubsproject/syncables/refs/tags/v0.14.0/__tests__/integration/oad/blog.yaml
+info:
+  description: Add syncables to the blog example for integration test
+actions:
+- target: paths['/three']['get']['responses']['200']['content']['application/json']
+  update:
+    syncables:
+    - name: integrationTest
+      paginationStrategy: pageNumber
+      itemsPathInResponse:
+      - news
+      - you
+      - posts

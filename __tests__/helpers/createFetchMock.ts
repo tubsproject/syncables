@@ -47,6 +47,7 @@ export function createFetchMock(pagedByToken: boolean = false): {
         status: 200,
         statusText: 'OK',
         text: () => Promise.resolve(''),
+        headers: { get: () => null },
       });
     }),
   };

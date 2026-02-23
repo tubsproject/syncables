@@ -1,4 +1,5 @@
 openapi: 3.0.0
+extends: https://raw.githubusercontent.com/tubsproject/syncables/refs/tags/v0.14.0/openapi/oad/scrada-peppol.json
 info:
   description: Add syncables to the Scrada Peppol API.
 actions:

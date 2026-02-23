@@ -22,11 +22,6 @@
    - Table creation and data insertion logic
    - `getFields()` extracts schema properties, navigating `itemsPathInResponse` array
 
-3. **OpenAPI Spec Processing**
-   - Specs are YAML/JSON with `syncable` metadata in response content
-   - Overlays (in `openapi/overlay/`) augment OAD files with syncable definitions
-   - Generate merged spec using: `overlayjs --openapi ./oad/acube.yaml --overlay ./overlay/acube-overlay.yaml`
-
 4. **Pagination Strategies** (defined in `SyncableSpec.paginationStrategy`)
    - `pageNumber`: uses `page` param (customizable via `pageNumberParamInQuery`)
    - `offset`: uses `offset` param
@@ -82,11 +77,8 @@ Then use `components['schemas']['ResourceName']` for type safety in `src/*-examp
 ## Common Dev Workflows
 
 ### Adding Support for New API
-1. Add OpenAPI descriptor (YAML/JSON) to `openapi/oad/`
-2. Create overlay in `openapi/overlay/{service}.yaml` defining syncables with pagination metadata
-3. Merge: `overlayjs --openapi ./oad/{service}.yaml --overlay ./overlay/{service}-overlay.yaml > openapi/generated/{service}.yaml`
-4. Generate types: `npx openapi-typescript openapi/generated/{service}.yaml -o src/types/{service}.d.ts`
-5. Test with integration test: Add service name to allowed list in `all.test.ts`, ensure `mock-server/` has OAD and overlay copies
+1. Create overlay in `openapi/overlay/{service}.yaml` defining syncables with pagination metadata
+3. Test with integration test: Add service name to allowed list in `all.test.ts`, ensure `mock-server/` has OAD and overlay copies
 
 ### Debugging Pagination Issues
 - Syncer emits events—listen with `syncer.on()` for progress tracking
@@ -114,8 +106,6 @@ Then use `components['schemas']['ResourceName']` for type safety in `src/*-examp
 - `src/oauth.ts`: OAuth2 flow examples (passport-based)
 - `src/configs.ts`: Hardcoded specs for demo services
 - `__tests__/helpers/`: Mock utilities (`createSpec`, `createFetchMock`)
-- `openapi/oad/`: Original API Descriptors
-- `openapi/generated/`: Merged specs with syncable annotations
 
 ## External Dependencies to Know
 - `@readme/openapi-parser`: Dereferences OpenAPI $refs

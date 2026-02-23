@@ -1,10 +1,9 @@
 import { readdir } from 'fs/promises';
-import { mkdirp } from 'mkdirp';
 import { OpenAPIV3 } from '@scalar/openapi-types';
 import { Syncer } from './syncer.js';
-import { fetchFunction, FETCH_CACHE_DIR } from './caching-fetch.js';
-import { getAuthHeaderSets, CREDENTIALS_DIR } from './auth.js';
-import { readSpec, specStrToObj } from './utils.js';
+import { fetchFunction } from './caching-fetch.js';
+import { getAuthHeaderSets } from './auth.js';
+import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
 
 const securitySchemeNames = {
   // acube: 'acube',
@@ -12,14 +11,15 @@ const securitySchemeNames = {
   // moneybird: 'oauth2',
   // netfly: 'oauth2',
   // github: 'oauth2',
+  'slack-web': 'slackAuth',
 };
 
 async function main(): Promise<void> {
-  await mkdirp(FETCH_CACHE_DIR); // Ensure the cache directory exists
-  await mkdirp(CREDENTIALS_DIR); // Ensure the tokens directory exists
-  const specFileNames = await readdir('./openapi/oad/');
-  const apiNames = specFileNames
-    .map((fileName) => fileName.replace('.yaml', '').replace('.json', ''))
+  const overlayFileNames = await readdir('./openapi/overlay/');
+  const apiNames = overlayFileNames
+    .map((fileName) =>
+      fileName.replace('-overlay.yaml', '').replace('-overlay.json', ''),
+    )
     .filter((name) => {
       console.log('checking name', name, Object.keys(securitySchemeNames));
       return Object.keys(securitySchemeNames).includes(name);
@@ -33,8 +33,8 @@ async function main(): Promise<void> {
   const overlayStrs: { [apiName: string]: string } = {};
   await Promise.all(
     apiNames.map(async (apiName: string) => {
-      specStrs[apiName] = await readSpec('spec', apiName);
       overlayStrs[apiName] = await readSpec('overlay', apiName);
+      specStrs[apiName] = await getSpecFromOverlay(overlayStrs[apiName]);
       const spec: OpenAPIV3.Document = await specStrToObj(
         specStrs[apiName],
         overlayStrs[apiName],
