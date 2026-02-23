@@ -671,9 +671,7 @@ export class Syncer extends EventEmitter {
         syncable.spec.idField || 'id',
         this.paramTypes(syncable.spec.params || {}),
       );
-      const fieldsToInsert: string[] = Object.keys(fields).filter(
-        (f) => ['string'].indexOf(fields[f].type) !== -1,
-      );
+      const fieldsToInsert: string[] = Object.keys(fields);
       Object.entries(parents).forEach(([pattern]) => {
         // console.log('adding parent pattern to fields to insert', pattern);
         if (!fieldsToInsert.includes(pattern)) {

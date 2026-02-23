@@ -20,5 +20,5 @@ actions:
       type: collection
       paginationStrategy: linkHeader
       query:
-        owner: remotestorage
-        repo: remotestorage.js
+        owner: tubsproject
+        repo: syncables

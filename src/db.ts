@@ -122,7 +122,7 @@ export async function createSqlTable(
     names,
   );
 
-  console.log(createTableQuery);
+  // console.log(createTableQuery);
   // throw new Error('stop');
   await client.query(createTableQuery);
 }
@@ -137,7 +137,7 @@ export async function insertData(
     // console.log(`No items to insert into table ${tableName}`);
     return;
   }
-  // console.log(`Inserting data into table ${tableName}:`, items);
+  console.log(`Inserting data into table ${tableName}:`, items.map((item) => item[idField]));
   const placeHolders: string[] = [];
   const args: (string | object)[] = [tableName];
   fields.forEach((field) => {
@@ -155,7 +155,7 @@ export async function insertData(
   );
   console.log(
     `Inserting data into table ${tableName} with fields ${fields}:`,
-    items,
+    items.map((item) => item[idField]),
   );
   const insertQuery = withArray(
     `INSERT INTO %s (${placeHolders}) VALUES %L ON CONFLICT ("S${idField}") DO NOTHING`,
