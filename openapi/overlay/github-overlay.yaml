@@ -20,6 +20,5 @@ actions:
       type: collection
       paginationStrategy: linkHeader
       query:
-        owner: nextcloud
-        repo: server
-
+        owner: remotestorage
+        repo: remotestorage.js

@@ -384,7 +384,6 @@ export class Syncer extends EventEmitter {
     },
   ): Promise<object[]> {
     let allData: object[] = [];
-    let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
     let url = this.getUrl(this.syncables[syncableName].path, theseParents);
     do {
@@ -394,9 +393,6 @@ export class Syncer extends EventEmitter {
       if (spec.forcePageSize) {
         const param = spec.forcePageSizeParamInQuery || 'pageSize';
         url.searchParams.append(param, spec.forcePageSize.toString());
-      }
-      if (nextPageToken) {
-        url.searchParams.append(spec.pageTokenParamInQuery, nextPageToken);
       }
       const data = await this.doFetch(
         spec,

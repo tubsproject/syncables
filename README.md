@@ -39,7 +39,7 @@ components:
 Under `paths['/widgets']['get']['responses']['200']['content']['application/json']`, add an array of object `syncables`, in each of which you can specify:
 * `type`: `collection` or `item`. Defaults to `collection`.
 * `name`: a `string` descriptor of the collection, e.g. `"widgets"`
-* `paginationStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange`, `rangeHeader`,`confirmationBased`, or `none`.
+* `paginationStrategy`: one of `pageNumber`, `offset`, `pageToken`, `dateRange`, `rangeHeader`,`confirmationBased`, `linkHeader` or `none`.
 * `query`: an object containing query parameters to add in addition to the pagination-related ones
 * `itemsPathInResponse`: path within the response body schema, as an array of strings, that contains the array of items (default: `[]` for the response body root)
 * `defaultPageSize`: tell Syncable how many items per page (max) to expect by default
