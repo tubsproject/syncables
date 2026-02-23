@@ -137,7 +137,10 @@ export async function insertData(
     // console.log(`No items to insert into table ${tableName}`);
     return;
   }
-  console.log(`Inserting data into table ${tableName}:`, items.map((item) => item[idField]));
+  console.log(
+    `Inserting data into table ${tableName}:`,
+    items.map((item) => item[idField]),
+  );
   const placeHolders: string[] = [];
   const args: (string | object)[] = [tableName];
   fields.forEach((field) => {

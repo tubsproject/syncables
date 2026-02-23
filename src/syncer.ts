@@ -203,7 +203,12 @@ export class Syncer extends EventEmitter {
     url: string,
     headers: { [key: string]: string } = {},
     minNumItemsToExpect: number = 1,
-  ): Promise<{ items: object[]; hasMore?: boolean; nextPageToken?: string; nextUrl?: string }> {
+  ): Promise<{
+    items: object[];
+    hasMore?: boolean;
+    nextPageToken?: string;
+    nextUrl?: string;
+  }> {
     debug('Fetching', url, headers);
     const response = await this.fetchFunction(url, {
       headers: Object.assign({}, this.authHeaders, headers),
