@@ -32,11 +32,6 @@ async function authorizationCodeFlow(
         done,
       ) {
         console.log(`Received OAuth token: ${accessToken}`);
-        await writeFile(`.tokens/${apiName}.txt`, `${accessToken}\n`).catch(
-          (err) => {
-            console.error(`Error writing token for ${apiName}:`, err);
-          },
-        );
         void refreshToken; // To avoid unused variable warning
         void profile; // To avoid unused variable warning
         // Here you would typically find or create a user in your database
@@ -388,7 +383,7 @@ export async function getAuthHeaderSets(
       );
       await writeFile(
         `.tokens/${apiName}.json`,
-        JSON.stringify(authHeaders),
+        JSON.stringify(authHeaders[apiName], null, 2),
       ).catch((err) => {
         console.error(`Error writing token for ${apiName}:`, err);
       });
