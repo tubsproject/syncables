@@ -317,7 +317,8 @@ async function pickFlow(
     );
   }
   if ((securityScheme.type as string) === 'api-key') {
-    const key = process.env[`${apiName.toUpperCase().replace('-', '_')}_API_KEY`];
+    const key =
+      process.env[`${apiName.toUpperCase().replace('-', '_')}_API_KEY`];
     if (!key) {
       throw new Error(`Missing API key for ${apiName}`);
     }
@@ -326,8 +327,10 @@ async function pickFlow(
     };
   }
   if ((securityScheme.type as string) === 'api-key-password') {
-    const key = process.env[`${apiName.toUpperCase().replace('-', '_')}_API_KEY`];
-    const password = process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
+    const key =
+      process.env[`${apiName.toUpperCase().replace('-', '_')}_API_KEY`];
+    const password =
+      process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
     if (!key) {
       throw new Error(`Missing API key for ${apiName}`);
     }
@@ -340,25 +343,27 @@ async function pickFlow(
     };
   }
   if ((securityScheme.type as string) === 'string-token') {
-    const key = process.env[`${apiName.toUpperCase().replace('-', '_')}_API_KEY`];
+    const key =
+      process.env[`${apiName.toUpperCase().replace('-', '_')}_API_KEY`];
     if (!key) {
       throw new Error(`Missing API key for ${apiName}`);
     }
     return {
-      'Authorization': `Token ${key}`,
+      Authorization: `Token ${key}`,
     };
   }
   if ((securityScheme.type as string) === 'basic') {
     const user = process.env[`${apiName.toUpperCase().replace('-', '_')}_USER`];
-    const password = process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
+    const password =
+      process.env[`${apiName.toUpperCase().replace('-', '_')}_PASSWORD`];
     if (!user || !password) {
       throw new Error(`Missing credentials for ${apiName}`);
     }
     return {
-      'Authorization': `Basic ${Buffer.from(`${user}:${password}`).toString('base64')}`,
+      Authorization: `Basic ${Buffer.from(`${user}:${password}`).toString('base64')}`,
     };
   }
-  
+
   throw new Error('Unsupported security scheme');
 }
 

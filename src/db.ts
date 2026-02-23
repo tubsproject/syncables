@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { Client } from 'pg';
-import { withArray } from 'pg-format'
+import { withArray } from 'pg-format';
 import { SyncableSpec } from './syncer.js';
 export { Client } from 'pg';
 
@@ -99,20 +99,29 @@ export async function createSqlTable(
     throw new Error(`No fields found for table ${tableName}`);
   }
   Object.entries(whatWeWant).forEach(([key, value]) => {
-    rowSpecs[`S${key}`] = getDataType(value, key === idField ? ' PRIMARY KEY' : '');
+    rowSpecs[`S${key}`] = getDataType(
+      value,
+      key === idField ? ' PRIMARY KEY' : '',
+    );
   });
   Object.entries(params).forEach(([key, type]) => {
-    rowSpecs[`S${key}`] = getDataType({ type }, key === idField ? ' PRIMARY KEY' : '');
+    rowSpecs[`S${key}`] = getDataType(
+      { type },
+      key === idField ? ' PRIMARY KEY' : '',
+    );
   });
   const placeHolders: string[] = [];
-  const names: string[] = [ tableName];
+  const names: string[] = [tableName];
   Object.entries(rowSpecs).forEach(([key, value]) => {
     placeHolders.push(`%I %s`);
-    names.push(key)
+    names.push(key);
     names.push(value);
   });
-  const createTableQuery = withArray(`CREATE TABLE IF NOT EXISTS %s (${placeHolders.join(', ')})`, names);
-  
+  const createTableQuery = withArray(
+    `CREATE TABLE IF NOT EXISTS %s (${placeHolders.join(', ')})`,
+    names,
+  );
+
   // console.log(createTableQuery);
   // throw new Error('stop');
   await client.query(createTableQuery);
@@ -126,15 +135,20 @@ export async function insertData(
 ): Promise<void> {
   // console.log(`Inserting data into table ${tableName}:`, items);
   const placeHolders: string[] = [];
-  const args: (string | object)[] = [ tableName ];
+  const args: (string | object)[] = [tableName];
   fields.forEach((field) => {
     placeHolders.push(`%I`);
     args.push(`S${field}`);
   });
-  args.push(items.map((item) => {
-    return fields.map((field) => item[field]);
-  }));
-  const insertQuery = withArray(`INSERT INTO %s (${placeHolders}) VALUES %L ON CONFLICT ("S${idField}") DO NOTHING`, args);
+  args.push(
+    items.map((item) => {
+      return fields.map((field) => item[field]);
+    }),
+  );
+  const insertQuery = withArray(
+    `INSERT INTO %s (${placeHolders}) VALUES %L ON CONFLICT ("S${idField}") DO NOTHING`,
+    args,
+  );
   // console.log(insertQuery);
   // throw new Error('stop');
   return client.query(insertQuery);
