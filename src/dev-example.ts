@@ -11,7 +11,7 @@ const securitySchemeNames = {
   // 'google-calendar': 'Oauth2c',
   // moneybird: 'oauth2',
   // netfly: 'oauth2',
-  github: 'oauth2',
+  // github: 'oauth2',
 };
 
 async function main(): Promise<void> {
