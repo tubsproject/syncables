@@ -1,0 +1,24 @@
+openapi: 3.0.0
+actions:
+- target: components
+  update:
+    securitySchemes:
+      oauth2:
+        type: oauth2
+        flows:
+          authorizationCode:
+            authorizationUrl: https://github.com/login/oauth/authorize
+            tokenUrl: https://github.com/login/oauth/access_token
+            scopes:
+              read:user:email: Grants read access to a user's email addresses.
+- target: paths['/repos/{owner}/{repo}/issues']['get']['responses']['200']['content']['application/json']
+  update:
+    syncables:
+    - name: issues
+      description: |-
+        Issues in the repository.
+      type: collection
+      paginationStrategy: linkHeader
+      query:
+        owner: tubsproject
+        repo: syncables

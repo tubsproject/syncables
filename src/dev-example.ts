@@ -7,12 +7,11 @@ import { getAuthHeaderSets, CREDENTIALS_DIR } from './auth.js';
 import { readSpec, specStrToObj } from './utils.js';
 
 const securitySchemeNames = {
-  acube: 'acube',
-  // 'arratech-peppol': 'cognito',
-  'google-calendar': 'Oauth2c',
-  // 'maventa-peppol': 'oauth2',
-  moneybird: 'oauth2',
-  netfly: 'oauth2',
+  // acube: 'acube',
+  // 'google-calendar': 'Oauth2c',
+  // moneybird: 'oauth2',
+  // netfly: 'oauth2',
+  // github: 'oauth2',
 };
 
 async function main(): Promise<void> {
