@@ -42,7 +42,7 @@
     "start": "node build/src/dev-example.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
-    "generate": "sh ./ts-gen.sh",
+    "generate": "sh ./ts-gen.sh; prettier \"src/types/**/*.d.ts\" --config .prettierrc --write",
     "oauth": "node build/src/oauth.js",
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
@@ -68,6 +68,7 @@
     "passport": "^0.7.0",
     "passport-oauth": "^1.0.0",
     "pg": "^8.16.3",
+    "pg-format": "^1.0.4",
     "url-join": "^5.0.0",
     "utils": "link:@scalar/types/utils",
     "yaml": "^2.8.0"

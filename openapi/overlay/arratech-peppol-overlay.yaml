@@ -2,16 +2,22 @@ openapi: 3.0.0
 info:
   description: Add syncables to the Ion Peppol API.
 actions:
-- target: $
-  update:
-    servers:
-    - url: https://test.ion-ap.net
 - target: components.schemas
   update:
     CreateWebhook:
       description: FIXME
     UpdateWebhook:
       description: FIXME
+- target: components
+  update:
+    securitySchemes:
+      cognito:
+        type: cognito
+        cognitoUrl: 'https://cognito-idp.eu-central-1.amazonaws.com/'
+- target: $
+  update:
+    servers:
+    - url: https://test.ion-ap.net
 - target: paths['/orgs/{orgId}/transactions/to_network']['get']['responses']['200']['content']['application/json']
   update:
     syncables:

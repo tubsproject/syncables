@@ -1,6 +1,8 @@
 import { readFile, writeFile } from 'fs/promises';
 import { createHash } from 'crypto';
 
+export const FETCH_CACHE_DIR = '.fetch-cache';
+
 const fetchFunction: typeof fetch = async (
   input: RequestInfo,
   init?: RequestInit,
@@ -9,7 +11,7 @@ const fetchFunction: typeof fetch = async (
   const data = JSON.stringify([input, init]);
   const hash = createHash('sha256').update(data).digest('hex');
   try {
-    const cachedStr = await readFile(`./.fetch-cache/${hash}.json`);
+    const cachedStr = await readFile(`${FETCH_CACHE_DIR}/${hash}.json`);
     const cached = JSON.parse(cachedStr.toString());
     console.log('using cached response for', input, hash);
     return new Response(cached.body, {
@@ -31,7 +33,7 @@ const fetchFunction: typeof fetch = async (
         ).entries(),
       ),
     };
-    await writeFile(`./.fetch-cache/${hash}.json`, JSON.stringify(cached));
+    await writeFile(`${FETCH_CACHE_DIR}/${hash}.json`, JSON.stringify(cached));
     console.log('cached response for', input, hash);
     return new Response(text, {
       status: fetched.status,

@@ -2,6 +2,15 @@ openapi: 3.0.0
 info:
   description: Add syncables to the Ion Peppol API.
 actions:
+- target: components.securitySchemes
+  update:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://netfly-test.eu.auth0.com/oauth/token'
+          audience: 'https://netfly-test.eu.auth0.com/api/v2/'
+
 - target: paths['/documentsList']['get']['responses']['200']['content']['application/json']
   update:
     syncables:

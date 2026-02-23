@@ -1,5 +1,5 @@
-.tokens
-.fetch-cache
+.credentials/
+.fetch-cache/
 
 *-generated.yaml
 
