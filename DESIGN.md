@@ -14,16 +14,53 @@ So far I've seen the following server-side mechanisms to support client-side pag
 
 * page size parameter
 So each scheme needs:
-* `paginate`: JSON path in result that is paginated by this scheme,
+* `paginate`: JSON path in result that is paginated by this scheme. Can be an array if it varies.
 * at least one of `pageNumber` (P), `offset` (P), `lastItemId` (P), `nextPageLink` (R) or `token` (P,R)
-* optionally `pageSize` (P), `totalCount` (R), `lastPageNumber` (R), `lastPageLink` (R), `previousPageLink` (R), `firstPageLink` (R).
-* `pageSize` can additionally have `minimum`, `default` and `maximum`.
+* optionally `pageSize` (P), `totalCount` (R), `pageCount` (R) `lastPageNumber` (R), `lastPageLink` (R), `previousPageLink` (R), `currentPageLink` (R), `firstPageLink` (R), `hasNext` (R) and `hasPrevious` (R).
+* `pageSize` can additionally have `minimum`, `default` and `maximum`, but this can be found in the schema definition.
 * (P) means it needs `parameter` or `requestBody`
 * (R) means it needs `responseBody` or `responseHeader`
 * all pagination schemes will be applied to all GET endpoints that have all the specified parameters, response body fields, and response headers
 
 ## found
-I found the following schemes by searching for 'pag' (case-insensitive):
+I found the following schemes by searching for 'pag' and `offset` (case-insensitive):
+
+
+### 1password.local
+```yaml
+paginate: $
+offset:
+  parameter: offset
+pageSize:
+  parameter: limit
+```
+
+### adyen
+```yaml
+paginate:
+  - balanceAccounts
+  - paymentInstruments
+  - accountHolders
+  - data
+offset:
+  parameter: offset
+pageSize:
+  parameter: limit
+hasNext:
+  responseBody: hasNext
+hasPrevious:
+  responseBody: hasPrevious
+```
+
+### adyen admin
+```yaml
+paginate: data
+offset:
+  parameter: offset
+pageSize:
+  parameter: limit
+```
+
 ### amadeus
 ```yaml
 paginate: data
@@ -62,9 +99,6 @@ pageNumber:
   responseBody: current_page
 pageSize:
   parameter: per_page
-  minimum: 1
-  default: 25
-  maximum: 100
 nextPageLink:
   responseBody: next_page_url
 totalCount:
@@ -96,9 +130,6 @@ pageNumber:
   parameter: page
 pageSize:
   parameter: pageSize
-  minimum: 1
-  default: 10
-  maximum: 100
 ```
 
 ### dev.to Chat GPT
@@ -108,9 +139,6 @@ pageNumber:
   parameter: page
 pageSize:
   parameter: per_page
-  minimum: 1
-  default: 60
-  maximum: 100
 ```
 
 ### evetech
@@ -232,9 +260,13 @@ pageSize:
   default: 20
 ```
 
-### ote-godaddy abuse
+### ote-godaddy abuse / certificates / orders / subscriptions
 ```yaml
-paginate: ticketIds
+paginate:
+  - ticketIds
+  - certificates
+  - orders
+  - subscriptions
 offset:
   parameter: offset
 pageSize:
@@ -251,21 +283,124 @@ lastPageLink:
   responseBody: pagination.last
 ```
 
-### ote-godaddy certificates
+### ote-godaddy domains
 ```yaml
-paginate: certificates
+paginate: $
 offset:
   parameter: offset
 pageSize:
   parameter: limit
-  default: 100
-  maximum: 100
+```
+
+### oxforddictionaries
+```yaml
+paginate: results
+offset:
+  parameter: offset
+pageSize:
+  parameter: limit
+  default: 5000
+  maximum: 5000
 firsttPageLink:
-  responseBody: pagination.first
+  responseHeader: link.first
 previousPageLink:
-  responseBody: pagination.previous
+  responseHeader: link.prev
+currentPageLink:
+  responseHeader: link.self
 nextPageLink:
-  responseBody: pagination.next
+  responseHeader: link.next
 lastPageLink:
-  responseBody: pagination.last
+  responseHeader: link.last
+```
+
+### Papinet
+```yaml
+paginate:
+  - orders
+  - orderLineItems
+offset:
+  parameter: offset
+pageSize:
+  parameter: limit
+firstPageLink:
+  responseBody: links.first
+previousPageLink:
+  responseBody: links.prev
+nextPageLink:
+  responseBody: links.next
+lastPageLink:
+  responseBody: links.last
+```
+
+### Reverb
+```yaml
+paginate:
+pageNumber:
+  parameter: page
+pageSize:
+  parameter: per_page
+offset:
+  parameter: offset
+```
+
+### theracingapi
+```yaml
+paginate: results
+offset:
+  parameter: offset
+pageSize:
+  parameter: limit
+  responseBody: limit
+totalCount:
+  responseBody: total
+  ```
+
+### vonage
+```yaml
+paginate: _embedded.call_logs
+pageNumber:
+  parameter: page
+  responseBody: page
+pageSize:
+  parameter: page_size
+  responseBody: page_size
+totalCount:
+  responseBody: total_count
+numPages:
+  responseBody: total_page
+firstPageLink:
+  responseBody: _links.first
+previousPageLink:
+  responseBody: _links.prev
+nextPageLink:
+  responseBody: _links.next
+currentPageLink:
+  responseBody: _links.self
+```
+### Zeno
+```yaml
+paginate: items
+pageNumber:
+  parameter: page
+pageSize:
+  parameter: hitsPerPage
+totalCount:
+  responseBody: total
+```
+
+### Zoom
+```yaml
+paginate: accounts
+token:
+  parameter: next_page_token
+  responseBody: next_page_token
+pageNumber:
+  responseBody: page_number
+# DEPRECATED: parameter: page_number
+pageSize:
+  parameter: page_size
+totalCount:
+  responseBody: total_records
+pageCount:
+  responseBody: page_count
 ```
