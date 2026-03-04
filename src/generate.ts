@@ -12,17 +12,60 @@ async function isDirectory(path: string): Promise<boolean> {
   }
 }
 
-async function processDirectory(dir: string): Promise<void> {
-  const files = await readdir(dir);
-  for (const file of files) {
-    const fullPath = path.join(dir, file);
-    if (await isDirectory(fullPath)) {
-      await processDirectory(fullPath);
-    } else if (file.endsWith('.yaml') || file.endsWith('.yml') || file.endsWith('.json')) {
-      await processFile(fullPath);
+async function processFileOrDir(filePath: string): Promise<void> {
+    if (await isDirectory(filePath)) {
+      const files = await readdir(filePath);
+      for (const file of files) {
+        const fullPath = path.join(filePath, file);
+        await processFileOrDir(fullPath);
+      }
+    } else if (filePath.endsWith('.yaml') || filePath.endsWith('.yml') || filePath.endsWith('.json')) {
+      await processFile(filePath);
     }
-  }
 }
+// paginationSchemes
+// if: parameter
+// name: NextToken
+// useAs: pagination-token
+//
+// if: link-response-header
+// rel: next
+// useAs: next-link
+//
+// 
+// ifParameter: page
+// useAs: page-number
+//
+// ifParameter
+// page:
+//   in: query
+//   name: page
+// offset:
+//   in: query
+//   name: offset
+// cursor:
+//   - token
+//      in: query
+//      name: pageToken
+//      inResult:
+//        - pagination
+//        - nextPageToken
+//   - link
+//     - rel: next
+// confirmation:
+// - path
+// - method
+// skewProtection: unsafe / snapshot
+// pageSize:
+// - min
+// - max
+// - default
+// - param
+// results:
+// - records
+// sync:
+// - Google syncToken
+// - MoneyBird synchronization
 async function processFile(filename: string): Promise<void> {
   console.log(`\nProcessing file: ${filename}`);
   const specStr = await readFile(filename, 'utf-8');
@@ -63,16 +106,12 @@ async function processFile(filename: string): Promise<void> {
   });
 }
 
-const filename = process.argv[2];
-if (!filename) {
+const baseDir = process.argv[2];
+if (!baseDir) {
   console.error('Please provide a filename or directory as an argument');
   process.exit(1);
 }
 
 (async (): Promise<void> => {
-  if (await isDirectory(filename)) {
-    await processDirectory(filename);
-  } else {
-    await processFile(filename);
-  }
+    await processFileOrDir(baseDir);
 })();
