@@ -140,6 +140,7 @@ export async function mockHandlerResponse(
   c: Context,
   operation: OpenAPIV3_1.OperationObject,
   options: MockServerOptions,
+  schema: OpenAPIV3_1.Document
 ) {
   // Call onRequest callback
   if (options?.onRequest) {
@@ -214,6 +215,7 @@ export async function mockHandlerResponse(
         operation.responses[statusCode.toString()].content['application/json']
           .syncables[0],
         c.req.query(),
+        schema
       );
     }
 

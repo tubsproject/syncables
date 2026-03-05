@@ -13,10 +13,11 @@ export function applyPagination(
   input: SyncableSpecInput,
   query: Record<string, string | undefined>,
   // headers: Record<string, string | undefined>,
-  paginationScheme: PaginationScheme,
   doc: OpenAPIV3_1.Document,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
+  const paginationScheme = doc?.components?.['paginationSchemes']?.default as PaginationScheme;
+  console.log('applying pagination', paginationScheme);
   let numItems = 1;
   let hasMore = false;
   const spec = normaliseSyncableSpec(input, paginationScheme, doc);
