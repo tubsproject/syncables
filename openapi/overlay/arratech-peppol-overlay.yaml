@@ -26,9 +26,6 @@ actions:
       description: |-
         Invoice and Credit Note Documents sent by the authenticated user.
       type: collection
-      field: items
-      paginationStrategy: pageToken
-      pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
 - target: paths['/orgs/{orgId}/transactions/from_network']['get']['responses']['200']['content']['application/json']
   update:
     syncables:
@@ -36,6 +33,11 @@ actions:
       description: |-
         Invoice and Credit Note Documents received by the authenticated user.
       type: collection
-      field: items
-      paginationStrategy: pageToken
-      pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
+- components:
+  update:
+    paginationSchemes:
+      default:
+        paginate: items
+        token:
+          parameter: lastEvaluatedKey
+          responseBody: lastEvaluatedKey

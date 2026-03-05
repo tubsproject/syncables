@@ -1,5 +1,5 @@
 import { readdir } from 'fs/promises';
-import { OpenAPIV3 } from '@scalar/openapi-types';
+import { OpenAPIV3_1 } from '@scalar/openapi-types';
 import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getAuthHeaderSets } from './auth.js';
@@ -26,7 +26,7 @@ async function main(): Promise<void> {
     });
   console.log('Found API specs for:', apiNames);
   const securitySchemeObjects: {
-    [apiName: string]: OpenAPIV3.SecuritySchemeObject;
+    [apiName: string]: OpenAPIV3_1.SecuritySchemeObject;
   } = {};
 
   const specStrs: { [apiName: string]: string } = {};
@@ -35,7 +35,7 @@ async function main(): Promise<void> {
     apiNames.map(async (apiName: string) => {
       overlayStrs[apiName] = await readSpec('overlay', apiName);
       specStrs[apiName] = await getSpecFromOverlay(overlayStrs[apiName]);
-      const spec: OpenAPIV3.Document = await specStrToObj(
+      const spec: OpenAPIV3_1.Document = await specStrToObj(
         specStrs[apiName],
         overlayStrs[apiName],
       );
@@ -50,7 +50,7 @@ async function main(): Promise<void> {
       );
       securitySchemeObjects[apiName] = spec.components?.securitySchemes?.[
         securitySchemeNames[apiName]
-      ] as OpenAPIV3.SecuritySchemeObject;
+      ] as OpenAPIV3_1.SecuritySchemeObject;
     }),
   );
   console.log(

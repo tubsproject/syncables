@@ -1,5 +1,10 @@
-import { SyncableSpec } from '../../../src/syncer.js';
+import {
+  SyncableSpecInput,
+  PaginationScheme,
+  normaliseSyncableSpec,
+} from '../../../src/spec.js';
 import { getObjectPath, setObjectPath } from '../../../src/utils.js';
+import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 export const confirmedItemIds: { [id: string]: boolean } = {};
 for (let i = 0; i < 50; i += 1) {
@@ -9,13 +14,18 @@ for (let i = 0; i < 50; i += 1) {
 export function applyPagination(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any,
-  spec: SyncableSpec,
+  input: SyncableSpecInput,
   query: Record<string, string | undefined>,
   // headers: Record<string, string | undefined>,
+  doc: OpenAPIV3_1.Document,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
+  const paginationScheme = doc?.components?.['paginationSchemes']
+    ?.default as PaginationScheme;
+  console.log('applying pagination', paginationScheme);
   let numItems = 1;
   let hasMore = false;
+  const spec = normaliseSyncableSpec(input, paginationScheme, doc);
   switch (spec.paginationStrategy) {
     case 'pageNumber':
       {
@@ -83,32 +93,6 @@ export function applyPagination(
             null,
           );
         }
-      }
-      break;
-    case 'dateRange':
-      {
-        let startDate = parseInt(
-          query[spec.startDateParamInQuery ?? 'startDate'],
-          10,
-        );
-        if (isNaN(startDate)) {
-          startDate = 20000101000000;
-        }
-        let endDate = parseInt(
-          query[spec.endDateParamInQuery ?? 'endDate'],
-          10,
-        );
-        if (isNaN(endDate)) {
-          endDate = 99990101000000;
-        }
-        let dates = [
-          20220101000000, 20220201000000, 20220301000000, 20220401000000,
-          20220501000000, 20220601000000, 20220701000000, 20220801000000,
-          20220901000000,
-        ];
-        dates = dates.filter((d) => d >= startDate && d <= endDate);
-        numItems = dates.length;
-        console.log('dateRange numItems', numItems, startDate, endDate);
       }
       break;
     case 'confirmationBased':

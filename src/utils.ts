@@ -3,7 +3,7 @@ import { fetchFunction } from './caching-fetch.js';
 import { applyOverlay } from 'openapi-overlays-js/src/overlay.js';
 import { dereference } from '@readme/openapi-parser';
 import { parse } from 'yaml';
-import { OpenAPIV3 } from '@scalar/openapi-types';
+import { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getObjectPath(obj: object, path?: string[]): any {
@@ -83,7 +83,7 @@ export async function readSpec(
 }
 export async function parseSpecStr(
   specStr: string,
-): Promise<OpenAPIV3.Document> {
+): Promise<OpenAPIV3_1.Document> {
   let specObj;
   try {
     specObj = parse(specStr);
@@ -101,8 +101,8 @@ export async function parseSpecStr(
 export async function specStrToObj(
   specStr: string,
   overlayStr: string | null = null,
-): Promise<OpenAPIV3.Document> {
-  const specObj: OpenAPIV3.Document = await parseSpecStr(specStr);
+): Promise<OpenAPIV3_1.Document> {
+  const specObj: OpenAPIV3_1.Document = await parseSpecStr(specStr);
   if (typeof specObj !== 'object' || specObj === null) {
     throw new Error('Spec is not a valid object');
   }
@@ -150,7 +150,7 @@ export async function getSpecFromOverlay(overlayStr: string): Promise<string> {
   ) {
     throw new Error(`Overlay is not a valid OpenAPI 3.x document`);
   }
-  const specUrl = (overlayObj as OpenAPIV3.Document & { extends: string })
+  const specUrl = (overlayObj as OpenAPIV3_1.Document & { extends: string })
     .extends;
   if (typeof specUrl !== 'string') {
     throw new Error(`Overlay does not have a valid extends URL`);

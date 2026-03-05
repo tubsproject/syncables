@@ -5,4 +5,10 @@ actions:
   update:
     syncables:
     - name: integrationTest
-      paginationStrategy: pageNumber
+- target: components
+  update:
+    paginationSchemes:
+      default:
+        paginate:
+        pageNumber:
+          parameter: page

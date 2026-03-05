@@ -8,16 +8,20 @@ test('query', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncer({
-    specStr: createSpec('https://jsonplaceholder.typicode.com', {
-      '/todos/': {
-        type: 'collection',
-        name: 'todos',
-        paginationStrategy: 'pageNumber',
-        pageNumberParamInQuery: 'page',
-        query: { userId: '1' },
-        itemsPathInResponse: ['items'],
+    specStr: createSpec(
+      'https://jsonplaceholder.typicode.com',
+      {
+        '/todos/': {
+          type: 'collection',
+          name: 'todos',
+          query: { userId: '1' },
+        },
       },
-    }),
+      {
+        paginate: 'items',
+        pageNumber: { parameter: 'page' },
+      },
+    ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });

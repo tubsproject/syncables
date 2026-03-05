@@ -1,10 +1,10 @@
-import type { OpenAPIV3 } from '@scalar/openapi-types';
+import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 /**
  * Check whether the given security scheme key is in the `security` configuration for this operation.
  */
 export function isAuthenticationRequired(
-  security?: OpenAPIV3.SecurityRequirementObject[],
+  security?: OpenAPIV3_1.SecurityRequirementObject[],
 ): boolean {
   // If security is not defined, auth is not required.
   if (!security) {

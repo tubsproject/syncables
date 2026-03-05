@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { OpenAPI, OpenAPIV3, OpenAPIV3_1 } from '@scalar/openapi-types';
+import type { OpenAPI, OpenAPIV3_1 } from '@scalar/openapi-types';
 import type { Hono } from 'hono';
 
 import { respondWithAuthorizePage } from '../routes/respond-with-authorize-page.js';
@@ -20,7 +20,7 @@ export function setUpAuthenticationRoutes(
 ) {
   const securitySchemes: Record<
     string,
-    OpenAPIV3.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject
+    OpenAPIV3_1.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject
   > = schema?.components?.securitySchemes || {};
 
   // Set up authentication routes for OAuth 2.0 flows

@@ -1,46 +1,12 @@
 import { EventEmitter } from 'events';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
-import type { OpenAPIV3 } from '@scalar/openapi-types';
 import { Client, getFields, createSqlTable, insertData } from './db.js';
 import { specStrToObj, getObjectPath } from './utils.js';
 import { default as parse } from 'parse-link-header';
+import { SyncableSpec, normaliseSyncableSpec } from './spec.js';
 
 const debug = createDebug('syncable');
-
-export type SyncableSpec = {
-  type: string;
-  name: string;
-  paginationStrategy:
-    | 'pageNumber'
-    | 'offset'
-    | 'pageToken'
-    | 'dateRange'
-    | 'rangeHeader'
-    | 'confirmationBased'
-    | 'linkHeader'
-    | 'none';
-  pageNumberParamInQuery?: string;
-  offsetParamInQuery?: string;
-  pageTokenParamInQuery?: string;
-  startDateParamInQuery?: string;
-  endDateParamInQuery?: string;
-  startDate?: string;
-  endDate?: string;
-  query?: { [key: string]: string };
-  itemsPathInResponse?: string[];
-  nextPageTokenPathInResponse?: string[];
-  defaultPageSize?: number;
-  forcePageSize?: number;
-  forcePageSizeParamInQuery?: string;
-  idField?: string;
-  confirmOperation?: {
-    pathTemplate: string;
-    method: string;
-    path: string;
-  };
-  params?: { [key: string]: string };
-};
 
 export class Syncer extends EventEmitter {
   fetchFunction: typeof fetch;
@@ -89,58 +55,6 @@ export class Syncer extends EventEmitter {
       await this.client.connect();
     }
   }
-  private normaliseSyncableSpec(
-    syncable: SyncableSpec,
-    doc: OpenAPIV3.Document,
-  ): SyncableSpec {
-    const spec: SyncableSpec = {
-      type: syncable.type || 'collection',
-      name: syncable.name,
-      paginationStrategy: syncable.paginationStrategy,
-      query: syncable.query || {},
-      itemsPathInResponse: syncable.itemsPathInResponse || [],
-      defaultPageSize: syncable.defaultPageSize,
-      forcePageSize: syncable.forcePageSize,
-      forcePageSizeParamInQuery: syncable.forcePageSizeParamInQuery,
-      idField: syncable.idField || 'id',
-      params: syncable.params || {},
-    };
-    // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
-    if (syncable.paginationStrategy === 'pageNumber') {
-      spec.pageNumberParamInQuery = syncable.pageNumberParamInQuery || 'page';
-    } else if (syncable.paginationStrategy === 'offset') {
-      spec.offsetParamInQuery = syncable.offsetParamInQuery || 'offset';
-    } else if (syncable.paginationStrategy === 'pageToken') {
-      spec.pageTokenParamInQuery =
-        syncable.pageTokenParamInQuery || 'pageToken';
-      spec.nextPageTokenPathInResponse =
-        syncable.nextPageTokenPathInResponse || ['nextPageToken'];
-    } else if (syncable.paginationStrategy === 'dateRange') {
-      spec.startDateParamInQuery =
-        syncable.startDateParamInQuery || 'startDate';
-      spec.endDateParamInQuery = syncable.endDateParamInQuery || 'endDate';
-      spec.startDate = syncable.startDate || '20000101000000';
-      spec.endDate = syncable.endDate || '99990101000000';
-    } else if (syncable.paginationStrategy === 'confirmationBased') {
-      // console.log('setting confirmOperation', syncable.confirmOperation);
-      const confirmOperationSpec = syncable.confirmOperation as {
-        path: string;
-        method: string;
-      };
-      const confirmConfig =
-        doc.paths[confirmOperationSpec.path][confirmOperationSpec.method]
-          ?.responses['200']?.content?.['application/json']?.confirmOperation;
-      // console.log(confirmConfig);
-      spec.confirmOperation = {
-        pathTemplate: confirmConfig.pathTemplate,
-        method: confirmOperationSpec.method,
-        path: confirmOperationSpec.path,
-      };
-      // console.log('determined confirmOperation config', config.confirmOperation);
-      // throw new Error('debug');
-    }
-    return spec;
-  }
   async parseSpec(): Promise<object> {
     const doc = await specStrToObj(this.specStr, this.overlayStr);
     // console.log('Parsed spec document', doc);
@@ -149,6 +63,12 @@ export class Syncer extends EventEmitter {
     if (this.baseUrl.startsWith('//')) {
       this.baseUrl = 'https:' + this.baseUrl;
     }
+    const paginationScheme =
+      doc?.components?.['paginationSchemes']?.['default'];
+    if (!paginationScheme) {
+      throw new Error('undefined pagination scheme');
+    }
+
     let solution: object | null = null;
     for (const path of Object.keys(doc.paths)) {
       const pathItem = doc.paths[path];
@@ -168,7 +88,10 @@ export class Syncer extends EventEmitter {
                 this.syncables[syncable.name] = {
                   path,
                   schema: response.schema,
-                  spec: this.normaliseSyncableSpec(syncable, doc),
+                  spec: Object.assign(
+                    {},
+                    normaliseSyncableSpec(syncable, paginationScheme, doc),
+                  ),
                 };
                 solution = doc;
               });
@@ -414,52 +337,6 @@ export class Syncer extends EventEmitter {
 
     return allData;
   }
-  private async dateRangeFetch(
-    syncableName: string,
-    theseParents: {
-      [pattern: string]: string;
-    },
-  ): Promise<object[]> {
-    const spec = this.syncables[syncableName].spec;
-    let allData: object[] = [];
-    let startDate: number = parseInt(spec.startDate, 10);
-    let endDate: number = parseInt(spec.endDate, 10);
-    if (isNaN(startDate)) {
-      startDate = 20000101000000;
-    }
-    if (isNaN(endDate)) {
-      endDate = 99990101000000;
-    }
-    let cursor = startDate;
-    const increment: number = /* spec.increment || */ 10000000000; // yearly increments
-    while (cursor <= endDate) {
-      console.log(
-        'getting URL for date range fetch with cursor',
-        cursor,
-        'and increment',
-        increment,
-        'and theseParents',
-        theseParents,
-      );
-      console.log('syncable details', this.syncables[syncableName]);
-      const url = this.getUrl(this.syncables[syncableName].path, theseParents);
-      Object.entries(spec.query || {}).forEach(([key, value]) => {
-        url.searchParams.append(key, value);
-      });
-      if (startDate) {
-        url.searchParams.append('startDate', cursor.toString());
-      }
-      if (endDate) {
-        url.searchParams.append('endDate', (cursor + increment - 1).toString());
-      }
-      // console.log('date range fetching', url.toString());
-      const data = await this.doFetch(spec, url.toString());
-      allData = allData.concat(data.items);
-      cursor += increment;
-    }
-
-    return allData;
-  }
 
   private async rangeHeaderFetch(
     syncableName: string,
@@ -548,6 +425,7 @@ export class Syncer extends EventEmitter {
   ): Promise<object[]> {
     const spec = this.syncables[syncableName].spec;
     // console.log('switching on pagination strategy', spec.paginationStrategy);
+    // console.log(spec);
     // throw new Error('debug');
     switch (spec['paginationStrategy']) {
       case 'pageNumber':
@@ -556,8 +434,6 @@ export class Syncer extends EventEmitter {
         return this.offsetFetch(syncableName, theseParents);
       case 'pageToken':
         return this.pageTokenFetch(syncableName, theseParents);
-      case 'dateRange':
-        return this.dateRangeFetch(syncableName, theseParents);
       case 'rangeHeader':
         return this.rangeHeaderFetch(syncableName, theseParents);
       case 'confirmationBased':

@@ -28,15 +28,19 @@ async function isDirectory(path: string): Promise<boolean> {
 }
 
 async function processFileOrDir(filePath: string): Promise<void> {
-    if (await isDirectory(filePath)) {
-      const files = await readdir(filePath);
-      for (const file of files) {
-        const fullPath = path.join(filePath, file);
-        await processFileOrDir(fullPath);
-      }
-    } else if (filePath.endsWith('.yaml') || filePath.endsWith('.yml') || filePath.endsWith('.json')) {
-      await processFile(filePath);
+  if (await isDirectory(filePath)) {
+    const files = await readdir(filePath);
+    for (const file of files) {
+      const fullPath = path.join(filePath, file);
+      await processFileOrDir(fullPath);
     }
+  } else if (
+    filePath.endsWith('.yaml') ||
+    filePath.endsWith('.yml') ||
+    filePath.endsWith('.json')
+  ) {
+    await processFile(filePath);
+  }
 }
 // paginationSchemes
 // if: parameter
@@ -47,7 +51,7 @@ async function processFileOrDir(filePath: string): Promise<void> {
 // rel: next
 // useAs: next-link
 //
-// 
+//
 // ifParameter: page
 // useAs: page-number
 //
@@ -97,7 +101,17 @@ async function processFile(filename: string): Promise<void> {
       // console.log(`GET ${path}`);
       if (specObj.paths[path].get.parameters) {
         specObj.paths[path].get.parameters.forEach((param) => {
-          if (['page', 'maxResults', 'pageToken', 'nextToken', 'syncToken', 'offset', 'limit'].includes(param.name)) {
+          if (
+            [
+              'page',
+              'maxResults',
+              'pageToken',
+              'nextToken',
+              'syncToken',
+              'offset',
+              'limit',
+            ].includes(param.name)
+          ) {
             found[param.name] = true;
           }
         });
@@ -121,7 +135,9 @@ async function processFile(filename: string): Promise<void> {
     }
   });
   if (Object.keys(found).length > 0) {
-    console.log(`${filename}: some GET endpoints have pagination parameters: ${Object.keys(found).join(', ')}`);
+    console.log(
+      `${filename}: some GET endpoints have pagination parameters: ${Object.keys(found).join(', ')}`,
+    );
   }
 }
 
@@ -132,5 +148,5 @@ if (!baseDir) {
 }
 
 (async (): Promise<void> => {
-    await processFileOrDir(baseDir);
+  await processFileOrDir(baseDir);
 })();

@@ -99,10 +99,12 @@ export async function createMockServer(
       // Route to appropriate handler
       if (hasHandler) {
         app[method](route, (c) =>
-          mockHandlerResponse(c, operation, configuration),
+          mockHandlerResponse(c, operation, configuration, schema),
         );
       } else {
-        app[method](route, (c) => mockAnyResponse(c, operation, configuration));
+        app[method](route, (c) =>
+          mockAnyResponse(c, operation, configuration, schema),
+        );
       }
     });
   });

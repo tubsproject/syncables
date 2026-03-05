@@ -9,6 +9,10 @@ actions:
   update:
     syncables:
     - name: integrationTest
-      itemsPathInResponse:
-      - results
-      paginationStrategy: offset
+- target: components
+  update:
+    paginationSchemes:
+      default:
+        paginate: results
+        offset:
+          parameter: offset

@@ -7,8 +7,10 @@ actions:
   update:
     syncables:
     - name: integrationTest
-      paginationStrategy: pageNumber
-      itemsPathInResponse:
-      - news
-      - you
-      - posts
+- target: components
+  update:
+    paginationSchemes:
+      default:
+        paginate: news.you.posts
+        pageNumber:
+          parameter: page

@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from '@scalar/openapi-types';
+import { OpenAPIV3_1 } from '@scalar/openapi-types';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
@@ -18,7 +18,7 @@ const ensureCredentialsDirExists = async (): Promise<void> => {
 };
 async function authorizationCodeFlow(
   apiName: string,
-  securityScheme: OpenAPIV3.SecuritySchemeObject,
+  securityScheme: OpenAPIV3_1.SecuritySchemeObject,
 ): Promise<{ [header: string]: string }> {
   const app = express();
   const passportConfig = {
@@ -127,7 +127,7 @@ async function authorizationCodeFlow(
 
 async function clientCredentialsFlow(
   apiName: string,
-  securityScheme: OpenAPIV3.SecuritySchemeObject,
+  securityScheme: OpenAPIV3_1.SecuritySchemeObject,
 ): Promise<{ [header: string]: string }> {
   const tokenUrl = securityScheme.flows?.clientCredentials?.tokenUrl;
   const clientId =
@@ -291,7 +291,7 @@ async function cognitoFlow(
 
 async function pickFlow(
   apiName: string,
-  securityScheme: OpenAPIV3.SecuritySchemeObject,
+  securityScheme: OpenAPIV3_1.SecuritySchemeObject,
 ): Promise<{ [header: string]: string }> {
   if (securityScheme.type === 'oauth2') {
     if (securityScheme.flows?.clientCredentials) {
@@ -373,7 +373,9 @@ async function pickFlow(
 
 export async function getAuthHeaderSets(
   apiNames: string[],
-  securitySchemeObjects: { [apiName: string]: OpenAPIV3.SecuritySchemeObject },
+  securitySchemeObjects: {
+    [apiName: string]: OpenAPIV3_1.SecuritySchemeObject;
+  },
 ): Promise<{ [apiName: string]: { [header: string]: string } }> {
   await ensureCredentialsDirExists(); // Ensure the tokens directory exists
 

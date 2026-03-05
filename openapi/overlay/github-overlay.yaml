@@ -19,7 +19,13 @@ actions:
       description: |-
         Issues in the repository.
       type: collection
-      paginationStrategy: linkHeader
       query:
         owner: tubsproject
         repo: syncables
+- target: components
+  update:
+    paginationSchemes:
+      default:
+        paginate: items
+        nextPageLink:
+          responseHeader: Link
