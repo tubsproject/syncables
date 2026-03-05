@@ -21,12 +21,12 @@ describe('Syncables', async () => {
       ![
         // 'acube',
         // 'arratech',
-        // 'blog',
-        // 'google-calendar',
+        'blog',
+        'google-calendar',
         // 'ion',
         // 'maventa',
         // 'netfly',
-        // 'peppyrus',
+        'peppyrus',
         'recommand',
         // 'scrada',
       ].includes(service)
