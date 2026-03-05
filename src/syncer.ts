@@ -8,10 +8,7 @@ import { default as parse } from 'parse-link-header';
 
 const debug = createDebug('syncable');
 
-export type SyncableSpec = {
-  type: string;
-  name: string;
-  paginationStrategy:
+type PaginationStrategy = 
     | 'pageNumber'
     | 'offset'
     | 'pageToken'
@@ -20,19 +17,16 @@ export type SyncableSpec = {
     | 'confirmationBased'
     | 'linkHeader'
     | 'none';
-  pageNumberParamInQuery?: string;
-  offsetParamInQuery?: string;
-  pageTokenParamInQuery?: string;
+export type SyncableSpecInput = {
+  type: string;
+  name: string;
   startDateParamInQuery?: string;
   endDateParamInQuery?: string;
   startDate?: string;
   endDate?: string;
   query?: { [key: string]: string };
-  itemsPathInResponse?: string[];
-  nextPageTokenPathInResponse?: string[];
   defaultPageSize?: number;
   forcePageSize?: number;
-  forcePageSizeParamInQuery?: string;
   idField?: string;
   confirmOperation?: {
     pathTemplate: string;
@@ -40,6 +34,51 @@ export type SyncableSpec = {
     path: string;
   };
   params?: { [key: string]: string };
+};
+export type SyncableSpec = SyncableSpecInput & {
+  paginationStrategy: PaginationStrategy;
+  pageNumberParamInQuery?: string;
+  offsetParamInQuery?: string;
+  pageTokenParamInQuery?: string;
+  itemsPathInResponse?: string[];
+  nextPageTokenPathInResponse?: string[];
+  forcePageSizeParamInQuery?: string;
+};
+
+type JsonPath = string;
+type HeaderSpec = string;
+type ParameterName = string;
+
+type InputPattern = {
+  parameter?: ParameterName;
+  requestBody?: JsonPath;
+};
+type OutputPattern = {
+  responseBody?: JsonPath;
+  responseHeader?: HeaderSpec;
+};
+type PaginationPattern = InputPattern & OutputPattern;
+
+export type PaginationScheme = {
+  paginate: string;
+
+  pageNumber?: PaginationPattern;
+  offset?: PaginationPattern;
+  lastItemId?: PaginationPattern;
+  token?: PaginationPattern;
+  nextPageLink?: OutputPattern;
+
+  pageSize?: PaginationPattern;
+  totalCount?: OutputPattern;
+  pageCount?: OutputPattern;
+
+  firstPageLink?: OutputPattern;
+  previousPageLink?: OutputPattern;
+  currentPageLink?: OutputPattern;
+  lastPageLink?: OutputPattern;
+
+  hasNext?: OutputPattern;
+  hasPrevious?: OutputPattern;
 };
 
 export class Syncer extends EventEmitter {
@@ -89,39 +128,65 @@ export class Syncer extends EventEmitter {
       await this.client.connect();
     }
   }
+  private determineStrategy(paginationScheme: PaginationScheme): PaginationStrategy {
+    // | 'pageNumber'
+    // | 'offset'
+    // | 'pageToken'
+    // | 'dateRange'
+    // | 'rangeHeader'
+    // | 'confirmationBased'
+    // | 'linkHeader'
+    // | 'none';
+    if (paginationScheme.nextPageLink?.responseHeader) {
+      return 'linkHeader';
+    }
+    if (paginationScheme.pageNumber?.parameter) {
+      return 'pageNumber';
+    }
+    if (paginationScheme.offset?.parameter) {
+      return 'offset';
+    }
+    if (paginationScheme.token?.parameter) {
+      return 'pageToken';
+    }
+    return 'none';
+  }
   private normaliseSyncableSpec(
     syncable: SyncableSpec,
+    paginationScheme: PaginationScheme,
     doc: OpenAPIV3.Document,
   ): SyncableSpec {
+
     const spec: SyncableSpec = {
       type: syncable.type || 'collection',
       name: syncable.name,
-      paginationStrategy: syncable.paginationStrategy,
+      paginationStrategy: this.determineStrategy(paginationScheme),
       query: syncable.query || {},
-      itemsPathInResponse: syncable.itemsPathInResponse || [],
+      itemsPathInResponse: paginationScheme.paginate.split('.'),
       defaultPageSize: syncable.defaultPageSize,
       forcePageSize: syncable.forcePageSize,
-      forcePageSizeParamInQuery: syncable.forcePageSizeParamInQuery,
+      forcePageSizeParamInQuery: paginationScheme.pageSize?.parameter,
       idField: syncable.idField || 'id',
       params: syncable.params || {},
     };
     // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
-    if (syncable.paginationStrategy === 'pageNumber') {
-      spec.pageNumberParamInQuery = syncable.pageNumberParamInQuery || 'page';
-    } else if (syncable.paginationStrategy === 'offset') {
-      spec.offsetParamInQuery = syncable.offsetParamInQuery || 'offset';
-    } else if (syncable.paginationStrategy === 'pageToken') {
+    if (spec.paginationStrategy === 'pageNumber') {
+      // console.log('setting pageNumberParamInQuery');
+      spec.pageNumberParamInQuery = paginationScheme.pageNumber?.parameter || 'page';
+    } else if (spec.paginationStrategy === 'offset') {
+      spec.offsetParamInQuery = paginationScheme.offset.parameter || 'offset';
+    } else if (spec.paginationStrategy === 'pageToken') {
       spec.pageTokenParamInQuery =
-        syncable.pageTokenParamInQuery || 'pageToken';
+        paginationScheme.token.parameter || 'pageToken';
       spec.nextPageTokenPathInResponse =
-        syncable.nextPageTokenPathInResponse || ['nextPageToken'];
-    } else if (syncable.paginationStrategy === 'dateRange') {
+        paginationScheme.token.responseBody.split('.') || ['nextPageToken'];
+    } else if (spec.paginationStrategy === 'dateRange') {
       spec.startDateParamInQuery =
         syncable.startDateParamInQuery || 'startDate';
       spec.endDateParamInQuery = syncable.endDateParamInQuery || 'endDate';
       spec.startDate = syncable.startDate || '20000101000000';
       spec.endDate = syncable.endDate || '99990101000000';
-    } else if (syncable.paginationStrategy === 'confirmationBased') {
+    } else if (spec.paginationStrategy === 'confirmationBased') {
       // console.log('setting confirmOperation', syncable.confirmOperation);
       const confirmOperationSpec = syncable.confirmOperation as {
         path: string;
@@ -139,6 +204,7 @@ export class Syncer extends EventEmitter {
       // console.log('determined confirmOperation config', config.confirmOperation);
       // throw new Error('debug');
     }
+    // console.log('normalized', spec);
     return spec;
   }
   async parseSpec(): Promise<object> {
@@ -149,6 +215,7 @@ export class Syncer extends EventEmitter {
     if (this.baseUrl.startsWith('//')) {
       this.baseUrl = 'https:' + this.baseUrl;
     }
+    const paginationSchemes = doc?.components?.['paginationSchemes'] || [];
     let solution: object | null = null;
     for (const path of Object.keys(doc.paths)) {
       const pathItem = doc.paths[path];
@@ -168,7 +235,7 @@ export class Syncer extends EventEmitter {
                 this.syncables[syncable.name] = {
                   path,
                   schema: response.schema,
-                  spec: this.normaliseSyncableSpec(syncable, doc),
+                  spec: this.normaliseSyncableSpec(syncable, paginationSchemes['default'], doc),
                 };
                 solution = doc;
               });
@@ -548,6 +615,7 @@ export class Syncer extends EventEmitter {
   ): Promise<object[]> {
     const spec = this.syncables[syncableName].spec;
     // console.log('switching on pagination strategy', spec.paginationStrategy);
+    // console.log(spec);
     // throw new Error('debug');
     switch (spec['paginationStrategy']) {
       case 'pageNumber':

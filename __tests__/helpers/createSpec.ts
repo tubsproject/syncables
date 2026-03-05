@@ -1,8 +1,9 @@
 import { stringify } from 'yaml';
-import { SyncableSpec } from '../../src/syncer.js';
+import { SyncableSpecInput, PaginationScheme } from '../../src/syncer.js';
 export function createSpec(
   baseUrl: string,
-  configs: { [path: string]: SyncableSpec },
+  configs: { [path: string]: SyncableSpecInput },
+  paginationScheme: PaginationScheme
 ): string {
   const specObj = {
     openapi: '3.0.0',
@@ -18,6 +19,9 @@ export function createSpec(
     paths: {},
     components: {
       schemas: {},
+      paginationSchemes: {
+        default: paginationScheme,
+      },
     },
   };
   for (const path in configs) {

@@ -13,9 +13,6 @@ actions:
         - events
         - acl
       type: collection
-      paginationStrategy: pageToken
-      itemsPathInResponse:
-        - items
 - target: paths['/calendars/{calendarId}/events']['get']['responses']['200']['content']['application/json']
   update:
     syncables:
@@ -25,9 +22,6 @@ actions:
       params:
         calendarId: calendars.id
       type: collection
-      paginationStrategy: pageToken
-      itemsPathInResponse:
-        - items
 - target: paths['/calendars/{calendarId}/acl']['get']['responses']['200']['content']['application/json']
   update:
     syncables:
@@ -37,6 +31,11 @@ actions:
       params:
         calendarId: calendars.id
       type: collection
-      paginationStrategy: pageToken
-      itemsPathInResponse:
-        - items
+- target: components
+  update:
+    paginationSchemes:
+      default:
+        paginate: items
+        token:
+          parameter: pageToken
+          responseBody: nextPageToken

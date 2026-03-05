@@ -1,32 +1,43 @@
 import { describe, expect, it } from 'vitest';
-import { Syncer, SyncableSpec } from '../../src/syncer.js';
+import { Syncer, SyncableSpecInput, PaginationScheme } from '../../src/syncer.js';
 import { createSpec } from '../helpers/createSpec.js';
 
 describe('Spec parsing', () => {
   it('can parse one syncable spec out of an OAD', async () => {
-    const spec: SyncableSpec = {
+    const spec: SyncableSpecInput = {
       type: 'collection',
       name: 'widgets',
-      paginationStrategy: 'pageNumber',
-      pageNumberParamInQuery: 'page',
       query: { color: 'red' },
-      itemsPathInResponse: ['data', 'items'],
       defaultPageSize: undefined,
       forcePageSize: undefined,
-      forcePageSizeParamInQuery: undefined,
       idField: 'id',
       params: {
         customerId: 'customers.id',
       },
     };
+    const paginationScheme: PaginationScheme = {
+      paginate: 'data.items',
+      pageNumber: {
+        parameter: 'page',
+      },
+    };
     const syncer = new Syncer({
-      specStr: createSpec('//example.com/api', {
-        '/widgets/': spec,
-      }),
+      specStr: createSpec(
+        '//example.com/api',
+        {
+          '/widgets/': spec,
+        },
+        paginationScheme,
+      ),
     });
     await syncer.parseSpec();
     expect(syncer.syncables['widgets'].path).toEqual('/widgets/');
-    expect(syncer.syncables['widgets'].spec).toEqual(spec);
+    expect(syncer.syncables['widgets'].spec).toEqual(Object.assign({
+      forcePageSizeParamInQuery: undefined,
+      itemsPathInResponse: [ 'data', 'items'],
+      paginationStrategy: 'pageNumber',
+      pageNumberParamInQuery: 'page',
+    }, spec));
     expect(syncer.baseUrl).toEqual('https://example.com/api');
   });
 });

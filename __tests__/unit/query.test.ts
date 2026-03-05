@@ -12,11 +12,11 @@ test('query', async () => {
       '/todos/': {
         type: 'collection',
         name: 'todos',
-        paginationStrategy: 'pageNumber',
-        pageNumberParamInQuery: 'page',
         query: { userId: '1' },
-        itemsPathInResponse: ['items'],
       },
+    }, {
+      paginate: 'items',
+      pageNumber: { parameter: 'page' },
     }),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,

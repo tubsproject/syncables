@@ -1,31 +1,34 @@
 import { describe, expect, it } from 'vitest';
-import { Syncer, SyncableSpec } from '../../src/syncer.js';
+import { Syncer, SyncableSpecInput, PaginationScheme } from '../../src/syncer.js';
 import { createSpec } from '../helpers/createSpec.js';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 
 describe('Params', () => {
   it('can deal with params in syncable specs', async () => {
     const { fetchMock, mockResponses } = createFetchMock(true);
-    const users: SyncableSpec = {
+    const users: SyncableSpecInput = {
       type: 'collection',
       name: 'users',
-      paginationStrategy: 'pageNumber',
-      itemsPathInResponse: ['items'],
     };
-    const widgets: SyncableSpec = {
+    const widgets: SyncableSpecInput = {
       type: 'collection',
       name: 'widgets',
-      paginationStrategy: 'pageNumber',
-      itemsPathInResponse: ['items'],
       params: {
         userId: 'users.id',
       },
     };
+    const paginationScheme: PaginationScheme = {
+      paginate: 'items',
+      pageNumber: { parameter: 'page' }
+    }
     const syncer = new Syncer({
-      specStr: createSpec('https://example.com/api', {
-        '/users/': users,
-        '/user/{userId}/widgets/': widgets,
-      }),
+      specStr: createSpec(
+        'https://example.com/api', {
+          '/users/': users,
+          '/user/{userId}/widgets/': widgets,
+        },
+        paginationScheme,
+      ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
     const data = await syncer.fullFetch();
@@ -67,29 +70,30 @@ describe('Params', () => {
 
   it('can ignore circular references in params', async () => {
     const { fetchMock } = createFetchMock(true);
-    const users: SyncableSpec = {
+    const users: SyncableSpecInput = {
       type: 'collection',
       name: 'users',
-      paginationStrategy: 'pageNumber',
-      itemsPathInResponse: ['items'],
       params: {
         widgetId: 'widgets.id',
       },
     };
-    const widgets: SyncableSpec = {
+    const widgets: SyncableSpecInput = {
       type: 'collection',
       name: 'widgets',
-      paginationStrategy: 'pageNumber',
-      itemsPathInResponse: ['items'],
       params: {
         userId: 'users.id',
       },
     };
+    const paginationScheme: PaginationScheme = {
+      paginate: 'items',
+      pageNumber: { parameter: 'page' }
+    }
+
     const syncer = new Syncer({
       specStr: createSpec('https://example.com/api', {
         '/users/': users,
         '/user/{userId}/widgets/': widgets,
-      }),
+      }, paginationScheme),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
     const data = await syncer.fullFetch();
@@ -99,34 +103,32 @@ describe('Params', () => {
 
   it('can fill in multiple references in params', async () => {
     const { fetchMock, mockResponses } = createFetchMock(true);
-    const countries: SyncableSpec = {
+    const countries: SyncableSpecInput = {
       type: 'collection',
       name: 'countries',
-      paginationStrategy: 'pageNumber',
-      itemsPathInResponse: ['items'],
     };
-    const users: SyncableSpec = {
+    const users: SyncableSpecInput = {
       type: 'collection',
       name: 'users',
-      paginationStrategy: 'pageNumber',
-      itemsPathInResponse: ['items'],
     };
-    const widgets: SyncableSpec = {
+    const widgets: SyncableSpecInput = {
       type: 'collection',
       name: 'widgets',
-      paginationStrategy: 'pageNumber',
-      itemsPathInResponse: ['items'],
       params: {
         userId: 'users.id',
         countryId: 'countries.id',
       },
+    };
+    const paginationScheme: PaginationScheme = {
+      paginate: 'items',
+      pageNumber: { parameter: 'page' }
     };
     const syncer = new Syncer({
       specStr: createSpec('https://example.com/api', {
         '/countries/': countries,
         '/users/': users,
         '/{countryId}/{userId}/widgets/': widgets,
-      }),
+      }, paginationScheme),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
     const data = await syncer.fullFetch();

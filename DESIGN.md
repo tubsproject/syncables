@@ -16,7 +16,7 @@ So far I've seen the following server-side mechanisms to support client-side pag
 So each scheme needs:
 * `paginate`: JSON path in result that is paginated by this scheme. Can be an array if it varies.
 * at least one of `pageNumber` (P), `offset` (P), `lastItemId` (P), `nextPageLink` (R) or `token` (P,R)
-* optionally `pageSize` (P), `totalCount` (R), `pageCount` (R) `lastPageNumber` (R), `lastPageLink` (R), `previousPageLink` (R), `currentPageLink` (R), `firstPageLink` (R), `hasNext` (R) and `hasPrevious` (R).
+* optionally `pageSize` (P), `totalCount` (R), `pageCount` (R), `lastPageLink` (R), `previousPageLink` (R), `currentPageLink` (R), `firstPageLink` (R), `hasNext` (R) and `hasPrevious` (R).
 * `pageSize` can additionally have `minimum`, `default` and `maximum`, but this can be found in the schema definition.
 * (P) means it needs `parameter` or `requestBody`
 * (R) means it needs `responseBody` or `responseHeader`
@@ -103,7 +103,7 @@ nextPageLink:
   responseBody: next_page_url
 totalCount:
   responseBody: total
-lastPageNumber:
+pageCount:
   responseBody: last_page
 previousPageLink:
   responseBody: prev_page_url

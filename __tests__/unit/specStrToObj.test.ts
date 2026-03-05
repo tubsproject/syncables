@@ -4,7 +4,7 @@ import { createSpec } from '../helpers/createSpec.js';
 
 describe('specStrToObj', async () => {
   it('applies the overlay before dereferencing', async () => {
-    const specStr = createSpec('https://example.com', {});
+    const specStr = createSpec('https://example.com', {}, { paginate: '' });
     const overlayStr = `openapi: 3.0.0
 info:
   description: Add syncables to the Ion Peppol API.
@@ -29,6 +29,11 @@ actions:
           },
           UpdateWebhook: {
             description: 'FIXME',
+          },
+        },
+        paginationSchemes: {
+          default: {
+            paginate: '',
           },
         },
       },
