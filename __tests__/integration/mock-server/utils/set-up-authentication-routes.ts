@@ -20,7 +20,7 @@ export function setUpAuthenticationRoutes(
 ) {
   const securitySchemes: Record<
     string,
-    OpenAPIV3.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject
+    OpenAPIV3_1.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject
   > = schema?.components?.securitySchemes || {};
 
   // Set up authentication routes for OAuth 2.0 flows

@@ -4,7 +4,7 @@ import type { OpenAPIV3, OpenAPIV3_1 } from '@scalar/openapi-types';
 export function createOpenApiDefinition(
   securitySchemes: Record<
     string,
-    OpenAPIV3.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject
+    OpenAPIV3_1.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject
   >,
 ): OpenAPIV3_1.Document {
   return {

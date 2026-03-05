@@ -26,8 +26,8 @@ export function getPathFromUrl(url: string): string {
  */
 // Type guard for OAuth2 security scheme
 function isOAuth2Scheme(
-  scheme: OpenAPIV3.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject,
-): scheme is OpenAPIV3.OAuth2SecurityScheme | OpenAPIV3_1.OAuth2SecurityScheme {
+  scheme: OpenAPIV3_1.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject,
+): scheme is OpenAPIV3_1.OAuth2SecurityScheme | OpenAPIV3_1.OAuth2SecurityScheme {
   return scheme.type === 'oauth2';
 }
 
@@ -43,7 +43,7 @@ export function getOpenAuthTokenUrls(schema?: OpenAPI.Document): string[] {
 
   const securitySchemes: Record<
     string,
-    OpenAPIV3.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject
+    OpenAPIV3_1.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject
   > = schema.components.securitySchemes;
 
   // Use Set from the start for better memory efficiency

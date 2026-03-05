@@ -1,8 +1,8 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
-import type { OpenAPIV3 } from '@scalar/openapi-types';
+import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 import { Client } from 'pg';
 import { withArray } from 'pg-format';
-import { SyncableSpec } from './syncer.js';
+import { SyncableSpec } from './spec.js';
 export { Client } from 'pg';
 
 export async function getPostgresClient(): Promise<Client> {
@@ -25,7 +25,7 @@ export async function getPostgresClient(): Promise<Client> {
 }
 
 export function getFields(
-  schema: OpenAPIV3.SchemaObject,
+  schema: OpenAPIV3_1.SchemaObject,
   spec: SyncableSpec,
 ): { [key: string]: { type: string } } | undefined {
   const syncableType: string = spec?.type || 'collection';
@@ -58,7 +58,7 @@ export function getFields(
   let whatWeWant = sub?.properties;
   if (!whatWeWant && sub?.allOf) {
     whatWeWant = {};
-    sub.allOf.forEach((entry: OpenAPIV3.SchemaObject) => {
+    sub.allOf.forEach((entry: OpenAPIV3_1.SchemaObject) => {
       if (entry.properties) {
         Object.assign(whatWeWant, entry.properties);
       }
