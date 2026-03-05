@@ -35,7 +35,7 @@ async function main(): Promise<void> {
     apiNames.map(async (apiName: string) => {
       overlayStrs[apiName] = await readSpec('overlay', apiName);
       specStrs[apiName] = await getSpecFromOverlay(overlayStrs[apiName]);
-      const spec: OpenAPIV3.Document = await specStrToObj(
+      const spec: OpenAPIV3_1.Document = await specStrToObj(
         specStrs[apiName],
         overlayStrs[apiName],
       );

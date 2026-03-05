@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { OpenAPI, OpenAPIV3, OpenAPIV3_1 } from '@scalar/openapi-types';
+import type { OpenAPI, OpenAPIV3_1 } from '@scalar/openapi-types';
 import type { Hono } from 'hono';
 
 import { respondWithAuthorizePage } from '../routes/respond-with-authorize-page.js';

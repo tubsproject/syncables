@@ -1,4 +1,4 @@
-import type { OpenAPIV3, OpenAPIV3_1 } from '@scalar/openapi-types';
+import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 /** Helper function create an OpenAPI document with security schemss */
 export function createOpenApiDefinition(

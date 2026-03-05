@@ -1,7 +1,8 @@
 import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 import { readFileSync } from 'fs';
 import { vi, Mock } from 'vitest';
-import { SyncableSpec, Syncer } from '../../src/syncer.js';
+import { SyncableSpec } from '../../src/spec.js';
+import { Syncer } from '../../src/syncer.js';
 import { describe, it, expect } from 'vitest';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 import { Client, createSqlTable, getFields, insertData } from '../../src/db.js';

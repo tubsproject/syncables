@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-import type { OpenAPI, OpenAPIV3, OpenAPIV3_1 } from '@scalar/openapi-types';
+import type { OpenAPI, OpenAPIV3_1 } from '@scalar/openapi-types';
 
 /**
  * Extract path from URL
@@ -27,7 +27,9 @@ export function getPathFromUrl(url: string): string {
 // Type guard for OAuth2 security scheme
 function isOAuth2Scheme(
   scheme: OpenAPIV3_1.SecuritySchemeObject | OpenAPIV3_1.SecuritySchemeObject,
-): scheme is OpenAPIV3_1.OAuth2SecurityScheme | OpenAPIV3_1.OAuth2SecurityScheme {
+): scheme is
+  | OpenAPIV3_1.OAuth2SecurityScheme
+  | OpenAPIV3_1.OAuth2SecurityScheme {
   return scheme.type === 'oauth2';
 }
 

@@ -373,7 +373,9 @@ async function pickFlow(
 
 export async function getAuthHeaderSets(
   apiNames: string[],
-  securitySchemeObjects: { [apiName: string]: OpenAPIV3_1.SecuritySchemeObject },
+  securitySchemeObjects: {
+    [apiName: string]: OpenAPIV3_1.SecuritySchemeObject;
+  },
 ): Promise<{ [apiName: string]: { [header: string]: string } }> {
   await ensureCredentialsDirExists(); // Ensure the tokens directory exists
 
