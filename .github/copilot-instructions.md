@@ -26,7 +26,6 @@
    - `pageNumber`: uses `page` param (customizable via `pageNumberParamInQuery`)
    - `offset`: uses `offset` param
    - `pageToken`: uses `pageToken`/`nextPageToken` path
-   - `dateRange`: time-based range queries
    - `rangeHeader`: HTTP Range headers
    - `confirmationBased`: requires explicit confirmation operations
    - `none`: single request only

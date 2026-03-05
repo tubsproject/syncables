@@ -4,7 +4,6 @@ type PaginationStrategy =
   | 'pageNumber'
   | 'offset'
   | 'pageToken'
-  | 'dateRange'
   | 'rangeHeader'
   | 'confirmationBased'
   | 'linkHeader'
@@ -12,10 +11,6 @@ type PaginationStrategy =
 export type SyncableSpecInput = {
   type: string;
   name: string;
-  startDateParamInQuery?: string;
-  endDateParamInQuery?: string;
-  startDate?: string;
-  endDate?: string;
   query?: { [key: string]: string };
   defaultPageSize?: number;
   forcePageSize?: number;
@@ -78,7 +73,6 @@ function determineStrategy(
   // | 'pageNumber'
   // | 'offset'
   // | 'pageToken'
-  // | 'dateRange'
   // | 'rangeHeader'
   // | 'confirmationBased'
   // | 'linkHeader'
@@ -126,11 +120,6 @@ export function normaliseSyncableSpec(
       paginationScheme.token.parameter || 'pageToken';
     spec.nextPageTokenPathInResponse =
       paginationScheme.token.responseBody.split('.') || ['nextPageToken'];
-  } else if (spec.paginationStrategy === 'dateRange') {
-    spec.startDateParamInQuery = input.startDateParamInQuery || 'startDate';
-    spec.endDateParamInQuery = input.endDateParamInQuery || 'endDate';
-    spec.startDate = input.startDate || '20000101000000';
-    spec.endDate = input.endDate || '99990101000000';
   } else if (spec.paginationStrategy === 'confirmationBased') {
     // console.log('setting confirmOperation', syncable.confirmOperation);
     const confirmOperationSpec = input.confirmOperation as {

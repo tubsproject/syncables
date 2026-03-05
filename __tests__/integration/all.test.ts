@@ -25,7 +25,6 @@ describe('Syncables', async () => {
         'google-calendar',
         // 'ion',
         // 'maventa',
-        // 'netfly',
         'peppyrus',
         'recommand',
         // 'scrada',

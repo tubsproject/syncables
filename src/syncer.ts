@@ -337,52 +337,6 @@ export class Syncer extends EventEmitter {
 
     return allData;
   }
-  private async dateRangeFetch(
-    syncableName: string,
-    theseParents: {
-      [pattern: string]: string;
-    },
-  ): Promise<object[]> {
-    const spec = this.syncables[syncableName].spec;
-    let allData: object[] = [];
-    let startDate: number = parseInt(spec.startDate, 10);
-    let endDate: number = parseInt(spec.endDate, 10);
-    if (isNaN(startDate)) {
-      startDate = 20000101000000;
-    }
-    if (isNaN(endDate)) {
-      endDate = 99990101000000;
-    }
-    let cursor = startDate;
-    const increment: number = /* spec.increment || */ 10000000000; // yearly increments
-    while (cursor <= endDate) {
-      console.log(
-        'getting URL for date range fetch with cursor',
-        cursor,
-        'and increment',
-        increment,
-        'and theseParents',
-        theseParents,
-      );
-      console.log('syncable details', this.syncables[syncableName]);
-      const url = this.getUrl(this.syncables[syncableName].path, theseParents);
-      Object.entries(spec.query || {}).forEach(([key, value]) => {
-        url.searchParams.append(key, value);
-      });
-      if (startDate) {
-        url.searchParams.append('startDate', cursor.toString());
-      }
-      if (endDate) {
-        url.searchParams.append('endDate', (cursor + increment - 1).toString());
-      }
-      // console.log('date range fetching', url.toString());
-      const data = await this.doFetch(spec, url.toString());
-      allData = allData.concat(data.items);
-      cursor += increment;
-    }
-
-    return allData;
-  }
 
   private async rangeHeaderFetch(
     syncableName: string,
@@ -480,8 +434,6 @@ export class Syncer extends EventEmitter {
         return this.offsetFetch(syncableName, theseParents);
       case 'pageToken':
         return this.pageTokenFetch(syncableName, theseParents);
-      case 'dateRange':
-        return this.dateRangeFetch(syncableName, theseParents);
       case 'rangeHeader':
         return this.rangeHeaderFetch(syncableName, theseParents);
       case 'confirmationBased':
