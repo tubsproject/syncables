@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Syncer, SyncableSpecInput, PaginationScheme } from '../../src/syncer.js';
+import { Syncer } from '../../src/syncer.js';
+import { SyncableSpecInput, PaginationScheme } from '../../src/spec.js';
 import { createSpec } from '../helpers/createSpec.js';
 import { createFetchMock } from '../helpers/createFetchMock.js';
 

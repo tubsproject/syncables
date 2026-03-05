@@ -1,5 +1,5 @@
 import { stringify } from 'yaml';
-import { SyncableSpecInput, PaginationScheme } from '../../src/syncer.js';
+import { SyncableSpecInput, PaginationScheme } from '../../src/spec.js';
 export function createSpec(
   baseUrl: string,
   configs: { [path: string]: SyncableSpecInput },

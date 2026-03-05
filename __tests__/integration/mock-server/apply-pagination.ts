@@ -1,5 +1,6 @@
-import { SyncableSpec } from '../../../src/syncer.js';
+import { SyncableSpecInput, PaginationScheme, normaliseSyncableSpec } from '../../../src/spec.js';
 import { getObjectPath, setObjectPath } from '../../../src/utils.js';
+import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 export const confirmedItemIds: { [id: string]: boolean } = {};
 for (let i = 0; i < 50; i += 1) {
@@ -9,13 +10,16 @@ for (let i = 0; i < 50; i += 1) {
 export function applyPagination(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any,
-  spec: SyncableSpec,
+  input: SyncableSpecInput,
   query: Record<string, string | undefined>,
   // headers: Record<string, string | undefined>,
+  paginationScheme: PaginationScheme,
+  doc: OpenAPIV3_1.Document,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
   let numItems = 1;
   let hasMore = false;
+  const spec = normaliseSyncableSpec(input, paginationScheme, doc);
   switch (spec.paginationStrategy) {
     case 'pageNumber':
       {

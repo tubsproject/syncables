@@ -9,6 +9,6 @@ actions:
   update:
     paginationSchemes:
       default:
-        paginate: $
+        paginate:
         pageNumber:
           parameter: page

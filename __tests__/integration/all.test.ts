@@ -27,7 +27,7 @@ describe('Syncables', async () => {
         // 'maventa',
         // 'netfly',
         'peppyrus',
-        // 'recommand',
+        'recommand',
         // 'scrada',
       ].includes(service)
     ) {
