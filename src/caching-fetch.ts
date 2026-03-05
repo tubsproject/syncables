@@ -5,7 +5,7 @@ import { mkdirp } from 'mkdirp';
 export const FETCH_CACHE_DIR = '.fetch-cache';
 
 let cacheDirExistenceChecked = false;
-const ensureCacheDirExists = async () => {
+const ensureCacheDirExists = async (): Promise<void> => {
   if (cacheDirExistenceChecked) return;
   await mkdirp(FETCH_CACHE_DIR);
   cacheDirExistenceChecked = true;

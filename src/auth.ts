@@ -11,7 +11,7 @@ const port = 8000;
 export const CREDENTIALS_DIR = '.credentials';
 
 let credentialsDirExistenceChecked = false;
-const ensureCredentialsDirExists = async () => {
+const ensureCredentialsDirExists = async (): Promise<void> => {
   if (credentialsDirExistenceChecked) return;
   await mkdirp(CREDENTIALS_DIR);
   credentialsDirExistenceChecked = true;
