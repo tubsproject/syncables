@@ -129,7 +129,12 @@ export function mockAnyResponse(
         'Multiple syncables in one response is not supported yet in mock server',
       );
     }
-    body = applyPagination(body, acceptedResponse.syncables[0], c.req.query(), schema);
+    body = applyPagination(
+      body,
+      acceptedResponse.syncables[0],
+      c.req.query(),
+      schema,
+    );
   }
   c.status(statusCode);
 

@@ -63,7 +63,8 @@ export class Syncer extends EventEmitter {
     if (this.baseUrl.startsWith('//')) {
       this.baseUrl = 'https:' + this.baseUrl;
     }
-    const paginationScheme = doc?.components?.['paginationSchemes']?.['default'];
+    const paginationScheme =
+      doc?.components?.['paginationSchemes']?.['default'];
     if (!paginationScheme) {
       throw new Error('undefined pagination scheme');
     }
@@ -87,7 +88,10 @@ export class Syncer extends EventEmitter {
                 this.syncables[syncable.name] = {
                   path,
                   schema: response.schema,
-                  spec: Object.assign({}, normaliseSyncableSpec(syncable, paginationScheme, doc)),
+                  spec: Object.assign(
+                    {},
+                    normaliseSyncableSpec(syncable, paginationScheme, doc),
+                  ),
                 };
                 solution = doc;
               });

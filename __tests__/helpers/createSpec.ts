@@ -3,7 +3,7 @@ import { SyncableSpecInput, PaginationScheme } from '../../src/spec.js';
 export function createSpec(
   baseUrl: string,
   configs: { [path: string]: SyncableSpecInput },
-  paginationScheme: PaginationScheme
+  paginationScheme: PaginationScheme,
 ): string {
   const specObj = {
     openapi: '3.0.0',

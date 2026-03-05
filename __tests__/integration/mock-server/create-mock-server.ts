@@ -102,7 +102,9 @@ export async function createMockServer(
           mockHandlerResponse(c, operation, configuration, schema),
         );
       } else {
-        app[method](route, (c) => mockAnyResponse(c, operation, configuration, schema));
+        app[method](route, (c) =>
+          mockAnyResponse(c, operation, configuration, schema),
+        );
       }
     });
   });

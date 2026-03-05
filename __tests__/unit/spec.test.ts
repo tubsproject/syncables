@@ -33,12 +33,17 @@ describe('Spec parsing', () => {
     });
     await syncer.parseSpec();
     expect(syncer.syncables['widgets'].path).toEqual('/widgets/');
-    expect(syncer.syncables['widgets'].spec).toEqual(Object.assign({
-      forcePageSizeParamInQuery: undefined,
-      itemsPathInResponse: [ 'data', 'items'],
-      paginationStrategy: 'pageNumber',
-      pageNumberParamInQuery: 'page',
-    }, spec));
+    expect(syncer.syncables['widgets'].spec).toEqual(
+      Object.assign(
+        {
+          forcePageSizeParamInQuery: undefined,
+          itemsPathInResponse: ['data', 'items'],
+          paginationStrategy: 'pageNumber',
+          pageNumberParamInQuery: 'page',
+        },
+        spec,
+      ),
+    );
     expect(syncer.baseUrl).toEqual('https://example.com/api');
   });
 });

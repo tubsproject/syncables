@@ -1,14 +1,14 @@
 import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 
-type PaginationStrategy = 
-    | 'pageNumber'
-    | 'offset'
-    | 'pageToken'
-    | 'dateRange'
-    | 'rangeHeader'
-    | 'confirmationBased'
-    | 'linkHeader'
-    | 'none';
+type PaginationStrategy =
+  | 'pageNumber'
+  | 'offset'
+  | 'pageToken'
+  | 'dateRange'
+  | 'rangeHeader'
+  | 'confirmationBased'
+  | 'linkHeader'
+  | 'none';
 export type SyncableSpecInput = {
   type: string;
   name: string;
@@ -72,7 +72,9 @@ export type PaginationScheme = {
   hasPrevious?: OutputPattern;
 };
 
-function determineStrategy(paginationScheme: PaginationScheme): PaginationStrategy {
+function determineStrategy(
+  paginationScheme: PaginationScheme,
+): PaginationStrategy {
   // | 'pageNumber'
   // | 'offset'
   // | 'pageToken'
@@ -115,7 +117,8 @@ export function normaliseSyncableSpec(
   // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
   if (spec.paginationStrategy === 'pageNumber') {
     // console.log('setting pageNumberParamInQuery');
-    spec.pageNumberParamInQuery = paginationScheme.pageNumber?.parameter || 'page';
+    spec.pageNumberParamInQuery =
+      paginationScheme.pageNumber?.parameter || 'page';
   } else if (spec.paginationStrategy === 'offset') {
     spec.offsetParamInQuery = paginationScheme.offset.parameter || 'offset';
   } else if (spec.paginationStrategy === 'pageToken') {
@@ -124,8 +127,7 @@ export function normaliseSyncableSpec(
     spec.nextPageTokenPathInResponse =
       paginationScheme.token.responseBody.split('.') || ['nextPageToken'];
   } else if (spec.paginationStrategy === 'dateRange') {
-    spec.startDateParamInQuery =
-      input.startDateParamInQuery || 'startDate';
+    spec.startDateParamInQuery = input.startDateParamInQuery || 'startDate';
     spec.endDateParamInQuery = input.endDateParamInQuery || 'endDate';
     spec.startDate = input.startDate || '20000101000000';
     spec.endDate = input.endDate || '99990101000000';

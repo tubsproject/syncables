@@ -1,4 +1,8 @@
-import { SyncableSpecInput, PaginationScheme, normaliseSyncableSpec } from '../../../src/spec.js';
+import {
+  SyncableSpecInput,
+  PaginationScheme,
+  normaliseSyncableSpec,
+} from '../../../src/spec.js';
 import { getObjectPath, setObjectPath } from '../../../src/utils.js';
 import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 
@@ -16,7 +20,8 @@ export function applyPagination(
   doc: OpenAPIV3_1.Document,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
-  const paginationScheme = doc?.components?.['paginationSchemes']?.default as PaginationScheme;
+  const paginationScheme = doc?.components?.['paginationSchemes']
+    ?.default as PaginationScheme;
   console.log('applying pagination', paginationScheme);
   let numItems = 1;
   let hasMore = false;

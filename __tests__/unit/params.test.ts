@@ -20,11 +20,12 @@ describe('Params', () => {
     };
     const paginationScheme: PaginationScheme = {
       paginate: 'items',
-      pageNumber: { parameter: 'page' }
-    }
+      pageNumber: { parameter: 'page' },
+    };
     const syncer = new Syncer({
       specStr: createSpec(
-        'https://example.com/api', {
+        'https://example.com/api',
+        {
           '/users/': users,
           '/user/{userId}/widgets/': widgets,
         },
@@ -87,14 +88,18 @@ describe('Params', () => {
     };
     const paginationScheme: PaginationScheme = {
       paginate: 'items',
-      pageNumber: { parameter: 'page' }
-    }
+      pageNumber: { parameter: 'page' },
+    };
 
     const syncer = new Syncer({
-      specStr: createSpec('https://example.com/api', {
-        '/users/': users,
-        '/user/{userId}/widgets/': widgets,
-      }, paginationScheme),
+      specStr: createSpec(
+        'https://example.com/api',
+        {
+          '/users/': users,
+          '/user/{userId}/widgets/': widgets,
+        },
+        paginationScheme,
+      ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
     const data = await syncer.fullFetch();
@@ -122,14 +127,18 @@ describe('Params', () => {
     };
     const paginationScheme: PaginationScheme = {
       paginate: 'items',
-      pageNumber: { parameter: 'page' }
+      pageNumber: { parameter: 'page' },
     };
     const syncer = new Syncer({
-      specStr: createSpec('https://example.com/api', {
-        '/countries/': countries,
-        '/users/': users,
-        '/{countryId}/{userId}/widgets/': widgets,
-      }, paginationScheme),
+      specStr: createSpec(
+        'https://example.com/api',
+        {
+          '/countries/': countries,
+          '/users/': users,
+          '/{countryId}/{userId}/widgets/': widgets,
+        },
+        paginationScheme,
+      ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
     const data = await syncer.fullFetch();

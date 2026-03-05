@@ -8,15 +8,19 @@ test('pageNumber paging (unkown page size)', async () => {
   // console.log('Mock responses:', mockResponses);
   // Call the function and assert the result
   const syncable = new Syncer({
-    specStr: createSpec('https://jsonplaceholder.typicode.com', {
-      '/todos/': {
-        type: 'collection',
-        name: 'todos',
+    specStr: createSpec(
+      'https://jsonplaceholder.typicode.com',
+      {
+        '/todos/': {
+          type: 'collection',
+          name: 'todos',
+        },
       },
-    }, {
-      paginate: 'items',
-      pageNumber: { parameter: 'page' },
-    }),
+      {
+        paginate: 'items',
+        pageNumber: { parameter: 'page' },
+      },
+    ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -48,16 +52,20 @@ test('pageNumber paging (default page size', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncer({
-    specStr: createSpec('https://jsonplaceholder.typicode.com', {
-      '/todos/': {
-        type: 'collection',
-        name: 'todos',
-        defaultPageSize: 2,
+    specStr: createSpec(
+      'https://jsonplaceholder.typicode.com',
+      {
+        '/todos/': {
+          type: 'collection',
+          name: 'todos',
+          defaultPageSize: 2,
+        },
       },
-    }, {
-      paginate: 'items',
-      pageNumber: { parameter: 'page' },
-    }),
+      {
+        paginate: 'items',
+        pageNumber: { parameter: 'page' },
+      },
+    ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -83,16 +91,20 @@ test('pageNumber paging (force page size', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncer({
-    specStr: createSpec('https://jsonplaceholder.typicode.com', {
-      '/todos/': {
-        type: 'collection',
-        name: 'todos',
-        forcePageSize: 2,
+    specStr: createSpec(
+      'https://jsonplaceholder.typicode.com',
+      {
+        '/todos/': {
+          type: 'collection',
+          name: 'todos',
+          forcePageSize: 2,
+        },
       },
-    }, {
-      paginate: 'items',
-      pageNumber: { parameter: 'page' },
-    }),
+      {
+        paginate: 'items',
+        pageNumber: { parameter: 'page' },
+      },
+    ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -115,15 +127,19 @@ test('pageNumber paging (force page size', async () => {
 
 test('offset paging (unknown page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
-  const specStr = createSpec('https://jsonplaceholder.typicode.com', {
-    '/todos/': {
-      type: 'collection',
-      name: 'todos',
+  const specStr = createSpec(
+    'https://jsonplaceholder.typicode.com',
+    {
+      '/todos/': {
+        type: 'collection',
+        name: 'todos',
+      },
     },
-  }, {
-    paginate: 'items',
-    offset: { parameter: 'offset' },
-  });
+    {
+      paginate: 'items',
+      offset: { parameter: 'offset' },
+    },
+  );
   // Call the function and assert the result
   const syncable = new Syncer({
     specStr,
@@ -156,16 +172,20 @@ test('offset paging (default page size)', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncer({
-    specStr: createSpec('https://jsonplaceholder.typicode.com', {
-      '/todos/': {
-        type: 'collection',
-        name: 'todos',
-        defaultPageSize: 2,
+    specStr: createSpec(
+      'https://jsonplaceholder.typicode.com',
+      {
+        '/todos/': {
+          type: 'collection',
+          name: 'todos',
+          defaultPageSize: 2,
+        },
       },
-    }, {
-      paginate: 'items',
-      offset: { parameter: 'offset' },
-    }),
+      {
+        paginate: 'items',
+        offset: { parameter: 'offset' },
+      },
+    ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -191,16 +211,20 @@ test('offset paging (force page size)', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncer({
-    specStr: createSpec('https://jsonplaceholder.typicode.com', {
-      '/todos/': {
-        type: 'collection',
-        name: 'todos',
-        forcePageSize: 2,
+    specStr: createSpec(
+      'https://jsonplaceholder.typicode.com',
+      {
+        '/todos/': {
+          type: 'collection',
+          name: 'todos',
+          forcePageSize: 2,
+        },
       },
-    }, {
-      paginate: 'items',
-      offset: { parameter: 'offset' },
-    }),
+      {
+        paginate: 'items',
+        offset: { parameter: 'offset' },
+      },
+    ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -226,15 +250,19 @@ test('pageToken paging', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncer({
-    specStr: createSpec('https://jsonplaceholder.typicode.com', {
-      '/todos/': {
-        type: 'collection',
-        name: 'todos',
+    specStr: createSpec(
+      'https://jsonplaceholder.typicode.com',
+      {
+        '/todos/': {
+          type: 'collection',
+          name: 'todos',
+        },
       },
-    }, {
-      paginate: 'items',
-      token: { parameter: 'pageToken', responseBody: 'nextPageToken' },
-    }),
+      {
+        paginate: 'items',
+        token: { parameter: 'pageToken', responseBody: 'nextPageToken' },
+      },
+    ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
@@ -260,15 +288,19 @@ test.skip('rangeHeader paging', async () => {
 
   // Call the function and assert the result
   const syncable = new Syncer({
-    specStr: createSpec('https://jsonplaceholder.typicode.com', {
-      '/todos/': {
-        type: 'collection',
-        name: 'todos',
-        forcePageSize: 2,
+    specStr: createSpec(
+      'https://jsonplaceholder.typicode.com',
+      {
+        '/todos/': {
+          type: 'collection',
+          name: 'todos',
+          forcePageSize: 2,
+        },
       },
-    }, {
-      paginate: 'items',
-    }),
+      {
+        paginate: 'items',
+      },
+    ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
