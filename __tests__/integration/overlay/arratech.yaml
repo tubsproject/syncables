@@ -17,9 +17,11 @@ actions:
   update:
     syncables:
     - name: integrationTest
-      description: |-
-        Invoice and Credit Note Documents sent by the authenticated user.
       type: collection
-      field: items
-      paginationStrategy: pageToken
-      pageTokenParam: lastEvaluatedKey # optional for first page, read from response for subsequent pages
+- target: components
+  update:
+    paginationSchemes:
+      default:
+        paginate: items
+        token:
+          parameter: lastEvaluatedKey

@@ -8,3 +8,10 @@ actions:
       paginationStrategy: pageNumber
       itemsPathInResponse:
       - items
+- target: components
+  update:
+    paginationSchemes:
+      default:
+        paginate: items
+        pageNumber:
+          parameter: page

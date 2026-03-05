@@ -152,22 +152,22 @@ export class Syncer extends EventEmitter {
     return 'none';
   }
   private normaliseSyncableSpec(
-    syncable: SyncableSpec,
+    input: SyncableSpecInput,
     paginationScheme: PaginationScheme,
     doc: OpenAPIV3.Document,
   ): SyncableSpec {
 
     const spec: SyncableSpec = {
-      type: syncable.type || 'collection',
-      name: syncable.name,
+      type: input.type || 'collection',
+      name: input.name,
       paginationStrategy: this.determineStrategy(paginationScheme),
-      query: syncable.query || {},
+      query: input.query || {},
       itemsPathInResponse: paginationScheme.paginate.split('.'),
-      defaultPageSize: syncable.defaultPageSize,
-      forcePageSize: syncable.forcePageSize,
+      defaultPageSize: input.defaultPageSize,
+      forcePageSize: input.forcePageSize,
       forcePageSizeParamInQuery: paginationScheme.pageSize?.parameter,
-      idField: syncable.idField || 'id',
-      params: syncable.params || {},
+      idField: input.idField || 'id',
+      params: input.params || {},
     };
     // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
     if (spec.paginationStrategy === 'pageNumber') {
@@ -182,13 +182,13 @@ export class Syncer extends EventEmitter {
         paginationScheme.token.responseBody.split('.') || ['nextPageToken'];
     } else if (spec.paginationStrategy === 'dateRange') {
       spec.startDateParamInQuery =
-        syncable.startDateParamInQuery || 'startDate';
-      spec.endDateParamInQuery = syncable.endDateParamInQuery || 'endDate';
-      spec.startDate = syncable.startDate || '20000101000000';
-      spec.endDate = syncable.endDate || '99990101000000';
+        input.startDateParamInQuery || 'startDate';
+      spec.endDateParamInQuery = input.endDateParamInQuery || 'endDate';
+      spec.startDate = input.startDate || '20000101000000';
+      spec.endDate = input.endDate || '99990101000000';
     } else if (spec.paginationStrategy === 'confirmationBased') {
       // console.log('setting confirmOperation', syncable.confirmOperation);
-      const confirmOperationSpec = syncable.confirmOperation as {
+      const confirmOperationSpec = input.confirmOperation as {
         path: string;
         method: string;
       };
@@ -215,7 +215,11 @@ export class Syncer extends EventEmitter {
     if (this.baseUrl.startsWith('//')) {
       this.baseUrl = 'https:' + this.baseUrl;
     }
-    const paginationSchemes = doc?.components?.['paginationSchemes'] || [];
+    const paginationScheme = doc?.components?.['paginationSchemes']?.['default'];
+    if (!paginationScheme) {
+      throw new Error('undefined pagination scheme');
+    }
+
     let solution: object | null = null;
     for (const path of Object.keys(doc.paths)) {
       const pathItem = doc.paths[path];
@@ -235,7 +239,7 @@ export class Syncer extends EventEmitter {
                 this.syncables[syncable.name] = {
                   path,
                   schema: response.schema,
-                  spec: this.normaliseSyncableSpec(syncable, paginationSchemes['default'], doc),
+                  spec: Object.assign({}, this.normaliseSyncableSpec(syncable, paginationScheme, doc)),
                 };
                 solution = doc;
               });

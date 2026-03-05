@@ -7,9 +7,12 @@ actions:
   update:
     syncables:
     - name: integrationTest
-      description: |-
-        Calendars of the currently authenticated user.
       type: collection
-      paginationStrategy: pageToken
-      itemsPathInResponse:
-        - items
+- target: components
+  update:
+    paginationSchemes:
+      default:
+        paginate: items
+        token:
+          parameter: pageToken
+          responseBody: nextPageToken
