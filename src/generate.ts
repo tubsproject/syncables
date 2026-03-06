@@ -1,4 +1,4 @@
-import { readFile, readdir, stat } from 'fs/promises';
+import { readFile, readdir, stat, writeFile } from 'fs/promises';
 import { specStrToObj } from './utils.js';
 import { default as path } from 'path';
 import { OpenAPIV3_1 } from '@scalar/openapi-types';
@@ -18,6 +18,12 @@ import { OpenAPIV3_1 } from '@scalar/openapi-types';
 // my target is to get my own real personal data synced from many APIs
 // so I should refactor the code in this repo to use paginationSchemes
 
+const manuallyChecked: { [filename: string]: boolean } = {};
+async function manualCheck(filename: string): Promise<void> {
+  if (manuallyChecked[filename] === undefined) {
+    manuallyChecked[filename] = false;
+  }
+}
 async function isDirectory(path: string): Promise<boolean> {
   try {
     const statInfo = await stat(path);
@@ -86,7 +92,11 @@ async function processFileOrDir(filePath: string): Promise<void> {
 // sync:
 // - Google syncToken
 // - MoneyBird synchronization
+let numDone = 0;
 async function processFile(filename: string): Promise<void> {
+  if (numDone++ > 100) {
+    return;
+  }
   // console.log(`\nProcessing file: ${filename}`);
   const specStr = await readFile(filename, 'utf-8');
   let specObj;
@@ -188,6 +198,7 @@ async function processFile(filename: string): Promise<void> {
     );
   } else {
     console.log(`${filename}: no GET/POST endpoints with pagination parameters found`);
+    await manualCheck(filename);
   }
 }
 
@@ -198,5 +209,20 @@ if (process.argv.length !== 3) {
 const baseDir = process.argv[2];
 
 (async (): Promise<void> => {
+  try {
+
+    const manuallyCheckedLines = await readFile('checked.txt');
+    manuallyCheckedLines.toString().split('\n').forEach((line) => {
+      if (line.trim() !== '') {
+        const [filename, status] = line.split(' ');
+        manuallyChecked[filename] = status === 'true';
+      }
+    });
+  } catch (err) {
+    void err;
+    console.log('checked.txt not found, starting with empty manuallyChecked');
+  }
   await processFileOrDir(baseDir);
+  await writeFile('checked.txt', Object.keys(manuallyChecked).map(filename => `${filename} ${manuallyChecked[filename]}`).join('\n'));
+
 })();
