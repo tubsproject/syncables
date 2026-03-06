@@ -303,16 +303,16 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/adyen.com/TfmAPIService/
 ../../APIs-guru/openapi-directory/APIs/adyen.com/TfmAPIService/1/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService/1/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService/1/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService/1/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService/2/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService/2/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService/2/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService/3/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService/3/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService/3/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService-v4/4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService-v4/4/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/adyen.com/TransferService-v4/4/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/afterbanks.com/3.0.0/swagger.yaml
 ../../APIs-guru/openapi-directory/APIs/afterbanks.com/3.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -531,7 +531,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/backup-gat
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/backup-gateway/2021-01-01/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/backupstorage/2018-04-10/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/backupstorage/2018-04-10/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/backupstorage/2018-04-10/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/batch/2016-08-10/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/batch/2016-08-10/openapi.yaml: no GET endpoints with pagination parameters found
@@ -549,22 +549,22 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/ce/2017-10
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/ce/2017-10-25/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime/2018-05-01/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime/2018-05-01/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime/2018-05-01/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-identity/2021-04-20/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-identity/2021-04-20/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-identity/2021-04-20/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-media-pipelines/2021-07-15/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-media-pipelines/2021-07-15/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-media-pipelines/2021-07-15/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-meetings/2021-07-15/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-meetings/2021-07-15/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-meetings/2021-07-15/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-messaging/2021-05-15/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-messaging/2021-05-15/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-messaging/2021-05-15/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-voice/2022-08-03/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-voice/2022-08-03/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/chime-sdk-voice/2022-08-03/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cleanrooms/2022-02-17/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cleanrooms/2022-02-17/openapi.yaml: no GET endpoints with pagination parameters found
@@ -618,7 +618,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cloudsearc
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cloudsearch/2013-01-01/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cloudsearchdomain/2013-01-01/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/cloudsearchdomain/2013-01-01/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/cloudsearchdomain/2013-01-01/openapi.yaml: some GET endpoints have pagination parameters: pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cloudtrail/2013-11-01/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cloudtrail/2013-11-01/openapi.yaml: no GET endpoints with pagination parameters found
@@ -627,7 +627,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cloudtrail
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cloudtrail-data/2021-08-11/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/codeartifact/2018-09-22/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/codeartifact/2018-09-22/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/codeartifact/2018-09-22/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/codebuild/2016-10-06/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/codebuild/2016-10-06/openapi.yaml: no GET endpoints with pagination parameters found
@@ -681,7 +681,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/compute-op
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/compute-optimizer/2019-11-01/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/config/2014-11-12/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/config/2014-11-12/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/config/2014-11-12/openapi.yaml: some GET endpoints have pagination parameters: pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/connect/2017-08-08/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/connect/2017-08-08/openapi.yaml: no GET endpoints with pagination parameters found
@@ -705,7 +705,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cur/2017-0
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/cur/2017-01-06/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/customer-profiles/2020-08-15/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/customer-profiles/2020-08-15/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/customer-profiles/2020-08-15/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/databrew/2017-07-25/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/databrew/2017-07-25/openapi.yaml: no GET endpoints with pagination parameters found
@@ -714,7 +714,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/dataexchan
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/dataexchange/2017-07-25/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/datapipeline/2012-10-29/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/datapipeline/2012-10-29/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/datapipeline/2012-10-29/openapi.yaml: some GET endpoints have pagination parameters: pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/datasync/2018-11-09/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/datasync/2018-11-09/openapi.yaml: no GET endpoints with pagination parameters found
@@ -1050,7 +1050,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/location/2
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/location/2020-11-19/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/logs/2014-03-28/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/logs/2014-03-28/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/logs/2014-03-28/openapi.yaml: some GET endpoints have pagination parameters: pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/lookoutequipment/2020-12-15/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/lookoutequipment/2020-12-15/openapi.yaml: no GET endpoints with pagination parameters found
@@ -1218,7 +1218,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/pi/2018-02
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/pi/2018-02-27/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/pinpoint/2016-12-01/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/pinpoint/2016-12-01/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/pinpoint/2016-12-01/openapi.yaml: some GET endpoints have pagination parameters: pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/pinpoint-email/2018-07-26/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/pinpoint-email/2018-07-26/openapi.yaml: no GET endpoints with pagination parameters found
@@ -1248,7 +1248,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/qldb-sessi
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/qldb-session/2019-07-11/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/quicksight/2018-04-01/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/quicksight/2018-04-01/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/quicksight/2018-04-01/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/amazonaws.com/ram/2018-01-04/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/ram/2018-01-04/openapi.yaml: no GET endpoints with pagination parameters found
@@ -1587,52 +1587,52 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/apidapp.com/2019-02-14T1
 ../../APIs-guru/openapi-directory/APIs/apidapp.com/2019-02-14T164701Z/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/accounting/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/accounting/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/accounting/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/ats/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/ats/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/ats/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/connector/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/connector/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/connector/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/crm/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/crm/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/crm/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/customer-support/9.5.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/customer-support/9.5.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/customer-support/9.5.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/ecommerce/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/ecommerce/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/ecommerce/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/ecosystem/0.0.6/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/ecosystem/0.0.6/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/ecosystem/0.0.6/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/file-storage/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/file-storage/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/file-storage/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/hris/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/hris/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/hris/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/issue-tracking/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/issue-tracking/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/issue-tracking/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/lead/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/lead/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/lead/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/pos/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/pos/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/pos/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/proxy/10.0.0/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/apideck.com/proxy/10.0.0/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/sms/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/sms/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/sms/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/vault/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/vault/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/vault/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apideck.com/webhook/10.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/apideck.com/webhook/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/webhook/10.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/apigee.local/registry/0.0.1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/apigee.local/registry/0.0.1/openapi.yaml: no GET endpoints with pagination parameters found
@@ -2220,7 +2220,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/appwrite.io/server/0.9.3
 ../../APIs-guru/openapi-directory/APIs/appwrite.io/server/0.9.3/openapi.yaml: some GET endpoints have pagination parameters: pageSize, offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/archive.org/search/1.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/archive.org/search/1.0.0/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/archive.org/search/1.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/archive.org/wayback/1.0.0/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/archive.org/wayback/1.0.0/openapi.yaml: no GET endpoints with pagination parameters found
@@ -8169,7 +8169,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/dracoon.team/4.42.3/open
 ../../APIs-guru/openapi-directory/APIs/dracoon.team/4.42.3/openapi.yaml: some GET endpoints have pagination parameters: offset, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/drchrono.com/v4 (Hunt Valley)/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/drchrono.com/v4 (Hunt Valley)/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/drchrono.com/v4 (Hunt Valley)/openapi.yaml: some GET endpoints have pagination parameters: pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/dropx.io/1.0.0/swagger.yaml
 ../../APIs-guru/openapi-directory/APIs/dropx.io/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -8244,7 +8244,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/ebay.com/sell-negotiatio
 ../../APIs-guru/openapi-directory/APIs/ebay.com/sell-negotiation/v1.1.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize, offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/ebay.com/sell-recommendation/1.1.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/ebay.com/sell-recommendation/1.1.0/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/ebay.com/sell-recommendation/1.1.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize, offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/ebi.ac.uk/1.0/swagger.yaml
 ../../APIs-guru/openapi-directory/APIs/ebi.ac.uk/1.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -8355,7 +8355,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/figshare.com/2.0.0/opena
 ../../APIs-guru/openapi-directory/APIs/figshare.com/2.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageSize, offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/files.com/0.0.1/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/files.com/0.0.1/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/files.com/0.0.1/openapi.yaml: some GET endpoints have pagination parameters: pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/fire.com/1.0/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/fire.com/1.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize, offset
@@ -8379,7 +8379,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/flickr.com/1.0.0/openapi
 ../../APIs-guru/openapi-directory/APIs/flickr.com/1.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/formapi.io/v1/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/formapi.io/v1/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageSize
+../../APIs-guru/openapi-directory/APIs/formapi.io/v1/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/frankiefinancial.io/1.5.3/swagger.yaml
 ../../APIs-guru/openapi-directory/APIs/frankiefinancial.io/1.5.3/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -8493,16 +8493,16 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/gitea.io/1.20.0+dev-539-
 ../../APIs-guru/openapi-directory/APIs/gitea.io/1.20.0+dev-539-g5e389228f/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/api.github.com/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/api.github.com/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/api.github.com/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/api.github.com.2022-11-28/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/api.github.com.2022-11-28/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/api.github.com.2022-11-28/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghec/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/ghec/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/ghec/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghec.2022-11-28/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/ghec.2022-11-28/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/ghec.2022-11-28/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghes-2.18/1.1.4/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/github.com/ghes-2.18/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
@@ -8526,28 +8526,28 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.1/1.1.
 ../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.1/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.2/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.2/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.2/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.3/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.3/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.3/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.4/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.4/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.4/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.5/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.5/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.5/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.6/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.6/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.6/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.7/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.7/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.7/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.8/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.8/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/ghes-3.8/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/github.ae/1.1.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/github.com/github.ae/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/github.com/github.ae/1.1.4/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/github.com/v0.1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/github.com/v0.1/openapi.yaml: no GET endpoints with pagination parameters found
@@ -8649,10 +8649,10 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/alloydb/v
 ../../APIs-guru/openapi-directory/APIs/googleapis.com/alloydb/v1beta/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/analytics/v2.4/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/googleapis.com/analytics/v2.4/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/googleapis.com/analytics/v2.4/openapi.yaml: some GET endpoints have pagination parameters: pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/analytics/v3/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/googleapis.com/analytics/v3/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/googleapis.com/analytics/v3/openapi.yaml: some GET endpoints have pagination parameters: pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/analyticsadmin/v1alpha/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/googleapis.com/analyticsadmin/v1alpha/openapi.yaml: no GET endpoints with pagination parameters found
@@ -9696,7 +9696,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/pubsub/v1
 ../../APIs-guru/openapi-directory/APIs/googleapis.com/pubsub/v1beta2/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/pubsublite/v1/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/googleapis.com/pubsublite/v1/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/googleapis.com/pubsublite/v1/openapi.yaml: some GET endpoints have pagination parameters: pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/rapidmigrationassessment/v1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/googleapis.com/rapidmigrationassessment/v1/openapi.yaml: no GET endpoints with pagination parameters found
@@ -9741,13 +9741,13 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/resources
 ../../APIs-guru/openapi-directory/APIs/googleapis.com/resourcesettings/v1/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/retail/v2/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/googleapis.com/retail/v2/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/googleapis.com/retail/v2/openapi.yaml: some GET endpoints have pagination parameters: offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/retail/v2alpha/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/googleapis.com/retail/v2alpha/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/googleapis.com/retail/v2alpha/openapi.yaml: some GET endpoints have pagination parameters: offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/retail/v2beta/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/googleapis.com/retail/v2beta/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/googleapis.com/retail/v2beta/openapi.yaml: some GET endpoints have pagination parameters: offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/run/v1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/googleapis.com/run/v1/openapi.yaml: some GET endpoints have pagination parameters: pageSize
@@ -9897,10 +9897,10 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/sts/v1bet
 ../../APIs-guru/openapi-directory/APIs/googleapis.com/sts/v1beta/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/tagmanager/v1/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/googleapis.com/tagmanager/v1/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/googleapis.com/tagmanager/v1/openapi.yaml: some GET endpoints have pagination parameters: pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/tagmanager/v2/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/googleapis.com/tagmanager/v2/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/googleapis.com/tagmanager/v2/openapi.yaml: some GET endpoints have pagination parameters: pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/googleapis.com/tasks/v1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/googleapis.com/tasks/v1/openapi.yaml: no GET endpoints with pagination parameters found
@@ -10107,7 +10107,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/gsa.gov/0.1/swagger.yaml
 ../../APIs-guru/openapi-directory/APIs/gsa.gov/0.1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/gsmtasks.com/2.4.13/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/gsmtasks.com/2.4.13/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/gsmtasks.com/2.4.13/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/hackathonwatch.com/0.1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/hackathonwatch.com/0.1/openapi.yaml: Error parsing specification: Error: Spec does not have valid components
@@ -10263,7 +10263,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/inboxroute.com/0.9/swagg
 ../../APIs-guru/openapi-directory/APIs/inboxroute.com/0.9/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/increase.com/0.0.1/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/increase.com/0.0.1/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/increase.com/0.0.1/openapi.yaml: some GET endpoints have pagination parameters: pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/infermedica.com/v2/swagger.yaml
 ../../APIs-guru/openapi-directory/APIs/infermedica.com/v2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -10416,7 +10416,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/keycloak.local/1/openapi
 ../../APIs-guru/openapi-directory/APIs/keycloak.local/1/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/keyserv.solutions/1.4.5/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/keyserv.solutions/1.4.5/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/keyserv.solutions/1.4.5/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/klarna.com/openai/v0/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/klarna.com/openai/v0/openapi.yaml: no GET endpoints with pagination parameters found
@@ -10848,7 +10848,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/nexmo.com/conversation/2
 ../../APIs-guru/openapi-directory/APIs/nexmo.com/conversation/2.0.1/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/nexmo.com/conversation.v2/1.0.1/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/nexmo.com/conversation.v2/1.0.1/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/nexmo.com/conversation.v2/1.0.1/openapi.yaml: some GET endpoints have pagination parameters: pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/nexmo.com/conversion/1.0.1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/nexmo.com/conversion/1.0.1/openapi.yaml: no GET endpoints with pagination parameters found
@@ -11193,7 +11193,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/patientview.org/1.0/open
 ../../APIs-guru/openapi-directory/APIs/patientview.org/1.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize, offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/patrowl.local/1.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/patrowl.local/1.0.0/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/patrowl.local/1.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/pay1.de/link/v1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/pay1.de/link/v1/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageSize
@@ -11253,7 +11253,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/placekit.co/1.0.0/openap
 ../../APIs-guru/openapi-directory/APIs/placekit.co/1.0.0/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/plaid.com/2020-09-14_1.345.1/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/plaid.com/2020-09-14_1.345.1/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/plaid.com/2020-09-14_1.345.1/openapi.yaml: some GET endpoints have pagination parameters: pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/pocketsmith.com/2.0/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/pocketsmith.com/2.0/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
@@ -11412,7 +11412,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/royalmail.com/click-and-
 ../../APIs-guru/openapi-directory/APIs/royalmail.com/click-and-drop/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/rubrikinc.github.io/v1/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/rubrikinc.github.io/v1/openapi.yaml: some GET endpoints have pagination parameters: pageSize, offset
+../../APIs-guru/openapi-directory/APIs/rubrikinc.github.io/v1/openapi.yaml: some GET endpoints have pagination parameters: pageSize, offset, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/rudder.example.local/17/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/rudder.example.local/17/openapi.yaml: some GET endpoints have pagination parameters: pageSize, offset
@@ -11493,7 +11493,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/shotstack.io/v1/openapi.
 ../../APIs-guru/openapi-directory/APIs/shotstack.io/v1/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/shutterstock.com/1.1.32/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/shutterstock.com/1.1.32/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageSize
+../../APIs-guru/openapi-directory/APIs/shutterstock.com/1.1.32/openapi.yaml: some GET endpoints have pagination parameters: pageNumber, pageToken, pageSize
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/signl4.com/v1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/signl4.com/v1/openapi.yaml: no GET endpoints with pagination parameters found
@@ -11511,7 +11511,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/skynewz-api-fortnite.her
 ../../APIs-guru/openapi-directory/APIs/skynewz-api-fortnite.herokuapp.com/3.1.5/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/slack.com/1.7.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/slack.com/1.7.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageNumber
+../../APIs-guru/openapi-directory/APIs/slack.com/1.7.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageToken, pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/slack.com/openai/v1/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/slack.com/openai/v1/openapi.yaml: no GET endpoints with pagination parameters found
@@ -11670,7 +11670,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/spotify.com/sonallux/202
 ../../APIs-guru/openapi-directory/APIs/spotify.com/sonallux/2023.2.27/openapi.yaml: some GET endpoints have pagination parameters: pageSize, offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/squareup.com/2.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/squareup.com/2.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/squareup.com/2.0/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/stackexchange.com/2.0/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/stackexchange.com/2.0/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
@@ -11889,7 +11889,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/twilio.com/twilio_fax_v1
 ../../APIs-guru/openapi-directory/APIs/twilio.com/twilio_fax_v1/1.29.1/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/twilio.com/twilio_flex_v1/1.55.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/twilio.com/twilio_flex_v1/1.55.0/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/twilio.com/twilio_flex_v1/1.55.0/openapi.yaml: some GET endpoints have pagination parameters: offset
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/twilio.com/twilio_flex_v2/1.55.0/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/twilio.com/twilio_flex_v2/1.55.0/openapi.yaml: no GET endpoints with pagination parameters found
@@ -12084,7 +12084,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/visualstudio.com/v1/open
 ../../APIs-guru/openapi-directory/APIs/visualstudio.com/v1/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/vmware.local/vrni/1.0.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/vmware.local/vrni/1.0.0/openapi.yaml: no GET endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/vmware.local/vrni/1.0.0/openapi.yaml: some GET endpoints have pagination parameters: pageToken
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/vocadb.net/1.0/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/vocadb.net/1.0/openapi.yaml: no GET endpoints with pagination parameters found
@@ -12180,7 +12180,7 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/vtex.local/Profile-Syste
 ../../APIs-guru/openapi-directory/APIs/vtex.local/Profile-System/1.0/openapi.yaml: no GET endpoints with pagination parameters found
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/vtex.local/Promotions-/1.0/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/vtex.local/Promotions-/1.0/openapi.yaml: some GET endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/vtex.local/Promotions-/1.0/openapi.yaml: some GET endpoints have pagination parameters: offset, pageNumber
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/vtex.local/Recurrence-(v1-/1.0/openapi.yaml
 ../../APIs-guru/openapi-directory/APIs/vtex.local/Recurrence-(v1-/1.0/openapi.yaml: no GET endpoints with pagination parameters found
@@ -12411,4 +12411,4 @@ Processing file: ../../APIs-guru/openapi-directory/APIs/zoomconnect.com/1/swagge
 ../../APIs-guru/openapi-directory/APIs/zoomconnect.com/1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 
 Processing file: ../../APIs-guru/openapi-directory/APIs/zuora.com/2021-08-20/openapi.yaml
-../../APIs-guru/openapi-directory/APIs/zuora.com/2021-08-20/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageNumber
+../../APIs-guru/openapi-directory/APIs/zuora.com/2021-08-20/openapi.yaml: some GET endpoints have pagination parameters: pageSize, pageToken, pageNumber

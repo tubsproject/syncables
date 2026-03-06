@@ -1,6 +1,7 @@
 import { readFile, readdir, stat } from 'fs/promises';
 import { specStrToObj } from './utils.js';
 import { default as path } from 'path';
+import { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 // For all API endpoints that have offset and limit parameters, generate the following overlay:
 // openapi: 3.0.0
@@ -140,8 +141,8 @@ async function processFile(filename: string): Promise<void> {
           });
         });
       }
-      function checkContent(contentTypes: any): void {
-        Object.keys(contentTypes).forEach((contentType) => {
+      function checkContent(contentTypes: OpenAPIV3_1.MediaTypeObject): void {
+        Object.keys(contentTypes || {}).forEach((contentType) => {
           const content = contentTypes[contentType];
           Object.keys(paramMap).forEach((paramName) => {
             if (content.schema?.properties?.[paramName]) {
