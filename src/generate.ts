@@ -111,11 +111,11 @@ async function processFile(filename: string): Promise<void> {
   }
   const found = {};
   const synonyms = {
-    pageNumber: ['page'],
-    offset: ['offset', 'pagination.rowOffset'],
-    pageSize: ['limit', 'pageSize', 'max-results', 'MaxResults', 'maxResults', 'MaxItems'],
+    pageNumber: ['page', 'pagination.current_page', 'page[number]'],
+    offset: ['offset', 'pagination.rowOffset', '$skip'],
     token: ['next-token', 'next_page_token', 'NextToken', 'cursor', 'nextToken', 'NextMarker'],
     nextPageLink: ['@odata.nextLink', '_links.next', 'link.next', 'links.next', 'meta.links.next', 'next', 'NextPageLink', 'next_page_url', 'pagination.next'],
+    pageSize: ['limit', 'pageSize', 'max-results', 'MaxResults', 'maxResults', 'MaxItems', 'pagination.limit', 'page[size]'],
   };
   const paramMap = {};
   Object.keys(synonyms).forEach(meaning => {
@@ -181,6 +181,9 @@ async function processFile(filename: string): Promise<void> {
         // console.log('considering', responseCode, responses);
         const response = responses[responseCode];
         checkContent(response.content);
+        if (response.headers?.Link) {
+          found['nextPageLink'] = true;
+        }
       });
     }
   });
