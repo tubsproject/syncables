@@ -103,7 +103,17 @@ async function processFile(filename: string): Promise<void> {
     limit: 'pageSize',
     'max-results': 'pageSize',
     'next-token': 'token',
+    next_page_token: 'token',
     cursor: 'token',
+    '@odata.nextLink': 'nextPageLink',
+    '_links.next': 'nextPageLink',
+    'link.next': 'nextPageLink',
+    'links.next': 'nextPageLink',
+    'meta.links.next': 'nextPageLink',
+    next: 'nextPageLink',
+    NextPageLink: 'nextPageLink',
+    next_page_url: 'nextPageLink',
+    'pagination.next': 'nextPageLink',
   };
   Object.keys(specObj.paths).forEach((path) => {
     if (specObj.paths[path].get) {
@@ -145,7 +155,17 @@ async function processFile(filename: string): Promise<void> {
         Object.keys(contentTypes || {}).forEach((contentType) => {
           const content = contentTypes[contentType];
           Object.keys(paramMap).forEach((paramName) => {
-            if (content.schema?.properties?.[paramName]) {
+            const parts = paramName.split('.');
+            let schema = content.schema;
+            for (const part of parts) {
+              if (schema?.properties?.[part]) {
+                schema = schema.properties[part];
+              } else {
+                schema = null;
+                break;
+              }
+            }
+            if (schema) {
               found[paramMap[paramName]] = true;
             }
           });

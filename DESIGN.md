@@ -127,6 +127,8 @@ pageSize:
   responseBody: size
 totalCount:
   responseBody: count
+nextPageLink:
+  responseBody: next
 previousPageLink:
   responseBody: previous
 ```
