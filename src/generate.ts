@@ -94,9 +94,9 @@ async function processFileOrDir(filePath: string): Promise<void> {
 // - MoneyBird synchronization
 // let numDone = 0;
 async function processFile(filename: string): Promise<void> {
-  // if (numDone++ > 200) {
-  //   return;
-  // }
+  if (numDone++ > 1000) {
+    return;
+  }
   // if (numDone < 100) {
   //   return;
   // }
@@ -113,8 +113,8 @@ async function processFile(filename: string): Promise<void> {
   const synonyms = {
     pageNumber: ['page'],
     offset: ['offset', 'pagination.rowOffset'],
-    pageSize: ['limit', 'pageSize', 'max-results', 'MaxResults', 'maxResults'],
-    token: ['next-token', 'next_page_token', 'NextToken', 'cursor', 'nextToken'],
+    pageSize: ['limit', 'pageSize', 'max-results', 'MaxResults', 'maxResults', 'MaxItems'],
+    token: ['next-token', 'next_page_token', 'NextToken', 'cursor', 'nextToken', 'NextMarker'],
     nextPageLink: ['@odata.nextLink', '_links.next', 'link.next', 'links.next', 'meta.links.next', 'next', 'NextPageLink', 'next_page_url', 'pagination.next'],
   };
   const paramMap = {};

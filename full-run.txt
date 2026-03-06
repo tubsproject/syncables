@@ -147,42 +147,42 @@
 ../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-trip-parser/3.0.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-trip-purpose-prediction/1.1.4/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/AWSMigrationHub/2017-05-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/accessanalyzer/2019-11-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/accessanalyzer/2019-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/account/2021-02-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/acm/2015-12-08/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/acm-pca/2017-08-22/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/alexaforbusiness/2017-11-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/amp/2020-08-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/amplify/2017-07-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/amp/2020-08-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/amplify/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/amplifybackend/2020-08-11/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/amplifyuibuilder/2021-08-11/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/amplifyuibuilder/2021-08-11/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/apigateway/2015-07-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/apigatewaymanagementapi/2018-11-29/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/apigatewayv2/2018-11-29/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/apigatewayv2/2018-11-29/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/appconfig/2019-10-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/appconfigdata/2021-11-11/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/appfabric/2023-05-19/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/appflow/2020-08-23/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/appintegrations/2020-07-29/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appfabric/2023-05-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appflow/2020-08-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appintegrations/2020-07-29/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/application-autoscaling/2016-02-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/application-insights/2018-11-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/applicationcostprofiler/2020-09-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/appmesh/2018-10-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/appmesh/2019-01-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/applicationcostprofiler/2020-09-10/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appmesh/2018-10-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appmesh/2019-01-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/apprunner/2020-05-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/appstream/2016-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/appsync/2017-07-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/arc-zonal-shift/2022-10-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appsync/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/arc-zonal-shift/2022-10-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/athena/2017-05-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/auditmanager/2017-07-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/auditmanager/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/autoscaling/2011-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/autoscaling-plans/2018-01-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/backup/2018-11-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/backup/2018-11-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/backup-gateway/2021-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/backupstorage/2018-04-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/batch/2016-08-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/batch/2016-08-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/billingconductor/2021-07-30/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/braket/2019-09-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/braket/2019-09-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/budgets/2016-10-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/ce/2017-10-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/chime/2018-05-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
@@ -191,8 +191,8 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/chime-sdk-meetings/2021-07-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/chime-sdk-messaging/2021-05-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/chime-sdk-voice/2022-08-03/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/cleanrooms/2022-02-17/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/cloud9/2017-09-23/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cleanrooms/2022-02-17/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloud9/2017-09-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudcontrol/2021-09-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/clouddirectory/2016-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/clouddirectory/2017-01-11/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
@@ -212,30 +212,30 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudtrail/2013-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudtrail-data/2021-08-11/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/codeartifact/2018-09-22/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/codebuild/2016-10-06/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/codecatalyst/2022-09-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/codecommit/2015-04-13/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codebuild/2016-10-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codecatalyst/2022-09-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codecommit/2015-04-13/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/codedeploy/2014-10-06/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/codeguru-reviewer/2019-09-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/codeguru-security/2018-05-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/codeguruprofiler/2019-07-18/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codeguru-security/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codeguruprofiler/2019-07-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/codepipeline/2015-07-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/codestar/2017-04-19/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codestar/2017-04-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/codestar-connections/2019-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/codestar-notifications/2019-10-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/cognito-identity/2014-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/cognito-idp/2016-04-18/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/cognito-sync/2014-06-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cognito-sync/2014-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/comprehend/2017-11-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/comprehendmedical/2018-10-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/compute-optimizer/2019-11-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/compute-optimizer/2019-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/config/2014-11-12/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/connect/2017-08-08/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/connect/2017-08-08/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/connect-contact-lens/2020-08-21/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/connectcampaigns/2021-01-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/connectcases/2022-10-03/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/connectcampaigns/2021-01-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/connectcases/2022-10-03/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/connectparticipant/2018-09-07/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/controltower/2018-05-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/controltower/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/cur/2017-01-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/customer-profiles/2020-08-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/databrew/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
@@ -244,26 +244,26 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/datasync/2018-11-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/dax/2017-04-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/detective/2018-10-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/devicefarm/2015-06-23/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/devicefarm/2015-06-23/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/devops-guru/2020-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/directconnect/2012-10-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/discovery/2015-11-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/directconnect/2012-10-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/discovery/2015-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/dlm/2018-01-12/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/dms/2016-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/docdb/2014-10-31/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/docdb-elastic/2022-11-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/drs/2020-02-26/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/docdb-elastic/2022-11-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/drs/2020-02-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/ds/2015-04-16/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/dynamodb/2011-12-05/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/dynamodb/2012-08-10/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/ebs/2019-11-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/ec2/2016-11-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/ec2-instance-connect/2018-04-02/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/ecr/2015-09-21/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/ecr-public/2020-10-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/ecs/2014-11-13/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/eks/2017-11-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/elastic-inference/2017-07-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ecr/2015-09-21/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ecr-public/2020-10-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ecs/2014-11-13/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/eks/2017-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/elastic-inference/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticache/2015-02-02/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticbeanstalk/2010-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticfilesystem/2015-02-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
@@ -272,68 +272,68 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticmapreduce/2009-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/elastictranscoder/2012-09-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/email/2010-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/emr-containers/2020-10-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/emr-serverless/2021-07-13/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/emr-containers/2020-10-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/emr-serverless/2021-07-13/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/entitlement.marketplace/2017-01-11/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/entityresolution/2018-05-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/es/2015-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/entityresolution/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/es/2015-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/eventbridge/2015-10-07/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/events/2015-10-07/openapi.yaml: some GET/POST endpoints have pagination parameters: token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/evidently/2021-02-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/finspace/2021-03-12/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/finspace-data/2020-07-13/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/evidently/2021-02-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/finspace/2021-03-12/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/finspace-data/2020-07-13/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/firehose/2015-08-04/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/fis/2020-12-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/fis/2020-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/fms/2018-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/forecast/2018-06-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/forecastquery/2018-06-26/openapi.yaml: some GET/POST endpoints have pagination parameters: token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/frauddetector/2019-11-15/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/frauddetector/2019-11-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/fsx/2018-03-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/gamelift/2015-10-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/gamesparks/2021-08-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/glacier/2012-06-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/globalaccelerator/2018-08-08/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/glue/2017-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/grafana/2020-08-18/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/grafana/2020-08-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/greengrass/2017-06-07/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/greengrassv2/2020-11-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/groundstation/2019-05-23/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/greengrassv2/2020-11-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/groundstation/2019-05-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/guardduty/2017-11-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/health/2016-08-04/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/health/2016-08-04/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/healthlake/2017-07-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/honeycode/2020-03-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/honeycode/2020-03-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/iam/2010-05-08/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/identitystore/2020-06-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/imagebuilder/2019-12-02/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/imagebuilder/2019-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/importexport/2010-06-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/inspector/2016-02-16/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/inspector2/2020-06-08/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/inspector/2016-02-16/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/inspector2/2020-06-08/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/internetmonitor/2021-06-03/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iot/2015-05-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iot-data/2015-05-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot/2015-05-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot-data/2015-05-28/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/iot-jobs-data/2017-09-29/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iot-roborunner/2018-05-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iot1click-devices/2018-05-14/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iot1click-projects/2018-05-14/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotanalytics/2017-11-27/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotdeviceadvisor/2020-09-18/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotevents/2018-07-27/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotevents-data/2018-10-23/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotfleethub/2020-11-03/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotfleetwise/2021-06-17/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotsecuretunneling/2018-10-05/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotsitewise/2019-12-02/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotthingsgraph/2018-09-06/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iottwinmaker/2021-11-29/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/iotwireless/2020-11-22/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/ivs/2020-07-14/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/ivs-realtime/2020-07-14/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/ivschat/2020-07-14/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot-roborunner/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot1click-devices/2018-05-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot1click-projects/2018-05-14/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotanalytics/2017-11-27/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotdeviceadvisor/2020-09-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotevents/2018-07-27/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotevents-data/2018-10-23/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotfleethub/2020-11-03/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotfleetwise/2021-06-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotsecuretunneling/2018-10-05/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotsitewise/2019-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotthingsgraph/2018-09-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iottwinmaker/2021-11-29/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotwireless/2020-11-22/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ivs/2020-07-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ivs-realtime/2020-07-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ivschat/2020-07-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/kafka/2018-11-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/kafkaconnect/2021-09-14/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kafkaconnect/2021-09-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/kendra/2019-02-03/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/kendra-ranking/2022-10-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/keyspaces/2022-02-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/keyspaces/2022-02-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesis/2013-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesis-video-archived-media/2017-09-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesis-video-media/2017-09-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
@@ -346,22 +346,22 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/lakeformation/2017-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/lambda/2014-11-11/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/lambda/2015-03-31/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/lex-models/2017-04-19/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lex-models/2017-04-19/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/license-manager/2018-08-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/license-manager-linux-subscriptions/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/license-manager-user-subscriptions/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/lightsail/2016-11-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/location/2020-11-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/logs/2014-03-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/logs/2014-03-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/lookoutequipment/2020-12-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/lookoutmetrics/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/lookoutvision/2020-11-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/m2/2021-04-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lookoutvision/2020-11-20/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/m2/2021-04-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/machinelearning/2014-12-12/openapi.yaml: some GET/POST endpoints have pagination parameters: token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/macie/2017-12-19/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/macie2/2020-01-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/macie/2017-12-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/macie2/2020-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/managedblockchain/2018-09-24/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/managedblockchain-query/2023-05-04/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/managedblockchain-query/2023-05-04/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/marketplace-catalog/2018-09-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/marketplacecommerceanalytics/2015-07-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/mediaconnect/2018-11-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
@@ -373,17 +373,17 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/mediastore/2017-09-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/mediastore-data/2017-09-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/mediatailor/2018-04-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/medical-imaging/2023-07-19/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/medical-imaging/2023-07-19/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/memorydb/2021-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/meteringmarketplace/2016-01-14/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/mgn/2020-02-26/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mgn/2020-02-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/migration-hub-refactor-spaces/2021-10-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/migrationhub-config/2019-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/migrationhuborchestrator/2021-08-28/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
-../../APIs-guru/openapi-directory/apis/amazonaws.com/migrationhubstrategy/2020-02-19/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/mobile/2017-07-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/migrationhuborchestrator/2021-08-28/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink, pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/migrationhubstrategy/2020-02-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mobile/2017-07-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/mobileanalytics/2014-06-05/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/models.lex.v2/2020-08-07/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/models.lex.v2/2020-08-07/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/monitoring/2010-08-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/mq/2017-11-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/mturk-requester/2017-01-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
@@ -391,11 +391,11 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/neptune/2014-10-31/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/network-firewall/2020-11-12/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/networkmanager/2019-07-05/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/nimble/2020-08-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/nimble/2020-08-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/oam/2022-06-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/omics/2022-11-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/opensearch/2021-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/opensearchserverless/2021-11-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/omics/2022-11-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/opensearch/2021-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/opensearchserverless/2021-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/opsworks/2013-02-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/opsworkscm/2016-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/organizations/2016-11-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
@@ -404,7 +404,7 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/panorama/2019-07-24/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/payment-cryptography/2021-09-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/payment-cryptography-data/2022-02-03/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/personalize/2018-05-22/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/personalize/2018-05-22/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/personalize-events/2018-03-22/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/personalize-runtime/2018-05-22/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/pi/2018-02-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
@@ -414,12 +414,12 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/pipes/2015-10-07/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/polly/2016-06-10/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/pricing/2017-10-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/privatenetworks/2021-12-03/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/proton/2020-07-20/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/privatenetworks/2021-12-03/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/proton/2020-07-20/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/qldb/2019-01-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/qldb-session/2019-07-11/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/quicksight/2018-04-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/ram/2018-01-04/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ram/2018-01-04/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/rbin/2021-06-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/rds/2013-01-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/rds/2013-02-12/openapi.yaml: no GET/POST endpoints with pagination parameters found
@@ -429,14 +429,14 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/rds-data/2018-08-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/redshift/2012-12-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/redshift-data/2019-12-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/redshift-serverless/2021-04-21/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/redshift-serverless/2021-04-21/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/rekognition/2016-06-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/resiliencehub/2020-04-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/resiliencehub/2020-04-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/resource-explorer/2-2022-07-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/resource-groups/2017-11-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/resourcegroupstaggingapi/2017-01-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/robomaker/2018-06-29/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/rolesanywhere/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/robomaker/2018-06-29/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rolesanywhere/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/route53/2013-04-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/route53-recovery-cluster/2019-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/route53-recovery-control-config/2020-11-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
@@ -448,72 +448,72 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/runtime.lex.v2/2020-08-07/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/runtime.sagemaker/2017-05-13/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/s3/2006-03-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/s3control/2018-08-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/s3outposts/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/s3control/2018-08-20/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/s3outposts/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker/2017-07-24/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-a2i-runtime/2019-11-07/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-edge/2020-09-23/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-featurestore-runtime/2020-07-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-geospatial/2020-05-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-metrics/2022-09-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/savingsplans/2019-06-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/savingsplans/2019-06-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/scheduler/2021-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/schemas/2019-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sdb/2009-04-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/secretsmanager/2017-10-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/securityhub/2018-10-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/securitylake/2018-05-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/securitylake/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/serverlessrepo/2017-09-08/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/service-quotas/2019-06-24/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/servicecatalog/2015-12-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/servicecatalog-appregistry/2020-06-24/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/servicecatalog-appregistry/2020-06-24/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/servicediscovery/2017-03-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sesv2/2019-09-27/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/shield/2016-06-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/signer/2017-08-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/signer/2017-08-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/simspaceweaver/2022-10-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/sms/2016-10-24/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sms/2016-10-24/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sms-voice/2018-09-05/openapi.yaml: some GET/POST endpoints have pagination parameters: token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/snow-device-management/2021-08-04/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/snow-device-management/2021-08-04/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/snowball/2016-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sns/2010-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sqs/2012-11-05/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/ssm/2014-11-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/ssm-contacts/2021-05-03/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/ssm-incidents/2018-05-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ssm-incidents/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/ssm-sap/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/sso/2019-06-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sso/2019-06-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sso-admin/2020-07-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sso-oidc/2019-06-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/states/2016-11-23/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/states/2016-11-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/storagegateway/2013-06-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/streams.dynamodb/2012-08-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sts/2011-06-15/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/support/2013-04-15/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/amazonaws.com/support-app/2021-08-20/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/support/2013-04-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/support-app/2021-08-20/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/swf/2012-01-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/synthetics/2017-10-11/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/textract/2018-06-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/timestream-query/2018-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/timestream-write/2018-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/tnb/2008-10-21/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/tnb/2008-10-21/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/transcribe/2017-10-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/transfer/2018-11-05/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/translate/2017-07-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/verifiedpermissions/2021-12-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/verifiedpermissions/2021-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/voice-id/2021-09-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
-../../APIs-guru/openapi-directory/apis/amazonaws.com/vpc-lattice/2022-11-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/vpc-lattice/2022-11-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/waf/2015-08-24/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/waf-regional/2016-11-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/wafv2/2019-07-29/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/wellarchitected/2020-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/wisdom/2020-10-19/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/wisdom/2020-10-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/workdocs/2016-05-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/worklink/2018-09-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/workmail/2017-10-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/workmailmessageflow/2019-05-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/workspaces/2015-04-08/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/apis/amazonaws.com/workspaces-web/2020-07-08/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/workspaces-web/2020-07-08/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/xray/2016-04-12/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/amentum.space/atmosphere/1.1.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/amentum.space/aviation_radiation/1.5.0/openapi.yaml: Error parsing specification: Error: Spec does not have valid components
@@ -748,7 +748,7 @@
 ../../APIs-guru/openapi-directory/apis/art19.com/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/asana.com/1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/apis/asuarez.dev/searchly/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/atlassian.com/jira/1001.0.0-SNAPSHOT/openapi.yaml: some GET/POST endpoints have pagination parameters: offset, pageSize
+../../APIs-guru/openapi-directory/apis/atlassian.com/jira/1001.0.0-SNAPSHOT/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/apis/ato.gov.au/0.0.6/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/aucklandmuseum.com/2.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/apis/authentiq.io/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
@@ -2865,19 +2865,19 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/accesscontextmanager/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/accesscontextmanager/v1beta/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/acmedns/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/adexchangebuyer/v1.2/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/adexchangebuyer/v1.3/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/adexchangebuyer/v1.4/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/adexchangebuyer/v1.2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/adexchangebuyer/v1.3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/adexchangebuyer/v1.4/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/adexchangebuyer2/v2beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/adexperiencereport/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/admin/datatransfer_v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/admin/datatransfer_v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/admin/directory_v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/admin/reports_v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/admin/reports_v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/admob/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/admob/v1beta/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/adsense/v1.4/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/adsense/v1.4/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/adsense/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/adsensehost/v4.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/adsensehost/v4.1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/advisorynotifications/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/aiplatform/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/aiplatform/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -2894,11 +2894,11 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/analyticshub/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/analyticsreporting/v4/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/androiddeviceprovisioning/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/androidenterprise/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/androidenterprise/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/androidmanagement/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/androidpublisher/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/androidpublisher/v1.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/androidpublisher/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/androidpublisher/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/androidpublisher/v3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/apigateway/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/apigateway/v1alpha2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -2930,7 +2930,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/biglake/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/bigquery/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/bigqueryconnection/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/bigqueryconnection/v1beta1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/bigqueryconnection/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/bigquerydatapolicy/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/bigquerydatatransfer/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/bigqueryreservation/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -2941,11 +2941,11 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/binaryauthorization/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/binaryauthorization/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/blockchainnodeengine/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/blogger/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/blogger/v3/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/blogger/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/blogger/v3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/books/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/businessprofileperformance/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/calendar/v3/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/calendar/v3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/certificatemanager/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/chat/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/checks/v1alpha/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3002,9 +3002,9 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/commentanalyzer/v1alpha1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/composer/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/composer/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/compute/alpha/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/compute/beta/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/compute/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/compute/alpha/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/compute/beta/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/compute/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/connectors/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/connectors/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/contactcenteraiplatform/v1alpha1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3014,7 +3014,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/containeranalysis/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/containeranalysis/v1alpha1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/containeranalysis/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/content/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/content/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/content/v2.1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/contentwarehouse/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/apis/googleapis.com/customsearch/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
@@ -3037,13 +3037,13 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/datastore/v1beta3/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/datastream/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/datastream/v1alpha1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/deploymentmanager/alpha/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/deploymentmanager/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/deploymentmanager/v2beta/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/dfareporting/v3.3/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/dfareporting/v3.4/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/deploymentmanager/alpha/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/deploymentmanager/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/deploymentmanager/v2beta/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/dfareporting/v3.3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/dfareporting/v3.4/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/dfareporting/v3.5/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/dfareporting/v4/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/dfareporting/v4/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/dialogflow/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/dialogflow/v2beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/dialogflow/v3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3058,9 +3058,9 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/displayvideo/v3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/displayvideo/v4/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/dlp/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/dns/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/dns/v1beta2/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/dns/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/dns/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/dns/v1beta2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/dns/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/docs/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/documentai/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/documentai/v1beta2/openapi.yaml: no GET/POST endpoints with pagination parameters found
@@ -3072,7 +3072,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/doubleclickbidmanager/v1.1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/doubleclickbidmanager/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/doubleclicksearch/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/drive/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/drive/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/drive/v3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/driveactivity/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/drivelabels/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3103,9 +3103,9 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/firestore/v1beta2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/fitness/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/forms/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/games/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/gamesConfiguration/v1configuration/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/gamesManagement/v1management/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/games/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/gamesConfiguration/v1configuration/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/gamesManagement/v1management/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/gameservices/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/gameservices/v1beta/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/genomics/v2alpha1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3134,7 +3134,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/ideahub/v1alpha/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/ideahub/v1beta/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/identitytoolkit/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/identitytoolkit/v3/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/identitytoolkit/v3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/ids/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/indexing/v3/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/integrations/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3150,7 +3150,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/language/v1beta2/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/language/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/libraryagent/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/licensing/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/licensing/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/lifesciences/v2beta/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/localservices/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/logging/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3167,7 +3167,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/metastore/v1beta/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/migrationcenter/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/migrationcenter/v1alpha1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/mirror/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/mirror/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/ml/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/monitoring/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/monitoring/v3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3214,7 +3214,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/playdeveloperreporting/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/playgrouping/v1alpha1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/playintegrity/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/plus/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/plus/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/policyanalyzer/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/policyanalyzer/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/policysimulator/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3232,7 +3232,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/publicca/v1alpha1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/publicca/v1beta1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/pubsub/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/pubsub/v1beta1a/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/pubsub/v1beta1a/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/pubsub/v1beta2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/pubsublite/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
 ../../APIs-guru/openapi-directory/apis/googleapis.com/rapidmigrationassessment/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3246,8 +3246,8 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/redis/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/redis/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/remotebuildexecution/v1alpha/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/replicapool/v1beta1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/reseller/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/replicapool/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/reseller/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/resourcesettings/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/retail/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/apis/googleapis.com/retail/v2alpha/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
@@ -3284,7 +3284,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/serviceusage/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/serviceusage/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/sheets/v4/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/shoppingcontent/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/shoppingcontent/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/siteVerification/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/slides/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/smartdevicemanagement/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
@@ -3293,17 +3293,17 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/speech/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/speech/v1p1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/speech/v2beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/sql/v1beta4/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/sqladmin/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/sql/v1beta4/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/googleapis.com/sqladmin/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/storage/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/storage/v1beta2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/storage/v1beta2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/storagetransfer/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/streetviewpublish/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/sts/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/sts/v1beta/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/tagmanager/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/tagmanager/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/tasks/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/tasks/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/testing/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/texttospeech/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/texttospeech/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3338,7 +3338,7 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/vmwareengine/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/vpcaccess/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/vpcaccess/v1beta1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/walletobjects/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/walletobjects/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/webfonts/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/webmasters/v3/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/googleapis.com/webrisk/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -3353,13 +3353,13 @@
 ../../APIs-guru/openapi-directory/apis/googleapis.com/workspaceevents/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/workstations/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/workstations/v1beta/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/googleapis.com/youtube/v3/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/youtube/v3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/youtubeAnalytics/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/googleapis.com/youtubeAnalytics/v2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/googleapis.com/youtubeAnalytics/v2/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/googleapis.com/youtubereporting/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/gov.bc.ca/bcdc/3.0.1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/apis/gov.bc.ca/bcgnws/3.x.x/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/gov.bc.ca/geocoder/2.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/gov.bc.ca/geocoder/2.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/gov.bc.ca/geomark/4.1.2/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/gov.bc.ca/gwells/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/apis/gov.bc.ca/jobposting/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
@@ -3752,7 +3752,7 @@
 ../../APIs-guru/openapi-directory/apis/phila.gov/pollingplaces/1.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/apis/pims.io/1.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/apis/pinecone.io/20230406.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/apis/placekit.co/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/placekit.co/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/plaid.com/2020-09-14_1.345.1/openapi.yaml: some GET/POST endpoints have pagination parameters: offset, token
 ../../APIs-guru/openapi-directory/apis/pocketsmith.com/2.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
 ../../APIs-guru/openapi-directory/apis/poemist.com/1.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -3834,7 +3834,7 @@
 ../../APIs-guru/openapi-directory/apis/shorten.rest/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/shotstack.io/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/shutterstock.com/1.1.32/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber, token, pageSize
-../../APIs-guru/openapi-directory/apis/signl4.com/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/signl4.com/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/simplivpn.net/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/simplyrets.com/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/apis/sinao.app/1.1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
@@ -3922,7 +3922,7 @@
 ../../APIs-guru/openapi-directory/apis/telstra.com/3.x/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/apis/testfire.net/altoroj/1.0.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/apis/text2data.org/v3.4/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
-../../APIs-guru/openapi-directory/apis/tfl.gov.uk/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/apis/tfl.gov.uk/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, pageNumber
 ../../APIs-guru/openapi-directory/apis/thebluealliance.com/3.8.2/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/thenounproject.com/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/apis/theracingapi.com/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
@@ -4031,7 +4031,7 @@
 ../../APIs-guru/openapi-directory/apis/visualcrossing.com/weather/4.6/openapi.yaml: Error parsing specification: Error: Spec does not have valid components
 ../../APIs-guru/openapi-directory/apis/visualstudio.com/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/vmware.local/vrni/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token
-../../APIs-guru/openapi-directory/apis/vocadb.net/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/vocadb.net/1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/vonage.com/account/1.11.8/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/vonage.com/extension/1.11.8/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
 ../../APIs-guru/openapi-directory/apis/vonage.com/reports/1.0.1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
@@ -4072,7 +4072,7 @@
 ../../APIs-guru/openapi-directory/apis/vtex.local/Subscriptions-API-(v3)/1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
 ../../APIs-guru/openapi-directory/apis/vtex.local/VTEX-Do-API/1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
 ../../APIs-guru/openapi-directory/apis/vtex.local/VTEX_TEMPLATE/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
-../../APIs-guru/openapi-directory/apis/walletobjects.googleapis.com/pay-passes/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/walletobjects.googleapis.com/pay-passes/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/apis/walmart.com/inventory/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/apis/walmart.com/item/3.0.1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/apis/walmart.com/order/3.0.1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -4083,7 +4083,7 @@
 ../../APIs-guru/openapi-directory/apis/wealthreader.com/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/weatherbit.io/2.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/apis/weber-gesamtausgabe.de/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
-../../APIs-guru/openapi-directory/apis/webflow.com/2023-03-23T154040Z/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/webflow.com/2023-03-23T154040Z/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/apis/webscraping.ai/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/wellknown.ai/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/apis/whapi.com/accounts/2.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
