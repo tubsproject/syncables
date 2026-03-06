@@ -86,66 +86,95 @@ async function processFileOrDir(filePath: string): Promise<void> {
 // - Google syncToken
 // - MoneyBird synchronization
 async function processFile(filename: string): Promise<void> {
-  // console.log(`\nProcessing file: ${filename}`);
+  console.log(`\nProcessing file: ${filename}`);
   const specStr = await readFile(filename, 'utf-8');
   let specObj;
   try {
     specObj = await specStrToObj(specStr);
   } catch (err) {
-    console.error(`Error parsing specification: ${err}`);
+    console.log(`${filename}: Error parsing specification: ${err}`);
     return;
   }
   const found = {};
+  const paramMap = {
+    page: 'pageNumber',
+    offset: 'offset',
+    limit: 'pageSize',
+    'max-results': 'pageSize',
+    'next-token': 'pageToken',
+    cursor: 'pageToken',
+  };
   Object.keys(specObj.paths).forEach((path) => {
     if (specObj.paths[path].get) {
       // console.log(`GET ${path}`);
       if (specObj.paths[path].get.parameters) {
-        specObj.paths[path].get.parameters.forEach((param) => {
-          if (
-            [
-              'page',
-              'maxResults',
-              'pageToken',
-              'nextToken',
-              'syncToken',
-              'offset',
-              'limit',
-            ].includes(param.name)
-          ) {
-            found[param.name] = true;
-          }
+        specObj.paths[path].get.parameters.forEach(parameter => {
+          Object.keys(paramMap).forEach((paramName) => {
+            if (parameter.name === paramName) {
+              found[paramMap[paramName]] = true;
+            }
+          });
         });
       }
-      // Object.keys(specObj.paths[path].get.responses).forEach((statusCode) => {
-      //   if (statusCode.startsWith('2')) {
-      //     const response = specObj.paths[path].get.responses[statusCode];
-      //     if (response.content) {
-      //       Object.keys(response.content).forEach((contentType) => {
-      //         if (response.content[contentType].schema.type === 'array') {
-      //           console.log(`  Response ${statusCode} returns an array, which may indicate pagination`);
-      //         }
-      //       });
-      //     }
-      //     if (response.headers && response.headers.link) {
-      //       console.log(`  Response ${statusCode} has a Link header, which may indicate pagination`);
-      //       console.log(response.headers.link);
-      //     }
-      //   }
-      // });
+      const responses = specObj.paths[path].get.responses || {};
+      Object.keys(responses).forEach((responseCode) => {
+        // console.log('considering', responseCode, responses);
+        const response = responses[responseCode];
+        Object.keys(response.content || {}).forEach((contentType) => {
+          const content = response.content[contentType];
+          // console.log('considering content', path, contentType, content);
+          if (content.schema?.cursor) {
+            found['pageToken'] = true;
+          }
+        });
+      });
+    }
+    if (specObj.paths[path].post) {
+      // console.log(`POST ${path}`);
+      if (specObj.paths[path].post.parameters) {
+        specObj.paths[path].post.parameters.forEach(parameter => {
+          Object.keys(paramMap).forEach((paramName) => {
+            if (parameter.name === paramName) {
+              found[paramMap[paramName]] = true;
+            }
+          });
+        });
+      }
+      function checkContent(contentTypes: any): void {
+        Object.keys(contentTypes).forEach((contentType) => {
+          const content = contentTypes[contentType];
+          Object.keys(paramMap).forEach((paramName) => {
+            if (content.schema?.properties?.[paramName]) {
+              found[paramMap[paramName]] = true;
+            }
+          });
+        });
+      } 
+      const requestBodies = specObj.paths[path].post.requestBody || {};
+      checkContent(requestBodies);
+
+      const responses = specObj.paths[path].post.responses || {};
+      Object.keys(responses).forEach((responseCode) => {
+        // console.log('considering', responseCode, responses);
+        const response = responses[responseCode];
+        checkContent(response.content);
+      });
     }
   });
   if (Object.keys(found).length > 0) {
     console.log(
       `${filename}: some GET endpoints have pagination parameters: ${Object.keys(found).join(', ')}`,
     );
+  } else {
+    console.log(`${filename}: no GET endpoints with pagination parameters found`);
   }
 }
 
-const baseDir = process.argv[2];
-if (!baseDir) {
+if (process.argv.length !== 3) {
   console.error('Please provide a filename or directory as an argument');
   process.exit(1);
 }
+const baseDir = process.argv[2];
 
 (async (): Promise<void> => {
   await processFileOrDir(baseDir);
