@@ -92,7 +92,7 @@ async function processFileOrDir(filePath: string): Promise<void> {
 // sync:
 // - Google syncToken
 // - MoneyBird synchronization
-// let numDone = 0;
+let numDone = 0;
 async function processFile(filename: string): Promise<void> {
   if (numDone++ > 1000) {
     return;
