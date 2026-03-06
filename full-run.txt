@@ -375,7 +375,7 @@
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/mgn/2020-02-26/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/migration-hub-refactor-spaces/2021-10-26/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/migrationhub-config/2019-06-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/APIs/amazonaws.com/migrationhuborchestrator/2021-08-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/amazonaws.com/migrationhuborchestrator/2021-08-28/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/migrationhubstrategy/2020-02-19/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/mobile/2017-07-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/amazonaws.com/mobileanalytics/2014-06-05/openapi.yaml: no GET/POST endpoints with pagination parameters found
@@ -522,7 +522,7 @@
 ../../APIs-guru/openapi-directory/APIs/apacta.com/0.0.42/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/api.gov.uk/vehicle-enquiry/1.1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/api.video/1/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/APIs/api2cart.com/1.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/api2cart.com/1.1/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
 ../../APIs-guru/openapi-directory/APIs/api2pdf.com/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/apicurio.local/registry/1.3.2.Final/openapi.yaml: some GET/POST endpoints have pagination parameters: offset, pageSize
 ../../APIs-guru/openapi-directory/APIs/apicurio.local/registry/2.4.x/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
@@ -534,7 +534,7 @@
 ../../APIs-guru/openapi-directory/APIs/apideck.com/customer-support/9.5.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/APIs/apideck.com/ecommerce/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/APIs/apideck.com/ecosystem/0.0.6/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
-../../APIs-guru/openapi-directory/APIs/apideck.com/file-storage/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/APIs/apideck.com/file-storage/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
 ../../APIs-guru/openapi-directory/APIs/apideck.com/hris/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/APIs/apideck.com/issue-tracking/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/APIs/apideck.com/lead/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
@@ -2601,12 +2601,12 @@
 ../../APIs-guru/openapi-directory/APIs/billbee.io/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
 ../../APIs-guru/openapi-directory/APIs/billingo.hu/3.0.7/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
 ../../APIs-guru/openapi-directory/APIs/bintable.com/1.0.0-oas3/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/APIs/bitbucket.org/2.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/bitbucket.org/2.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber, nextPageLink
 ../../APIs-guru/openapi-directory/APIs/biztoc.com/v1/openapi.yaml: Error parsing specification: Error: Spec does not have valid components
 ../../APIs-guru/openapi-directory/APIs/bkk.hu/1.0.1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/APIs/blazemeter.com/4/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/APIs/bluemix.net/containers/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
-../../APIs-guru/openapi-directory/APIs/botify.com/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber, pageSize
+../../APIs-guru/openapi-directory/APIs/botify.com/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber, pageSize, nextPageLink
 ../../APIs-guru/openapi-directory/APIs/botschaft.local/0.1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/box.com/2.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/APIs/brainbi.net/1.0.0/openapi.yaml: Error parsing specification: Error: Spec does not have valid components
@@ -2674,7 +2674,7 @@
 ../../APIs-guru/openapi-directory/APIs/configcat.com/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/conjur.local/5.3.0/openapi.yaml: some GET/POST endpoints have pagination parameters: offset, pageSize
 ../../APIs-guru/openapi-directory/APIs/consumerfinance.gov/1.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
-../../APIs-guru/openapi-directory/APIs/contentgroove.com/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/APIs/contentgroove.com/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber, nextPageLink
 ../../APIs-guru/openapi-directory/APIs/contract-p.fit/1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
 ../../APIs-guru/openapi-directory/APIs/contribly.com/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
 ../../APIs-guru/openapi-directory/APIs/core.ac.uk/2.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -2746,7 +2746,7 @@
 ../../APIs-guru/openapi-directory/APIs/ebay.com/sell-marketing/v1.15.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
 ../../APIs-guru/openapi-directory/APIs/ebay.com/sell-metadata/v1.6.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/ebay.com/sell-negotiation/v1.1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
-../../APIs-guru/openapi-directory/APIs/ebay.com/sell-recommendation/1.1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
+../../APIs-guru/openapi-directory/APIs/ebay.com/sell-recommendation/1.1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset, nextPageLink
 ../../APIs-guru/openapi-directory/APIs/ebi.ac.uk/1.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/APIs/edrv.io/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/elevenlabs.io/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
@@ -2789,7 +2789,7 @@
 ../../APIs-guru/openapi-directory/APIs/firmalyzer.com/iotvas/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/firstinspires.org/1.0.0/openapi.yaml: Error parsing specification: Error: Spec does not have valid components
 ../../APIs-guru/openapi-directory/APIs/fisheye.local/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
-../../APIs-guru/openapi-directory/APIs/flat.io/2.13.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/APIs/flat.io/2.13.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, nextPageLink
 ../../APIs-guru/openapi-directory/APIs/flickr.com/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
 ../../APIs-guru/openapi-directory/APIs/formapi.io/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber, token, pageSize
 ../../APIs-guru/openapi-directory/APIs/frankiefinancial.io/1.5.3/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -3421,7 +3421,7 @@
 ../../APIs-guru/openapi-directory/APIs/inboxroute.com/0.9/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/APIs/increase.com/0.0.1/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
 ../../APIs-guru/openapi-directory/APIs/infermedica.com/v2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
-../../APIs-guru/openapi-directory/APIs/influxdata.com/2.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: offset, pageSize
+../../APIs-guru/openapi-directory/APIs/influxdata.com/2.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: offset, pageSize, nextPageLink
 ../../APIs-guru/openapi-directory/APIs/inpe.br/dados-abertos/1.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/APIs/instagram.com/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/APIs/intel.com/product-catalogue/0.1.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
@@ -3676,7 +3676,7 @@
 ../../APIs-guru/openapi-directory/APIs/openbanking.org.uk/event-notifications-openapi/3.1.7/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/openbanking.org.uk/payment-initiation-openapi/3.1.7/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/openbanking.org.uk/v1.3/openapi.yaml: Error parsing specification: Error: Spec does not have valid components
-../../APIs-guru/openapi-directory/APIs/openbankingproject.ch/1.3.8_2020-12-14 - Swiss edition 1.3.8.1-CH/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/openbankingproject.ch/1.3.8_2020-12-14 - Swiss edition 1.3.8.1-CH/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
 ../../APIs-guru/openapi-directory/APIs/opencagedata.com/1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/APIs/openchannel.io/market/2.0.24/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
 ../../APIs-guru/openapi-directory/APIs/opendatanetwork.com/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
@@ -4133,6 +4133,6 @@
 ../../APIs-guru/openapi-directory/APIs/zeit.co/v2019-01-07/openapi.yaml: no GET/POST endpoints with pagination parameters found
 ../../APIs-guru/openapi-directory/APIs/zeno.fm/0.6-99cfdac/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset, pageNumber
 ../../APIs-guru/openapi-directory/APIs/zenoti.com/1.0.0/openapi.yaml: Error parsing specification: Error: Spec does not have valid components
-../../APIs-guru/openapi-directory/APIs/zoom.us/2.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/APIs/zoom.us/2.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token
 ../../APIs-guru/openapi-directory/APIs/zoomconnect.com/1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
 ../../APIs-guru/openapi-directory/APIs/zuora.com/2021-08-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token, pageNumber
