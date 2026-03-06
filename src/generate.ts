@@ -1,5 +1,5 @@
 import { readFile, readdir, stat, writeFile } from 'fs/promises';
-import { specStrToObj } from './utils.js';
+import { specStrToObj, findPathParts } from './utils.js';
 import { default as path } from 'path';
 import { OpenAPIV3_1 } from '@scalar/openapi-types';
 
@@ -92,11 +92,14 @@ async function processFileOrDir(filePath: string): Promise<void> {
 // sync:
 // - Google syncToken
 // - MoneyBird synchronization
-let numDone = 0;
+// let numDone = 0;
 async function processFile(filename: string): Promise<void> {
-  if (numDone++ > 100) {
-    return;
-  }
+  // if (numDone++ > 200) {
+  //   return;
+  // }
+  // if (numDone < 100) {
+  //   return;
+  // }
   // console.log(`\nProcessing file: ${filename}`);
   const specStr = await readFile(filename, 'utf-8');
   let specObj;
@@ -107,24 +110,20 @@ async function processFile(filename: string): Promise<void> {
     return;
   }
   const found = {};
-  const paramMap = {
-    page: 'pageNumber',
-    offset: 'offset',
-    limit: 'pageSize',
-    'max-results': 'pageSize',
-    'next-token': 'token',
-    next_page_token: 'token',
-    cursor: 'token',
-    '@odata.nextLink': 'nextPageLink',
-    '_links.next': 'nextPageLink',
-    'link.next': 'nextPageLink',
-    'links.next': 'nextPageLink',
-    'meta.links.next': 'nextPageLink',
-    next: 'nextPageLink',
-    NextPageLink: 'nextPageLink',
-    next_page_url: 'nextPageLink',
-    'pagination.next': 'nextPageLink',
+  const synonyms = {
+    pageNumber: ['page'],
+    offset: ['offset', 'pagination.rowOffset'],
+    pageSize: ['limit', 'pageSize', 'max-results', 'MaxResults', 'maxResults'],
+    token: ['next-token', 'next_page_token', 'NextToken', 'cursor', 'nextToken'],
+    nextPageLink: ['@odata.nextLink', '_links.next', 'link.next', 'links.next', 'meta.links.next', 'next', 'NextPageLink', 'next_page_url', 'pagination.next'],
   };
+  const paramMap = {};
+  Object.keys(synonyms).forEach(meaning => {
+    synonyms[meaning].forEach(namePath => {
+      paramMap[namePath] = meaning;
+    });
+  });
+
   Object.keys(specObj.paths).forEach((path) => {
     if (specObj.paths[path].get) {
       // console.log(`GET ${path}`);
@@ -166,22 +165,15 @@ async function processFile(filename: string): Promise<void> {
           const content = contentTypes[contentType];
           Object.keys(paramMap).forEach((paramName) => {
             const parts = paramName.split('.');
-            let schema = content.schema;
-            for (const part of parts) {
-              if (schema?.properties?.[part]) {
-                schema = schema.properties[part];
-              } else {
-                schema = null;
-                break;
-              }
-            }
-            if (schema) {
+            const schema = content.schema;
+            if (findPathParts(parts, schema)) {
               found[paramMap[paramName]] = true;
             }
           });
         });
       } 
-      const requestBodies = specObj.paths[path].post.requestBody || {};
+      const requestBodies = specObj.paths[path].post.requestBody?.content || {};
+      // console.log('checking request bodies', path, requestBodies);
       checkContent(requestBodies);
 
       const responses = specObj.paths[path].post.responses || {};
