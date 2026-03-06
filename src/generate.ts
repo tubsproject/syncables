@@ -87,7 +87,7 @@ async function processFileOrDir(filePath: string): Promise<void> {
 // - Google syncToken
 // - MoneyBird synchronization
 async function processFile(filename: string): Promise<void> {
-  console.log(`\nProcessing file: ${filename}`);
+  // console.log(`\nProcessing file: ${filename}`);
   const specStr = await readFile(filename, 'utf-8');
   let specObj;
   try {
@@ -164,10 +164,10 @@ async function processFile(filename: string): Promise<void> {
   });
   if (Object.keys(found).length > 0) {
     console.log(
-      `${filename}: some GET endpoints have pagination parameters: ${Object.keys(found).join(', ')}`,
+      `${filename}: some GET/POST endpoints have pagination parameters: ${Object.keys(found).join(', ')}`,
     );
   } else {
-    console.log(`${filename}: no GET endpoints with pagination parameters found`);
+    console.log(`${filename}: no GET/POST endpoints with pagination parameters found`);
   }
 }
 
