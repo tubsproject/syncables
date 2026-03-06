@@ -102,8 +102,8 @@ async function processFile(filename: string): Promise<void> {
     offset: 'offset',
     limit: 'pageSize',
     'max-results': 'pageSize',
-    'next-token': 'pageToken',
-    cursor: 'pageToken',
+    'next-token': 'token',
+    cursor: 'token',
   };
   Object.keys(specObj.paths).forEach((path) => {
     if (specObj.paths[path].get) {
