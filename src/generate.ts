@@ -110,6 +110,19 @@ async function processFile(filename: string): Promise<void> {
     return;
   }
   const found = {};
+  function checkContent(contentTypes: OpenAPIV3_1.MediaTypeObject): void {
+    Object.keys(contentTypes || {}).forEach((contentType) => {
+      const content = contentTypes[contentType];
+      Object.keys(paramMap).forEach((paramName) => {
+        const parts = paramName.split('.');
+        const schema = content.schema;
+        if (findPathParts(parts, schema)) {
+          found[paramMap[paramName]] = true;
+        }
+      });
+    });
+  } 
+
   const synonyms = {
     pageNumber: ['page', 'pagination.current_page', 'page[number]'],
     offset: ['offset', 'pagination.rowOffset', '$skip'],
@@ -123,69 +136,33 @@ async function processFile(filename: string): Promise<void> {
       paramMap[namePath] = meaning;
     });
   });
-
-  Object.keys(specObj.paths).forEach((path) => {
-    if (specObj.paths[path].get) {
-      // console.log(`GET ${path}`);
-      if (specObj.paths[path].get.parameters) {
-        specObj.paths[path].get.parameters.forEach(parameter => {
-          Object.keys(paramMap).forEach((paramName) => {
-            if (parameter.name === paramName) {
-              found[paramMap[paramName]] = true;
-            }
-          });
-        });
-      }
-      const responses = specObj.paths[path].get.responses || {};
-      Object.keys(responses).forEach((responseCode) => {
-        // console.log('considering', responseCode, responses);
-        const response = responses[responseCode];
-        Object.keys(response.content || {}).forEach((contentType) => {
-          const content = response.content[contentType];
-          // console.log('considering content', path, contentType, content);
-          if (content.schema?.cursor) {
-            found['pageToken'] = true;
+  function checkMethod(methodObj: OpenAPIV3_1.OperationObject): void {
+    if (methodObj.parameters) {
+      methodObj.parameters.forEach(parameter => {
+        Object.keys(paramMap).forEach((paramName) => {
+          if (parameter.name === paramName) {
+            found[paramMap[paramName]] = true;
           }
         });
       });
     }
-    if (specObj.paths[path].post) {
-      // console.log(`POST ${path}`);
-      if (specObj.paths[path].post.parameters) {
-        specObj.paths[path].post.parameters.forEach(parameter => {
-          Object.keys(paramMap).forEach((paramName) => {
-            if (parameter.name === paramName) {
-              found[paramMap[paramName]] = true;
-            }
-          });
-        });
-      }
-      function checkContent(contentTypes: OpenAPIV3_1.MediaTypeObject): void {
-        Object.keys(contentTypes || {}).forEach((contentType) => {
-          const content = contentTypes[contentType];
-          Object.keys(paramMap).forEach((paramName) => {
-            const parts = paramName.split('.');
-            const schema = content.schema;
-            if (findPathParts(parts, schema)) {
-              found[paramMap[paramName]] = true;
-            }
-          });
-        });
-      } 
-      const requestBodies = specObj.paths[path].post.requestBody?.content || {};
-      // console.log('checking request bodies', path, requestBodies);
-      checkContent(requestBodies);
+    const requestBodies = methodObj.requestBody?.content || {};
+    checkContent(requestBodies);
 
-      const responses = specObj.paths[path].post.responses || {};
-      Object.keys(responses).forEach((responseCode) => {
-        // console.log('considering', responseCode, responses);
-        const response = responses[responseCode];
-        checkContent(response.content);
-        if (response.headers?.Link) {
-          found['nextPageLink'] = true;
-        }
-      });
-    }
+    const responses = methodObj.responses || {};
+    Object.keys(responses).forEach((responseCode) => {
+      const response = responses[responseCode];
+      console.log('considering', responseCode, response);
+      checkContent(response.content);
+      if (response.headers?.Link) {
+        found['nextPageLink'] = true;
+      }
+    });
+  }
+
+  Object.keys(specObj.paths).forEach((path) => {
+    checkMethod(specObj.paths[path].get);
+    checkMethod(specObj.paths[path].post);
   });
   if (Object.keys(found).length > 0) {
     console.log(
