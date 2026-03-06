@@ -137,7 +137,7 @@ async function processFile(filename: string): Promise<void> {
     });
   });
   function checkMethod(methodObj: OpenAPIV3_1.OperationObject): void {
-    if (methodObj.parameters) {
+    if (methodObj?.parameters) {
       methodObj.parameters.forEach(parameter => {
         Object.keys(paramMap).forEach((paramName) => {
           if (parameter.name === paramName) {
@@ -146,13 +146,13 @@ async function processFile(filename: string): Promise<void> {
         });
       });
     }
-    const requestBodies = methodObj.requestBody?.content || {};
+    const requestBodies = methodObj?.requestBody?.content || {};
     checkContent(requestBodies);
 
-    const responses = methodObj.responses || {};
+    const responses = methodObj?.responses || {};
     Object.keys(responses).forEach((responseCode) => {
       const response = responses[responseCode];
-      console.log('considering', responseCode, response);
+      // console.log('considering', responseCode, response);
       checkContent(response.content);
       if (response.headers?.Link) {
         found['nextPageLink'] = true;

@@ -40,9 +40,6 @@
 ../../APIs-guru/openapi-directory/apis/adyen.com/HopService/1/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/adyen.com/HopService/5/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/adyen.com/HopService/6/openapi.yaml false
-../../APIs-guru/openapi-directory/apis/adyen.com/LegalEntityService/1/openapi.yaml false
-../../APIs-guru/openapi-directory/apis/adyen.com/LegalEntityService/2/openapi.yaml false
-../../APIs-guru/openapi-directory/apis/adyen.com/LegalEntityService/3/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/adyen.com/NotificationConfigurationService/1/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/adyen.com/NotificationConfigurationService/2/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/adyen.com/NotificationConfigurationService/3/openapi.yaml false
@@ -81,7 +78,6 @@
 ../../APIs-guru/openapi-directory/apis/adyen.com/TerminalAPI-v1/1/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/adyen.com/TestCardService/1/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/adyen.com/TfmAPIService/1/openapi.yaml false
-../../APIs-guru/openapi-directory/apis/amadeus.com/2.2.0/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-price-analysis/1.0.1/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-location-score/1.0.2/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-travel-recommendations/1.0.3/openapi.yaml false
@@ -123,7 +119,6 @@
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/runtime.lex/2016-11-28/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/runtime.lex.v2/2020-08-07/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/runtime.sagemaker/2017-05-13/openapi.yaml false
-../../APIs-guru/openapi-directory/apis/amazonaws.com/s3/2006-03-01/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-edge/2020-09-23/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-featurestore-runtime/2020-07-01/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-metrics/2022-09-30/openapi.yaml false
@@ -138,7 +133,6 @@
 ../../APIs-guru/openapi-directory/apis/amentum.space/gravity/1.1.1/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/amentum.space/space_radiation/1.1.2/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/apache.org/qakka/v1/openapi.yaml false
-../../APIs-guru/openapi-directory/apis/apacta.com/0.0.42/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/api.gov.uk/vehicle-enquiry/1.1.0/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/api2pdf.com/1.0.0/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/apidapp.com/2019-02-14T164701Z/openapi.yaml false
@@ -333,7 +327,5 @@
 ../../APIs-guru/openapi-directory/apis/archive.org/wayback/1.0.0/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/arespass.net/1.0/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/asuarez.dev/searchly/1.0/openapi.yaml false
-../../APIs-guru/openapi-directory/apis/ato.gov.au/0.0.6/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/authentiq.io/1.0/openapi.yaml false
 ../../APIs-guru/openapi-directory/apis/axesso.de/1.0.0/openapi.yaml false
-../../APIs-guru/openapi-directory/APIs/ato.gov.au/0.0.6/openapi.yaml false
