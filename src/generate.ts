@@ -1,6 +1,7 @@
-import { readFile, readdir, stat } from 'fs/promises';
-import { specStrToObj } from './utils.js';
+import { readFile, readdir, stat, writeFile } from 'fs/promises';
+import { specStrToObj, findPathParts } from './utils.js';
 import { default as path } from 'path';
+import { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 // For all API endpoints that have offset and limit parameters, generate the following overlay:
 // openapi: 3.0.0
@@ -17,6 +18,12 @@ import { default as path } from 'path';
 // my target is to get my own real personal data synced from many APIs
 // so I should refactor the code in this repo to use paginationSchemes
 
+const manuallyChecked: { [filename: string]: boolean } = {};
+async function manualCheck(filename: string): Promise<void> {
+  if (manuallyChecked[filename] === undefined) {
+    manuallyChecked[filename] = false;
+  }
+}
 async function isDirectory(path: string): Promise<boolean> {
   try {
     const statInfo = await stat(path);
@@ -85,68 +92,143 @@ async function processFileOrDir(filePath: string): Promise<void> {
 // sync:
 // - Google syncToken
 // - MoneyBird synchronization
+// let numDone = 0;
 async function processFile(filename: string): Promise<void> {
+  // if (numDone++ > 1000) {
+  //   return;
+  // }
+  // if (numDone < 100) {
+  //   return;
+  // }
   // console.log(`\nProcessing file: ${filename}`);
   const specStr = await readFile(filename, 'utf-8');
   let specObj;
   try {
     specObj = await specStrToObj(specStr);
   } catch (err) {
-    console.error(`Error parsing specification: ${err}`);
+    console.log(`${filename}: Error parsing specification: ${err}`);
     return;
   }
   const found = {};
-  Object.keys(specObj.paths).forEach((path) => {
-    if (specObj.paths[path].get) {
-      // console.log(`GET ${path}`);
-      if (specObj.paths[path].get.parameters) {
-        specObj.paths[path].get.parameters.forEach((param) => {
-          if (
-            [
-              'page',
-              'maxResults',
-              'pageToken',
-              'nextToken',
-              'syncToken',
-              'offset',
-              'limit',
-            ].includes(param.name)
-          ) {
-            found[param.name] = true;
+  function checkContent(contentTypes: OpenAPIV3_1.MediaTypeObject): void {
+    Object.keys(contentTypes || {}).forEach((contentType) => {
+      const content = contentTypes[contentType];
+      Object.keys(paramMap).forEach((paramName) => {
+        const parts = paramName.split('.');
+        const schema = content.schema;
+        if (findPathParts(parts, schema)) {
+          found[paramMap[paramName]] = true;
+        }
+      });
+    });
+  }
+
+  const synonyms = {
+    pageNumber: ['page', 'pagination.current_page', 'page[number]'],
+    offset: ['offset', 'pagination.rowOffset', '$skip'],
+    token: [
+      'next-token',
+      'next_page_token',
+      'NextToken',
+      'cursor',
+      'nextToken',
+      'NextMarker',
+    ],
+    nextPageLink: [
+      '@odata.nextLink',
+      '_links.next',
+      'link.next',
+      'links.next',
+      'meta.links.next',
+      'next',
+      'NextPageLink',
+      'next_page_url',
+      'pagination.next',
+    ],
+    pageSize: [
+      'limit',
+      'pageSize',
+      'max-results',
+      'MaxResults',
+      'maxResults',
+      'MaxItems',
+      'pagination.limit',
+      'page[size]',
+    ],
+  };
+  const paramMap = {};
+  Object.keys(synonyms).forEach((meaning) => {
+    synonyms[meaning].forEach((namePath) => {
+      paramMap[namePath] = meaning;
+    });
+  });
+  function checkMethod(methodObj: OpenAPIV3_1.OperationObject): void {
+    if (methodObj?.parameters) {
+      methodObj.parameters.forEach((parameter) => {
+        Object.keys(paramMap).forEach((paramName) => {
+          if (parameter.name === paramName) {
+            found[paramMap[paramName]] = true;
           }
         });
-      }
-      // Object.keys(specObj.paths[path].get.responses).forEach((statusCode) => {
-      //   if (statusCode.startsWith('2')) {
-      //     const response = specObj.paths[path].get.responses[statusCode];
-      //     if (response.content) {
-      //       Object.keys(response.content).forEach((contentType) => {
-      //         if (response.content[contentType].schema.type === 'array') {
-      //           console.log(`  Response ${statusCode} returns an array, which may indicate pagination`);
-      //         }
-      //       });
-      //     }
-      //     if (response.headers && response.headers.link) {
-      //       console.log(`  Response ${statusCode} has a Link header, which may indicate pagination`);
-      //       console.log(response.headers.link);
-      //     }
-      //   }
-      // });
+      });
     }
+    const requestBodies = methodObj?.requestBody?.content || {};
+    checkContent(requestBodies);
+
+    const responses = methodObj?.responses || {};
+    Object.keys(responses).forEach((responseCode) => {
+      const response = responses[responseCode];
+      // console.log('considering', responseCode, response);
+      checkContent(response.content);
+      if (response.headers?.Link) {
+        found['nextPageLink'] = true;
+      }
+    });
+  }
+
+  Object.keys(specObj.paths).forEach((path) => {
+    checkMethod(specObj.paths[path].get);
+    checkMethod(specObj.paths[path].post);
   });
   if (Object.keys(found).length > 0) {
     console.log(
-      `${filename}: some GET endpoints have pagination parameters: ${Object.keys(found).join(', ')}`,
+      `${filename}: some GET/POST endpoints have pagination parameters: ${Object.keys(found).join(', ')}`,
     );
+  } else {
+    console.log(
+      `${filename}: no GET/POST endpoints with pagination parameters found`,
+    );
+    await manualCheck(filename);
   }
 }
 
-const baseDir = process.argv[2];
-if (!baseDir) {
+if (process.argv.length !== 3) {
   console.error('Please provide a filename or directory as an argument');
   process.exit(1);
 }
+const baseDir = process.argv[2];
 
 (async (): Promise<void> => {
+  try {
+    const manuallyCheckedLines = await readFile('checked.txt');
+    manuallyCheckedLines
+      .toString()
+      .split('\n')
+      .forEach((line) => {
+        if (line.trim() !== '') {
+          const [filename, status] = line.split(' ');
+          manuallyChecked[filename] = status === 'true';
+        }
+      });
+  } catch (err) {
+    void err;
+    console.log('checked.txt not found, starting with empty manuallyChecked');
+  }
   await processFileOrDir(baseDir);
+  await writeFile(
+    'checked.txt',
+    Object.keys(manuallyChecked)
+      .map((filename) => `${filename} ${manuallyChecked[filename]}`)
+      .join('\n'),
+  );
 })();

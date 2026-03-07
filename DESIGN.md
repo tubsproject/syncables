@@ -24,7 +24,12 @@ So each scheme needs:
 
 ## found
 I found the following schemes by searching for 'pag' and `offset` (case-insensitive):
+### No pagination
+* 6-dot-...
+* adobe
 
+### 1password.com
+Special case because it is using POST where I think it should be using GET.
 
 ### 1password.local
 ```yaml
@@ -34,6 +39,8 @@ offset:
 pageSize:
   parameter: limit
 ```
+### ably.io platform
+paginated - how?
 
 ### adyen
 ```yaml
@@ -120,6 +127,8 @@ pageSize:
   responseBody: size
 totalCount:
   responseBody: count
+nextPageLink:
+  responseBody: next
 previousPageLink:
   responseBody: previous
 ```

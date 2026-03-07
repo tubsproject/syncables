@@ -166,3 +166,32 @@ export async function getSpecFromOverlay(overlayStr: string): Promise<string> {
   console.log(`Fetched base spec, now processing overlay`);
   return specStr;
 }
+
+export function findPathParts(
+  paramNameParts: string[],
+  schema: OpenAPIV3_1.SchemaObject,
+): boolean {
+  // console.log('\nEntering findPathParts', JSON.stringify(paramNameParts), JSON.stringify(schema));
+  if (paramNameParts.length === 0) {
+    // console.log('found', JSON.stringify(paramNameParts), JSON.stringify(schema));
+    return true;
+  }
+  if (schema?.properties?.[paramNameParts[0]]) {
+    const thisPart = paramNameParts.shift();
+    // console.log('thisPart', JSON.stringify(thisPart), JSON.stringify(paramNameParts));
+    // console.log('properties match', JSON.stringify(schema?.properties?.[thisPart]));
+    return findPathParts(paramNameParts, schema.properties[thisPart]);
+  }
+  if (schema?.oneOf) {
+    // console.log('oneOf match', JSON.stringify(schema?.oneOf));
+    for (let i = 0; i < schema.oneOf.length; i++) {
+      // console.log('iteration', JSON.stringify(schema?.oneOf[i]));
+      if (findPathParts(paramNameParts, schema.oneOf[i])) {
+        // console.log('match', JSON.stringify(schema?.oneOf[i]));
+        return true;
+      }
+    }
+  }
+  // console.log('no match found');
+  return false;
+}

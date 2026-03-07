@@ -1,0 +1,1005 @@
+
+> syncables@0.14.0 generate /Users/michiel/gh/tubsproject/syncables
+> node build/src/generate.js ../../APIs-guru/openapi-directory/apis/
+
+../../APIs-guru/openapi-directory/apis/1forge.com/0.0.1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/1password.com/events/1.2.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/1password.local/connect/1.5.7/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
+../../APIs-guru/openapi-directory/apis/6-dot-authentiqio.appspot.com/6/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/ably.io/platform/1.1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/ably.net/control/1.0.14/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/ably.net/control/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/abstractapi.com/geolocation/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adafruit.com/2.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/adobe.com/aem/3.7.1-pre.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/AccountService/3/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/AccountService/4/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/AccountService/5/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/AccountService/6/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/BalanceControlService/1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/BalancePlatformConfigurationNotification-v1/1/openapi.yaml: Error parsing specification: Error: Spec does not have valid paths
+../../APIs-guru/openapi-directory/apis/adyen.com/BalancePlatformPaymentNotification-v1/1/openapi.yaml: Error parsing specification: Error: Spec does not have valid paths
+../../APIs-guru/openapi-directory/apis/adyen.com/BalancePlatformReportNotification-v1/1/openapi.yaml: Error parsing specification: Error: Spec does not have valid paths
+../../APIs-guru/openapi-directory/apis/adyen.com/BalancePlatformService/1/openapi.yaml: some GET/POST endpoints have pagination parameters: offset, pageSize
+../../APIs-guru/openapi-directory/apis/adyen.com/BalancePlatformService/2/openapi.yaml: some GET/POST endpoints have pagination parameters: offset, pageSize
+../../APIs-guru/openapi-directory/apis/adyen.com/BalancePlatformTransferNotification-v3/3/openapi.yaml: Error parsing specification: Error: Spec does not have valid paths
+../../APIs-guru/openapi-directory/apis/adyen.com/BinLookupService/40/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/BinLookupService/50/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/BinLookupService/52/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/BinLookupService/53/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/BinLookupService/54/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/37/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/40/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/41/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/46/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/49/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/50/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/51/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/52/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/53/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/64/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/65/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/66/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/67/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/68/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/69/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService/70/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutService-v71/71/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/CheckoutUtilityService/1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/DataProtectionService/1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/DisputeService-v30/30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/FundService/3/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/FundService/5/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/FundService/6/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/GrantService-v3/3/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/HopService/1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/HopService/5/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/HopService/6/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/LegalEntityService/1/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
+../../APIs-guru/openapi-directory/apis/adyen.com/LegalEntityService/2/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
+../../APIs-guru/openapi-directory/apis/adyen.com/LegalEntityService/3/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
+../../APIs-guru/openapi-directory/apis/adyen.com/ManagementNotificationService-v1/1/openapi.yaml: Error parsing specification: Error: Spec does not have valid paths
+../../APIs-guru/openapi-directory/apis/adyen.com/ManagementService/1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, nextPageLink, offset
+../../APIs-guru/openapi-directory/apis/adyen.com/ManagementService-v3/3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, nextPageLink, offset
+../../APIs-guru/openapi-directory/apis/adyen.com/MarketPayNotificationService/3/openapi.yaml: Error parsing specification: Error: Spec does not have valid paths
+../../APIs-guru/openapi-directory/apis/adyen.com/MarketPayNotificationService/4/openapi.yaml: Error parsing specification: Error: Spec does not have valid paths
+../../APIs-guru/openapi-directory/apis/adyen.com/MarketPayNotificationService/5/openapi.yaml: Error parsing specification: Error: Spec does not have valid paths
+../../APIs-guru/openapi-directory/apis/adyen.com/MarketPayNotificationService/6/openapi.yaml: Error parsing specification: Error: Spec does not have valid paths
+../../APIs-guru/openapi-directory/apis/adyen.com/NotificationConfigurationService/1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/NotificationConfigurationService/2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/NotificationConfigurationService/3/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/NotificationConfigurationService/4/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/NotificationConfigurationService/5/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/NotificationConfigurationService/6/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/25/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/40/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/46/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/49/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/50/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/51/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/52/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/64/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/67/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PaymentService/68/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/40/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/46/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/49/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/50/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/51/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/52/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/64/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/67/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/PayoutService/68/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/RecurringService/18/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/RecurringService/25/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/RecurringService/30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/RecurringService/40/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/RecurringService/49/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/RecurringService/67/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/RecurringService/68/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/StoredValueService/46/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/TerminalAPI-v1/1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/TestCardService/1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/TfmAPIService/1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/adyen.com/TransferService/1/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/adyen.com/TransferService/2/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/adyen.com/TransferService/3/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/adyen.com/TransferService-v4/4/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/afterbanks.com/3.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/agco-ats.com/v1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
+../../APIs-guru/openapi-directory/apis/aiception.com/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/airbyte.local/config/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: offset
+../../APIs-guru/openapi-directory/apis/airport-web.appspot.com/v1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/akeneo.com/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/alertersystem.com/1.7.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/apis/amadeus.com/2.2.0/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-airline-code-lookup/1.1.1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-airport-&-city-search/1.2.3/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-airport-nearest-relevant/1.1.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-airport-on-time-performance/1.0.4/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-branded-fares-upsell/1.0.1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-availabilities-search/1.0.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-busiest-traveling-period/1.0.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-cheapest-date-search/1.0.6/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-check-in-links/2.1.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-choice-prediction/2.0.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-create-orders/1.9.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-delay-prediction/1.0.6/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-inspiration-search/1.0.6/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-most-booked-destinations/1.1.1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-most-traveled-destinations/1.1.1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-offers-price/1.2.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-order-management/1.9.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-flight-price-analysis/1.0.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-hotel-booking/1.1.3/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-hotel-name-autocomplete/1.0.3/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-hotel-ratings/1.0.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-hotel-search/3.0.8/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-location-score/1.0.2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-on-demand-flight-status/2.0.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-points-of-interest/1.1.1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-safe-place-/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-seatmap-display/1.9.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-tours-and-activities/1.0.2/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-travel-recommendations/1.0.3/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-trip-parser/3.0.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amadeus.com/amadeus-trip-purpose-prediction/1.1.4/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/amazonaws.com/AWSMigrationHub/2017-05-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/accessanalyzer/2019-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/account/2021-02-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/acm/2015-12-08/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/acm-pca/2017-08-22/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/alexaforbusiness/2017-11-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/amp/2020-08-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/amplify/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/amplifybackend/2020-08-11/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/amplifyuibuilder/2021-08-11/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/apigateway/2015-07-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/apigatewaymanagementapi/2018-11-29/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/apigatewayv2/2018-11-29/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appconfig/2019-10-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appconfigdata/2021-11-11/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appfabric/2023-05-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appflow/2020-08-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appintegrations/2020-07-29/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/application-autoscaling/2016-02-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/application-insights/2018-11-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/applicationcostprofiler/2020-09-10/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appmesh/2018-10-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appmesh/2019-01-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/apprunner/2020-05-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appstream/2016-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/appsync/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/arc-zonal-shift/2022-10-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/athena/2017-05-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/auditmanager/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/autoscaling/2011-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/autoscaling-plans/2018-01-06/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/backup/2018-11-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/backup-gateway/2021-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/backupstorage/2018-04-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/batch/2016-08-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/billingconductor/2021-07-30/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/braket/2019-09-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/budgets/2016-10-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ce/2017-10-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/chime/2018-05-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/chime-sdk-identity/2021-04-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/chime-sdk-media-pipelines/2021-07-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/chime-sdk-meetings/2021-07-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/chime-sdk-messaging/2021-05-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/chime-sdk-voice/2022-08-03/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cleanrooms/2022-02-17/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloud9/2017-09-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudcontrol/2021-09-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/clouddirectory/2016-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/clouddirectory/2017-01-11/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudformation/2010-05-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudfront/2016-11-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudfront/2017-03-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudfront/2017-10-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudfront/2018-06-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudfront/2018-11-05/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudfront/2019-03-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudfront/2020-05-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudhsm/2014-05-30/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudhsmv2/2017-04-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudsearch/2011-02-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudsearch/2013-01-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudsearchdomain/2013-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudtrail/2013-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cloudtrail-data/2021-08-11/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codeartifact/2018-09-22/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codebuild/2016-10-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codecatalyst/2022-09-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codecommit/2015-04-13/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codedeploy/2014-10-06/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codeguru-reviewer/2019-09-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codeguru-security/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codeguruprofiler/2019-07-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codepipeline/2015-07-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codestar/2017-04-19/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codestar-connections/2019-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/codestar-notifications/2019-10-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cognito-identity/2014-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cognito-idp/2016-04-18/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cognito-sync/2014-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/comprehend/2017-11-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/comprehendmedical/2018-10-30/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/compute-optimizer/2019-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/config/2014-11-12/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/connect/2017-08-08/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/connect-contact-lens/2020-08-21/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/connectcampaigns/2021-01-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/connectcases/2022-10-03/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/connectparticipant/2018-09-07/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/controltower/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/cur/2017-01-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/customer-profiles/2020-08-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/databrew/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/dataexchange/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/datapipeline/2012-10-29/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/datasync/2018-11-09/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/dax/2017-04-19/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/detective/2018-10-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/devicefarm/2015-06-23/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/devops-guru/2020-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/directconnect/2012-10-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/discovery/2015-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/dlm/2018-01-12/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/dms/2016-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/docdb/2014-10-31/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/docdb-elastic/2022-11-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/drs/2020-02-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ds/2015-04-16/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/dynamodb/2011-12-05/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/dynamodb/2012-08-10/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ebs/2019-11-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ec2/2016-11-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ec2-instance-connect/2018-04-02/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ecr/2015-09-21/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ecr-public/2020-10-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ecs/2014-11-13/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/eks/2017-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/elastic-inference/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticache/2015-02-02/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticbeanstalk/2010-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticfilesystem/2015-02-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticloadbalancing/2012-06-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticloadbalancingv2/2015-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/elasticmapreduce/2009-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/elastictranscoder/2012-09-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/email/2010-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/emr-containers/2020-10-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/emr-serverless/2021-07-13/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/entitlement.marketplace/2017-01-11/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/entityresolution/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/es/2015-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/eventbridge/2015-10-07/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/events/2015-10-07/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/evidently/2021-02-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/finspace/2021-03-12/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/finspace-data/2020-07-13/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/firehose/2015-08-04/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/fis/2020-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/fms/2018-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/forecast/2018-06-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/forecastquery/2018-06-26/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/frauddetector/2019-11-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/fsx/2018-03-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/gamelift/2015-10-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/gamesparks/2021-08-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/glacier/2012-06-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/globalaccelerator/2018-08-08/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/glue/2017-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/grafana/2020-08-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/greengrass/2017-06-07/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/greengrassv2/2020-11-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/groundstation/2019-05-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/guardduty/2017-11-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/health/2016-08-04/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/healthlake/2017-07-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/honeycode/2020-03-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iam/2010-05-08/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/identitystore/2020-06-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/imagebuilder/2019-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/importexport/2010-06-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/inspector/2016-02-16/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/inspector2/2020-06-08/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/internetmonitor/2021-06-03/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot/2015-05-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot-data/2015-05-28/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot-jobs-data/2017-09-29/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot-roborunner/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot1click-devices/2018-05-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iot1click-projects/2018-05-14/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotanalytics/2017-11-27/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotdeviceadvisor/2020-09-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotevents/2018-07-27/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotevents-data/2018-10-23/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotfleethub/2020-11-03/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotfleetwise/2021-06-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotsecuretunneling/2018-10-05/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotsitewise/2019-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotthingsgraph/2018-09-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iottwinmaker/2021-11-29/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/iotwireless/2020-11-22/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ivs/2020-07-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ivs-realtime/2020-07-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ivschat/2020-07-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kafka/2018-11-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kafkaconnect/2021-09-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kendra/2019-02-03/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kendra-ranking/2022-10-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/keyspaces/2022-02-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesis/2013-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesis-video-archived-media/2017-09-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesis-video-media/2017-09-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesis-video-signaling/2019-12-04/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesis-video-webrtc-storage/2018-05-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesisanalytics/2015-08-14/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesisanalyticsv2/2018-05-23/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kinesisvideo/2017-09-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/kms/2014-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lakeformation/2017-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lambda/2014-11-11/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lambda/2015-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lex-models/2017-04-19/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/license-manager/2018-08-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/license-manager-linux-subscriptions/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/license-manager-user-subscriptions/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lightsail/2016-11-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/location/2020-11-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/logs/2014-03-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lookoutequipment/2020-12-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lookoutmetrics/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/lookoutvision/2020-11-20/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/m2/2021-04-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/machinelearning/2014-12-12/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/macie/2017-12-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/macie2/2020-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/managedblockchain/2018-09-24/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/managedblockchain-query/2023-05-04/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/marketplace-catalog/2018-09-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/marketplacecommerceanalytics/2015-07-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mediaconnect/2018-11-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mediaconvert/2017-08-29/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/medialive/2017-10-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mediapackage/2017-10-12/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mediapackage-vod/2018-11-07/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mediapackagev2/2022-12-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mediastore/2017-09-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mediastore-data/2017-09-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mediatailor/2018-04-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/medical-imaging/2023-07-19/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/memorydb/2021-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/meteringmarketplace/2016-01-14/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mgn/2020-02-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/migration-hub-refactor-spaces/2021-10-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/migrationhub-config/2019-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/migrationhuborchestrator/2021-08-28/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink, pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/migrationhubstrategy/2020-02-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mobile/2017-07-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mobileanalytics/2014-06-05/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/models.lex.v2/2020-08-07/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/monitoring/2010-08-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mq/2017-11-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mturk-requester/2017-01-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/mwaa/2020-07-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/neptune/2014-10-31/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/network-firewall/2020-11-12/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/networkmanager/2019-07-05/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/nimble/2020-08-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/oam/2022-06-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/omics/2022-11-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/opensearch/2021-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/opensearchserverless/2021-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/opsworks/2013-02-18/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/opsworkscm/2016-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/organizations/2016-11-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/osis/2022-01-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/outposts/2019-12-03/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/panorama/2019-07-24/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/payment-cryptography/2021-09-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/payment-cryptography-data/2022-02-03/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/personalize/2018-05-22/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/personalize-events/2018-03-22/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/personalize-runtime/2018-05-22/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/pi/2018-02-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/pinpoint/2016-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/pinpoint-email/2018-07-26/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/pinpoint-sms-voice-v2/2022-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/pipes/2015-10-07/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/polly/2016-06-10/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/pricing/2017-10-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/privatenetworks/2021-12-03/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/proton/2020-07-20/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/qldb/2019-01-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/qldb-session/2019-07-11/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/quicksight/2018-04-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ram/2018-01-04/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rbin/2021-06-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rds/2013-01-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rds/2013-02-12/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rds/2013-09-09/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rds/2014-09-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rds/2014-10-31/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rds-data/2018-08-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/redshift/2012-12-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/redshift-data/2019-12-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/redshift-serverless/2021-04-21/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rekognition/2016-06-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/resiliencehub/2020-04-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/resource-explorer/2-2022-07-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/resource-groups/2017-11-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/resourcegroupstaggingapi/2017-01-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/robomaker/2018-06-29/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rolesanywhere/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/route53/2013-04-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/route53-recovery-cluster/2019-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/route53-recovery-control-config/2020-11-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/route53-recovery-readiness/2019-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/route53domains/2014-05-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/route53resolver/2018-04-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/rum/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/runtime.lex/2016-11-28/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/runtime.lex.v2/2020-08-07/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/runtime.sagemaker/2017-05-13/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/s3/2006-03-01/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/s3control/2018-08-20/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/s3outposts/2017-07-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker/2017-07-24/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-a2i-runtime/2019-11-07/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-edge/2020-09-23/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-featurestore-runtime/2020-07-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-geospatial/2020-05-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sagemaker-metrics/2022-09-30/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/savingsplans/2019-06-28/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/scheduler/2021-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/schemas/2019-12-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sdb/2009-04-15/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/secretsmanager/2017-10-17/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/securityhub/2018-10-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/securitylake/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/serverlessrepo/2017-09-08/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/service-quotas/2019-06-24/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/servicecatalog/2015-12-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/servicecatalog-appregistry/2020-06-24/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/servicediscovery/2017-03-14/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sesv2/2019-09-27/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/shield/2016-06-02/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/signer/2017-08-25/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/simspaceweaver/2022-10-28/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sms/2016-10-24/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sms-voice/2018-09-05/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/snow-device-management/2021-08-04/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/snowball/2016-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sns/2010-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sqs/2012-11-05/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ssm/2014-11-06/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ssm-contacts/2021-05-03/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ssm-incidents/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/ssm-sap/2018-05-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sso/2019-06-10/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sso-admin/2020-07-20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sso-oidc/2019-06-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/states/2016-11-23/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/storagegateway/2013-06-30/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/streams.dynamodb/2012-08-10/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/sts/2011-06-15/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/support/2013-04-15/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/support-app/2021-08-20/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/swf/2012-01-25/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/synthetics/2017-10-11/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/textract/2018-06-27/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/timestream-query/2018-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/timestream-write/2018-11-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/tnb/2008-10-21/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/transcribe/2017-10-26/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/transfer/2018-11-05/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/translate/2017-07-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/verifiedpermissions/2021-12-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/voice-id/2021-09-27/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/vpc-lattice/2022-11-30/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/waf/2015-08-24/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/waf-regional/2016-11-28/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/wafv2/2019-07-29/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/wellarchitected/2020-03-31/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/wisdom/2020-10-19/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/workdocs/2016-05-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/worklink/2018-09-25/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/workmail/2017-10-01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/workmailmessageflow/2019-05-01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amazonaws.com/workspaces/2015-04-08/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amazonaws.com/workspaces-web/2020-07-08/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, token
+../../APIs-guru/openapi-directory/apis/amazonaws.com/xray/2016-04-12/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize
+../../APIs-guru/openapi-directory/apis/amentum.space/atmosphere/1.1.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amentum.space/aviation_radiation/1.5.0/openapi.yaml: Error parsing specification: Error: Spec does not have valid components
+../../APIs-guru/openapi-directory/apis/amentum.space/global-magnet/1.3.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amentum.space/gravity/1.1.1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/amentum.space/space_radiation/1.1.2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/anchore.io/0.1.20/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber, pageSize
+../../APIs-guru/openapi-directory/apis/apache.org/airflow/2.5.3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
+../../APIs-guru/openapi-directory/apis/apache.org/qakka/v1/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apacta.com/0.0.42/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber, pageSize
+../../APIs-guru/openapi-directory/apis/api.gov.uk/vehicle-enquiry/1.1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/api.video/1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/api2cart.com/1.1/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
+../../APIs-guru/openapi-directory/apis/api2pdf.com/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apicurio.local/registry/1.3.2.Final/openapi.yaml: some GET/POST endpoints have pagination parameters: offset, pageSize
+../../APIs-guru/openapi-directory/apis/apicurio.local/registry/2.4.x/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
+../../APIs-guru/openapi-directory/apis/apidapp.com/2019-02-14T164701Z/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apideck.com/accounting/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/ats/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/connector/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/crm/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/customer-support/9.5.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/ecommerce/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/ecosystem/0.0.6/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/file-storage/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/hris/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/issue-tracking/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/lead/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/pos/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/proxy/10.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apideck.com/sms/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/vault/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apideck.com/webhook/10.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apigee.local/registry/0.0.1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize
+../../APIs-guru/openapi-directory/apis/apigee.net/marketcheck-cars/2.01/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/apis/apimatic.io/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apis.guru/2.2.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/aaharjh/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/acko/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/agtripura/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/aharakar/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/aiimsmangalagiri/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/aiimspatna/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/aiimsrishikesh/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/aktu/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/apmcservices/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/asrb/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/bajajallianz/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/bajajallianzlife/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/barti/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/bharatpetroleum/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/bhartiaxagi/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/bhavishya/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/biharboard/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/bput/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/bsehr/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/cbse/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/cgbse/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/chennaicorp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/chitkarauniversity/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/cholainsurance/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/cisce/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/civilsupplieskerala/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/cpctmp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/csc/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/dbraitandaman/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/dgecerttn/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/dgft/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/dhsekerala/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/ditarunachal/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/ditch/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/dittripura/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/duexam/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/edistrictandaman/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/edistricthp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/edistrictkerala/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/edistrictodisha/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/edistrictodishasp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/edistrictpb/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/edistrictup/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/ehimapurtihp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/enibandhanjh/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/epfindia/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/epramanhp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/eservicearunachal/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/fsdhr/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/futuregenerali/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/gadbih/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/gauhati/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/gbshse/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/geetanjaliuniv/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/gmch/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/goawrd/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/godigit/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/gujaratvidyapith/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/hindustanpetroleum/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/hpayushboard/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/hpbose/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/hppanchayat/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/hpsbys/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/hpsssb/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/hptechboard/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/hsbte/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/hsscboardmh/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/icicilombard/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/iciciprulife/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/icsi/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/igrmaharashtra/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/insvalsura/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/iocl/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/issuer/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/jac/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/jeecup/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/jharsewa/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/jnrmand/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/juit/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/keralapsc/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/kiadb/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/kkhsou/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/kotakgeneralinsurance/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/kseebkr/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/ktech/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/labourbih/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/landrecordskar/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/lawcollegeandaman/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/legalmetrologyup/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/licindia/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/maxlifeinsurance/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/mbose/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/mbse/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/mcimindia/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/meark/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/mizoramlesde/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/mizorampolice/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/mpmsu/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/mppmc/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/mriu/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/msde/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/municipaladmin/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/nationalinsurance/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/ncert/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/negd/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/neilit/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/newindia/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/niesbud/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/nios/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/nitap/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/nitp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/npsailu/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/nsdcindia/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/orientalinsurance/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/pan/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/pareekshabhavanker/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/pblabour/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/pgimer/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/phedharyana/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/pmjay/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/pramericalife/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/pseb/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/puekar/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/punjabteched/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/rajasthandsa/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/rajasthanrajeduboard/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/reliancegeneral/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/revenueassam/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/revenueodisha/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/sainikwelfarepud/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/saralharyana/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/sbigeneral/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/scvtup/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/sebaonline/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/statisticsrajasthan/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/swavlambancard/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/tataaia/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/tataaig/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/tbse/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transport/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportan/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportap/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportar/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportas/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportbr/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportcg/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportdd/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportdh/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportdl/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportga/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportgj/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transporthp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transporthr/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportjh/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportjk/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportka/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportkl/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportld/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportmh/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportml/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportmn/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportmp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportmz/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportnl/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportod/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportpb/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportpy/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportrj/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportsk/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transporttn/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transporttr/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportts/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportuk/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportup/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/transportwb/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/ubseuk/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/ucobank/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/uiic/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/upmsp/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/vhseker/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apisetu.gov.in/vssut/3.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apispot.io/whois/2.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apiz.ebay.com/commerce-identity/v1.1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apiz.ebay.com/sell-finances/v1.15.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset, nextPageLink
+../../APIs-guru/openapi-directory/apis/appcenter.ms/v0.1/openapi.yaml: some GET/POST endpoints have pagination parameters: offset
+../../APIs-guru/openapi-directory/apis/apple.com/app-store-connect/1.4.1/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/apple.com/sirikit-cloud-media/1.0.2/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/apptigent.com/2021.1.01/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/appveyor.com/1.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/appwrite.io/client/0.9.3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
+../../APIs-guru/openapi-directory/apis/appwrite.io/server/0.9.3/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
+../../APIs-guru/openapi-directory/apis/archive.org/search/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: token
+../../APIs-guru/openapi-directory/apis/archive.org/wayback/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/arespass.net/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/art19.com/1.0.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber, pageSize, nextPageLink
+../../APIs-guru/openapi-directory/apis/asana.com/1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset
+../../APIs-guru/openapi-directory/apis/asuarez.dev/searchly/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/atlassian.com/jira/1001.0.0-SNAPSHOT/openapi.yaml: some GET/POST endpoints have pagination parameters: pageSize, offset, nextPageLink
+../../APIs-guru/openapi-directory/apis/ato.gov.au/0.0.6/openapi.yaml: some GET/POST endpoints have pagination parameters: nextPageLink
+../../APIs-guru/openapi-directory/apis/aucklandmuseum.com/2.0.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/authentiq.io/1.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/autodealerdata.com/1.0/openapi.yaml: some GET/POST endpoints have pagination parameters: pageNumber
+../../APIs-guru/openapi-directory/apis/autotask.net/v1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/avaza.com/v1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/aviationdata.systems/v1/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/axesso.de/1.0.0/openapi.yaml: no GET/POST endpoints with pagination parameters found
+../../APIs-guru/openapi-directory/apis/azure.com/EnterpriseKnowledgeGraph-EnterpriseKnowledgeGraphSwagger/2018-12-03/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/addons-Addons/2017-05-15/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/addons-addons-swagger/2018-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/adhybridhealthservice-ADHybridHealthService/2014-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/advisor/2016-07-12-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/advisor/2017-03-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/advisor/2017-04-19/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/advisor/2020-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/alertsmanagement-AlertsManagement/2018-05-05/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/alertsmanagement-AlertsManagement/2018-05-05-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/alertsmanagement-AlertsManagement/2018-11-02-privatepreview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/alertsmanagement-AlertsManagement/2019-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/alertsmanagement-AlertsManagement/2019-03-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/alertsmanagement-AlertsManagement/2019-05-05-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/alertsmanagement-SmartDetectorAlertRulesApi/2019-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/alertsmanagement-SmartDetectorAlertRulesApi/2019-06-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/analysisservices/2016-05-16/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/analysisservices/2017-07-14/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/analysisservices/2017-08-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/analysisservices/2017-08-01-beta/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement/2016-07-07/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapis/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapis/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapis/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapis/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapis/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapis/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapisByTags/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapisByTags/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapisByTags/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapiversionsets/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapiversionsets/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimapiversionsets/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimauthorizationservers/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimauthorizationservers/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimauthorizationservers/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimauthorizationservers/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimauthorizationservers/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimauthorizationservers/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimbackends/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimbackends/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimbackends/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimbackends/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimbackends/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimbackends/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimcaches/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimcaches/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimcaches/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimcertificates/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimcertificates/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimcertificates/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimcertificates/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimcertificates/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimcertificates/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdeployment/2016-07-07/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdeployment/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdeployment/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdeployment/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdeployment/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdeployment/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdeployment/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdiagnostics/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdiagnostics/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdiagnostics/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdiagnostics/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimdiagnostics/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimemailtemplate/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimemailtemplate/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimemailtemplate/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimemailtemplates/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimemailtemplates/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimemailtemplates/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimgroups/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimgroups/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimgroups/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimgroups/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimgroups/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimgroups/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimidentityprovider/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimidentityprovider/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimidentityprovider/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimidentityprovider/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimidentityprovider/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimidentityprovider/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimissues/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimissues/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimissues/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimissues/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimloggers/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimloggers/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimloggers/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimloggers/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimloggers/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimloggers/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnamedvalues/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnetworkstatus/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnetworkstatus/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnetworkstatus/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnetworkstatus/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnetworkstatus/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnetworkstatus/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnotifications/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnotifications/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnotifications/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnotifications/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimnotifications/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimopenidconnectproviders/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimopenidconnectproviders/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimopenidconnectproviders/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimopenidconnectproviders/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimopenidconnectproviders/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimopenidconnectproviders/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimpolicies/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimpolicies/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimpolicies/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimpolicydescriptions/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimpolicysnippets/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimpolicysnippets/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproducts/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproducts/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproducts/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproducts/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproducts/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproducts/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproductsByTags/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproductsByTags/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproductsByTags/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproperties/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproperties/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproperties/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproperties/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimproperties/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimquotas/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimquotas/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimquotas/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimquotas/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimquotas/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimquotas/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimregions/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimregions/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimregions/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimreports/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimreports/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimreports/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimreports/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimreports/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimreports/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimsubscriptions/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimsubscriptions/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimsubscriptions/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimsubscriptions/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimsubscriptions/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimsubscriptions/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtagresources/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtagresources/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtagresources/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtagresources/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtagresources/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtags/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtags/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtags/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtags/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtags/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtenant/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtenant/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtenant/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtenant/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtenant/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimtenant/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimusers/2016-10-10/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimusers/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimusers/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimusers/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimusers/2019-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimusers/2019-12-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimversionsets/2017-03-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimversionsets/2018-01-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/apimanagement-apimversionsets/2018-06-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/appconfiguration/1.0/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/appconfiguration/2019-02-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/appconfiguration/2019-10-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/appconfiguration/2019-11-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-QueryPackQueries_API/2019-09-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-QueryPacks_API/2019-09-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-aiOperations_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-analyticsItems_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-componentAnnotations_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-componentApiKeys_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-componentContinuousExport_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-componentFeaturesAndPricing_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-componentFeaturesAndPricing_API/2017-10-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-componentProactiveDetection_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-componentProactiveDetection_API/2018-05-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-componentWorkItemConfigs_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-components_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-eaSubscriptionMigration_API/2017-10-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-favorites_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-swagger/2018-04-20/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-webTestLocations_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-webTests_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-workbookOperations_API/2018-06-17-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-workbookTemplates_API/2019-10-17-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-workbooks_API/2015-05-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/applicationinsights-workbooks_API/2018-06-17-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/appplatform/2019-05-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/attestation/2018-09-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization/2015-07-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-ClassicAdminCalls/2015-06-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-ClassicAdminCalls/2015-07-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-DenyAssignmentGetCalls/2018-07-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-ElevateAccessCalls/2015-07-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-ProviderOperationsCalls/2015-07-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-ProviderOperationsCalls/2018-01-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-RACalls/2017-10-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-RoleAssignmentsCalls/2015-07-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-RoleAssignmentsCalls/2017-10-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-RoleAssignmentsCalls/2018-01-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-RoleAssignmentsCalls/2018-09-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-RoleBasedCalls/2018-01-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-RoleDefinitionsCalls/2015-07-01/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/authorization-authorization-RoleDefinitionsCalls/2018-01-01-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-account/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-certificate/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-connection/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-connectionType/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-credential/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-dscCompilationJob/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-dscCompilationJob/2018-01-15/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-dscConfiguration/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-dscNode/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-dscNode/2018-01-15/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-dscNodeConfiguration/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-dscNodeConfiguration/2018-01-15/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-dscNodeCounts/2018-01-15/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-hybridRunbookWorkerGroup/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-job/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-job/2017-05-15-preview/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-jobSchedule/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-linkedWorkspace/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-module/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-python2package/2018-06-30/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-runbook/2015-10-31/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
+../../APIs-guru/openapi-directory/apis/azure.com/automation-runbook/2018-06-30/swagger.yaml: Error parsing specification: Error: Spec is not a valid OpenAPI 3.x document
