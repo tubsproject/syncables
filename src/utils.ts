@@ -167,7 +167,10 @@ export async function getSpecFromOverlay(overlayStr: string): Promise<string> {
   return specStr;
 }
 
-export function findPathParts(paramNameParts: string[], schema: OpenAPIV3_1.SchemaObject): boolean {
+export function findPathParts(
+  paramNameParts: string[],
+  schema: OpenAPIV3_1.SchemaObject,
+): boolean {
   // console.log('\nEntering findPathParts', JSON.stringify(paramNameParts), JSON.stringify(schema));
   if (paramNameParts.length === 0) {
     // console.log('found', JSON.stringify(paramNameParts), JSON.stringify(schema));
@@ -181,7 +184,7 @@ export function findPathParts(paramNameParts: string[], schema: OpenAPIV3_1.Sche
   }
   if (schema?.oneOf) {
     // console.log('oneOf match', JSON.stringify(schema?.oneOf));
-    for (let i=0; i < schema.oneOf.length; i++) {
+    for (let i = 0; i < schema.oneOf.length; i++) {
       // console.log('iteration', JSON.stringify(schema?.oneOf[i]));
       if (findPathParts(paramNameParts, schema.oneOf[i])) {
         // console.log('match', JSON.stringify(schema?.oneOf[i]));

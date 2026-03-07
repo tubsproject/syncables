@@ -121,24 +121,50 @@ async function processFile(filename: string): Promise<void> {
         }
       });
     });
-  } 
+  }
 
   const synonyms = {
     pageNumber: ['page', 'pagination.current_page', 'page[number]'],
     offset: ['offset', 'pagination.rowOffset', '$skip'],
-    token: ['next-token', 'next_page_token', 'NextToken', 'cursor', 'nextToken', 'NextMarker'],
-    nextPageLink: ['@odata.nextLink', '_links.next', 'link.next', 'links.next', 'meta.links.next', 'next', 'NextPageLink', 'next_page_url', 'pagination.next'],
-    pageSize: ['limit', 'pageSize', 'max-results', 'MaxResults', 'maxResults', 'MaxItems', 'pagination.limit', 'page[size]'],
+    token: [
+      'next-token',
+      'next_page_token',
+      'NextToken',
+      'cursor',
+      'nextToken',
+      'NextMarker',
+    ],
+    nextPageLink: [
+      '@odata.nextLink',
+      '_links.next',
+      'link.next',
+      'links.next',
+      'meta.links.next',
+      'next',
+      'NextPageLink',
+      'next_page_url',
+      'pagination.next',
+    ],
+    pageSize: [
+      'limit',
+      'pageSize',
+      'max-results',
+      'MaxResults',
+      'maxResults',
+      'MaxItems',
+      'pagination.limit',
+      'page[size]',
+    ],
   };
   const paramMap = {};
-  Object.keys(synonyms).forEach(meaning => {
-    synonyms[meaning].forEach(namePath => {
+  Object.keys(synonyms).forEach((meaning) => {
+    synonyms[meaning].forEach((namePath) => {
       paramMap[namePath] = meaning;
     });
   });
   function checkMethod(methodObj: OpenAPIV3_1.OperationObject): void {
     if (methodObj?.parameters) {
-      methodObj.parameters.forEach(parameter => {
+      methodObj.parameters.forEach((parameter) => {
         Object.keys(paramMap).forEach((paramName) => {
           if (parameter.name === paramName) {
             found[paramMap[paramName]] = true;
@@ -169,7 +195,9 @@ async function processFile(filename: string): Promise<void> {
       `${filename}: some GET/POST endpoints have pagination parameters: ${Object.keys(found).join(', ')}`,
     );
   } else {
-    console.log(`${filename}: no GET/POST endpoints with pagination parameters found`);
+    console.log(
+      `${filename}: no GET/POST endpoints with pagination parameters found`,
+    );
     await manualCheck(filename);
   }
 }
@@ -182,19 +210,25 @@ const baseDir = process.argv[2];
 
 (async (): Promise<void> => {
   try {
-
     const manuallyCheckedLines = await readFile('checked.txt');
-    manuallyCheckedLines.toString().split('\n').forEach((line) => {
-      if (line.trim() !== '') {
-        const [filename, status] = line.split(' ');
-        manuallyChecked[filename] = status === 'true';
-      }
-    });
+    manuallyCheckedLines
+      .toString()
+      .split('\n')
+      .forEach((line) => {
+        if (line.trim() !== '') {
+          const [filename, status] = line.split(' ');
+          manuallyChecked[filename] = status === 'true';
+        }
+      });
   } catch (err) {
     void err;
     console.log('checked.txt not found, starting with empty manuallyChecked');
   }
   await processFileOrDir(baseDir);
-  await writeFile('checked.txt', Object.keys(manuallyChecked).map(filename => `${filename} ${manuallyChecked[filename]}`).join('\n'));
-
+  await writeFile(
+    'checked.txt',
+    Object.keys(manuallyChecked)
+      .map((filename) => `${filename} ${manuallyChecked[filename]}`)
+      .join('\n'),
+  );
 })();
