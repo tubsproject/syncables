@@ -57,7 +57,7 @@ export class Syncer extends EventEmitter {
   }
   async parseSpec(): Promise<object> {
     const doc = await specStrToObj(this.specStr, this.overlayStr);
-    // console.log('Parsed spec document', doc);
+    console.log('Parsed spec document', doc.components);
     this.baseUrl =
       doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';
     if (this.baseUrl.startsWith('//')) {

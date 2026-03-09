@@ -3,34 +3,6 @@ extends: https://raw.githubusercontent.com/tubsproject/syncables/refs/tags/v0.14
 info:
   description: Add syncables to the Google Calendar API.
 actions:
-- target: paths['/users/me/calendarList']['get']['responses']['200']['content']['application/json']
-  update:
-    syncables:
-    - name: calendars
-      description: |-
-        Calendars of the currently authenticated user.
-      sub:
-        - events
-        - acl
-      type: collection
-- target: paths['/calendars/{calendarId}/events']['get']['responses']['200']['content']['application/json']
-  update:
-    syncables:
-    - name: events
-      description: |-
-        Events of the calendars of the currently authenticated user.
-      params:
-        calendarId: calendars.id
-      type: collection
-- target: paths['/calendars/{calendarId}/acl']['get']['responses']['200']['content']['application/json']
-  update:
-    syncables:
-    - name: acl
-      description: |-
-        Access control lists of the calendars of the currently authenticated user.
-      params:
-        calendarId: calendars.id
-      type: collection
 - target: components
   update:
     paginationSchemes:
@@ -39,3 +11,8 @@ actions:
         token:
           parameter: pageToken
           responseBody: nextPageToken
+- target: $
+  update:
+    relations:
+      params:
+        calendarId: calendars.id

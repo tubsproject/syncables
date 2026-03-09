@@ -10,6 +10,7 @@ const overlayStr = readFileSync(overlayFilename).toString();
 describe('Google Calendar List', async () => {
   const { fetchMock } = createFetchMock(true);
   const specStr = await getSpecFromOverlay(overlayStr);
+  console.log('overlayStr:', overlayStr);
   const syncer = new Syncer({
     specStr,
     overlayStr,
