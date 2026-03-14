@@ -19,7 +19,7 @@ export type SyncableSpecInput = {
     method: string;
     path: string;
   };
-  params?: { [key: string]: string };
+  parameters?: { [key: string]: string };
 };
 export type SyncableSpec = SyncableSpecInput & {
   paginationStrategy: PaginationStrategy;
@@ -131,8 +131,15 @@ export function generateSyncableSpec(
     defaultPageSize: input.defaultPageSize,
     forcePageSizeParamInQuery: paginationScheme.pageSize?.parameter,
     idField: input.idField || 'id', 
-    params: (doc.relations as { params?: { [key: string]: string } })?.params || {},
+    parameters: {},
   };
+  const parametersNames = Object.keys(doc.relations?.parameters || {});
+  parametersNames.forEach((paramName) => {
+    if (path.indexOf(`{${paramName}}`) !== -1) {
+      console.log(`Adding parameter ${paramName} to spec for path ${path}`);
+      spec.parameters[paramName] = doc.relations.parameters[paramName];
+    }
+  });
   // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
   if (spec.paginationStrategy === 'pageNumber') {
     // console.log('setting pageNumberParamInQuery');
@@ -163,6 +170,6 @@ export function generateSyncableSpec(
     // console.log('determined confirmOperation config', config.confirmOperation);
     // throw new Error('debug');
   }
-  // console.log('normalized', spec);
+  console.log('normalized', spec);
   return spec;
 }

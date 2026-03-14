@@ -472,7 +472,7 @@ export class Syncer extends EventEmitter {
       }
     }
     // if we reach here then all the parent patterns only have one value, so we can just fill those in and do one fetch
-    // we also fill in any params that might be hardcoded in spec.query, for instance a `{ format: '.json' }`
+    // we also fill in any parameters that might be hardcoded in spec.query, for instance a `{ format: '.json' }`
     const theseParents: { [pattern: string]: string } = Object.assign(
       {},
       this.syncables[syncableName].spec.query || {},
@@ -489,11 +489,11 @@ export class Syncer extends EventEmitter {
       return copy;
     });
   }
-  private paramTypes(params: { [key: string]: string }): {
+  private paramTypes(parameters: { [key: string]: string }): {
     [key: string]: 'string' | 'number';
   } {
     const paramTypes: { [key: string]: 'string' | 'number' } = {};
-    Object.entries(params || {}).forEach(([key, reference]) => {
+    Object.entries(parameters || {}).forEach(([key, reference]) => {
       const [parentName, parentField] = reference.split('.');
       const parentFields = getFields(
         this.syncables[parentName].schema,
@@ -534,7 +534,7 @@ export class Syncer extends EventEmitter {
         tableName,
         fields,
         syncable.spec.idField || 'id',
-        this.paramTypes(syncable.spec.params || {}),
+        this.paramTypes(syncable.spec.parameters || {}),
       );
       const fieldsToInsert: string[] = Object.keys(fields);
       Object.entries(parents).forEach(([pattern]) => {
@@ -590,30 +590,30 @@ export class Syncer extends EventEmitter {
           continue;
         }
         const syncable = this.syncables[specName];
-        // console.log(
-        //   'checking if we need parents for',
-        //   specName,
-        //   syncable.spec.params,
-        // );
+        console.log(
+          'checking if we need parents for',
+          specName,
+          syncable.spec.parameters,
+        );
         const parents = {};
-        if (syncable.spec.params) {
-          // console.log(
-          //   `Syncable ${specName} has params, determining parent data...`,
-          //   syncable.spec.params,
-          // );
+        if (syncable.spec.parameters) {
+          console.log(
+            `Syncable ${specName} has parameters, determining parent data...`,
+            syncable.spec.parameters,
+          );
           let missingParentData = false;
-          Object.entries(syncable.spec.params).forEach(
+          Object.entries(syncable.spec.parameters).forEach(
             ([pattern, reference]) => {
-              const parentName = reference.split('.')[0];
+              const parentName = reference.split('#')[0];
               if (!allData[parentName]) {
-                // console.log(
-                //   `Still missing parent data for syncable ${specName}: need parent ${parentName} based on param ${pattern}: ${reference}`,
-                // );
+                console.log(
+                  `Still missing parent data for syncable ${specName}: need parent ${parentName} based on param ${pattern}: ${reference}`,
+                );
                 missingParentData = true;
                 return;
               }
               // const idField = this.syncables[parentName].idField || 'id'; FIXME - can't we reuse this from there?
-              const idField = reference.split('.')[1];
+              const idField = reference.split('#')[1];
               // console.log('filling in parent pattern', pattern, 'with data from parent', parentName, 'using id field', idField);
               parents[pattern] = allData[parentName].map((item) =>
                 item[idField].toString(),
@@ -650,9 +650,9 @@ export class Syncer extends EventEmitter {
     );
     Object.keys(skipped).forEach((specName) => {
       if (skipped[specName]) {
-        const needed = Object.keys(this.syncables[specName].spec.params).map(
+        const needed = Object.keys(this.syncables[specName].spec.parameters).map(
           (pattern) => {
-            const reference = this.syncables[specName].spec.params[pattern];
+            const reference = this.syncables[specName].spec.parameters[pattern];
             return reference.split('.')[0];
           },
         );

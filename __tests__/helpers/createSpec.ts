@@ -5,7 +5,7 @@ export function createSpec(
   configs: { [path: string]: SyncableSpecInput },
   paginationScheme: PaginationScheme,
   relations: {
-    params: { [paramName: string]: string };
+    parameters: { [paramName: string]: string };
   }
 ): string {
   const specObj = {
@@ -37,7 +37,7 @@ export function createSpec(
             description: 'A list of items.',
             content: {
               'application/json': {
-                syncables: [Object.assign({}, config, relations)],
+                syncables: [Object.assign({}, config)],
                 schema: {
                   type: 'object',
                   properties: {

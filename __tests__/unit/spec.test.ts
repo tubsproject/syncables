@@ -26,7 +26,7 @@ describe('Spec parsing', () => {
         },
         paginationScheme,
         {
-          params: {
+          parameters: {
             customerId: 'customers.id',
           },
         },
@@ -41,7 +41,7 @@ describe('Spec parsing', () => {
           itemsPathInResponse: ['data', 'items'],
           paginationStrategy: 'pageNumber',
           pageNumberParamInQuery: 'page',
-          params: {
+          parameters: {
             customerId: 'customers.id',
           },
         },
