@@ -79,12 +79,13 @@ export class Syncer extends EventEmitter {
       if (pathItem.get) {
         console.log('found GET path', path);
         const spec = generateSyncableSpec(path, doc);
-        if (spec.paginationStrategy !== 'none') { // FIXME: this it to make google.test.ts pass
+        if (spec.paginationStrategy !== 'none') {
+          // FIXME: this it to make google.test.ts pass
           this.syncables[path] = {
             path,
             spec,
             schema:
-            pathItem.get.responses['200'].content['application/json'].schema,
+              pathItem.get.responses['200'].content['application/json'].schema,
           };
         }
       }
@@ -535,7 +536,14 @@ export class Syncer extends EventEmitter {
       const fields = getFields(syncable.schema, syncable.spec);
       // console.log('creating table with fields', fields);
       const tableName = specName.split('.')[0].replace(/[^a-zA-Z0-9_]/g, '');
-      console.log('creating SQL table', tableName, 'with fields', fields, 'and id field', syncable.spec.idField || 'id');
+      console.log(
+        'creating SQL table',
+        tableName,
+        'with fields',
+        fields,
+        'and id field',
+        syncable.spec.idField || 'id',
+      );
       await createSqlTable(
         this.client,
         tableName,

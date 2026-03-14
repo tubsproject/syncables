@@ -144,7 +144,9 @@ export function generateSyncableSpec(
   const method = 'get';
   const paginationSchemeName = 'default';
   const responseSchema =
-    doc.paths?.[path]?.[method]?.responses?.['200']?.content?.['application/json']?.schema;
+    doc.paths?.[path]?.[method]?.responses?.['200']?.content?.[
+      'application/json'
+    ]?.schema;
   const input: SyncableSpecInput = parsePaginationScheme(
     path,
     method,
