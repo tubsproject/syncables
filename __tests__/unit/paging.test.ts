@@ -20,6 +20,7 @@ test('pageNumber paging (unkown page size)', async () => {
         paginate: 'items',
         pageNumber: { parameter: 'page' },
       },
+      { parameters: {} },
     ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
@@ -28,7 +29,7 @@ test('pageNumber paging (unkown page size)', async () => {
   const data = await syncable.fullFetch();
   // console.log('fullFetch end');
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    '/todos/': mockResponses[0].items.concat(mockResponses[1].items),
   });
 
   // Check that fetch was called exactly thrice
@@ -65,13 +66,14 @@ test('pageNumber paging (default page size', async () => {
         paginate: 'items',
         pageNumber: { parameter: 'page' },
       },
+      { parameters: {} },
     ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    '/todos/': mockResponses[0].items.concat(mockResponses[1].items),
   });
 
   // Check that fetch was called exactly twice
@@ -97,20 +99,20 @@ test('pageNumber paging (force page size', async () => {
         '/todos/': {
           type: 'collection',
           name: 'todos',
-          forcePageSize: 2,
         },
       },
       {
         paginate: 'items',
         pageNumber: { parameter: 'page' },
       },
+      { parameters: {} },
     ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    '/todos/': mockResponses[0].items.concat(mockResponses[1].items),
   });
 
   // Check that fetch was called exactly twice
@@ -139,6 +141,7 @@ test('offset paging (unknown page size)', async () => {
       paginate: 'items',
       offset: { parameter: 'offset' },
     },
+    { parameters: {} },
   );
   // Call the function and assert the result
   const syncable = new Syncer({
@@ -148,7 +151,7 @@ test('offset paging (unknown page size)', async () => {
   });
   const data = await syncable.fullFetch();
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    '/todos/': mockResponses[0].items.concat(mockResponses[1].items),
   });
 
   // Check that fetch was called exactly thrice
@@ -185,13 +188,14 @@ test('offset paging (default page size)', async () => {
         paginate: 'items',
         offset: { parameter: 'offset' },
       },
+      { parameters: {} },
     ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    '/todos/': mockResponses[0].items.concat(mockResponses[1].items),
   });
 
   // Check that fetch was called exactly twice
@@ -217,20 +221,20 @@ test('offset paging (force page size)', async () => {
         '/todos/': {
           type: 'collection',
           name: 'todos',
-          forcePageSize: 2,
         },
       },
       {
         paginate: 'items',
         offset: { parameter: 'offset' },
       },
+      { parameters: {} },
     ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    '/todos/': mockResponses[0].items.concat(mockResponses[1].items),
   });
 
   // Check that fetch was called exactly twice
@@ -262,13 +266,14 @@ test('pageToken paging', async () => {
         paginate: 'items',
         token: { parameter: 'pageToken', responseBody: 'nextPageToken' },
       },
+      { parameters: {} },
     ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    '/todos/': mockResponses[0].items.concat(mockResponses[1].items),
   });
 
   // Check that fetch was called exactly twice
@@ -294,19 +299,19 @@ test.skip('rangeHeader paging', async () => {
         '/todos/': {
           type: 'collection',
           name: 'todos',
-          forcePageSize: 2,
         },
       },
       {
         paginate: 'items',
       },
+      { parameters: {} },
     ),
     authHeaders: {},
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
   const data = await syncable.fullFetch();
   expect(data).toEqual({
-    todos: mockResponses[0].items.concat(mockResponses[1].items),
+    '/todos/': mockResponses[0].items.concat(mockResponses[1].items),
   });
 
   // Check that fetch was called exactly twice

@@ -102,7 +102,8 @@ describe('Params', () => {
           '/users/': users,
           '/user/{userId}/widgets/': widgets,
         },
-        paginationScheme, relations
+        paginationScheme,
+        relations,
       ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
@@ -141,7 +142,8 @@ describe('Params', () => {
           '/users/': users,
           '/{countryId}/{userId}/widgets/': widgets,
         },
-        paginationScheme, { parameters: {}}
+        paginationScheme,
+        { parameters: {} },
       ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
@@ -150,7 +152,11 @@ describe('Params', () => {
     expect(Object.keys(data).sort()).toEqual(paths);
     paths.forEach((path) => {
       let items = [];
-      for (let i = 0; i < (path === '/{countryId}/{userId}/widgets/' ? 9 : 1); i++) {
+      for (
+        let i = 0;
+        i < (path === '/{countryId}/{userId}/widgets/' ? 9 : 1);
+        i++
+      ) {
         items = items.concat(mockResponses[0].items);
         items = items.concat(mockResponses[1].items);
       }

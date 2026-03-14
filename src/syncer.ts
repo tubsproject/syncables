@@ -81,8 +81,8 @@ export class Syncer extends EventEmitter {
         this.syncables[path] = {
           path,
           spec: generateSyncableSpec(path, doc),
-          schema: pathItem.get.responses['200'].content['application/json']
-            .schema,
+          schema:
+            pathItem.get.responses['200'].content['application/json'].schema,
         };
       }
       void generateSyncableSpec;
@@ -590,25 +590,25 @@ export class Syncer extends EventEmitter {
           continue;
         }
         const syncable = this.syncables[specName];
-        console.log(
-          'checking if we need parents for',
-          specName,
-          syncable.spec.parameters,
-        );
+        // console.log(
+        //   'checking if we need parents for',
+        //   specName,
+        //   syncable.spec.parameters,
+        // );
         const parents = {};
         if (syncable.spec.parameters) {
-          console.log(
-            `Syncable ${specName} has parameters, determining parent data...`,
-            syncable.spec.parameters,
-          );
+          // console.log(
+          //   `Syncable ${specName} has parameters, determining parent data...`,
+          //   syncable.spec.parameters,
+          // );
           let missingParentData = false;
           Object.entries(syncable.spec.parameters).forEach(
             ([pattern, reference]) => {
               const parentName = reference.split('#')[0];
               if (!allData[parentName]) {
-                console.log(
-                  `Still missing parent data for syncable ${specName}: need parent ${parentName} based on param ${pattern}: ${reference}`,
-                );
+                // console.log(
+                //   `Still missing parent data for syncable ${specName}: need parent ${parentName} based on param ${pattern}: ${reference}`,
+                // );
                 missingParentData = true;
                 return;
               }
@@ -650,12 +650,12 @@ export class Syncer extends EventEmitter {
     );
     Object.keys(skipped).forEach((specName) => {
       if (skipped[specName]) {
-        const needed = Object.keys(this.syncables[specName].spec.parameters).map(
-          (pattern) => {
-            const reference = this.syncables[specName].spec.parameters[pattern];
-            return reference.split('.')[0];
-          },
-        );
+        const needed = Object.keys(
+          this.syncables[specName].spec.parameters,
+        ).map((pattern) => {
+          const reference = this.syncables[specName].spec.parameters[pattern];
+          return reference.split('.')[0];
+        });
         const have = Object.keys(allData);
         void needed;
         void have;

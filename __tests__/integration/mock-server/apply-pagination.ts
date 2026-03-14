@@ -1,8 +1,4 @@
-import {
-  SyncableSpecInput,
-  PaginationScheme,
-  generateSyncableSpec,
-} from '../../../src/spec.js';
+import { PaginationScheme, generateSyncableSpec } from '../../../src/spec.js';
 import { getObjectPath, setObjectPath } from '../../../src/utils.js';
 import type { OpenAPIV3_1 } from '@scalar/openapi-types';
 
@@ -14,7 +10,7 @@ for (let i = 0; i < 50; i += 1) {
 export function applyPagination(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any,
-  input: SyncableSpecInput,
+  path: string,
   query: Record<string, string | undefined>,
   // headers: Record<string, string | undefined>,
   doc: OpenAPIV3_1.Document,
@@ -25,7 +21,7 @@ export function applyPagination(
   console.log('applying pagination', paginationScheme);
   let numItems = 1;
   let hasMore = false;
-  const spec = generateSyncableSpec(input, paginationScheme, doc);
+  const spec = generateSyncableSpec(path, doc);
   switch (spec.paginationStrategy) {
     case 'pageNumber':
       {

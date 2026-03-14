@@ -6,7 +6,7 @@ export function createSpec(
   paginationScheme: PaginationScheme,
   relations: {
     parameters: { [paramName: string]: string };
-  }
+  },
 ): string {
   const specObj = {
     openapi: '3.0.0',

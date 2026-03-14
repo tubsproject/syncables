@@ -20,20 +20,20 @@ describe('Google Calendar List', async () => {
     const data = await syncer.fullFetch();
     // console.log('Data fetched by syncer:', data);
     const keys = [
-      "/calendars/{calendarId}",
-      "/calendars/{calendarId}/acl",
-      "/calendars/{calendarId}/acl/{ruleId}",
-      "/calendars/{calendarId}/events",
-      "/calendars/{calendarId}/events/{eventId}",
-      "/calendars/{calendarId}/events/{eventId}/instances",
-      "/colors",
-      "/users/me/calendarList",
-      "/users/me/calendarList/{calendarId}",
-      "/users/me/settings",
-      "/users/me/settings/{setting}",
-    ]
+      '/calendars/{calendarId}',
+      '/calendars/{calendarId}/acl',
+      '/calendars/{calendarId}/acl/{ruleId}',
+      '/calendars/{calendarId}/events',
+      '/calendars/{calendarId}/events/{eventId}',
+      '/calendars/{calendarId}/events/{eventId}/instances',
+      '/colors',
+      '/users/me/calendarList',
+      '/users/me/calendarList/{calendarId}',
+      '/users/me/settings',
+      '/users/me/settings/{setting}',
+    ];
     expect(Object.keys(data)).toEqual(keys);
-    keys.forEach(key => {
+    keys.forEach((key) => {
       expect(data[key]).toEqual([
         {
           id: 1,

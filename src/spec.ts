@@ -1,4 +1,5 @@
 import type { OpenAPIV3_1 } from '@scalar/openapi-types';
+import { findPathParts } from './utils.js';
 
 type PaginationStrategy =
   | 'pageNumber'
@@ -20,13 +21,13 @@ export type SyncableSpecInput = {
     path: string;
   };
   parameters?: { [key: string]: string };
+  itemsPathInResponse?: string[];
 };
 export type SyncableSpec = SyncableSpecInput & {
   paginationStrategy: PaginationStrategy;
   pageNumberParamInQuery?: string;
   offsetParamInQuery?: string;
   pageTokenParamInQuery?: string;
-  itemsPathInResponse?: string[];
   nextPageTokenPathInResponse?: string[];
   forcePageSizeParamInQuery?: string;
 };
@@ -95,44 +96,75 @@ function parsePaginationScheme(
   path: string,
   method: string,
   paginationSchemeName: string,
-  doc: OpenAPIV3_1.Document
+  doc: OpenAPIV3_1.Document,
 ): SyncableSpecInput {
-  const paginationScheme = (doc.components as { paginationSchemes?: { [key: string]: PaginationScheme } })?.paginationSchemes?.[paginationSchemeName];
+  const paginationScheme = (
+    doc.components as {
+      paginationSchemes?: { [key: string]: PaginationScheme };
+    }
+  )?.paginationSchemes?.[paginationSchemeName];
   if (!paginationScheme) {
-    throw new Error(`pagination scheme ${paginationSchemeName} not found in spec`);
+    throw new Error(
+      `pagination scheme ${paginationSchemeName} not found in spec`,
+    );
   }
   const input: SyncableSpecInput = {
     type: 'collection',
-    name: '',
+    name: path,
   };
   if (paginationScheme.pageSize?.parameter) {
-    const paramObject = doc.paths[path]?.[method]?.parameters?.[paginationScheme.pageSize.parameter];
+    const paramObject =
+      doc.paths[path]?.[method]?.parameters?.[
+        paginationScheme.pageSize.parameter
+      ];
     if (paramObject?.schema?.type === 'integer') {
       input.defaultPageSize = paramObject.schema.default as number;
     }
   }
-  return input;
+  const itemsPathInResponse = paginationScheme.paginate.split('.');
+  console.log('determined itemsPathInResponse', itemsPathInResponse);
+  return Object.assign(
+    {
+      itemsPathInResponse,
+    },
+    input,
+  );
 }
 
 export function generateSyncableSpec(
   path: string,
   doc: OpenAPIV3_1.Document,
 ): SyncableSpec {
-  const paginationScheme = (doc.components as { paginationSchemes?: { default: PaginationScheme } })?.paginationSchemes?.default;
+  const paginationScheme = (
+    doc.components as { paginationSchemes?: { default: PaginationScheme } }
+  )?.paginationSchemes?.default;
   if (!paginationScheme) {
     throw new Error('No pagination scheme defined in spec');
   }
-  const input: SyncableSpecInput = parsePaginationScheme(path, 'get', 'default', doc);
+  const method = 'get';
+  const paginationSchemeName = 'default';
+  const responseSchema =
+    doc.paths[path][method].responses.content['application/json'].schema;
+  const input: SyncableSpecInput = parsePaginationScheme(
+    path,
+    method,
+    paginationSchemeName,
+    doc,
+  );
   const spec: SyncableSpec = {
     type: 'collection',
     name: path,
-    paginationStrategy: determineStrategy(paginationScheme),
-    itemsPathInResponse: paginationScheme.paginate.split('.'),
+    paginationStrategy: 'none',
+    itemsPathInResponse: [],
     defaultPageSize: input.defaultPageSize,
     forcePageSizeParamInQuery: paginationScheme.pageSize?.parameter,
-    idField: input.idField || 'id', 
+    idField: input.idField || 'id',
     parameters: {},
   };
+  if (findPathParts(input.itemsPathInResponse, responseSchema)) {
+    spec.paginationStrategy = determineStrategy(paginationScheme);
+    spec.itemsPathInResponse = paginationScheme.paginate.split('.');
+  }
   const parametersNames = Object.keys(doc.relations?.parameters || {});
   parametersNames.forEach((paramName) => {
     if (path.indexOf(`{${paramName}}`) !== -1) {

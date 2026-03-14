@@ -141,6 +141,7 @@ export async function mockHandlerResponse(
   operation: OpenAPIV3_1.OperationObject,
   options: MockServerOptions,
   schema: OpenAPIV3_1.Document,
+  path: string,
 ) {
   // Call onRequest callback
   if (options?.onRequest) {
@@ -210,13 +211,7 @@ export async function mockHandlerResponse(
           'Multiple syncables in one response is not supported yet in mock server',
         );
       }
-      result = applyPagination(
-        result,
-        operation.responses[statusCode.toString()].content['application/json']
-          .syncables[0],
-        c.req.query(),
-        schema,
-      );
+      result = applyPagination(result, path, c.req.query(), schema);
     }
 
     return c.json(result);

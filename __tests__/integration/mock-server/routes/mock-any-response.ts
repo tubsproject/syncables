@@ -18,6 +18,7 @@ export function mockAnyResponse(
   operation: OpenAPIV3_1.OperationObject,
   options: MockServerOptions,
   schema: OpenAPIV3_1.Document,
+  path: string,
 ) {
   // console.log('looking for confirm operation template', operation);
   if (
@@ -129,12 +130,7 @@ export function mockAnyResponse(
         'Multiple syncables in one response is not supported yet in mock server',
       );
     }
-    body = applyPagination(
-      body,
-      acceptedResponse.syncables[0],
-      c.req.query(),
-      schema,
-    );
+    body = applyPagination(body, path, c.req.query(), schema);
   }
   c.status(statusCode);
 
