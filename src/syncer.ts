@@ -61,7 +61,7 @@ export class Syncer extends EventEmitter {
   }
   async parseSpec(): Promise<void> {
     const doc = await specStrToObj(this.specStr, this.overlayStr);
-    console.log('Parsed spec document', doc);
+    // console.log('Parsed spec document', doc);
     this.baseUrl =
       doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';
     if (this.baseUrl.startsWith('//')) {
@@ -77,7 +77,7 @@ export class Syncer extends EventEmitter {
     for (const path of Object.keys(doc.paths)) {
       const pathItem = doc.paths[path];
       if (pathItem.get) {
-        console.log('found GET path', path);
+        // console.log('found GET path', path);
         const spec = generateSyncableSpec(path, doc);
         if (spec.paginationStrategy !== 'none') {
           // FIXME: this it to make google.test.ts pass
@@ -106,9 +106,9 @@ export class Syncer extends EventEmitter {
       const placeholder = `{${pattern}}`;
       urlPath = urlPath.replace(placeholder, id);
     });
-    console.log('joining URL for path', urlPath, 'with parents', theseParents);
+    // console.log('joining URL for path', urlPath, 'with parents', theseParents);
     const joined = urljoin(this.baseUrl, urlPath);
-    console.log('joined URL', joined);
+    // console.log('joined URL', joined);
     return new URL(joined);
   }
 
@@ -536,14 +536,14 @@ export class Syncer extends EventEmitter {
       const fields = getFields(syncable.schema, syncable.spec);
       // console.log('creating table with fields', fields);
       const tableName = specName.split('.')[0].replace(/[^a-zA-Z0-9_]/g, '');
-      console.log(
-        'creating SQL table',
-        tableName,
-        'with fields',
-        fields,
-        'and id field',
-        syncable.spec.idField || 'id',
-      );
+      // console.log(
+      //   'creating SQL table',
+      //   tableName,
+      //   'with fields',
+      //   fields,
+      //   'and id field',
+      //   syncable.spec.idField || 'id',
+      // );
       await createSqlTable(
         this.client,
         tableName,

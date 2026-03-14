@@ -122,7 +122,7 @@ function parsePaginationScheme(
     }
   }
   const itemsPathInResponse = paginationScheme.paginate.split('.');
-  console.log('determined itemsPathInResponse', itemsPathInResponse);
+  // console.log('determined itemsPathInResponse', itemsPathInResponse);
   return Object.assign(
     {
       itemsPathInResponse,
@@ -208,6 +208,6 @@ export function generateSyncableSpec(
     // console.log('determined confirmOperation config', config.confirmOperation);
     // throw new Error('debug');
   }
-  console.log('normalized', spec);
+  // console.log('normalized', spec);
   return spec;
 }
