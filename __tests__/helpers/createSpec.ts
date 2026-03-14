@@ -4,6 +4,9 @@ export function createSpec(
   baseUrl: string,
   configs: { [path: string]: SyncableSpecInput },
   paginationScheme: PaginationScheme,
+  relations: {
+    parameters: { [paramName: string]: string };
+  },
 ): string {
   const specObj = {
     openapi: '3.0.0',
@@ -23,6 +26,7 @@ export function createSpec(
         default: paginationScheme,
       },
     },
+    relations,
   };
   for (const path in configs) {
     const config = configs[path];
@@ -33,7 +37,7 @@ export function createSpec(
             description: 'A list of items.',
             content: {
               'application/json': {
-                syncables: [config],
+                syncables: [Object.assign({}, config)],
                 schema: {
                   type: 'object',
                   properties: {

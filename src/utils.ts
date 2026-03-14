@@ -66,7 +66,7 @@ export async function readSpec(
       ? `./__tests__/integration/overlay`
       : `./openapi/overlay`;
   const filenameBase = `${dir}/${apiName}${type === 'overlay' ? '-overlay' : ''}`;
-  console.log('readSpec', type, apiName, filenameBase);
+  // console.log('readSpec', type, apiName, filenameBase);
   try {
     return await readFile(`${filenameBase}.yaml`, 'utf-8');
   } catch (err1) {
@@ -155,7 +155,7 @@ export async function getSpecFromOverlay(overlayStr: string): Promise<string> {
   if (typeof specUrl !== 'string') {
     throw new Error(`Overlay does not have a valid extends URL`);
   }
-  console.log(`Fetching base spec from ${specUrl}`);
+  // console.log(`Fetching base spec from ${specUrl}`);
   const fetchResult = await fetchFunction(specUrl);
   if (!fetchResult.ok) {
     throw new Error(
@@ -163,7 +163,7 @@ export async function getSpecFromOverlay(overlayStr: string): Promise<string> {
     );
   }
   const specStr = await fetchResult.text();
-  console.log(`Fetched base spec, now processing overlay`);
+  // console.log(`Fetched base spec, now processing overlay`);
   return specStr;
 }
 

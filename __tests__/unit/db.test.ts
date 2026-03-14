@@ -37,19 +37,19 @@ describe('Google Calendar List', async () => {
     dbConn,
   });
   it('stores calendar list entries in the db', async () => {
-    await client.query('DROP TABLE IF EXISTS calendars;');
+    await client.query('DROP TABLE IF EXISTS usersmecalendarlist;');
     const before = await client.query(
-      `select count(*) from pg_tables where tablename='calendars';`,
+      `select count(*) from pg_tables where tablename='usersmecalendarlist';`,
     );
     expect(before.rows[0].count).toEqual('0');
     await syncable.fullFetch();
 
     const after = await client.query(
-      `select count(*) from pg_tables where tablename='calendars';`,
+      `select count(*) from pg_tables where tablename='usersmecalendarlist';`,
     );
     // await new Promise((resolve) => setTimeout(resolve, 500)); // wait for a bit to ensure data is committed
     expect(after.rows[0].count).toEqual('1');
-    const data = await client.query('SELECT * FROM "calendars";');
+    const data = await client.query('SELECT * FROM "usersmecalendarlist";');
     expect(data.rows.length).toBeGreaterThan(0);
     expect(data.rows[0]).toHaveProperty('Sid');
     expect(data.rows[0]).toHaveProperty('SforegroundColor');
@@ -69,7 +69,7 @@ describe('Google Calendar List', async () => {
       primary: { type: 'boolean' },
       deleted: { type: 'boolean' },
     };
-    await client.query('DROP TABLE IF EXISTS test_calendars;');
+    await client.query('DROP TABLE IF EXISTS test_usersmecalendarlist;');
     await createSqlTable(client, 'test_calendars', whatWeWant, 'id', {
       userId: 'string',
     });
