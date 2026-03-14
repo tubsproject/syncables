@@ -10,7 +10,7 @@ describe('Params', () => {
       userId: '/users/#id',
     },
   };
-  it.only('can deal with parameters in syncable specs', async () => {
+  it('can deal with parameters in syncable specs', async () => {
     const { fetchMock, mockResponses } = createFetchMock(true);
     const users: SyncableSpecInput = {
       type: 'collection',
@@ -86,9 +86,6 @@ describe('Params', () => {
     const widgets: SyncableSpecInput = {
       type: 'collection',
       name: 'widgets',
-      parameters: {
-        userId: 'users.id',
-      },
     };
     const paginationScheme: PaginationScheme = {
       paginate: 'items',
@@ -108,8 +105,143 @@ describe('Params', () => {
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
     const data = await syncer.fullFetch();
-    expect(data).toEqual({});
-    expect(fetchMock.mock.calls).toEqual([]);
+    expect(data).toEqual({
+      "/user/{userId}/widgets/": [
+        {
+          "id": 1,
+          "title": "Test Todo 1",
+          "userId": "1",
+        },
+        {
+          "id": 2,
+          "title": "Test Todo 2",
+          "userId": "1",
+        },
+        {
+          "id": 3,
+          "title": "Test Todo 3",
+          "userId": "1",
+        },
+        {
+          "id": 1,
+          "title": "Test Todo 1",
+          "userId": "2",
+        },
+        {
+          "id": 2,
+          "title": "Test Todo 2",
+          "userId": "2",
+        },
+        {
+          "id": 3,
+          "title": "Test Todo 3",
+          "userId": "2",
+        },
+        {
+          "id": 1,
+          "title": "Test Todo 1",
+          "userId": "3",
+        },
+        {
+          "id": 2,
+          "title": "Test Todo 2",
+          "userId": "3",
+        },
+        {
+          "id": 3,
+          "title": "Test Todo 3",
+          "userId": "3",
+        },
+      ],
+      "/users/": [
+        {
+          "id": 1,
+          "title": "Test Todo 1",
+        },
+        {
+          "id": 2,
+          "title": "Test Todo 2",
+        },
+        {
+          "id": 3,
+          "title": "Test Todo 3",
+        },
+      ],
+    });
+    expect(fetchMock.mock.calls).toEqual([
+      [
+        "https://example.com/api/users/?page=1",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/users/?page=2",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/users/?page=3",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/user/1/widgets/?page=1",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/user/1/widgets/?page=2",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/user/1/widgets/?page=3",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/user/2/widgets/?page=1",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/user/2/widgets/?page=2",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/user/2/widgets/?page=3",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/user/3/widgets/?page=1",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/user/3/widgets/?page=2",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/user/3/widgets/?page=3",
+        {
+          "headers": {},
+        },
+      ],
+    ]);
   });
 
   it('can fill in multiple references in parameters', async () => {
@@ -125,10 +257,6 @@ describe('Params', () => {
     const widgets: SyncableSpecInput = {
       type: 'collection',
       name: 'widgets',
-      parameters: {
-        userId: 'users.id',
-        countryId: 'countries.id',
-      },
     };
     const paginationScheme: PaginationScheme = {
       paginate: 'items',
@@ -143,7 +271,12 @@ describe('Params', () => {
           '/{countryId}/{userId}/widgets/': widgets,
         },
         paginationScheme,
-        { parameters: {} },
+        {
+          parameters: {
+            userId: '/users/#id',
+            countryId: '/countries/#id',
+          }, 
+        },
       ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
@@ -157,8 +290,28 @@ describe('Params', () => {
         i < (path === '/{countryId}/{userId}/widgets/' ? 9 : 1);
         i++
       ) {
-        items = items.concat(mockResponses[0].items);
-        items = items.concat(mockResponses[1].items);
+        items = items.concat(mockResponses[0].items.map((item) => {
+          const userId = Math.floor(i / 3) + 1;
+          const countryId = (i % 3) + 1;
+          if (path === '/users/' || path === '/countries/') {
+            return item;
+          }
+          return Object.assign({}, item, {
+            countryId: countryId.toString(),
+            userId: userId.toString(),
+          });
+        }));
+        items = items.concat(mockResponses[1].items.map((item) => {
+          const userId = Math.floor(i / 3) + 1;
+          const countryId = (i % 3) + 1;
+          if (path === '/users/' || path === '/countries/') {
+            return item;
+          }
+          return Object.assign({}, item, {
+            countryId: countryId.toString(),
+            userId: userId.toString(),
+          });
+        }));
       }
       expect(data[path]).toEqual(items);
     });
