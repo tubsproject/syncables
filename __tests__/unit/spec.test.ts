@@ -13,7 +13,7 @@ describe('Spec parsing', () => {
       idField: 'id',
     };
     const paginationScheme: PaginationScheme = {
-      paginate: 'data.items',
+      paginate: 'items',
       pageNumber: {
         parameter: 'page',
       },
@@ -38,7 +38,7 @@ describe('Spec parsing', () => {
       Object.assign(
         {
           forcePageSizeParamInQuery: undefined,
-          itemsPathInResponse: ['data', 'items'],
+          itemsPathInResponse: ['items'],
           paginationStrategy: 'pageNumber',
           pageNumberParamInQuery: 'page',
           parameters: {},

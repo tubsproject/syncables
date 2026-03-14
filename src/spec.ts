@@ -144,7 +144,7 @@ export function generateSyncableSpec(
   const method = 'get';
   const paginationSchemeName = 'default';
   const responseSchema =
-    doc.paths[path][method].responses.content['application/json'].schema;
+    doc.paths?.[path]?.[method]?.responses?.['200']?.content?.['application/json']?.schema;
   const input: SyncableSpecInput = parsePaginationScheme(
     path,
     method,
@@ -161,9 +161,13 @@ export function generateSyncableSpec(
     idField: input.idField || 'id',
     parameters: {},
   };
+  console.log('finding path parts', input.itemsPathInResponse, responseSchema);
   if (findPathParts(input.itemsPathInResponse, responseSchema)) {
+    console.log('determining pagination strategy', paginationScheme);
     spec.paginationStrategy = determineStrategy(paginationScheme);
     spec.itemsPathInResponse = paginationScheme.paginate.split('.');
+  } else {
+    console.log('paginated items path not found in response schema, defaulting to no pagination strategy');
   }
   const parametersNames = Object.keys(doc.relations?.parameters || {});
   parametersNames.forEach((paramName) => {
