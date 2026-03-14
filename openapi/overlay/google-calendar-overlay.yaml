@@ -14,5 +14,4 @@ actions:
 - target: $
   update:
     relations:
-      params:
-        calendarId: calendars.id
+      parameters:

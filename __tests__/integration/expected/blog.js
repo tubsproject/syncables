@@ -9,4 +9,4 @@ for (let i = 0; i < 37; i++) {
     "title": "Some title",
   });
 }
-export default arr;
+export default { '/three': arr };

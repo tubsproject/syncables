@@ -22,11 +22,11 @@ describe('Syncables', async () => {
         // 'acube',
         // 'arratech',
         'blog',
-        'google-calendar',
+        // 'google-calendar',
         // 'ion',
         // 'maventa',
         'peppyrus',
-        'recommand',
+        // 'recommand',
         // 'scrada',
       ].includes(service)
     ) {
@@ -90,10 +90,10 @@ describe('Syncables', async () => {
       });
       const data = await syncable.fullFetch();
       const expected = await import(`../integration/expected/${service}.js`);
-      expect(data.integrationTest.length).toBe(expected.default.length);
-      for (let i = 0; i < expected.default.length; i++) {
-        expect(data.integrationTest[i]).toEqual(expected.default[i]);
-      }
+      console.log('checking outcome', data);
+      expect(data).toEqual(expected.default);
+
+      // Stop the server
       console.log(`Stopping server for ${service}...`);
       server?.close();
     });

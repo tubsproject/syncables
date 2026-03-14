@@ -13,5 +13,5 @@ for (let i = 0; i < 37; i += 1) {
     "sender": "9925:be0123456789",
   });
 }
-export default arr;
+export default { '/message/list': arr };
 
