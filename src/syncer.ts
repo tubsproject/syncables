@@ -534,7 +534,8 @@ export class Syncer extends EventEmitter {
     if (this.client) {
       const fields = getFields(syncable.schema, syncable.spec);
       // console.log('creating table with fields', fields);
-      const tableName = specName.split('.')[0];
+      const tableName = specName.split('.')[0].replace(/[^a-zA-Z0-9_]/g, '');
+      console.log('creating SQL table', tableName, 'with fields', fields, 'and id field', syncable.spec.idField || 'id');
       await createSqlTable(
         this.client,
         tableName,

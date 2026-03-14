@@ -161,18 +161,18 @@ export function generateSyncableSpec(
     idField: input.idField || 'id',
     parameters: {},
   };
-  console.log('finding path parts', input.itemsPathInResponse, responseSchema);
+  // console.log('finding path parts', input.itemsPathInResponse, responseSchema);
   if (findPathParts(input.itemsPathInResponse, responseSchema)) {
-    console.log('determining pagination strategy', paginationScheme);
+    // console.log('determining pagination strategy', paginationScheme);
     spec.paginationStrategy = determineStrategy(paginationScheme);
     spec.itemsPathInResponse = paginationScheme.paginate.split('.');
   } else {
-    console.log('paginated items path not found in response schema, defaulting to no pagination strategy');
+    // console.log('paginated items path not found in response schema, defaulting to no pagination strategy');
   }
   const parametersNames = Object.keys(doc.relations?.parameters || {});
   parametersNames.forEach((paramName) => {
     if (path.indexOf(`{${paramName}}`) !== -1) {
-      console.log(`Adding parameter ${paramName} to spec for path ${path}`);
+      // console.log(`Adding parameter ${paramName} to spec for path ${path}`);
       spec.parameters[paramName] = doc.relations.parameters[paramName];
     }
   });
