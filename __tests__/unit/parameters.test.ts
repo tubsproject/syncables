@@ -106,139 +106,139 @@ describe('Params', () => {
     });
     const data = await syncer.fullFetch();
     expect(data).toEqual({
-      "/user/{userId}/widgets/": [
+      '/user/{userId}/widgets/': [
         {
-          "id": 1,
-          "title": "Test Todo 1",
-          "userId": "1",
+          id: 1,
+          title: 'Test Todo 1',
+          userId: '1',
         },
         {
-          "id": 2,
-          "title": "Test Todo 2",
-          "userId": "1",
+          id: 2,
+          title: 'Test Todo 2',
+          userId: '1',
         },
         {
-          "id": 3,
-          "title": "Test Todo 3",
-          "userId": "1",
+          id: 3,
+          title: 'Test Todo 3',
+          userId: '1',
         },
         {
-          "id": 1,
-          "title": "Test Todo 1",
-          "userId": "2",
+          id: 1,
+          title: 'Test Todo 1',
+          userId: '2',
         },
         {
-          "id": 2,
-          "title": "Test Todo 2",
-          "userId": "2",
+          id: 2,
+          title: 'Test Todo 2',
+          userId: '2',
         },
         {
-          "id": 3,
-          "title": "Test Todo 3",
-          "userId": "2",
+          id: 3,
+          title: 'Test Todo 3',
+          userId: '2',
         },
         {
-          "id": 1,
-          "title": "Test Todo 1",
-          "userId": "3",
+          id: 1,
+          title: 'Test Todo 1',
+          userId: '3',
         },
         {
-          "id": 2,
-          "title": "Test Todo 2",
-          "userId": "3",
+          id: 2,
+          title: 'Test Todo 2',
+          userId: '3',
         },
         {
-          "id": 3,
-          "title": "Test Todo 3",
-          "userId": "3",
+          id: 3,
+          title: 'Test Todo 3',
+          userId: '3',
         },
       ],
-      "/users/": [
+      '/users/': [
         {
-          "id": 1,
-          "title": "Test Todo 1",
+          id: 1,
+          title: 'Test Todo 1',
         },
         {
-          "id": 2,
-          "title": "Test Todo 2",
+          id: 2,
+          title: 'Test Todo 2',
         },
         {
-          "id": 3,
-          "title": "Test Todo 3",
+          id: 3,
+          title: 'Test Todo 3',
         },
       ],
     });
     expect(fetchMock.mock.calls).toEqual([
       [
-        "https://example.com/api/users/?page=1",
+        'https://example.com/api/users/?page=1',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/users/?page=2",
+        'https://example.com/api/users/?page=2',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/users/?page=3",
+        'https://example.com/api/users/?page=3',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/user/1/widgets/?page=1",
+        'https://example.com/api/user/1/widgets/?page=1',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/user/1/widgets/?page=2",
+        'https://example.com/api/user/1/widgets/?page=2',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/user/1/widgets/?page=3",
+        'https://example.com/api/user/1/widgets/?page=3',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/user/2/widgets/?page=1",
+        'https://example.com/api/user/2/widgets/?page=1',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/user/2/widgets/?page=2",
+        'https://example.com/api/user/2/widgets/?page=2',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/user/2/widgets/?page=3",
+        'https://example.com/api/user/2/widgets/?page=3',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/user/3/widgets/?page=1",
+        'https://example.com/api/user/3/widgets/?page=1',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/user/3/widgets/?page=2",
+        'https://example.com/api/user/3/widgets/?page=2',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/user/3/widgets/?page=3",
+        'https://example.com/api/user/3/widgets/?page=3',
         {
-          "headers": {},
+          headers: {},
         },
       ],
     ]);
@@ -275,7 +275,7 @@ describe('Params', () => {
           parameters: {
             userId: '/users/#id',
             countryId: '/countries/#id',
-          }, 
+          },
         },
       ),
       fetchFunction: fetchMock as unknown as typeof fetch,
@@ -290,28 +290,32 @@ describe('Params', () => {
         i < (path === '/{countryId}/{userId}/widgets/' ? 9 : 1);
         i++
       ) {
-        items = items.concat(mockResponses[0].items.map((item) => {
-          const userId = Math.floor(i / 3) + 1;
-          const countryId = (i % 3) + 1;
-          if (path === '/users/' || path === '/countries/') {
-            return item;
-          }
-          return Object.assign({}, item, {
-            countryId: countryId.toString(),
-            userId: userId.toString(),
-          });
-        }));
-        items = items.concat(mockResponses[1].items.map((item) => {
-          const userId = Math.floor(i / 3) + 1;
-          const countryId = (i % 3) + 1;
-          if (path === '/users/' || path === '/countries/') {
-            return item;
-          }
-          return Object.assign({}, item, {
-            countryId: countryId.toString(),
-            userId: userId.toString(),
-          });
-        }));
+        items = items.concat(
+          mockResponses[0].items.map((item) => {
+            const userId = Math.floor(i / 3) + 1;
+            const countryId = (i % 3) + 1;
+            if (path === '/users/' || path === '/countries/') {
+              return item;
+            }
+            return Object.assign({}, item, {
+              countryId: countryId.toString(),
+              userId: userId.toString(),
+            });
+          }),
+        );
+        items = items.concat(
+          mockResponses[1].items.map((item) => {
+            const userId = Math.floor(i / 3) + 1;
+            const countryId = (i % 3) + 1;
+            if (path === '/users/' || path === '/countries/') {
+              return item;
+            }
+            return Object.assign({}, item, {
+              countryId: countryId.toString(),
+              userId: userId.toString(),
+            });
+          }),
+        );
       }
       expect(data[path]).toEqual(items);
     });
