@@ -4,7 +4,7 @@ import { default as createDebug } from 'debug';
 import { Client, getFields, createSqlTable, insertData } from './db.js';
 import { specStrToObj, getObjectPath } from './utils.js';
 import { default as parse } from 'parse-link-header';
-import { SyncableSpec, normaliseSyncableSpec } from './spec.js';
+import { SyncableSpec, generateSyncableSpec } from './spec.js';
 
 const debug = createDebug('syncable');
 
@@ -23,22 +23,26 @@ export class Syncer extends EventEmitter {
   authHeaders: { [key: string]: string } = {};
   client: Client | null = null;
   dbConn: string | null = null;
+  forcePageSize: number | null = null;
   constructor({
     specStr,
     overlayStr,
     authHeaders = {},
     fetchFunction = fetch,
     dbConn,
+    forcePageSize,
   }: {
     specStr: string;
     overlayStr?: string | null;
     authHeaders?: { [key: string]: string };
     fetchFunction?: typeof fetch;
     dbConn?: string;
+    forcePageSize?: number;
   }) {
     super();
     this.specStr = specStr;
     this.overlayStr = overlayStr || null;
+    this.forcePageSize = forcePageSize || null;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
     this.dbConn = dbConn || null;
@@ -55,9 +59,9 @@ export class Syncer extends EventEmitter {
       await this.client.connect();
     }
   }
-  async parseSpec(): Promise<object> {
+  async parseSpec(): Promise<void> {
     const doc = await specStrToObj(this.specStr, this.overlayStr);
-    console.log('Parsed spec document', doc.components);
+    console.log('Parsed spec document', doc);
     this.baseUrl =
       doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';
     if (this.baseUrl.startsWith('//')) {
@@ -69,43 +73,26 @@ export class Syncer extends EventEmitter {
       throw new Error('undefined pagination scheme');
     }
 
-    let solution: object | null = null;
+    // let solution: object | null = null;
     for (const path of Object.keys(doc.paths)) {
       const pathItem = doc.paths[path];
-      if (pathItem.get && pathItem.get.responses['200']) {
-        // console.log('Checking 200 response content', path, typeof pathItem.get.responses['200'].content);
-        if (typeof pathItem.get.responses['200'].content !== 'object') {
-          continue;
-        }
-        Object.keys(pathItem.get.responses['200'].content).forEach(
-          (contentType) => {
-            // console.log('Checking path', path, contentType);
-            const response = pathItem.get.responses['200'].content[contentType];
-            if (Array.isArray(response.syncables)) {
-              // console.log('Found syncables in response for path', path, contentType);
-              response.syncables.forEach((syncable) => {
-                // console.log('Found syncable response at path', path, contentType, syncable);
-                this.syncables[syncable.name] = {
-                  path,
-                  schema: response.schema,
-                  spec: Object.assign(
-                    {},
-                    normaliseSyncableSpec(syncable, paginationScheme, doc),
-                  ),
-                };
-                solution = doc;
-              });
-            }
-          },
-        );
+      if (pathItem.get) {
+        console.log('found GET path', path);
+        this.syncables[path] = {
+          path,
+          spec: generateSyncableSpec(path, doc),
+          schema: pathItem.get.responses['200'].content['application/json']
+            .schema,
+        };
       }
+      void generateSyncableSpec;
     }
     // console.log('found syncables', this.syncables);
-    if (solution) {
-      return solution;
-    }
+    // if (solution) {
+    //   return solution;
+    // }
 
-    throw new Error(`No syncables found in spec`);
+    // throw new Error(`No syncables found in spec`);
   }
   private getUrl(
     urlPath: string,
@@ -213,16 +200,16 @@ export class Syncer extends EventEmitter {
         url.searchParams.append(key, value);
       });
       url.searchParams.append(spec.pageNumberParamInQuery, page.toString());
-      if (spec.forcePageSize) {
+      if (this.forcePageSize) {
         const param = spec.forcePageSizeParamInQuery || 'pageSize';
-        url.searchParams.append(param, spec.forcePageSize.toString());
+        url.searchParams.append(param, this.forcePageSize.toString());
       }
 
       const data = await this.doFetch(
         spec,
         url.toString(),
         {},
-        spec.forcePageSize || spec.defaultPageSize || 1,
+        this.forcePageSize || spec.defaultPageSize || 1,
       );
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
@@ -249,16 +236,16 @@ export class Syncer extends EventEmitter {
         url.searchParams.append(key, value);
       });
       url.searchParams.append(spec.offsetParamInQuery, offset.toString());
-      if (spec.forcePageSize) {
+      if (this.forcePageSize) {
         const param = spec.forcePageSizeParamInQuery || 'pageSize';
-        url.searchParams.append(param, spec.forcePageSize.toString());
+        url.searchParams.append(param, this.forcePageSize.toString());
       }
 
       const data = await this.doFetch(
         spec,
         url.toString(),
         {},
-        spec.forcePageSize || spec.defaultPageSize || 1,
+        this.forcePageSize || spec.defaultPageSize || 1,
       );
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
@@ -282,9 +269,9 @@ export class Syncer extends EventEmitter {
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      if (spec.forcePageSize) {
+      if (this.forcePageSize) {
         const param = spec.forcePageSizeParamInQuery || 'pageSize';
-        url.searchParams.append(param, spec.forcePageSize.toString());
+        url.searchParams.append(param, this.forcePageSize.toString());
       }
       if (nextPageToken) {
         url.searchParams.append(spec.pageTokenParamInQuery, nextPageToken);
@@ -293,7 +280,7 @@ export class Syncer extends EventEmitter {
         spec,
         url.toString(),
         {},
-        spec.forcePageSize || spec.defaultPageSize || 1,
+        this.forcePageSize || spec.defaultPageSize || 1,
       );
       // console.log('fetched', data);
       allData = allData.concat(data.items);
@@ -315,15 +302,15 @@ export class Syncer extends EventEmitter {
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
       });
-      if (spec.forcePageSize) {
+      if (this.forcePageSize) {
         const param = spec.forcePageSizeParamInQuery || 'pageSize';
-        url.searchParams.append(param, spec.forcePageSize.toString());
+        url.searchParams.append(param, this.forcePageSize.toString());
       }
       const data = await this.doFetch(
         spec,
         url.toString(),
         {},
-        spec.forcePageSize || spec.defaultPageSize || 1,
+        this.forcePageSize || spec.defaultPageSize || 1,
       );
       // console.log('fetched', data);
       allData = allData.concat(data.items);
@@ -346,7 +333,7 @@ export class Syncer extends EventEmitter {
   ): Promise<object[]> {
     const spec = this.syncables[syncableName].spec;
     let allData: object[] = [];
-    const numItemsPerPage = spec.forcePageSize || 20;
+    const numItemsPerPage = this.forcePageSize || 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
 
     while (true) {

@@ -13,7 +13,6 @@ export type SyncableSpecInput = {
   name: string;
   query?: { [key: string]: string };
   defaultPageSize?: number;
-  forcePageSize?: number;
   idField?: string;
   confirmOperation?: {
     pathTemplate: string;
@@ -91,22 +90,48 @@ function determineStrategy(
   }
   return 'none';
 }
-export function normaliseSyncableSpec(
-  input: SyncableSpecInput,
-  paginationScheme: PaginationScheme,
+
+function parsePaginationScheme(
+  path: string,
+  method: string,
+  paginationSchemeName: string,
+  doc: OpenAPIV3_1.Document
+): SyncableSpecInput {
+  const paginationScheme = (doc.components as { paginationSchemes?: { [key: string]: PaginationScheme } })?.paginationSchemes?.[paginationSchemeName];
+  if (!paginationScheme) {
+    throw new Error(`pagination scheme ${paginationSchemeName} not found in spec`);
+  }
+  const input: SyncableSpecInput = {
+    type: 'collection',
+    name: '',
+  };
+  if (paginationScheme.pageSize?.parameter) {
+    const paramObject = doc.paths[path]?.[method]?.parameters?.[paginationScheme.pageSize.parameter];
+    if (paramObject?.schema?.type === 'integer') {
+      input.defaultPageSize = paramObject.schema.default as number;
+    }
+  }
+  return input;
+}
+
+export function generateSyncableSpec(
+  path: string,
   doc: OpenAPIV3_1.Document,
 ): SyncableSpec {
+  const paginationScheme = (doc.components as { paginationSchemes?: { default: PaginationScheme } })?.paginationSchemes?.default;
+  if (!paginationScheme) {
+    throw new Error('No pagination scheme defined in spec');
+  }
+  const input: SyncableSpecInput = parsePaginationScheme(path, 'get', 'default', doc);
   const spec: SyncableSpec = {
-    type: input.type || 'collection',
-    name: input.name,
+    type: 'collection',
+    name: path,
     paginationStrategy: determineStrategy(paginationScheme),
-    query: input.query || {},
     itemsPathInResponse: paginationScheme.paginate.split('.'),
     defaultPageSize: input.defaultPageSize,
-    forcePageSize: input.forcePageSize,
     forcePageSizeParamInQuery: paginationScheme.pageSize?.parameter,
-    idField: input.idField || 'id',
-    params: input.params || {},
+    idField: input.idField || 'id', 
+    params: (doc.relations as { params?: { [key: string]: string } })?.params || {},
   };
   // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
   if (spec.paginationStrategy === 'pageNumber') {
@@ -114,12 +139,12 @@ export function normaliseSyncableSpec(
     spec.pageNumberParamInQuery =
       paginationScheme.pageNumber?.parameter || 'page';
   } else if (spec.paginationStrategy === 'offset') {
-    spec.offsetParamInQuery = paginationScheme.offset.parameter || 'offset';
+    spec.offsetParamInQuery = paginationScheme.offset?.parameter || 'offset';
   } else if (spec.paginationStrategy === 'pageToken') {
     spec.pageTokenParamInQuery =
-      paginationScheme.token.parameter || 'pageToken';
+      paginationScheme.token?.parameter || 'pageToken';
     spec.nextPageTokenPathInResponse =
-      paginationScheme.token.responseBody.split('.') || ['nextPageToken'];
+      paginationScheme.token?.responseBody?.split('.') || ['nextPageToken'];
   } else if (spec.paginationStrategy === 'confirmationBased') {
     // console.log('setting confirmOperation', syncable.confirmOperation);
     const confirmOperationSpec = input.confirmOperation as {

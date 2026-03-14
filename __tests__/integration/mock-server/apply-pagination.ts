@@ -1,7 +1,7 @@
 import {
   SyncableSpecInput,
   PaginationScheme,
-  normaliseSyncableSpec,
+  generateSyncableSpec,
 } from '../../../src/spec.js';
 import { getObjectPath, setObjectPath } from '../../../src/utils.js';
 import type { OpenAPIV3_1 } from '@scalar/openapi-types';
@@ -25,7 +25,7 @@ export function applyPagination(
   console.log('applying pagination', paginationScheme);
   let numItems = 1;
   let hasMore = false;
-  const spec = normaliseSyncableSpec(input, paginationScheme, doc);
+  const spec = generateSyncableSpec(input, paginationScheme, doc);
   switch (spec.paginationStrategy) {
     case 'pageNumber':
       {

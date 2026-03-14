@@ -19,55 +19,22 @@ describe('Google Calendar List', async () => {
   it('fetches calendar list entries', async () => {
     const data = await syncer.fullFetch();
     // console.log('Data fetched by syncer:', data);
-    expect(data).toEqual({
-      acl: [
-        {
-          calendarId: '1',
-          id: 1,
-          title: 'Test Todo 1',
-        },
-        {
-          calendarId: '1',
-          id: 2,
-          title: 'Test Todo 2',
-        },
-        {
-          calendarId: '1',
-          id: 3,
-          title: 'Test Todo 3',
-        },
-        {
-          calendarId: '2',
-          id: 1,
-          title: 'Test Todo 1',
-        },
-        {
-          calendarId: '2',
-          id: 2,
-          title: 'Test Todo 2',
-        },
-        {
-          calendarId: '2',
-          id: 3,
-          title: 'Test Todo 3',
-        },
-        {
-          calendarId: '3',
-          id: 1,
-          title: 'Test Todo 1',
-        },
-        {
-          calendarId: '3',
-          id: 2,
-          title: 'Test Todo 2',
-        },
-        {
-          calendarId: '3',
-          id: 3,
-          title: 'Test Todo 3',
-        },
-      ],
-      calendars: [
+    const keys = [
+      "/calendars/{calendarId}",
+      "/calendars/{calendarId}/acl",
+      "/calendars/{calendarId}/acl/{ruleId}",
+      "/calendars/{calendarId}/events",
+      "/calendars/{calendarId}/events/{eventId}",
+      "/calendars/{calendarId}/events/{eventId}/instances",
+      "/colors",
+      "/users/me/calendarList",
+      "/users/me/calendarList/{calendarId}",
+      "/users/me/settings",
+      "/users/me/settings/{setting}",
+    ]
+    expect(Object.keys(data)).toEqual(keys);
+    keys.forEach(key => {
+      expect(data[key]).toEqual([
         {
           id: 1,
           title: 'Test Todo 1',
@@ -80,54 +47,7 @@ describe('Google Calendar List', async () => {
           id: 3,
           title: 'Test Todo 3',
         },
-      ],
-      events: [
-        {
-          calendarId: '1',
-          id: 1,
-          title: 'Test Todo 1',
-        },
-        {
-          calendarId: '1',
-          id: 2,
-          title: 'Test Todo 2',
-        },
-        {
-          calendarId: '1',
-          id: 3,
-          title: 'Test Todo 3',
-        },
-        {
-          calendarId: '2',
-          id: 1,
-          title: 'Test Todo 1',
-        },
-        {
-          calendarId: '2',
-          id: 2,
-          title: 'Test Todo 2',
-        },
-        {
-          calendarId: '2',
-          id: 3,
-          title: 'Test Todo 3',
-        },
-        {
-          calendarId: '3',
-          id: 1,
-          title: 'Test Todo 1',
-        },
-        {
-          calendarId: '3',
-          id: 2,
-          title: 'Test Todo 2',
-        },
-        {
-          calendarId: '3',
-          id: 3,
-          title: 'Test Todo 3',
-        },
-      ],
+      ]);
     });
   });
 });

@@ -7,14 +7,10 @@ describe('Spec parsing', () => {
   it('can parse one syncable spec out of an OAD', async () => {
     const spec: SyncableSpecInput = {
       type: 'collection',
-      name: 'widgets',
-      query: { color: 'red' },
+      name: '/widgets/',
+      // query: { color: 'red' },
       defaultPageSize: undefined,
-      forcePageSize: undefined,
       idField: 'id',
-      params: {
-        customerId: 'customers.id',
-      },
     };
     const paginationScheme: PaginationScheme = {
       paginate: 'data.items',
@@ -29,17 +25,25 @@ describe('Spec parsing', () => {
           '/widgets/': spec,
         },
         paginationScheme,
+        {
+          params: {
+            customerId: 'customers.id',
+          },
+        },
       ),
     });
     await syncer.parseSpec();
-    expect(syncer.syncables['widgets'].path).toEqual('/widgets/');
-    expect(syncer.syncables['widgets'].spec).toEqual(
+    expect(syncer.syncables['/widgets/'].path).toEqual('/widgets/');
+    expect(syncer.syncables['/widgets/'].spec).toEqual(
       Object.assign(
         {
           forcePageSizeParamInQuery: undefined,
           itemsPathInResponse: ['data', 'items'],
           paginationStrategy: 'pageNumber',
           pageNumberParamInQuery: 'page',
+          params: {
+            customerId: 'customers.id',
+          },
         },
         spec,
       ),
