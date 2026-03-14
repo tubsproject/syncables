@@ -33,7 +33,7 @@ describe('Syncables', async () => {
       return;
     }
     it(`can sync ${service}`, async () => {
-      console.log('readSpec in integrationTest:', service, fileName);
+      // console.log('readSpec in integrationTest:', service, fileName);
       const overlayStr = await readSpec('integrationTest', service);
       const specStr = await getSpecFromOverlay(overlayStr);
       const parsed = await specStrToObj(specStr, overlayStr);
@@ -90,7 +90,7 @@ describe('Syncables', async () => {
       });
       const data = await syncable.fullFetch();
       const expected = await import(`../integration/expected/${service}.js`);
-      console.log('checking outcome', data);
+      // console.log('checking outcome', data);
       expect(data).toEqual(expected.default);
 
       // Stop the server
