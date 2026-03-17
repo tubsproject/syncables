@@ -68,7 +68,8 @@ export class Syncer extends EventEmitter {
             path,
             spec,
             schema:
-              pathItem.get.responses?.['200']?.content?.['application/json']?.schema,
+              pathItem.get.responses?.['200']?.content?.['application/json']
+                ?.schema,
           };
         }
       }

@@ -172,9 +172,11 @@ export function findPathParts(
   schema: OpenAPIV3_1.SchemaObject,
 ): boolean {
   // console.log('\nEntering findPathParts', JSON.stringify(paramNameParts), JSON.stringify(schema));
-  paramNameParts.forEach(part => {
+  paramNameParts.forEach((part) => {
     if (part.length === 0) {
-      throw new Error(`Invalid parameter name with empty part: ${paramNameParts.join('.')}`);
+      throw new Error(
+        `Invalid parameter name with empty part: ${paramNameParts.join('.')}`,
+      );
     }
   });
   if (paramNameParts.length === 0) {

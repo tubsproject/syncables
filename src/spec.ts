@@ -121,7 +121,10 @@ function parsePaginationScheme(
       input.defaultPageSize = paramObject.schema.default as number;
     }
   }
-  const itemsPathInResponse = (paginationScheme.paginate.length === 0 ? [] : paginationScheme.paginate.split('.'))
+  const itemsPathInResponse =
+    paginationScheme.paginate.length === 0
+      ? []
+      : paginationScheme.paginate.split('.');
   // console.log('determined itemsPathInResponse', itemsPathInResponse);
   return Object.assign(
     {
@@ -168,7 +171,7 @@ export function generateSyncableSpec(
     // console.log('determining pagination strategy', paginationScheme);
     spec.paginationStrategy = determineStrategy(paginationScheme);
     spec.itemsPathInResponse = input.itemsPathInResponse;
-  // } else {
+    // } else {
     // console.log('paginated items path not found in response schema, defaulting to no pagination strategy');
   }
   const parametersNames = Object.keys(doc.relations?.parameters || {});
