@@ -4,8 +4,20 @@ import { default as createDebug } from 'debug';
 import { specStrToObj, getObjectPath } from './utils.js';
 import { default as parse } from 'parse-link-header';
 import { SyncableSpec, generateSyncableSpec } from './spec.js';
+import { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 const debug = createDebug('syncable');
+
+export type CollectionInput = {
+  add?: string,
+  list?: string,
+};
+
+export type CollectionSpec = {
+  add?: { method: string, path: string},
+  list?: { method: string, path: string},
+  schema: OpenAPIV3_1.SchemaObject,
+};
 
 export class Syncer extends EventEmitter {
   fetchFunction: typeof fetch;
@@ -22,10 +34,7 @@ export class Syncer extends EventEmitter {
   authHeaders: { [key: string]: string } = {};
   forcePageSize: number | null = null;
   collections: {
-    [path: string]: {
-      add?: { method: string, path: string },
-      list?: { method: string, path: string },
-    }
+    [path: string]: CollectionSpec;
   } = {};
   constructor({
     specStr,
@@ -46,6 +55,57 @@ export class Syncer extends EventEmitter {
     this.forcePageSize = forcePageSize || null;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
+  }
+  private async getCollections(doc: OpenAPIV3_1.Document): Promise<void> {
+    const collections: {  
+      [path: string]: CollectionSpec;
+    } = {};
+    Object.entries((doc.components as { collections?: { [key: string]: CollectionInput } }).collections || {}).forEach(
+      ([collectionPath, collectionInput]) => {
+        const collection: {
+          add?: { method: string, path: string},
+          list?: { method: string, path: string},
+          schema?: OpenAPIV3_1.SchemaObject,
+        } = {};
+        if (collectionInput.list) {
+          const [ method, path ] = collectionInput.list.toLowerCase().split(' ');
+          const pathItem = doc.paths?.[path];
+          if (!pathItem) {
+            throw new Error(`Invalid collection definition: path ${path} not found in spec`);
+          }
+          if (!pathItem[method]) {
+            throw new Error(`Invalid collection definition: method ${method} not found for path ${path} in spec`);
+          }
+          const responseSchema = pathItem[method].responses?.['200']?.content?.['application/json']?.schema;
+          if (!responseSchema) {
+            throw new Error(`Invalid collection definition: no response schema found for path ${path} method ${method}`);
+          }
+          collection.list = { method, path };
+          collection.schema = responseSchema;
+        }
+        if (collectionInput.add) {
+          const [ method, path ] = collectionInput.add.toLowerCase().split(' ');
+          const pathItem = doc.paths?.[path];
+          if (!pathItem) {
+            throw new Error(`Invalid collection definition: path ${path} not found in spec`);
+          }
+          if (!pathItem[method]) {
+            throw new Error(`Invalid collection definition: method ${method} not found for path ${path} in spec`);
+          }
+          const requestBodySchema = pathItem[method].requestBody?.content?.['application/json']?.schema;
+          if (!requestBodySchema) {
+            throw new Error(`Invalid collection definition: no request body schema found for path ${path} method ${method}`);
+          }
+          if (collection.schema && JSON.stringify(collection.schema) !== JSON.stringify(requestBodySchema)) {
+            throw new Error(`Mismatching schemas for list and add operations of collection ${collectionPath}`);
+          }
+          collection.add = { method, path };
+          collection.schema = requestBodySchema;
+        }
+        collections[collectionPath] = collection as CollectionSpec;
+      }
+    );
+    this.collections = collections;
   }
 
   async parseSpec(): Promise<void> {
@@ -84,12 +144,7 @@ export class Syncer extends EventEmitter {
     // if (solution) {
     //   return solution;
     // }
-    this.collections = (doc?.components as { collections: {
-      [path: string]: {
-        add?: { method: string, path: string },
-        list?: { method: string, path: string },
-      }
-    }})?.collections;
+    await this.getCollections(doc);
     console.log('collections', this.collections);
     // throw new Error(`No syncables found in spec`);
   }
@@ -616,10 +671,62 @@ export class Syncer extends EventEmitter {
     // console.log('All data fetched', allData);
     return allData;
   }
+  async checkSchema(schema: OpenAPIV3_1.SchemaObject, item: object | string | number | boolean | null): Promise<void> {
+    if (schema.type === 'object') {
+      if (typeof item !== 'object' || item === null) {
+        throw new Error(`Expected object but got ${typeof item}`);
+      }
+      if (schema.properties) {
+        for (const key of Object.keys(schema.properties)) {
+          if (item[key] === undefined) {
+            throw new Error(`Missing required property ${key}`);
+          }
+          await this.checkSchema(
+            schema.properties[key] as OpenAPIV3_1.SchemaObject,
+            item[key],
+          );
+        }
+      }
+    } else if (schema.type === 'array') {
+      if (!Array.isArray(item)) {
+        throw new Error(`Expected array but got ${typeof item}`);
+      }
+      const itemSchema = schema.items as OpenAPIV3_1.SchemaObject;
+      for (const element of item) {
+        await this.checkSchema(itemSchema, element);
+      }
+    } else {
+      const type = typeof item;
+      if (type !== schema.type) {
+        throw new Error(`Expected type ${schema.type} but got ${type}`);
+      }
+    }
+  }
   async addItem(collection, item): Promise<void> {
     if (!this.collections[collection]) {
       throw new Error('collection unknown');
     }
     console.log('adding item to collection', collection, item);
+    const path = this.collections[collection].add.path;
+    const method = this.collections[collection].add.method;
+    const schema = this.collections[collection].schema;
+    this.checkSchema(schema, item);
+    const url = this.getUrl(path, {});
+    console.log('constructed URL for adding item', url.toString());
+    const response = await this.fetchFunction(url.toString(), {
+      method,
+      headers: Object.assign(
+        {
+          'Content-Type': 'application/json',
+        },
+        this.authHeaders,
+      ),
+      body: JSON.stringify(item),
+    });
+    if (!response.ok) {
+      throw new Error(
+        `Error adding item to collection ${collection}: ${response.status} ${response.statusText} (${await response.text()})`,
+      );
+    }
   }
 }
