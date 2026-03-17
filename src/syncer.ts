@@ -552,6 +552,10 @@ export class Syncer extends EventEmitter {
               );
             },
           );
+          (filter || []).forEach((filterSpec) => {
+            const [key, value] = filterSpec.split('=');
+            parents[key] = [value];
+          });
           if (missingParentData) {
             // console.log(
             //   `Skipping syncable ${specName} for now because we're still missing parent data...`,
