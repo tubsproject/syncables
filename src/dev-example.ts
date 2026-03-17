@@ -10,8 +10,8 @@ const securitySchemeNames = {
   // 'google-calendar': 'Oauth2c',
   // moneybird: 'oauth2',
   // netfly: 'oauth2',
-  // github: 'oauth2',
-  'slack-web': 'slackAuth',
+  github: 'oauth2',
+  // 'slack-web': 'slackAuth',
 };
 
 async function main(): Promise<void> {
