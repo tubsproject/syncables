@@ -11,8 +11,6 @@ const syncer = new Syncer({
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
   },
-  dbConn:
-    'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
 });
 
 const allTables = await syncer.fullFetch();
