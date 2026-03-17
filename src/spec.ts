@@ -166,9 +166,9 @@ export function generateSyncableSpec(
     idField: input.idField || 'id',
     parameters: {},
   };
-  console.log('finding path parts', input.itemsPathInResponse, responseSchema);
+  // console.log('finding path parts', input.itemsPathInResponse, responseSchema);
   if (findPathParts(input.itemsPathInResponse, responseSchema)) {
-    console.log('determining pagination strategy', paginationScheme);
+    // console.log('determining pagination strategy', paginationScheme);
     spec.paginationStrategy = determineStrategy(paginationScheme);
     spec.itemsPathInResponse = input.itemsPathInResponse;
     // } else {

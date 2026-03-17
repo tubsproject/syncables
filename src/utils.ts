@@ -120,7 +120,7 @@ export async function specStrToObj(
   }
   if (overlayStr) {
     const overlayObj = await parseSpecStr(overlayStr);
-    // console.log('parsed overlay object', JSON.stringify(overlayObj, null, 2));
+    console.log('parsed overlay object', JSON.stringify(overlayObj, null, 2));
     applyOverlay(specObj, overlayObj);
   }
   // console.log('starting dereference of spec');

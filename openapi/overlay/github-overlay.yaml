@@ -29,3 +29,9 @@ actions:
         paginate: ''
         nextPageLink:
           responseHeader: Link
+- target: components
+  update:
+    collections:
+      /repos/{owner}/{repo}/issues:
+        list: 'get /repos/{owner}/{repo}/issues'
+        add: 'post /repos/{owner}/{repo}/issues'

@@ -21,6 +21,12 @@ export class Syncer extends EventEmitter {
   baseUrl: string;
   authHeaders: { [key: string]: string } = {};
   forcePageSize: number | null = null;
+  collections: {
+    [path: string]: {
+      add?: { method: string, path: string },
+      list?: { method: string, path: string },
+    }
+  } = {};
   constructor({
     specStr,
     overlayStr,
@@ -44,7 +50,7 @@ export class Syncer extends EventEmitter {
 
   async parseSpec(): Promise<void> {
     const doc = await specStrToObj(this.specStr, this.overlayStr);
-    // console.log('Parsed spec document', doc);
+    console.log('Parsed spec document', Object.keys(doc.components));
     this.baseUrl =
       doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';
     if (this.baseUrl.startsWith('//')) {
@@ -78,7 +84,13 @@ export class Syncer extends EventEmitter {
     // if (solution) {
     //   return solution;
     // }
-
+    this.collections = (doc?.components as { collections: {
+      [path: string]: {
+        add?: { method: string, path: string },
+        list?: { method: string, path: string },
+      }
+    }})?.collections;
+    console.log('collections', this.collections);
     // throw new Error(`No syncables found in spec`);
   }
   private getUrl(
@@ -603,5 +615,11 @@ export class Syncer extends EventEmitter {
     });
     // console.log('All data fetched', allData);
     return allData;
+  }
+  async addItem(collection, item): Promise<void> {
+    if (!this.collections[collection]) {
+      throw new Error('collection unknown');
+    }
+    console.log('adding item to collection', collection, item);
   }
 }

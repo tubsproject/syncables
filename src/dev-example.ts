@@ -78,10 +78,11 @@ async function main(): Promise<void> {
           `Filtering syncables for ${specName} with filter:`,
           JSON.stringify(filter),
         );
-        return await syncer.fullFetch(filter);
+        await syncer.fullFetch(filter);
+      } else {
+        await syncer.fullFetch();
       }
-      // void syncer;
-      return await syncer.fullFetch();
+      await syncer.addItem('/repos/{owner}/{repo}/issues', { foo: 'bar'});
     }),
   );
 }
