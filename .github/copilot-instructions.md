@@ -16,12 +16,6 @@
    - Manages auth headers and provides `fullFetch()` method for complete data synchronization
    - Supports database persistence via PostgreSQL client
 
-2. **Database Layer** (`src/db.ts`)
-   - PostgreSQL client management via `pg` package
-   - Schema generation from OpenAPI properties to SQL types (string → TEXT, number → INTEGER, boolean → BOOLEAN)
-   - Table creation and data insertion logic
-   - `getFields()` extracts schema properties, navigating `itemsPathInResponse` array
-
 4. **Pagination Strategies** (defined in `SyncableSpec.paginationStrategy`)
    - `pageNumber`: uses `page` param (customizable via `pageNumberParamInQuery`)
    - `offset`: uses `offset` param

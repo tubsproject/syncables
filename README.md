@@ -74,8 +74,6 @@ const syncer = new Syncer({
   authHeaders: {
     Authorization: `Bearer ${process.env.GOOGLE_BEARER_TOKEN}`,
   },
-  dbConn:
-    'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
 });
 
 const allTables = await syncer.fullFetch();
@@ -104,10 +102,8 @@ If your API is called ACME Widgets, then its environment variable names will sta
 * Similarly you can set MONEYBIRD_CLIENT_ID and MONEYBIRD_CLIENT_SECRET.
 * Now you can run the example:
 ```sh
-docker compose up -d
 pnpm start
 pnpm start events,contacts
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/syncables -c "\d+"
 ```
 It will check for existing bearer tokens in the `.tokens` folder and initiate OAuth flows as needed.
 API responses will be cached in the `.fetch-cache` folder for easier development.
@@ -120,7 +116,6 @@ pnpm install
 pnpm generate
 pnpm build
 pnpm test
-docker exec -it db psql postgresql://syncables:syncables@localhost:5432/db_unit_tests -c "\d+"
 pnpm prettier
 pnpm login
 pnpm publish
