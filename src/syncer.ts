@@ -68,11 +68,10 @@ export class Syncer extends EventEmitter {
             path,
             spec,
             schema:
-              pathItem.get.responses['200'].content['application/json'].schema,
+              pathItem.get.responses?.['200']?.content?.['application/json']?.schema,
           };
         }
       }
-      void generateSyncableSpec;
     }
     // console.log('found syncables', this.syncables);
     // if (solution) {

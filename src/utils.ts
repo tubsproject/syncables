@@ -172,7 +172,7 @@ export function findPathParts(
   schema: OpenAPIV3_1.SchemaObject,
 ): boolean {
   // console.log('\nEntering findPathParts', JSON.stringify(paramNameParts), JSON.stringify(schema));
-  if (paramNameParts.length === 0) {
+  if (paramNameParts.length === 1 && paramNameParts[0] === '') {
     // console.log('found', JSON.stringify(paramNameParts), JSON.stringify(schema));
     return true;
   }

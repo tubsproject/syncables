@@ -168,7 +168,7 @@ export function generateSyncableSpec(
     // console.log('determining pagination strategy', paginationScheme);
     spec.paginationStrategy = determineStrategy(paginationScheme);
     spec.itemsPathInResponse = paginationScheme.paginate.split('.');
-  } else {
+  // } else {
     // console.log('paginated items path not found in response schema, defaulting to no pagination strategy');
   }
   const parametersNames = Object.keys(doc.relations?.parameters || {});
