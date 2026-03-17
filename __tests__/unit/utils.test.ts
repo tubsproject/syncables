@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { getSpecFromOverlay, readSpec, specStrToObj, findPathParts } from '../../src/utils.js';
+import {
+  getSpecFromOverlay,
+  readSpec,
+  specStrToObj,
+  findPathParts,
+} from '../../src/utils.js';
 import { createSpec } from '../helpers/createSpec.js';
 import { OpenAPIV3_1 } from '@scalar/openapi-types';
 
@@ -111,9 +116,7 @@ describe('findPathParts', () => {
     },
   };
   it('throws an error if the parameter name has an empty part', () => {
-    expect(() =>
-      findPathParts(['items', '', 'id'], schemaItems),
-    ).toThrowError(
+    expect(() => findPathParts(['items', '', 'id'], schemaItems)).toThrowError(
       'Invalid parameter name with empty part: items..id',
     );
   });

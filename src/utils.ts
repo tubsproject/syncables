@@ -168,9 +168,10 @@ export async function getSpecFromOverlay(overlayStr: string): Promise<string> {
 }
 
 export function findPathParts(
-  paramNameParts: string[],
+  input: string[],
   schema: OpenAPIV3_1.SchemaObject,
 ): boolean {
+  const paramNameParts = [...input];
   // console.log('\nEntering findPathParts', JSON.stringify(paramNameParts), JSON.stringify(schema));
   paramNameParts.forEach((part) => {
     if (part.length === 0) {
