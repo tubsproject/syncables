@@ -1,7 +1,6 @@
 import { EventEmitter } from 'events';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
-import { Client, getFields, createSqlTable, insertData } from './db.js';
 import { specStrToObj, getObjectPath } from './utils.js';
 import { default as parse } from 'parse-link-header';
 import { SyncableSpec, generateSyncableSpec } from './spec.js';
@@ -21,22 +20,18 @@ export class Syncer extends EventEmitter {
   overlayStr: string | null = null;
   baseUrl: string;
   authHeaders: { [key: string]: string } = {};
-  client: Client | null = null;
-  dbConn: string | null = null;
   forcePageSize: number | null = null;
   constructor({
     specStr,
     overlayStr,
     authHeaders = {},
     fetchFunction = fetch,
-    dbConn,
     forcePageSize,
   }: {
     specStr: string;
     overlayStr?: string | null;
     authHeaders?: { [key: string]: string };
     fetchFunction?: typeof fetch;
-    dbConn?: string;
     forcePageSize?: number;
   }) {
     super();
@@ -45,20 +40,8 @@ export class Syncer extends EventEmitter {
     this.forcePageSize = forcePageSize || null;
     this.authHeaders = authHeaders;
     this.fetchFunction = fetchFunction;
-    this.dbConn = dbConn || null;
   }
 
-  private async initDb(): Promise<void> {
-    if (this.dbConn && !this.client) {
-      this.client = new Client({
-        connectionString: this.dbConn,
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      });
-      await this.client.connect();
-    }
-  }
   async parseSpec(): Promise<void> {
     const doc = await specStrToObj(this.specStr, this.overlayStr);
     // console.log('Parsed spec document', doc);
@@ -496,76 +479,11 @@ export class Syncer extends EventEmitter {
       return copy;
     });
   }
-  private paramTypes(parameters: { [key: string]: string }): {
-    [key: string]: 'string' | 'number';
-  } {
-    const paramTypes: { [key: string]: 'string' | 'number' } = {};
-    Object.entries(parameters || {}).forEach(([key, reference]) => {
-      const [parentName, parentField] = reference.split('.');
-      const parentFields = getFields(
-        this.syncables[parentName].schema,
-        this.syncables[parentName].spec,
-      );
-      if (!parentFields[parentField]) {
-        throw new Error(
-          `Invalid param reference ${reference}: could not find field ${parentField} in parent syncable ${parentName}`,
-        );
-      }
-      const parentFieldType = parentFields[parentField].type;
-      if (parentFieldType === 'string' || parentFieldType === 'number') {
-        paramTypes[key] = parentFieldType;
-      } else {
-        throw new Error(
-          `Unsupported field type for param reference ${reference}: field type is ${parentFieldType}`,
-        );
-      }
-    });
-    return paramTypes;
-  }
   async fetchOneSyncable(
     specName: string,
     parents: { [pattern: string]: string[] },
   ): Promise<object[]> {
-    const syncable = this.syncables[specName];
-    // console.log(`Fetching syncable ${specName} with parents`, parents);
     const data = await this.doFullFetch(specName, parents);
-    // console.log('initDb start');
-    await this.initDb();
-    // console.log('initDb end');
-    if (this.client) {
-      const fields = getFields(syncable.schema, syncable.spec);
-      // console.log('creating table with fields', fields);
-      const tableName = specName.split('.')[0].replace(/[^a-zA-Z0-9_]/g, '');
-      // console.log(
-      //   'creating SQL table',
-      //   tableName,
-      //   'with fields',
-      //   fields,
-      //   'and id field',
-      //   syncable.spec.idField || 'id',
-      // );
-      await createSqlTable(
-        this.client,
-        tableName,
-        fields,
-        syncable.spec.idField || 'id',
-        this.paramTypes(syncable.spec.parameters || {}),
-      );
-      const fieldsToInsert: string[] = Object.keys(fields);
-      Object.entries(parents).forEach(([pattern]) => {
-        // console.log('adding parent pattern to fields to insert', pattern);
-        if (!fieldsToInsert.includes(pattern)) {
-          fieldsToInsert.push(pattern);
-        }
-      });
-      await insertData(
-        this.client,
-        tableName,
-        data,
-        fieldsToInsert,
-        syncable.spec.idField || 'id',
-      );
-    }
     return data;
   }
   async fullFetch(
@@ -679,9 +597,6 @@ export class Syncer extends EventEmitter {
         // );
       }
     });
-    if (this.client) {
-      await this.client.end();
-    }
     // console.log('All data fetched', allData);
     return allData;
   }

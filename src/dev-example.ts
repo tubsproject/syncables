@@ -71,8 +71,6 @@ async function main(): Promise<void> {
         overlayStr,
         authHeaders: authHeaders[specName],
         fetchFunction,
-        dbConn:
-          'postgresql://syncables:syncables@localhost:5432/syncables?sslmode=disable',
       });
       if (process.argv.length > 2) {
         const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];

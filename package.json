@@ -68,7 +68,6 @@
     "parse-link-header": "^2.0.0",
     "passport": "^0.7.0",
     "passport-oauth": "^1.0.0",
-    "pg": "^8.16.3",
     "pg-format": "^1.0.4",
     "url-join": "^5.0.0",
     "utils": "link:@scalar/types/utils",
