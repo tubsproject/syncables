@@ -1,5 +1,8 @@
 .credentials/
 .fetch-cache/
+checked.txt
+first-1000.txt
+full-run.txt
 __tests__
 src
 node_modules
