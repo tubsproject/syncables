@@ -498,7 +498,7 @@ export class Syncer extends EventEmitter {
         );
     }
   }
-  private async doFullFetch(
+  private async fetchOneSyncable(
     syncableName: string,
     parents: {
       [pattern: string]: string[];
@@ -519,7 +519,7 @@ export class Syncer extends EventEmitter {
             }
           }
           // console.log('singled out a combination of parents', singledOut);
-          const itemsForThisParent = await this.doFullFetch(
+          const itemsForThisParent = await this.fetchOneSyncable(
             syncableName,
             singledOut,
           );
@@ -545,13 +545,6 @@ export class Syncer extends EventEmitter {
       });
       return copy;
     });
-  }
-  async fetchOneSyncable(
-    specName: string,
-    parents: { [pattern: string]: string[] },
-  ): Promise<object[]> {
-    const data = await this.doFullFetch(specName, parents);
-    return data;
   }
   async fullFetch(
     filter?: string[],
