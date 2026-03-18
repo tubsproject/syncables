@@ -83,7 +83,11 @@ async function main(): Promise<void> {
       //   await syncer.fullFetch();
       // }
       await syncer.parseSpec();
-      await syncer.addItem('/repos/{owner}/{repo}/issues', { title: 'testing issue addition'});
+      await syncer.addItem(
+        '/repos/{owner}/{repo}/issues',
+        { title: 'testing issue addition' },
+        { owner: 'michielbdejong', repo: 'bookkeeping.network' },
+      );
     }),
   );
 }
