@@ -4,6 +4,10 @@ import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getAuthHeaderSets } from './auth.js';
 import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
+import { /* components, */ paths } from './github.js';
+
+type IssueIn = paths['/repos/{owner}/{repo}/issues']['post']['requestBody']['content']['application/json'];
+// type IssueOut = components['schemas']['issue'];
 
 const securitySchemeNames = {
   // acube: 'acube',
@@ -85,7 +89,7 @@ async function main(): Promise<void> {
       await syncer.parseSpec();
       await syncer.addItem(
         '/repos/{owner}/{repo}/issues',
-        { title: 'testing issue addition' },
+        { title: 'testing issue addition' } as IssueIn,
         { owner: 'michielbdejong', repo: 'bookkeeping.network' },
       );
     }),
