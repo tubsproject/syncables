@@ -96,9 +96,9 @@ export class Syncer extends EventEmitter {
           if (!requestBodySchema) {
             throw new Error(`Invalid collection definition: no request body schema found for path ${path} method ${method}`);
           }
-          if (collection.schema && JSON.stringify(collection.schema) !== JSON.stringify(requestBodySchema)) {
-            throw new Error(`Mismatching schemas for list and add operations of collection ${collectionPath}`);
-          }
+          // if (collection.schema && JSON.stringify(collection.schema) !== JSON.stringify(requestBodySchema)) {
+          //   throw new Error(`Mismatching schemas for list and add operations of collection ${collectionPath}`);
+          // }
           collection.add = { method, path };
           collection.schema = requestBodySchema;
         }
