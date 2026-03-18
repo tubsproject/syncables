@@ -94,6 +94,9 @@ If your API is called ACME Widgets, then its environment variable names will sta
 * for type='basic' you will need to add ACME_WIDGETS_USER and ACME_WIDGETS_PASSWORD at runtime.
 * for type='acube' you will need to add ACME_WIDGETS_EMAIL and ACME_WIDGETS_PASSWORD at runtime.
 
+### Creating a local copy in a database
+The `showcase-database` branch shows how to use the schema information provided by OpenAPI to store data in a local database, creating the right tables on the fly. This code is no longer compatible with the current code base and it breaks down when the items listed in a HTTP response body contain sub-objects, see https://github.com/tubsproject/syncables/issues/42.
+
 ## Dev Example
 * In the [Google Cloud Dashboard](https://console.cloud.google.com/apis/credentials) create an OAuth client ID with http://localhost:8000 as an authorized JavaScript origin and http://localhost:8000/callback as an authorized redirect URI.
 * Enable the [calendar API](https://console.cloud.google.com/apis/library/calendar-json.googleapis.com)

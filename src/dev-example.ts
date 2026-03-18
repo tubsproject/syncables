@@ -10,8 +10,8 @@ const securitySchemeNames = {
   // 'google-calendar': 'Oauth2c',
   // moneybird: 'oauth2',
   // netfly: 'oauth2',
-  // github: 'oauth2',
-  'slack-web': 'slackAuth',
+  github: 'oauth2',
+  // 'slack-web': 'slackAuth',
 };
 
 async function main(): Promise<void> {
@@ -72,16 +72,22 @@ async function main(): Promise<void> {
         authHeaders: authHeaders[specName],
         fetchFunction,
       });
-      if (process.argv.length > 2) {
-        const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
-        console.log(
-          `Filtering syncables for ${specName} with filter:`,
-          JSON.stringify(filter),
-        );
-        return await syncer.fullFetch(filter);
-      }
-      // void syncer;
-      return await syncer.fullFetch();
+      // if (process.argv.length > 2) {
+      //   const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
+      //   console.log(
+      //     `Filtering syncables for ${specName} with filter:`,
+      //     JSON.stringify(filter),
+      //   );
+      //   await syncer.fullFetch(filter);
+      // } else {
+      //   await syncer.fullFetch();
+      // }
+      await syncer.parseSpec();
+      await syncer.addItem(
+        '/repos/{owner}/{repo}/issues',
+        { title: 'testing issue addition' },
+        { owner: 'michielbdejong', repo: 'bookkeeping.network' },
+      );
     }),
   );
 }

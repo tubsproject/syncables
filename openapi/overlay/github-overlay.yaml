@@ -1,5 +1,5 @@
 openapi: 3.0.0
-extends: https://raw.githubusercontent.com/tubsproject/syncables/refs/tags/v0.14.0/openapi/oad/github.yaml
+extends: https://raw.githubusercontent.com/APIs-guru/openapi-directory/refs/heads/main/APIs/github.com/api.github.com/1.1.4/openapi.yaml
 actions:
 - target: components
   update:
@@ -12,20 +12,26 @@ actions:
             tokenUrl: https://github.com/login/oauth/access_token
             scopes:
               read:user:email: Grants read access to a user's email addresses.
-- target: paths['/repos/{owner}/{repo}/issues']['get']['responses']['200']['content']['application/json']
-  update:
-    syncables:
-    - name: issues
-      description: |-
-        Issues in the repository.
-      type: collection
-      query:
-        owner: tubsproject
-        repo: syncables
+# - target: paths['/repos/{owner}/{repo}/issues']['get']['responses']['200']['content']['application/json']
+#   update:
+#     syncables:
+#     - name: issues
+#       description: |-
+#         Issues in the repository.
+#       type: collection
+#       query:
+#         owner: tubsproject
+#         repo: syncables
 - target: components
   update:
     paginationSchemes:
       default:
-        paginate: items
+        paginate: ''
         nextPageLink:
           responseHeader: Link
+- target: components
+  update:
+    collections:
+      /repos/{owner}/{repo}/issues:
+        list: 'get /repos/{owner}/{repo}/issues'
+        add: 'post /repos/{owner}/{repo}/issues'

@@ -120,7 +120,7 @@ export async function specStrToObj(
   }
   if (overlayStr) {
     const overlayObj = await parseSpecStr(overlayStr);
-    // console.log('parsed overlay object', JSON.stringify(overlayObj, null, 2));
+    console.log('parsed overlay object', JSON.stringify(overlayObj, null, 2));
     applyOverlay(specObj, overlayObj);
   }
   // console.log('starting dereference of spec');
@@ -168,10 +168,18 @@ export async function getSpecFromOverlay(overlayStr: string): Promise<string> {
 }
 
 export function findPathParts(
-  paramNameParts: string[],
+  input: string[],
   schema: OpenAPIV3_1.SchemaObject,
 ): boolean {
+  const paramNameParts = [...input];
   // console.log('\nEntering findPathParts', JSON.stringify(paramNameParts), JSON.stringify(schema));
+  paramNameParts.forEach((part) => {
+    if (part.length === 0) {
+      throw new Error(
+        `Invalid parameter name with empty part: ${paramNameParts.join('.')}`,
+      );
+    }
+  });
   if (paramNameParts.length === 0) {
     // console.log('found', JSON.stringify(paramNameParts), JSON.stringify(schema));
     return true;
