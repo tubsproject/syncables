@@ -4,7 +4,7 @@ import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getAuthHeaderSets } from './auth.js';
 import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
-import { /* components, */ paths } from './github.js';
+// import { /* components, */ paths } from './github.js';
 
 // type IssueIn = paths['/repos/{owner}/{repo}/issues']['post']['requestBody']['content']['application/json'];
 // type IssueOut = components['schemas']['issue'];
