@@ -6,7 +6,7 @@ import { getAuthHeaderSets } from './auth.js';
 import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
 import { /* components, */ paths } from './github.js';
 
-type IssueIn = paths['/repos/{owner}/{repo}/issues']['post']['requestBody']['content']['application/json'];
+// type IssueIn = paths['/repos/{owner}/{repo}/issues']['post']['requestBody']['content']['application/json'];
 // type IssueOut = components['schemas']['issue'];
 
 const securitySchemeNames = {
@@ -76,22 +76,22 @@ async function main(): Promise<void> {
         authHeaders: authHeaders[specName],
         fetchFunction,
       });
-      // if (process.argv.length > 2) {
-      //   const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
-      //   console.log(
-      //     `Filtering syncables for ${specName} with filter:`,
-      //     JSON.stringify(filter),
-      //   );
-      //   await syncer.fullFetch(filter);
-      // } else {
-      //   await syncer.fullFetch();
-      // }
-      await syncer.parseSpec();
-      await syncer.addItem(
-        '/repos/{owner}/{repo}/issues',
-        { title: 'testing issue addition' } as IssueIn,
-        { owner: 'michielbdejong', repo: 'bookkeeping.network' },
-      );
+      if (process.argv.length > 2) {
+        const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
+        console.log(
+          `Filtering syncables for ${specName} with filter:`,
+          JSON.stringify(filter),
+        );
+        await syncer.fullFetch(filter);
+      } else {
+        await syncer.fullFetch();
+      }
+      // await syncer.parseSpec();
+      // await syncer.addItem(
+      //   '/repos/{owner}/{repo}/issues',
+      //   { title: 'testing issue addition' } as IssueIn,
+      //   { owner: 'michielbdejong', repo: 'bookkeeping.network' },
+      // );
     }),
   );
 }
