@@ -126,7 +126,7 @@ export class Syncer extends EventEmitter {
 
   async parseSpec(): Promise<void> {
     const doc = await specStrToObj(this.specStr, this.overlayStr);
-    console.log('Parsed spec document', Object.keys(doc.components));
+    // console.log('Parsed spec document', Object.keys(doc.components));
     this.baseUrl =
       doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';
     if (this.baseUrl.startsWith('//')) {
@@ -142,7 +142,7 @@ export class Syncer extends EventEmitter {
     for (const path of Object.keys(doc.paths)) {
       const pathItem = doc.paths[path];
       if (pathItem.get) {
-        // console.log('found GET path', path);
+        console.log('found GET path', path);
         const spec = generateSyncableSpec(path, doc);
         if (spec.paginationStrategy !== 'none') {
           // FIXME: this it to make google.test.ts pass
@@ -161,7 +161,7 @@ export class Syncer extends EventEmitter {
     //   return solution;
     // }
     await this.getCollections(doc);
-    console.log('collections', this.collections);
+    // console.log('collections', this.collections);
     // throw new Error(`No syncables found in spec`);
   }
   private getUrl(
@@ -389,7 +389,7 @@ export class Syncer extends EventEmitter {
       } else {
         url = null;
       }
-      console.log('URL is now', url);
+      // console.log('URL is now', url);
     } while (url);
 
     return allData;
@@ -579,11 +579,11 @@ export class Syncer extends EventEmitter {
       newData = false;
       for (const specName of Object.keys(this.syncables)) {
         if (filter && filter.indexOf(specName) === -1) {
-          // console.log(
-          //   'Skipping syncable',
-          //   specName,
-          //   'because it is not in the filter list',
-          // );
+          console.log(
+            'Skipping syncable',
+            specName,
+            'because it is not in the filter list',
+          );
           continue;
           // } else if (filter) {
           //   console.log(

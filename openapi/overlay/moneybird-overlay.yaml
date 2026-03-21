@@ -27,7 +27,11 @@ actions:
           parameter: page
         path: /{administration_id}/{collection}{format}
         synchronization: /{administration_id}/{collection}/synchronization{format}
-
+- target: components
+  update:
+    relations:
+      parameters:
+        administration_id: /administrations{format}#id
 
 # ...
 

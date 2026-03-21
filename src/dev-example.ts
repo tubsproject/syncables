@@ -43,8 +43,8 @@ async function main(): Promise<void> {
         specStrs[apiName],
         overlayStrs[apiName],
       );
-      console.log(Object.keys(spec.components ?? {}));
-      console.log('security schemes', spec.components?.securitySchemes);
+      // console.log(Object.keys(spec.components ?? {}));
+      // console.log('security schemes', spec.components?.securitySchemes);
       console.log(
         'selecting security scheme for',
         apiName,
