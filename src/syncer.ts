@@ -144,7 +144,7 @@ export class Syncer extends EventEmitter {
       if (pathItem.get) {
         console.log('found GET path', path);
         const spec = generateSyncableSpec(path, doc);
-        if (spec.paginationStrategy !== 'none') {
+        // if (spec.paginationStrategy !== 'none') {
           // FIXME: this it to make google.test.ts pass
           this.syncables[path] = {
             path,
@@ -153,13 +153,10 @@ export class Syncer extends EventEmitter {
               pathItem.get.responses?.['200']?.content?.['application/json']
                 ?.schema,
           };
-        }
+        // }
       }
     }
-    // console.log('found syncables', this.syncables);
-    // if (solution) {
-    //   return solution;
-    // }
+    console.log('found syncables', this.syncables);
     await this.getCollections(doc);
     // console.log('collections', this.collections);
     // throw new Error(`No syncables found in spec`);
@@ -563,6 +560,7 @@ export class Syncer extends EventEmitter {
     });
   }
   async fullFetch(
+    params: { [placeholder: string]: string } = {},
     filter?: string[],
   ): Promise<{ [syncableName: string]: object[] }> {
     const allData: {
@@ -572,10 +570,10 @@ export class Syncer extends EventEmitter {
     const skipped: { [syncableName: string]: boolean } = {};
     await this.parseSpec();
     do {
-      // console.log(
-      //   'Starting loop of fetching all syncables, currently have data for syncables',
-      //   Object.keys(allData),
-      // );
+      console.log(
+        'Starting loop of fetching all syncables, currently have data for syncables',
+        Object.keys(allData),
+      );
       newData = false;
       for (const specName of Object.keys(this.syncables)) {
         if (filter && filter.indexOf(specName) === -1) {
@@ -585,25 +583,25 @@ export class Syncer extends EventEmitter {
             'because it is not in the filter list',
           );
           continue;
-          // } else if (filter) {
-          //   console.log(
-          //     'Including syncable',
-          //     specName,
-          //     'because it is in the filter list',
-          //   );
+          } else if (filter) {
+            console.log(
+              'Including syncable',
+              specName,
+              'because it is in the filter list',
+            );
         }
         if (allData[specName]) {
-          // console.log(
-          //   `Already have data for syncable ${specName}, skipping...`,
-          // );
+          console.log(
+            `Already have data for syncable ${specName}, skipping...`,
+          );
           continue;
         }
         const syncable = this.syncables[specName];
-        // console.log(
-        //   'checking if we need parents for',
-        //   specName,
-        //   syncable.spec.parameters,
-        // );
+        console.log(
+          'checking if we need parents for',
+          specName,
+          syncable.spec.parameters,
+        );
         const parents = {};
         if (syncable.spec.parameters) {
           // console.log(
@@ -629,9 +627,8 @@ export class Syncer extends EventEmitter {
               );
             },
           );
-          (filter || []).forEach((filterSpec) => {
-            const [key, value] = filterSpec.split('=');
-            parents[key] = [value];
+          Object.keys(params).forEach((key) => {
+            parents[key] = [params[key]];
           });
           if (missingParentData) {
             // console.log(

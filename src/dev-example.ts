@@ -4,6 +4,7 @@ import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getAuthHeaderSets } from './auth.js';
 import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
+import { storeData } from './store.js';
 // import { /* components, */ paths } from './github.js';
 
 // type IssueIn = paths['/repos/{owner}/{repo}/issues']['post']['requestBody']['content']['application/json'];
@@ -76,16 +77,36 @@ async function main(): Promise<void> {
         authHeaders: authHeaders[specName],
         fetchFunction,
       });
+      let allData;
       if (process.argv.length > 2) {
-        const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
+        const paramsSpecs: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
+        const params: { [placeholder: string]: string } = {};
+        for (const paramsSpec of paramsSpecs) {
+          const [placeholder, value] = paramsSpec.split('=');
+          if (placeholder && value) {
+            params[placeholder] = value;
+          }
+        }
+        const filter: string[] | undefined = process.argv.slice(3).at(0)?.split(',') ?? undefined;
         console.log(
           `Filtering syncables for ${specName} with filter:`,
           JSON.stringify(filter),
         );
-        await syncer.fullFetch(filter);
+        allData = await syncer.fullFetch(params, filter);
       } else {
-        await syncer.fullFetch();
+        allData = await syncer.fullFetch();
       }
+      const promises = Object.entries(allData).map(
+        async ([syncableName, items]) => {
+          await storeData(specName, syncableName, items).catch((err) => {
+            console.error(
+              `Error storing data for ${syncableName} of API ${specName}:`,
+              err,
+            );
+          });
+        },
+      );
+      await Promise.all(promises);
       // await syncer.parseSpec();
       // await syncer.addItem(
       //   '/repos/{owner}/{repo}/issues',

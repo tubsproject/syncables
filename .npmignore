@@ -1,5 +1,6 @@
 .credentials/
 .fetch-cache/
+.data
 checked.txt
 first-1000.txt
 full-run.txt

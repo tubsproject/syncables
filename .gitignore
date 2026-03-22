@@ -1,5 +1,6 @@
 .credentials/
 .fetch-cache/
+.data/
 
 *-generated.yaml
 
