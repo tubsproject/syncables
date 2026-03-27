@@ -15,3 +15,5 @@ actions:
   update:
     relations:
       parameters:
+        calendarId: /users/me/calendarList#id
+        setting: /users/me/settings#id

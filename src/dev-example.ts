@@ -12,10 +12,10 @@ import { storeData } from './store.js';
 
 const securitySchemeNames = {
   // acube: 'acube',
-  // 'google-calendar': 'Oauth2c',
-  moneybird: 'oauth2',
+  'google-calendar': 'Oauth2c',
+  // moneybird: 'oauth2',
   // netfly: 'oauth2',
-  github: 'oauth2',
+  // github: 'oauth2',
   // 'slack-web': 'slackAuth',
 };
 
