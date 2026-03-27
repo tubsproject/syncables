@@ -4,7 +4,7 @@ import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getAuthHeaderSets } from './auth.js';
 import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
-import { storeData } from './store.js';
+import { storeData, resetStore } from './store.js';
 // import { /* components, */ paths } from './github.js';
 
 // type IssueIn = paths['/repos/{owner}/{repo}/issues']['post']['requestBody']['content']['application/json'];
@@ -77,6 +77,7 @@ async function main(): Promise<void> {
         authHeaders: authHeaders[specName],
         fetchFunction,
       });
+      await resetStore(specName);
       if (process.argv.length > 2) {
         const paramsSpecs: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
         const params: { [placeholder: string]: string } = {};

@@ -1,5 +1,6 @@
 import { writeFile } from 'fs/promises';
 import { mkdirp } from 'mkdirp';
+import { rimraf } from 'rimraf';
 
 export const DATA_DIR = '.data';
 
@@ -21,4 +22,9 @@ export async function storeData(
   const fileName = `${DATA_DIR}/${apiName}/${path.replace(/\//g, '_')}.json`;
   await ensureDataDirExists(apiName);
   await writeFile(fileName, JSON.stringify(data, null, 2));
+}
+
+export async function resetStore(apiName: string): Promise<void> {
+  await rimraf(`${DATA_DIR}/${apiName}`);
+  await mkdirp(`${DATA_DIR}/${apiName}`);
 }
