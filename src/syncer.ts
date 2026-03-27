@@ -8,6 +8,8 @@ import { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 const debug = createDebug('syncable');
 
+const MAX_PAGES = 100;
+
 export type CollectionInput = {
   add?: string;
   list?: string;
@@ -156,7 +158,7 @@ export class Syncer extends EventEmitter {
         // }
       }
     }
-    console.log('found syncables', this.syncables);
+    // console.log('found syncables', this.syncables);
     await this.getCollections(doc);
     // console.log('collections', this.collections);
     // throw new Error(`No syncables found in spec`);
@@ -172,6 +174,9 @@ export class Syncer extends EventEmitter {
     // console.log('joining URL for path', urlPath, 'with parents', theseParents);
     const joined = urljoin(this.baseUrl, urlPath);
     // console.log('joined URL', joined);
+    if (joined.indexOf('{') !== -1) {
+      throw new Error(`Not all placeholders in URL path ${urlPath} were replaced, got ${joined}`);
+    }
     return new URL(joined);
   }
 
@@ -296,8 +301,8 @@ export class Syncer extends EventEmitter {
     let offset = 0;
     let hasMore = true;
     const spec = this.syncables[syncableName].spec;
-
-    while (hasMore) {
+    let pages = 0;
+    while (hasMore && pages++ < MAX_PAGES) {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -317,7 +322,7 @@ export class Syncer extends EventEmitter {
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       offset += data.items.length;
-    }
+    };
 
     return allData;
   }
@@ -331,6 +336,7 @@ export class Syncer extends EventEmitter {
     let allData: object[] = [];
     let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
+    let pages = 0;
     do {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
@@ -352,7 +358,7 @@ export class Syncer extends EventEmitter {
       // console.log('fetched', data);
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
-    } while (nextPageToken);
+    } while (nextPageToken && ++pages < MAX_PAGES);
 
     return allData;
   }
@@ -365,6 +371,7 @@ export class Syncer extends EventEmitter {
     let allData: object[] = [];
     const spec = this.syncables[syncableName].spec;
     let url = this.getUrl(this.syncables[syncableName].path, theseParents);
+    let pages = 0;
     do {
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -387,7 +394,7 @@ export class Syncer extends EventEmitter {
         url = null;
       }
       // console.log('URL is now', url);
-    } while (url);
+    } while (url && ++pages < MAX_PAGES);
 
     return allData;
   }
@@ -402,8 +409,8 @@ export class Syncer extends EventEmitter {
     let allData: object[] = [];
     const numItemsPerPage = this.forcePageSize || 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
-
-    while (true) {
+    let pages = 0;
+    while (pages++ < MAX_PAGES) {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -444,6 +451,7 @@ export class Syncer extends EventEmitter {
       hasMore?: boolean;
       nextPageToken?: string;
     };
+    let pages = 0;
     do {
       thisBatch = await this.doFetch(
         spec,
@@ -468,7 +476,7 @@ export class Syncer extends EventEmitter {
         }),
       );
       await promises;
-    } while (thisBatch.hasMore);
+    } while (thisBatch.hasMore && ++pages < MAX_PAGES);
     return allData;
   }
   private async doOneFetch(
@@ -502,8 +510,12 @@ export class Syncer extends EventEmitter {
             theseParents,
           ).toString(),
         ).then((res) => {
-          console.log('no pagionation here', res);
-          return res.items;
+          console.log('no pagination here', res);
+          if (Array.isArray(res.items)) {
+            return res.items;
+          } else {
+            return [res.items];
+          }
         });
       default:
         throw new Error(
@@ -560,6 +572,7 @@ export class Syncer extends EventEmitter {
     });
   }
   async fullFetch(
+    callback: (syncableName: string, items: object[]) => Promise<void> = () => Promise.resolve(),
     params: { [placeholder: string]: string } = {},
     filter?: string[],
   ): Promise<{ [syncableName: string]: object[] }> {
@@ -640,7 +653,14 @@ export class Syncer extends EventEmitter {
           // console.log('all parents for syncable', specName, parents);
         }
         skipped[specName] = false;
-        const data = await this.fetchOneSyncable(specName, parents);
+        const data = await this.fetchOneSyncable(specName, parents).catch(err => {
+          console.log(`Error fetching data for syncable ${specName} with parents ${JSON.stringify(parents)}:`, err);
+          return err;
+        });
+        await callback(specName, data).catch(err => {
+          console.log(`Error in callback for syncable ${specName} with parents ${JSON.stringify(parents)}:`, err);
+          return err;
+        });
         // console.log(
         //   'Fetched data for syncable',
         //   specName,

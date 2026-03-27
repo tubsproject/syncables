@@ -32,6 +32,13 @@ actions:
     relations:
       parameters:
         administration_id: /administrations{format}#id
+        contact_id: /contacts{format}#id
+        id: /contacts{format}#id
+        invoice_id: /sales_invoices{format}#id
+        document_id: /documents{format}#id
+        estimate_id: /estimates{format}#id
+        bank_id: /bank{format}#id
+        time_entry_id: /time_entries{format}#id
 
 # ...
 

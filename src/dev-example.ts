@@ -15,7 +15,7 @@ const securitySchemeNames = {
   // 'google-calendar': 'Oauth2c',
   moneybird: 'oauth2',
   // netfly: 'oauth2',
-  // github: 'oauth2',
+  github: 'oauth2',
   // 'slack-web': 'slackAuth',
 };
 
@@ -77,7 +77,6 @@ async function main(): Promise<void> {
         authHeaders: authHeaders[specName],
         fetchFunction,
       });
-      let allData;
       if (process.argv.length > 2) {
         const paramsSpecs: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
         const params: { [placeholder: string]: string } = {};
@@ -92,21 +91,24 @@ async function main(): Promise<void> {
           `Filtering syncables for ${specName} with filter:`,
           JSON.stringify(filter),
         );
-        allData = await syncer.fullFetch(params, filter);
-      } else {
-        allData = await syncer.fullFetch();
-      }
-      const promises = Object.entries(allData).map(
-        async ([syncableName, items]) => {
+        await syncer.fullFetch(async (syncableName: string, items: object[]) => {
           await storeData(specName, syncableName, items).catch((err) => {
             console.error(
               `Error storing data for ${syncableName} of API ${specName}:`,
               err,
             );
           });
-        },
-      );
-      await Promise.all(promises);
+        }, params, filter);
+      } else {
+        await syncer.fullFetch(async (syncableName: string, items: object[]) => {
+          await storeData(specName, syncableName, items).catch((err) => {
+            console.error(
+              `Error storing data for ${syncableName} of API ${specName}:`,
+              err,
+            );
+          });
+        });
+      }
       // await syncer.parseSpec();
       // await syncer.addItem(
       //   '/repos/{owner}/{repo}/issues',
