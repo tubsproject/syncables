@@ -146,16 +146,16 @@ export class Syncer extends EventEmitter {
       if (pathItem.get) {
         console.log('found GET path', path);
         const spec = generateSyncableSpec(path, doc);
-        // if (spec.paginationStrategy !== 'none') {
-        // FIXME: this it to make google.test.ts pass
-        this.syncables[path] = {
-          path,
-          spec,
-          schema:
-            pathItem.get.responses?.['200']?.content?.['application/json']
-              ?.schema,
-        };
-        // }
+        if (spec.paginationStrategy !== 'none') {
+          // FIXME: this it to make google.test.ts pass
+          this.syncables[path] = {
+            path,
+            spec,
+            schema:
+              pathItem.get.responses?.['200']?.content?.['application/json']
+                ?.schema,
+          };
+        }
       }
     }
     // console.log('found syncables', this.syncables);
@@ -656,15 +656,14 @@ export class Syncer extends EventEmitter {
           // console.log('all parents for syncable', specName, parents);
         }
         skipped[specName] = false;
-        const data = await this.fetchOneSyncable(specName, parents).catch(
-          (err) => {
-            console.log(
-              `Error fetching data for syncable ${specName} with parents ${JSON.stringify(parents)}:`,
-              err,
-            );
-            return err;
-          },
-        );
+        let data;
+        data = await this.fetchOneSyncable(specName, parents).catch((err) => {
+          console.log(
+            `Error fetching data for syncable ${specName} with parents ${JSON.stringify(parents)}:`,
+            err,
+          );
+          data = err;
+        });
         await callback(specName, data).catch((err) => {
           console.log(
             `Error in callback for syncable ${specName} with parents ${JSON.stringify(parents)}:`,

@@ -179,9 +179,7 @@ export function generateSyncableSpec(
       relations?: { parameters?: { [parameterName: string]: string } };
     }
   )?.relations;
-  const parametersNames = Object.keys(
-    relations?.parameters || { parameters: {} },
-  );
+  const parametersNames = Object.keys(relations?.parameters || {});
   console.log('parameterNames', parametersNames);
   parametersNames.forEach((paramName) => {
     if (path.indexOf(`{${paramName}}`) !== -1) {
