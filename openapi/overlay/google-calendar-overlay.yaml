@@ -17,4 +17,5 @@ actions:
       parameters:
         calendarId: /users/me/calendarList#id
         setting: /users/me/settings#id
-        # eventId: /calendars/{calendarId}/events#id
+        eventId: /calendars/{calendarId}/events#id
+        ruleId: /calendars/{calendarId}/acl#id

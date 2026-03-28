@@ -36,22 +36,32 @@ describe('Google Calendar List', async () => {
     keys.forEach((key) => {
       let items = [];
       if (key.indexOf('{eventId}') !== -1) {
-        // FIXME: https://github.com/tubsproject/syncables/issues/67
-        items = undefined;
+        for (let calendarId = 1; calendarId < 4; calendarId++) {
+          for (let eventId = 1; eventId < 4; eventId++) {
+            for (let itemId = 1; itemId < 4; itemId++) {
+              items.push({
+                calendarId: calendarId.toString(),
+                eventId: eventId.toString(),
+                id: itemId,
+                title: `Test Todo ${itemId}`,
+              });
+            }
+          }
+        }
       } else if (key.indexOf('{calendarId}') === -1) {
-        for (let j = 1; j < 4; j++) {
+        for (let itemId = 1; itemId < 4; itemId++) {
           items.push({
-            id: j,
-            title: `Test Todo ${j}`,
+            id: itemId,
+            title: `Test Todo ${itemId}`,
           });
         }
       } else {
-        for (let i = 1; i < 4; i++) {
-          for (let j = 1; j < 4; j++) {
+        for (let calendarId = 1; calendarId < 4; calendarId++) {
+          for (let itemId = 1; itemId < 4; itemId++) {
             items.push({
-              calendarId: i.toString(),
-              id: j,
-              title: `Test Todo ${j}`,
+              calendarId: calendarId.toString(),
+              id: itemId,
+              title: `Test Todo ${itemId}`,
             });
           }
         }
