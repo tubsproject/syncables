@@ -79,7 +79,8 @@ async function main(): Promise<void> {
       });
       await resetStore(specName);
       if (process.argv.length > 2) {
-        const paramsSpecs: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
+        const paramsSpecs: string[] =
+          process.argv.slice(2).at(0)?.split(',') ?? [];
         const params: { [placeholder: string]: string } = {};
         for (const paramsSpec of paramsSpecs) {
           const [placeholder, value] = paramsSpec.split('=');
@@ -87,28 +88,35 @@ async function main(): Promise<void> {
             params[placeholder] = value;
           }
         }
-        const filter: string[] | undefined = process.argv.slice(3).at(0)?.split(',') ?? undefined;
+        const filter: string[] | undefined =
+          process.argv.slice(3).at(0)?.split(',') ?? undefined;
         console.log(
           `Filtering syncables for ${specName} with filter:`,
           JSON.stringify(filter),
         );
-        await syncer.fullFetch(async (syncableName: string, items: object[]) => {
-          await storeData(specName, syncableName, items).catch((err) => {
-            console.error(
-              `Error storing data for ${syncableName} of API ${specName}:`,
-              err,
-            );
-          });
-        }, params, filter);
+        await syncer.fullFetch(
+          async (syncableName: string, items: object[]) => {
+            await storeData(specName, syncableName, items).catch((err) => {
+              console.error(
+                `Error storing data for ${syncableName} of API ${specName}:`,
+                err,
+              );
+            });
+          },
+          params,
+          filter,
+        );
       } else {
-        await syncer.fullFetch(async (syncableName: string, items: object[]) => {
-          await storeData(specName, syncableName, items).catch((err) => {
-            console.error(
-              `Error storing data for ${syncableName} of API ${specName}:`,
-              err,
-            );
-          });
-        });
+        await syncer.fullFetch(
+          async (syncableName: string, items: object[]) => {
+            await storeData(specName, syncableName, items).catch((err) => {
+              console.error(
+                `Error storing data for ${syncableName} of API ${specName}:`,
+                err,
+              );
+            });
+          },
+        );
       }
       // await syncer.parseSpec();
       // await syncer.addItem(

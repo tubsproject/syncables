@@ -147,14 +147,14 @@ export class Syncer extends EventEmitter {
         console.log('found GET path', path);
         const spec = generateSyncableSpec(path, doc);
         // if (spec.paginationStrategy !== 'none') {
-          // FIXME: this it to make google.test.ts pass
-          this.syncables[path] = {
-            path,
-            spec,
-            schema:
-              pathItem.get.responses?.['200']?.content?.['application/json']
-                ?.schema,
-          };
+        // FIXME: this it to make google.test.ts pass
+        this.syncables[path] = {
+          path,
+          spec,
+          schema:
+            pathItem.get.responses?.['200']?.content?.['application/json']
+              ?.schema,
+        };
         // }
       }
     }
@@ -175,7 +175,9 @@ export class Syncer extends EventEmitter {
     const joined = urljoin(this.baseUrl, urlPath);
     // console.log('joined URL', joined);
     if (joined.indexOf('{') !== -1) {
-      throw new Error(`Not all placeholders in URL path ${urlPath} were replaced, got ${joined}`);
+      throw new Error(
+        `Not all placeholders in URL path ${urlPath} were replaced, got ${joined}`,
+      );
     }
     return new URL(joined);
   }
@@ -322,7 +324,7 @@ export class Syncer extends EventEmitter {
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       offset += data.items.length;
-    };
+    }
 
     return allData;
   }
@@ -572,7 +574,8 @@ export class Syncer extends EventEmitter {
     });
   }
   async fullFetch(
-    callback: (syncableName: string, items: object[]) => Promise<void> = () => Promise.resolve(),
+    callback: (syncableName: string, items: object[]) => Promise<void> = () =>
+      Promise.resolve(),
     params: { [placeholder: string]: string } = {},
     filter?: string[],
   ): Promise<{ [syncableName: string]: object[] }> {
@@ -596,12 +599,12 @@ export class Syncer extends EventEmitter {
             'because it is not in the filter list',
           );
           continue;
-          } else if (filter) {
-            console.log(
-              'Including syncable',
-              specName,
-              'because it is in the filter list',
-            );
+        } else if (filter) {
+          console.log(
+            'Including syncable',
+            specName,
+            'because it is in the filter list',
+          );
         }
         if (allData[specName]) {
           console.log(
@@ -653,12 +656,20 @@ export class Syncer extends EventEmitter {
           // console.log('all parents for syncable', specName, parents);
         }
         skipped[specName] = false;
-        const data = await this.fetchOneSyncable(specName, parents).catch(err => {
-          console.log(`Error fetching data for syncable ${specName} with parents ${JSON.stringify(parents)}:`, err);
-          return err;
-        });
-        await callback(specName, data).catch(err => {
-          console.log(`Error in callback for syncable ${specName} with parents ${JSON.stringify(parents)}:`, err);
+        const data = await this.fetchOneSyncable(specName, parents).catch(
+          (err) => {
+            console.log(
+              `Error fetching data for syncable ${specName} with parents ${JSON.stringify(parents)}:`,
+              err,
+            );
+            return err;
+          },
+        );
+        await callback(specName, data).catch((err) => {
+          console.log(
+            `Error in callback for syncable ${specName} with parents ${JSON.stringify(parents)}:`,
+            err,
+          );
           return err;
         });
         // console.log(

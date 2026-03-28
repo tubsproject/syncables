@@ -174,9 +174,14 @@ export function generateSyncableSpec(
     // } else {
     // console.log('paginated items path not found in response schema, defaulting to no pagination strategy');
   }
-  const relations =
-    (doc.components as unknown as { relations?: { parameters?: { [parameterName: string]: string } } })?.relations;
-  const parametersNames = Object.keys(relations?.parameters || { parameters: {} });
+  const relations = (
+    doc.components as unknown as {
+      relations?: { parameters?: { [parameterName: string]: string } };
+    }
+  )?.relations;
+  const parametersNames = Object.keys(
+    relations?.parameters || { parameters: {} },
+  );
   console.log('parameterNames', parametersNames);
   parametersNames.forEach((paramName) => {
     if (path.indexOf(`{${paramName}}`) !== -1) {
