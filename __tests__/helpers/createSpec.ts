@@ -25,8 +25,8 @@ export function createSpec(
       paginationSchemes: {
         default: paginationScheme,
       },
+      relations,
     },
-    relations,
   };
   for (const path in configs) {
     const config = configs[path];

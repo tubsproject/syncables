@@ -11,7 +11,10 @@ actions:
         token:
           parameter: pageToken
           responseBody: nextPageToken
-- target: $
+- target: components
   update:
     relations:
       parameters:
+        calendarId: /users/me/calendarList#id
+        setting: /users/me/settings#id
+        # eventId: /calendars/{calendarId}/events#id

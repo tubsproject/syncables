@@ -262,22 +262,24 @@ describe('Params', () => {
       paginate: 'items',
       pageNumber: { parameter: 'page' },
     };
+    const specStr = createSpec(
+      'https://example.com/api',
+      {
+        '/countries/': countries,
+        '/users/': users,
+        '/{countryId}/{userId}/widgets/': widgets,
+      },
+      paginationScheme,
+      {
+        parameters: {
+          userId: '/users/#id',
+          countryId: '/countries/#id',
+        },
+      },
+    );
+    console.log(specStr);
     const syncer = new Syncer({
-      specStr: createSpec(
-        'https://example.com/api',
-        {
-          '/countries/': countries,
-          '/users/': users,
-          '/{countryId}/{userId}/widgets/': widgets,
-        },
-        paginationScheme,
-        {
-          parameters: {
-            userId: '/users/#id',
-            countryId: '/countries/#id',
-          },
-        },
-      ),
+      specStr,
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
     const data = await syncer.fullFetch();

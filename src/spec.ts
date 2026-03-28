@@ -174,11 +174,21 @@ export function generateSyncableSpec(
     // } else {
     // console.log('paginated items path not found in response schema, defaulting to no pagination strategy');
   }
-  const parametersNames = Object.keys(doc.relations?.parameters || {});
+  const relations = (
+    doc.components as unknown as {
+      relations?: { parameters?: { [parameterName: string]: string } };
+    }
+  )?.relations;
+  const parametersNames = Object.keys(relations?.parameters || {});
+  console.log('parameterNames', parametersNames);
   parametersNames.forEach((paramName) => {
     if (path.indexOf(`{${paramName}}`) !== -1) {
-      // console.log(`Adding parameter ${paramName} to spec for path ${path}`);
-      spec.parameters[paramName] = doc.relations.parameters[paramName];
+      console.log(`Adding parameter ${paramName} to spec for path ${path}`);
+      spec.parameters[paramName] = relations.parameters?.[paramName];
+    } else {
+      console.warn(
+        `Parameter ${paramName} defined in spec relations but not found in path ${path}, skipping`,
+      );
     }
   });
   // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
@@ -211,6 +221,6 @@ export function generateSyncableSpec(
     // console.log('determined confirmOperation config', config.confirmOperation);
     // throw new Error('debug');
   }
-  // console.log('normalized', spec);
+  console.log('generated', spec);
   return spec;
 }

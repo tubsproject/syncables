@@ -8,6 +8,8 @@ import { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 const debug = createDebug('syncable');
 
+const MAX_PAGES = 100;
+
 export type CollectionInput = {
   add?: string;
   list?: string;
@@ -126,7 +128,7 @@ export class Syncer extends EventEmitter {
 
   async parseSpec(): Promise<void> {
     const doc = await specStrToObj(this.specStr, this.overlayStr);
-    console.log('Parsed spec document', Object.keys(doc.components));
+    // console.log('Parsed spec document', Object.keys(doc.components));
     this.baseUrl =
       doc.servers && doc.servers.length > 0 ? doc.servers[0].url : '';
     if (this.baseUrl.startsWith('//')) {
@@ -142,7 +144,7 @@ export class Syncer extends EventEmitter {
     for (const path of Object.keys(doc.paths)) {
       const pathItem = doc.paths[path];
       if (pathItem.get) {
-        // console.log('found GET path', path);
+        console.log('found GET path', path);
         const spec = generateSyncableSpec(path, doc);
         if (spec.paginationStrategy !== 'none') {
           // FIXME: this it to make google.test.ts pass
@@ -157,11 +159,8 @@ export class Syncer extends EventEmitter {
       }
     }
     // console.log('found syncables', this.syncables);
-    // if (solution) {
-    //   return solution;
-    // }
     await this.getCollections(doc);
-    console.log('collections', this.collections);
+    // console.log('collections', this.collections);
     // throw new Error(`No syncables found in spec`);
   }
   private getUrl(
@@ -175,6 +174,11 @@ export class Syncer extends EventEmitter {
     // console.log('joining URL for path', urlPath, 'with parents', theseParents);
     const joined = urljoin(this.baseUrl, urlPath);
     // console.log('joined URL', joined);
+    if (joined.indexOf('{') !== -1) {
+      throw new Error(
+        `Not all placeholders in URL path ${urlPath} were replaced, got ${joined}`,
+      );
+    }
     return new URL(joined);
   }
 
@@ -299,8 +303,8 @@ export class Syncer extends EventEmitter {
     let offset = 0;
     let hasMore = true;
     const spec = this.syncables[syncableName].spec;
-
-    while (hasMore) {
+    let pages = 0;
+    while (hasMore && pages++ < MAX_PAGES) {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -334,6 +338,7 @@ export class Syncer extends EventEmitter {
     let allData: object[] = [];
     let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
+    let pages = 0;
     do {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
@@ -355,7 +360,7 @@ export class Syncer extends EventEmitter {
       // console.log('fetched', data);
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
-    } while (nextPageToken);
+    } while (nextPageToken && ++pages < MAX_PAGES);
 
     return allData;
   }
@@ -368,6 +373,7 @@ export class Syncer extends EventEmitter {
     let allData: object[] = [];
     const spec = this.syncables[syncableName].spec;
     let url = this.getUrl(this.syncables[syncableName].path, theseParents);
+    let pages = 0;
     do {
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -389,8 +395,8 @@ export class Syncer extends EventEmitter {
       } else {
         url = null;
       }
-      console.log('URL is now', url);
-    } while (url);
+      // console.log('URL is now', url);
+    } while (url && ++pages < MAX_PAGES);
 
     return allData;
   }
@@ -405,8 +411,8 @@ export class Syncer extends EventEmitter {
     let allData: object[] = [];
     const numItemsPerPage = this.forcePageSize || 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
-
-    while (true) {
+    let pages = 0;
+    while (pages++ < MAX_PAGES) {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -447,6 +453,7 @@ export class Syncer extends EventEmitter {
       hasMore?: boolean;
       nextPageToken?: string;
     };
+    let pages = 0;
     do {
       thisBatch = await this.doFetch(
         spec,
@@ -471,7 +478,7 @@ export class Syncer extends EventEmitter {
         }),
       );
       await promises;
-    } while (thisBatch.hasMore);
+    } while (thisBatch.hasMore && ++pages < MAX_PAGES);
     return allData;
   }
   private async doOneFetch(
@@ -505,8 +512,12 @@ export class Syncer extends EventEmitter {
             theseParents,
           ).toString(),
         ).then((res) => {
-          console.log('no pagionation here', res);
-          return res.items;
+          console.log('no pagination here', res);
+          if (Array.isArray(res.items)) {
+            return res.items;
+          } else {
+            return [res.items];
+          }
         });
       default:
         throw new Error(
@@ -563,6 +574,9 @@ export class Syncer extends EventEmitter {
     });
   }
   async fullFetch(
+    callback: (syncableName: string, items: object[]) => Promise<void> = () =>
+      Promise.resolve(),
+    params: { [placeholder: string]: string } = {},
     filter?: string[],
   ): Promise<{ [syncableName: string]: object[] }> {
     const allData: {
@@ -572,38 +586,38 @@ export class Syncer extends EventEmitter {
     const skipped: { [syncableName: string]: boolean } = {};
     await this.parseSpec();
     do {
-      // console.log(
-      //   'Starting loop of fetching all syncables, currently have data for syncables',
-      //   Object.keys(allData),
-      // );
+      console.log(
+        'Starting loop of fetching all syncables, currently have data for syncables',
+        Object.keys(allData),
+      );
       newData = false;
       for (const specName of Object.keys(this.syncables)) {
         if (filter && filter.indexOf(specName) === -1) {
-          // console.log(
-          //   'Skipping syncable',
-          //   specName,
-          //   'because it is not in the filter list',
-          // );
+          console.log(
+            'Skipping syncable',
+            specName,
+            'because it is not in the filter list',
+          );
           continue;
-          // } else if (filter) {
-          //   console.log(
-          //     'Including syncable',
-          //     specName,
-          //     'because it is in the filter list',
-          //   );
+        } else if (filter) {
+          console.log(
+            'Including syncable',
+            specName,
+            'because it is in the filter list',
+          );
         }
         if (allData[specName]) {
-          // console.log(
-          //   `Already have data for syncable ${specName}, skipping...`,
-          // );
+          console.log(
+            `Already have data for syncable ${specName}, skipping...`,
+          );
           continue;
         }
         const syncable = this.syncables[specName];
-        // console.log(
-        //   'checking if we need parents for',
-        //   specName,
-        //   syncable.spec.parameters,
-        // );
+        console.log(
+          'checking if we need parents for',
+          specName,
+          syncable.spec.parameters,
+        );
         const parents = {};
         if (syncable.spec.parameters) {
           // console.log(
@@ -629,9 +643,8 @@ export class Syncer extends EventEmitter {
               );
             },
           );
-          (filter || []).forEach((filterSpec) => {
-            const [key, value] = filterSpec.split('=');
-            parents[key] = [value];
+          Object.keys(params).forEach((key) => {
+            parents[key] = [params[key]];
           });
           if (missingParentData) {
             // console.log(
@@ -643,7 +656,21 @@ export class Syncer extends EventEmitter {
           // console.log('all parents for syncable', specName, parents);
         }
         skipped[specName] = false;
-        const data = await this.fetchOneSyncable(specName, parents);
+        let data;
+        data = await this.fetchOneSyncable(specName, parents).catch((err) => {
+          console.log(
+            `Error fetching data for syncable ${specName} with parents ${JSON.stringify(parents)}:`,
+            err,
+          );
+          data = err;
+        });
+        await callback(specName, data).catch((err) => {
+          console.log(
+            `Error in callback for syncable ${specName} with parents ${JSON.stringify(parents)}:`,
+            err,
+          );
+          return err;
+        });
         // console.log(
         //   'Fetched data for syncable',
         //   specName,

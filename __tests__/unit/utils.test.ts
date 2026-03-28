@@ -47,9 +47,9 @@ actions:
             paginate: '',
           },
         },
-      },
-      relations: {
-        parameters: {},
+        relations: {
+          parameters: {},
+        },
       },
       info: {
         title: 'Test API',

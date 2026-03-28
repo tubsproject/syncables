@@ -4,13 +4,18 @@ import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getAuthHeaderSets } from './auth.js';
 import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
+import { storeData, resetStore } from './store.js';
+// import { /* components, */ paths } from './github.js';
+
+// type IssueIn = paths['/repos/{owner}/{repo}/issues']['post']['requestBody']['content']['application/json'];
+// type IssueOut = components['schemas']['issue'];
 
 const securitySchemeNames = {
   // acube: 'acube',
-  // 'google-calendar': 'Oauth2c',
+  'google-calendar': 'Oauth2c',
   // moneybird: 'oauth2',
   // netfly: 'oauth2',
-  github: 'oauth2',
+  // github: 'oauth2',
   // 'slack-web': 'slackAuth',
 };
 
@@ -39,8 +44,8 @@ async function main(): Promise<void> {
         specStrs[apiName],
         overlayStrs[apiName],
       );
-      console.log(Object.keys(spec.components ?? {}));
-      console.log('security schemes', spec.components?.securitySchemes);
+      // console.log(Object.keys(spec.components ?? {}));
+      // console.log('security schemes', spec.components?.securitySchemes);
       console.log(
         'selecting security scheme for',
         apiName,
@@ -72,22 +77,53 @@ async function main(): Promise<void> {
         authHeaders: authHeaders[specName],
         fetchFunction,
       });
-      // if (process.argv.length > 2) {
-      //   const filter: string[] = process.argv.slice(2).at(0)?.split(',') ?? [];
-      //   console.log(
-      //     `Filtering syncables for ${specName} with filter:`,
-      //     JSON.stringify(filter),
-      //   );
-      //   await syncer.fullFetch(filter);
-      // } else {
-      //   await syncer.fullFetch();
-      // }
-      await syncer.parseSpec();
-      await syncer.addItem(
-        '/repos/{owner}/{repo}/issues',
-        { title: 'testing issue addition' },
-        { owner: 'michielbdejong', repo: 'bookkeeping.network' },
-      );
+      await resetStore(specName);
+      if (process.argv.length > 2) {
+        const paramsSpecs: string[] =
+          process.argv.slice(2).at(0)?.split(',') ?? [];
+        const params: { [placeholder: string]: string } = {};
+        for (const paramsSpec of paramsSpecs) {
+          const [placeholder, value] = paramsSpec.split('=');
+          if (placeholder && value) {
+            params[placeholder] = value;
+          }
+        }
+        const filter: string[] | undefined =
+          process.argv.slice(3).at(0)?.split(',') ?? undefined;
+        console.log(
+          `Filtering syncables for ${specName} with filter:`,
+          JSON.stringify(filter),
+        );
+        await syncer.fullFetch(
+          async (syncableName: string, items: object[]) => {
+            await storeData(specName, syncableName, items).catch((err) => {
+              console.error(
+                `Error storing data for ${syncableName} of API ${specName}:`,
+                err,
+              );
+            });
+          },
+          params,
+          filter,
+        );
+      } else {
+        await syncer.fullFetch(
+          async (syncableName: string, items: object[]) => {
+            await storeData(specName, syncableName, items).catch((err) => {
+              console.error(
+                `Error storing data for ${syncableName} of API ${specName}:`,
+                err,
+              );
+            });
+          },
+        );
+      }
+      // await syncer.parseSpec();
+      // await syncer.addItem(
+      //   '/repos/{owner}/{repo}/issues',
+      //   { title: 'testing issue addition' } as IssueIn,
+      //   { owner: 'michielbdejong', repo: 'bookkeeping.network' },
+      // );
     }),
   );
 }
