@@ -4,7 +4,7 @@ import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getAuthHeaderSets } from './auth.js';
 import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
-import { storeData, resetStore } from './store.js';
+import { storeData, resetStore } from './schemaStore.js';
 // import { /* components, */ paths } from './github.js';
 
 // type IssueIn = paths['/repos/{owner}/{repo}/issues']['post']['requestBody']['content']['application/json'];
@@ -13,9 +13,9 @@ import { storeData, resetStore } from './store.js';
 const securitySchemeNames = {
   // acube: 'acube',
   'google-calendar': 'Oauth2c',
-  // moneybird: 'oauth2',
+  moneybird: 'oauth2',
   // netfly: 'oauth2',
-  // github: 'oauth2',
+  github: 'oauth2',
   // 'slack-web': 'slackAuth',
 };
 
@@ -96,7 +96,7 @@ async function main(): Promise<void> {
         );
         await syncer.fullFetch(
           async (syncableName: string, items: object[]) => {
-            await storeData(specName, syncableName, items).catch((err) => {
+            await storeData(specName, syncableName, items, {}).catch((err) => {
               console.error(
                 `Error storing data for ${syncableName} of API ${specName}:`,
                 err,
@@ -109,7 +109,7 @@ async function main(): Promise<void> {
       } else {
         await syncer.fullFetch(
           async (syncableName: string, items: object[]) => {
-            await storeData(specName, syncableName, items).catch((err) => {
+            await storeData(specName, syncableName, items, {}).catch((err) => {
               console.error(
                 `Error storing data for ${syncableName} of API ${specName}:`,
                 err,

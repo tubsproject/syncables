@@ -36,6 +36,7 @@ describe('Google Calendar List', async () => {
     keys.forEach((key) => {
       let items = [];
       if (key.indexOf('{eventId}') !== -1) {
+        // FIXME: https://github.com/tubsproject/syncables/issues/67
         items = undefined;
       } else if (key.indexOf('{calendarId}') === -1) {
         for (let j = 1; j < 4; j++) {
