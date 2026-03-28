@@ -1,5 +1,5 @@
 export async function resolveRelations(
-  syncableName: string,
+  syncableNames: string[],
   relations: {
     [placeholder: string]: {
       collection: string,
@@ -13,32 +13,42 @@ export async function resolveRelations(
   callback: (synableName: string, resolution: {
     [pattern: string]: string;
   }) => Promise<object[]>,
-): Promise<object[]> {
+): Promise<{
+    [url: string]: object[],
+  }> {
   const resolution = {};
   // use the data to resolve relations:
   for (let i = 0; i < Object.keys(relations).length; i++) {
     const placeholder = Object.keys(relations)[i];
     const relation = relations[placeholder];
-    if (typeof relation.resolved === 'undefined') {
-      let allItems: object[] = [];
+    if (typeof relation['resolved'] === 'undefined') {
+      let dataFound: {
+        [url: string]: object[],
+      } = {};
+      if (typeof data[relation.collection] === 'undefined') {
+        continue;
+      }
       const values: string[] = data[relation.collection].map(obj => obj[relation.field]);
       const promises = values.map(async (value) => {
         const relationsCopy = Object.assign({}, relations);
         relationsCopy[placeholder].resolved = value;
-        allItems = allItems.concat(await resolveRelations(
-          syncableName,
+        const newData = await resolveRelations(
+          syncableNames,
           relations,
           data,
           callback,
-        ));
+        );
+        Object.entries(newData).forEach(([ key, value ]) => {
+          dataFound[key] = value;
+        })
       });
       await Promise.all(promises);
-      return allItems;
+      return dataFound;
     } else {
-      resolution[placeholder] = relation[placeholder].resolved;
+      resolution[placeholder] = relation.resolved;
     }
   }
-  return callback(syncableName, resolution);
+  return { [syncableNames[0]]: await callback(syncableNames[0], resolution) };
 
 
   //   if (relations[placeholder].length > 1) {
