@@ -15,14 +15,14 @@ const fetchFunction: typeof fetch = async (
   input: RequestInfo,
   init?: RequestInit,
 ): Promise<Response> => {
-  console.log('Fetch called with args:', input, init);
+  // console.log('Fetch called with args:', input, init);
   await ensureCacheDirExists();
   const data = JSON.stringify([input, init]);
   const hash = createHash('sha256').update(data).digest('hex');
   try {
     const cachedStr = await readFile(`${FETCH_CACHE_DIR}/${hash}.json`);
     const cached = JSON.parse(cachedStr.toString());
-    console.log('using cached response for', input, hash);
+    // console.log('using cached response for', input, hash);
     return new Response(cached.body, {
       status: cached.status,
       headers: cached.headers,
@@ -44,6 +44,7 @@ const fetchFunction: typeof fetch = async (
     };
     await writeFile(`${FETCH_CACHE_DIR}/${hash}.json`, JSON.stringify(cached));
     console.log('cached response for', input, hash);
+    await new Promise(r => setTimeout(r, 100));
     return new Response(text, {
       status: fetched.status,
       headers: fetched.headers,
