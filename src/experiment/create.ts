@@ -38,7 +38,8 @@ export async function createEvent(): Promise<void> {
       },
     }),
   });
-  console.log(await result.text());
+  const created = await result.json();
+  console.log(created.id);
   console.log(result.ok, result.status);
 }
 
