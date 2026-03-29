@@ -13,9 +13,9 @@ import { storeData, resetStore } from './schemaStore.js';
 const securitySchemeNames = {
   // acube: 'acube',
   'google-calendar': 'Oauth2c',
-  moneybird: 'oauth2',
+  // moneybird: 'oauth2',
   // netfly: 'oauth2',
-  github: 'oauth2',
+  // github: 'oauth2',
   // 'slack-web': 'slackAuth',
 };
 

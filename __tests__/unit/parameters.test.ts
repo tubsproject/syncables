@@ -81,9 +81,6 @@ describe('Params', () => {
     const users: SyncableSpecInput = {
       type: 'collection',
       name: 'users',
-      parameters: {
-        widgetId: 'widgets.id',
-      },
     };
     const widgets: SyncableSpecInput = {
       type: 'collection',

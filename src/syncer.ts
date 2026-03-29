@@ -31,6 +31,9 @@ export class Syncer extends EventEmitter {
       schema: object;
     };
   } = {};
+  relations: {
+    [placeholder: string]: string,
+  } = {};
   specStr: string;
   overlayStr: string | null = null;
   baseUrl: string;
@@ -140,6 +143,16 @@ export class Syncer extends EventEmitter {
     if (!paginationScheme) {
       throw new Error('undefined pagination scheme');
     }
+    const relations = (
+      doc.components as unknown as {
+        relations?: { parameters?: { [parameterName: string]: string } };
+      }
+    )?.relations;
+    const parametersNames = Object.keys(relations?.parameters || {});
+    parametersNames.forEach((paramName) => {
+      this.relations[paramName] = relations.parameters?.[paramName];
+    });
+    console.log('this.relations from OAD components.relations', this.relations);
 
     // let solution: object | null = null;
     for (const path of Object.keys(doc.paths)) {
@@ -537,6 +550,11 @@ export class Syncer extends EventEmitter {
       [syncableName: string]: object[];
     } = {};
     await this.parseSpec();
+    Object.keys(this.relations).forEach(placeholder => {
+      params[placeholder] = this.relations[placeholder];
+    });
+    console.log('params including relations', params);
+
     let newData;
     do {
       newData = false;
