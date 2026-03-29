@@ -1,6 +1,7 @@
 import { writeFile } from 'fs/promises';
 import { mkdirp } from 'mkdirp';
 import { rimraf } from 'rimraf';
+import { OpenAPIV3_1 } from '@scalar/openapi-types';
 
 export const DATA_DIR = '.data';
 
@@ -18,10 +19,11 @@ export async function storeData(
   path: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any,
+  schema: OpenAPIV3_1.SchemaObject,
 ): Promise<void> {
   const fileName = `${DATA_DIR}/${apiName}/${path.replace(/\//g, '_')}.json`;
   await ensureDataDirExists(apiName);
-  await writeFile(fileName, JSON.stringify(data, null, 2));
+  await writeFile(fileName, JSON.stringify({ data, schema }, null, 2));
 }
 
 export async function resetStore(apiName: string): Promise<void> {

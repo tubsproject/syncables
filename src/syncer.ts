@@ -1,10 +1,11 @@
 import { EventEmitter } from 'events';
 import { default as urljoin } from 'url-join';
 import { default as createDebug } from 'debug';
-import { specStrToObj, getObjectPath } from './utils.js';
 import { default as parse } from 'parse-link-header';
-import { SyncableSpec, generateSyncableSpec } from './spec.js';
 import { OpenAPIV3_1 } from '@scalar/openapi-types';
+import { specStrToObj, getObjectPath } from './utils.js';
+import { SyncableSpec, generateSyncableSpec } from './spec.js';
+import { resolveRelations } from './relations.js';
 
 const debug = createDebug('syncable');
 
@@ -525,54 +526,7 @@ export class Syncer extends EventEmitter {
         );
     }
   }
-  private async fetchOneSyncable(
-    syncableName: string,
-    parents: {
-      [pattern: string]: string[];
-    },
-  ): Promise<object[]> {
-    for (let i = 0; i < Object.keys(parents).length; i++) {
-      const pattern = Object.keys(parents)[i];
-      if (parents[pattern].length > 1) {
-        let allItems: object[] = [];
-        for (let j = 0; j < parents[pattern].length; j++) {
-          const singledOut = {};
-          for (let k = 0; k < Object.keys(parents).length; k++) {
-            if (k === i) {
-              singledOut[pattern] = [parents[pattern][j]];
-            } else {
-              singledOut[Object.keys(parents)[k]] =
-                parents[Object.keys(parents)[k]];
-            }
-          }
-          // console.log('singled out a combination of parents', singledOut);
-          const itemsForThisParent = await this.fetchOneSyncable(
-            syncableName,
-            singledOut,
-          );
-          allItems = allItems.concat(itemsForThisParent);
-        }
-        return allItems;
-      }
-    }
-    // if we reach here then all the parent patterns only have one value, so we can just fill those in and do one fetch
-    // we also fill in any parameters that might be hardcoded in spec.query, for instance a `{ format: '.json' }`
-    const theseParents: { [pattern: string]: string } = Object.assign(
-      {},
-      this.syncables[syncableName].spec.query || {},
-    );
-    Object.keys(parents).forEach((pattern) => {
-      theseParents[pattern] = parents[pattern][0];
-    });
-    // console.log('now we can call doOneFetch for syncable', syncableName, 'with theseParents', theseParents);
-    return (await this.doOneFetch(syncableName, theseParents)).map((obj) => {
-      const copy = Object.assign({}, obj);
-      Object.keys(theseParents).forEach((pattern) => {
-        copy[pattern] = theseParents[pattern];
-      });
-      return copy;
-    });
-  }
+
   async fullFetch(
     callback: (syncableName: string, items: object[]) => Promise<void> = () =>
       Promise.resolve(),
@@ -582,23 +536,22 @@ export class Syncer extends EventEmitter {
     const allData: {
       [syncableName: string]: object[];
     } = {};
-    let newData: boolean;
-    const skipped: { [syncableName: string]: boolean } = {};
     await this.parseSpec();
+    let newData;
     do {
+      newData = false;
       console.log(
         'Starting loop of fetching all syncables, currently have data for syncables',
         Object.keys(allData),
       );
-      newData = false;
-      for (const specName of Object.keys(this.syncables)) {
+      const syncableNames = Object.keys(this.syncables).filter((specName) => {
         if (filter && filter.indexOf(specName) === -1) {
           console.log(
             'Skipping syncable',
             specName,
             'because it is not in the filter list',
           );
-          continue;
+          return false;
         } else if (filter) {
           console.log(
             'Including syncable',
@@ -606,104 +559,55 @@ export class Syncer extends EventEmitter {
             'because it is in the filter list',
           );
         }
-        if (allData[specName]) {
-          console.log(
-            `Already have data for syncable ${specName}, skipping...`,
-          );
-          continue;
-        }
-        const syncable = this.syncables[specName];
-        console.log(
-          'checking if we need parents for',
-          specName,
-          syncable.spec.parameters,
+        return true;
+      });
+      const fetchAndFillIn = async (
+        syncableName: string,
+        theseParents: {
+          [pattern: string]: string;
+        },
+      ): Promise<object[]> => {
+        const data = (await this.doOneFetch(syncableName, theseParents)).map(
+          (obj) => {
+            const copy = Object.assign({}, obj);
+            Object.keys(theseParents).forEach((pattern) => {
+              copy[pattern] = theseParents[pattern];
+            });
+            return copy;
+          },
         );
-        const parents = {};
-        if (syncable.spec.parameters) {
-          // console.log(
-          //   `Syncable ${specName} has parameters, determining parent data...`,
-          //   syncable.spec.parameters,
-          // );
-          let missingParentData = false;
-          Object.entries(syncable.spec.parameters).forEach(
-            ([pattern, reference]) => {
-              const parentName = reference.split('#')[0];
-              if (!allData[parentName]) {
-                // console.log(
-                //   `Still missing parent data for syncable ${specName}: need parent ${parentName} based on param ${pattern}: ${reference}`,
-                // );
-                missingParentData = true;
-                return;
-              }
-              // const idField = this.syncables[parentName].idField || 'id'; FIXME - can't we reuse this from there?
-              const idField = reference.split('#')[1];
-              // console.log('filling in parent pattern', pattern, 'with data from parent', parentName, 'using id field', idField);
-              parents[pattern] = allData[parentName].map((item) =>
-                item[idField].toString(),
-              );
-            },
-          );
-          Object.keys(params).forEach((key) => {
-            parents[key] = [params[key]];
-          });
-          if (missingParentData) {
-            // console.log(
-            //   `Skipping syncable ${specName} for now because we're still missing parent data...`,
-            // );
-            skipped[specName] = true;
-            continue;
-          }
-          // console.log('all parents for syncable', specName, parents);
-        }
-        skipped[specName] = false;
-        let data;
-        data = await this.fetchOneSyncable(specName, parents).catch((err) => {
+        await callback(syncableName, data).catch((err) => {
           console.log(
-            `Error fetching data for syncable ${specName} with parents ${JSON.stringify(parents)}:`,
-            err,
-          );
-          data = err;
-        });
-        await callback(specName, data).catch((err) => {
-          console.log(
-            `Error in callback for syncable ${specName} with parents ${JSON.stringify(parents)}:`,
+            `Error in callback for syncable ${syncableName} with parents ${JSON.stringify(theseParents)}:`,
             err,
           );
           return err;
         });
-        // console.log(
-        //   'Fetched data for syncable',
-        //   specName,
-        //   'data length:',
-        //   data.length,
-        // );
-        allData[specName] = data;
+        return data;
+      };
+      const result = await resolveRelations(
+        syncableNames,
+        params,
+        allData,
+        fetchAndFillIn,
+      );
+      // console.log('result from resolveRelations', result);
+      Object.keys(result).forEach((syncableName) => {
         newData = true;
-      }
-      //   'Finished one loop of fetching all syncables, checking if we have all data we need...',
-      //   Object.keys(allData).length,
-      //   Object.keys(this.syncables).length,
-      // );
+        allData[syncableName] = (allData[syncableName] || []).concat(
+          result[syncableName],
+        );
+      });
+
+      console.log(
+        'Finished one loop of fetching all syncables, checking if we have all data we need...',
+        Object.keys(allData).length,
+        Object.keys(this.syncables).length,
+      );
     } while (
       newData &&
       Object.keys(allData).length < Object.keys(this.syncables).length
     );
-    Object.keys(skipped).forEach((specName) => {
-      if (skipped[specName]) {
-        const needed = Object.keys(
-          this.syncables[specName].spec.parameters,
-        ).map((pattern) => {
-          const reference = this.syncables[specName].spec.parameters[pattern];
-          return reference.split('.')[0];
-        });
-        const have = Object.keys(allData);
-        void needed;
-        void have;
-        // console.log(
-        //   `We had to skip syncable ${specName} because of missing parent data (needs [${needed.join(', ')}] and we have [${have.join(', ')}]).`,
-        // );
-      }
-    });
     // console.log('All data fetched', allData);
     return allData;
   }

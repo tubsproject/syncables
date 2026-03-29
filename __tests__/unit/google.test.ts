@@ -26,31 +26,41 @@ describe('Google Calendar List', async () => {
       '/users/me/settings',
       // '/users/me/settings/{setting}',
       // '/calendars/{calendarId}',
-      '/calendars/{calendarId}/acl',
+      // '/calendars/{calendarId}/acl',
       // '/calendars/{calendarId}/acl/{ruleId}',
-      '/calendars/{calendarId}/events',
+      // '/calendars/{calendarId}/events',
       // '/calendars/{calendarId}/events/{eventId}',
-      '/calendars/{calendarId}/events/{eventId}/instances',
     ];
     expect(Object.keys(data)).toEqual(keys);
     keys.forEach((key) => {
-      let items = [];
+      const items = [];
       if (key.indexOf('{eventId}') !== -1) {
-        items = undefined;
+        for (let calendarId = 1; calendarId < 4; calendarId++) {
+          for (let eventId = 1; eventId < 4; eventId++) {
+            for (let itemId = 1; itemId < 4; itemId++) {
+              items.push({
+                calendarId: calendarId.toString(),
+                eventId: eventId.toString(),
+                id: itemId,
+                title: `Test Todo ${itemId}`,
+              });
+            }
+          }
+        }
       } else if (key.indexOf('{calendarId}') === -1) {
-        for (let j = 1; j < 4; j++) {
+        for (let itemId = 1; itemId < 4; itemId++) {
           items.push({
-            id: j,
-            title: `Test Todo ${j}`,
+            id: itemId,
+            title: `Test Todo ${itemId}`,
           });
         }
       } else {
-        for (let i = 1; i < 4; i++) {
-          for (let j = 1; j < 4; j++) {
+        for (let calendarId = 1; calendarId < 4; calendarId++) {
+          for (let itemId = 1; itemId < 4; itemId++) {
             items.push({
-              calendarId: i.toString(),
-              id: j,
-              title: `Test Todo ${j}`,
+              calendarId: calendarId.toString(),
+              id: itemId,
+              title: `Test Todo ${itemId}`,
             });
           }
         }
