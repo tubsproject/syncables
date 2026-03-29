@@ -15,8 +15,8 @@ export async function resolveRelations(
     [placeholder: string]:
       | string
       | {
-          collection: string;
-          field: string;
+          collection?: string;
+          field?: string;
           resolved?: string;
         };
   },
@@ -35,18 +35,19 @@ export async function resolveRelations(
 }> {
   const relations = {} as {
     [placeholder: string]: {
-      collection: string;
-      field: string;
+      collection?: string;
+      field?: string;
       resolved?: string;
     };
   };
+  console.log('relations input', input);
   Object.keys(input).forEach((placeholder) => {
     if (typeof input[placeholder] === 'string') {
       const parts = input[placeholder].split('#');
       if (parts.length !== 2) {
-        throw new Error(
-          `invalid foreign#id reference ${relations[placeholder]}`,
-        );
+        relations[placeholder] = {
+          resolved: input[placeholder],
+        };
       }
       relations[placeholder] = {
         collection: parts[0],

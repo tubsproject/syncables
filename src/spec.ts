@@ -20,7 +20,6 @@ export type SyncableSpecInput = {
     method: string;
     path: string;
   };
-  parameters?: { [key: string]: string };
   itemsPathInResponse?: string[];
 };
 export type SyncableSpec = SyncableSpecInput & {
@@ -164,7 +163,6 @@ export function generateSyncableSpec(
     defaultPageSize: input.defaultPageSize,
     forcePageSizeParamInQuery: paginationScheme.pageSize?.parameter,
     idField: input.idField || 'id',
-    parameters: {},
   };
   // console.log('finding path parts', input.itemsPathInResponse, responseSchema);
   if (findPathParts(input.itemsPathInResponse, responseSchema)) {
@@ -174,23 +172,6 @@ export function generateSyncableSpec(
     // } else {
     // console.log('paginated items path not found in response schema, defaulting to no pagination strategy');
   }
-  const relations = (
-    doc.components as unknown as {
-      relations?: { parameters?: { [parameterName: string]: string } };
-    }
-  )?.relations;
-  const parametersNames = Object.keys(relations?.parameters || {});
-  console.log('parameterNames', parametersNames);
-  parametersNames.forEach((paramName) => {
-    if (path.indexOf(`{${paramName}}`) !== -1) {
-      console.log(`Adding parameter ${paramName} to spec for path ${path}`);
-      spec.parameters[paramName] = relations.parameters?.[paramName];
-    } else {
-      console.warn(
-        `Parameter ${paramName} defined in spec relations but not found in path ${path}, skipping`,
-      );
-    }
-  });
   // console.log('baseUrl:', this.baseUrl, 'schema.servers:', schema.servers);
   if (spec.paginationStrategy === 'pageNumber') {
     // console.log('setting pageNumberParamInQuery');
