@@ -13,42 +13,80 @@ export async function resolveRelations(
   callback: (synableName: string, resolution: {
     [pattern: string]: string;
   }) => Promise<object[]>,
+  level: number = 0,
 ): Promise<{
     [url: string]: object[],
   }> {
   const resolution = {};
-  // use the data to resolve relations:
+  let dataFound: {
+    [url: string]: object[],
+  } = {};
+  // console.log(`entering level ${level}`, relations);
   for (let i = 0; i < Object.keys(relations).length; i++) {
     const placeholder = Object.keys(relations)[i];
+    // console.log(`looking at ${placeholder} at level ${level}`);
     const relation = relations[placeholder];
     if (typeof relation['resolved'] === 'undefined') {
-      let dataFound: {
-        [url: string]: object[],
-      } = {};
+      // console.log(placeholder, `not resolved yet at level ${level}`);
       if (typeof data[relation.collection] === 'undefined') {
+        // console.log(`no data yet for ${placeholder} at level ${level}`);
         continue;
       }
+      // console.log(`${placeholder} not resolved but have data at level ${level}`);
       const values: string[] = data[relation.collection].map(obj => obj[relation.field]);
       const promises = values.map(async (value) => {
+        // console.log('dealing with valuation', value);
         const relationsCopy = Object.assign({}, relations);
         relationsCopy[placeholder].resolved = value;
+        const relationsCopyStr = JSON.stringify(relationsCopy, null, 2);
+        // console.log('recursion', syncableNames, relationsCopyStr);
         const newData = await resolveRelations(
           syncableNames,
-          relations,
+          relationsCopy,
           data,
           callback,
+          level + 1,
         );
+        // console.log('new data', relationsCopyStr, newData);
         Object.entries(newData).forEach(([ key, value ]) => {
-          dataFound[key] = value;
+          dataFound[key] = (dataFound[key] || []).concat(value);
         })
       });
       await Promise.all(promises);
-      return dataFound;
     } else {
+      // console.log('filling in resolution from resolved', placeholder, relation.resolved);
       resolution[placeholder] = relation.resolved;
     }
   }
-  return { [syncableNames[0]]: await callback(syncableNames[0], resolution) };
+  for (let i = 0; i < syncableNames.length; i++) {
+    if (data[syncableNames[i]]) {
+      // console.log(`Already have data for ${syncableNames[i]}`);
+      continue;
+    }
+    const placeholders = [];
+    syncableNames[i].split('{').forEach(substr => {
+      const parts = substr.split('}');
+      if (parts.length === 2) {
+        placeholders.push(parts[0]);
+      }
+    });
+    let ok = true;
+    placeholders.forEach(placeholder => {
+      if (typeof resolution[placeholder] === 'undefined') {
+        // console.log('no resolution for', placeholder);
+        ok = false;
+      }
+    });
+    if (!ok) {
+      continue;
+    }
+    // console.log(`calling callback for ${syncableNames[i]} at level ${level}`, syncableNames[i]);
+    const dataFoundHere = await callback(syncableNames[i], resolution);
+    // console.log('callback gave', dataFoundHere);
+    dataFound[syncableNames[i]] = (dataFound[syncableNames[i]] || []).concat(dataFoundHere);
+  }
+  // console.log(`returning data found at level ${level}`, dataFound);
+  return dataFound;
 
 
   //   if (relations[placeholder].length > 1) {
