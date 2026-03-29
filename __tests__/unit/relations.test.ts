@@ -58,10 +58,7 @@ describe('resolveRelations', async () => {
     const callbackMock = vi.fn(callback);
     // console.log('starting round 1');
     const round1 = await resolveRelations(['/groups', '/{groupId}/items'], {
-      groupId: {
-        collection: '/groups',
-        field: 'id',
-      },
+      groupId: '/groups#id',
     }, {
     }, callbackMock);
     expect(round1).toEqual({
@@ -69,10 +66,7 @@ describe('resolveRelations', async () => {
     });
     // console.log('starting round 2');
     const round2 = await resolveRelations(['/groups', '/{groupId}/items'], {
-      groupId: {
-        collection: '/groups',
-        field: 'id',
-      },
+      groupId: '/groups#id',
     }, round1, callbackMock);
     // console.log(JSON.stringify(round2, null, 2));
     expect(round2).toEqual({
@@ -98,7 +92,7 @@ describe('resolveRelations', async () => {
       ],
     ]);
   });
-  it.only('can resolve a nested relation', async () => {
+  it('can resolve a nested relation', async () => {
     const groups = [
       { id: 1, name: 'bears', },
       { id: 2, name: 'bees', },
@@ -119,94 +113,59 @@ describe('resolveRelations', async () => {
       [pattern: string]: string;
     }): Promise<object[]> {
       void resolution;
-      if (syncableName === 'groups') {
+      if (syncableName === '/groups') {
         return groups;
       }
-      if (syncableName === 'trips') {
+      if (syncableName === '/groups/{groupId}/trips') {
         // console.log('filtering trips', resolution);
-        return trips.filter(trip => trip.groupId.toString() === resolution['groups']);
+        return trips.filter(trip => trip.groupId.toString() === resolution['groupId']?.toString());
       }
-      // console.log('filtering items on trips', resolution);
-      return items.filter(item => item['tripId'].toString() === resolution['trips']);
+      if (syncableName === '/groups/{groupId}/trips/{tripId}/items') {
+        // console.log('filtering items on trips', resolution);
+        return items.filter(item => item.tripId.toString() === resolution['tripId']?.toString());
+      }
+      throw new Error(`unanticipated request: ${syncableName}`);
     }
     const rounds = [
       {
         results: {
-          "/groups": [],
-          "/groups/{groupId}/trips": [],
-          "/groups/{groupId}/trips/{tripId}/items": [],
+          "/groups": groups,
         },
         calls: [
           [
             "/groups",
             {
-              "groupId": 1,
-              "tripId": "w",
             },
           ],
-          [
-            "/groups",
-            {
-              "groupId": 1,
-              "tripId": "m",
-            },
-          ],
-          [
-            "/groups",
-            {
-              "groupId": 1,
-              "tripId": "f",
-            },
-          ],
-          [
-            "/groups",
-            {
-              "groupId": 1,
-              "tripId": "r",
-            },
-          ],
-          [
-            "/groups",
-            {
-              "groupId": 2,
-              "tripId": "r",
-            },
-          ],
+        ],
+      },
+      {
+        results: {
+          "/groups/{groupId}/trips": trips,
+        },
+        calls: [
           [
             "/groups/{groupId}/trips",
             {
               "groupId": 1,
-              "tripId": "w",
-            },
-          ],
-          [
-            "/groups/{groupId}/trips",
-            {
-              "groupId": 1,
-              "tripId": "m",
-            },
-          ],
-          [
-            "/groups/{groupId}/trips",
-            {
-              "groupId": 1,
-              "tripId": "f",
-            },
-          ],
-          [
-            "/groups/{groupId}/trips",
-            {
-              "groupId": 1,
-              "tripId": "r",
             },
           ],
           [
             "/groups/{groupId}/trips",
             {
               "groupId": 2,
-              "tripId": "r",
             },
           ],
+        ],
+      },
+      {
+        results: {
+          "/groups/{groupId}/trips/{tripId}/items": [
+            items[0],
+            items[1],
+          ],
+        },
+        calls: [
           [
             "/groups/{groupId}/trips/{tripId}/items",
             {
@@ -224,64 +183,27 @@ describe('resolveRelations', async () => {
           [
             "/groups/{groupId}/trips/{tripId}/items",
             {
-              "groupId": 1,
-              "tripId": "f",
-            },
-          ],
-          [
-            "/groups/{groupId}/trips/{tripId}/items",
-            {
-              "groupId": 1,
-              "tripId": "r",
-            },
-          ],
-          [
-            "/groups/{groupId}/trips/{tripId}/items",
-            {
               "groupId": 2,
-              "tripId": "r",
-            },
-          ],
-          [
-            "/groups",
-            {
-              "groupId": 1,
-            },
-          ],
-          [
-            "/groups/{groupId}/trips",
-            {
-              "groupId": 1,
-            },
-          ],
-          [
-            "/groups",
-            {
-              "tripId": "r",
+              "tripId": "m",
             },
           ],
         ],
       },
     ];
-    for (let i = 0; i < 1; i++) {
+    let data = {};
+    for (let i = 0; i < 3; i++) {
       const callbackMock = vi.fn(callback);
       const result = await resolveRelations([
         '/groups',
         '/groups/{groupId}/trips',
         '/groups/{groupId}/trips/{tripId}/items',
       ], {
-        groupId: {
-          collection: 'groups',
-          field: 'id',
-        },
-        tripId: {
-          collection: 'trips',
-          field: 'id',
-        }
-      }, {
-        groups,
-        trips,
-      }, callbackMock);
+        groupId: '/groups#id',
+        tripId: '/groups/{groupId}/trips#id',
+      }, data, callbackMock);
+      Object.keys(result).forEach(syncableName => {
+        data[syncableName] = (data[syncableName] || []).concat(result[syncableName]);
+      });
       expect(result).toEqual(rounds[i].results);
       expect(callbackMock.mock.calls).toEqual(rounds[i].calls);
     }

@@ -1,7 +1,18 @@
+function getPlaceholders(str: string): string[] {
+  const placeholders = [];
+  str.split('{').forEach(substr => {
+    const parts = substr.split('}');
+    if (parts.length === 2) {
+      placeholders.push(parts[0]);
+    }
+  });
+  return placeholders;
+}
+
 export async function resolveRelations(
   syncableNames: string[],
-  relations: {
-    [placeholder: string]: {
+  input: {
+    [placeholder: string]: string | {
       collection: string,
       field: string,
       resolved?: string;
@@ -17,6 +28,27 @@ export async function resolveRelations(
 ): Promise<{
     [url: string]: object[],
   }> {
+  const relations = {} as {
+    [placeholder: string]: {
+      collection: string,
+      field: string,
+      resolved?: string;
+    }
+  };
+  Object.keys(input).forEach(placeholder => {
+    if (typeof input[placeholder] === 'string') {
+      const parts = input[placeholder].split('#');
+      if (parts.length !== 2) {
+        throw new Error(`invalid foreign#id reference ${relations[placeholder]}`);
+      }
+      relations[placeholder] = {
+        collection: parts[0],
+        field: parts[1],
+      };
+    } else {
+      relations[placeholder] = input[placeholder];
+    }
+  });
   const resolution = {};
   let dataFound: {
     [url: string]: object[],
@@ -32,13 +64,26 @@ export async function resolveRelations(
         // console.log(`no data yet for ${placeholder} at level ${level}`);
         continue;
       }
-      // console.log(`${placeholder} not resolved but have data at level ${level}`);
-      const values: string[] = data[relation.collection].map(obj => obj[relation.field]);
+      // console.log(`${placeholder} not resolved but have data at level ${level}`, relations, data);
+      const values: string[] = data[relation.collection].filter(obj => {
+        const placeholders = getPlaceholders(relation.collection);
+        let ok = true;
+        placeholders.forEach(placeholder => {
+          if ((typeof obj[placeholder] !== 'undefined') && (typeof relations[placeholder].resolved !== 'undefined')) {
+            // console.log(`filtering data on ${placeholder}`, obj[placeholder], relations[placeholder].resolved);
+            if (obj[placeholder] !== relations[placeholder].resolved) {
+              ok = false;
+            }
+          }
+          // console.log('filtered', ok);
+        });
+        return ok;
+      }).map(obj => obj[relation.field]);
       const promises = values.map(async (value) => {
         // console.log('dealing with valuation', value);
         const relationsCopy = Object.assign({}, relations);
         relationsCopy[placeholder].resolved = value;
-        const relationsCopyStr = JSON.stringify(relationsCopy, null, 2);
+        // const relationsCopyStr = JSON.stringify(relationsCopy, null, 2);
         // console.log('recursion', syncableNames, relationsCopyStr);
         const newData = await resolveRelations(
           syncableNames,
@@ -54,8 +99,8 @@ export async function resolveRelations(
       });
       await Promise.all(promises);
     } else {
-      // console.log('filling in resolution from resolved', placeholder, relation.resolved);
       resolution[placeholder] = relation.resolved;
+      // console.log(`filled in resolution for ${placeholder} from resolved ${relation.resolved} at level ${level}`, resolution);
     }
   }
   for (let i = 0; i < syncableNames.length; i++) {
@@ -63,13 +108,7 @@ export async function resolveRelations(
       // console.log(`Already have data for ${syncableNames[i]}`);
       continue;
     }
-    const placeholders = [];
-    syncableNames[i].split('{').forEach(substr => {
-      const parts = substr.split('}');
-      if (parts.length === 2) {
-        placeholders.push(parts[0]);
-      }
-    });
+    const placeholders = getPlaceholders(syncableNames[i]);
     let ok = true;
     placeholders.forEach(placeholder => {
       if (typeof resolution[placeholder] === 'undefined') {
@@ -80,9 +119,8 @@ export async function resolveRelations(
     if (!ok) {
       continue;
     }
-    // console.log(`calling callback for ${syncableNames[i]} at level ${level}`, syncableNames[i]);
     const dataFoundHere = await callback(syncableNames[i], resolution);
-    // console.log('callback gave', dataFoundHere);
+    // console.log(`callback for ${syncableNames[i]} for`, resolution, `at level ${level} gave`, dataFoundHere, `concatinating to`, dataFound[syncableNames[i]]);
     dataFound[syncableNames[i]] = (dataFound[syncableNames[i]] || []).concat(dataFoundHere);
   }
   // console.log(`returning data found at level ${level}`, dataFound);
