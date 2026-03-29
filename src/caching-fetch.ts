@@ -44,7 +44,7 @@ const fetchFunction: typeof fetch = async (
     };
     await writeFile(`${FETCH_CACHE_DIR}/${hash}.json`, JSON.stringify(cached));
     console.log('cached response for', input, hash);
-    await new Promise(r => setTimeout(r, 100));
+    await new Promise((r) => setTimeout(r, 100));
     return new Response(text, {
       status: fetched.status,
       headers: fetched.headers,

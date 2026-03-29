@@ -203,3 +203,47 @@ export function findPathParts(
   // console.log('no match found');
   return false;
 }
+
+export async function getSecuritySchemeObjects(
+  apiNames: string[],
+  securitySchemeNames: { [apiName: string]: string },
+): Promise<{
+  specStrs: { [apiName: string]: string };
+  overlayStrs: { [apiName: string]: string };
+  securitySchemeObjects: {
+    [apiName: string]: OpenAPIV3_1.SecuritySchemeObject;
+  };
+}> {
+  const securitySchemeObjects: {
+    [apiName: string]: OpenAPIV3_1.SecuritySchemeObject;
+  } = {};
+  const specStrs: { [apiName: string]: string } = {};
+  const overlayStrs: { [apiName: string]: string } = {};
+  await Promise.all(
+    apiNames.map(async (apiName: string) => {
+      overlayStrs[apiName] = await readSpec('overlay', apiName);
+      specStrs[apiName] = await getSpecFromOverlay(overlayStrs[apiName]);
+      const spec: OpenAPIV3_1.Document = await specStrToObj(
+        specStrs[apiName],
+        overlayStrs[apiName],
+      );
+      // console.log(Object.keys(spec.components ?? {}));
+      // console.log('security schemes', spec.components?.securitySchemes);
+      console.log(
+        'selecting security scheme for',
+        apiName,
+        securitySchemeNames[apiName],
+        'from',
+        Object.keys(spec.components?.securitySchemes ?? {}),
+      );
+      securitySchemeObjects[apiName] = spec.components?.securitySchemes?.[
+        securitySchemeNames[apiName]
+      ] as OpenAPIV3_1.SecuritySchemeObject;
+    }),
+  );
+  console.log(
+    'Selected security scheme objects for all APIs',
+    securitySchemeObjects,
+  );
+  return { specStrs, overlayStrs, securitySchemeObjects };
+}

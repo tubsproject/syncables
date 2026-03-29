@@ -32,7 +32,7 @@ export class Syncer extends EventEmitter {
     };
   } = {};
   relations: {
-    [placeholder: string]: string,
+    [placeholder: string]: string;
   } = {};
   specStr: string;
   overlayStr: string | null = null;
@@ -550,7 +550,7 @@ export class Syncer extends EventEmitter {
       [syncableName: string]: object[];
     } = {};
     await this.parseSpec();
-    Object.keys(this.relations).forEach(placeholder => {
+    Object.keys(this.relations).forEach((placeholder) => {
       params[placeholder] = this.relations[placeholder];
     });
     console.log('params including relations', params);

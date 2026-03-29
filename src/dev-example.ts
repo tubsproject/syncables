@@ -1,9 +1,8 @@
 import { readdir } from 'fs/promises';
-import { OpenAPIV3_1 } from '@scalar/openapi-types';
 import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getAuthHeaderSets } from './auth.js';
-import { readSpec, specStrToObj, getSpecFromOverlay } from './utils.js';
+import { getSecuritySchemeObjects } from './utils.js';
 import { storeData, resetStore } from './schemaStore.js';
 // import { /* components, */ paths } from './github.js';
 
@@ -30,34 +29,8 @@ async function main(): Promise<void> {
       return Object.keys(securitySchemeNames).includes(name);
     });
   console.log('Found API specs for:', apiNames);
-  const securitySchemeObjects: {
-    [apiName: string]: OpenAPIV3_1.SecuritySchemeObject;
-  } = {};
-
-  const specStrs: { [apiName: string]: string } = {};
-  const overlayStrs: { [apiName: string]: string } = {};
-  await Promise.all(
-    apiNames.map(async (apiName: string) => {
-      overlayStrs[apiName] = await readSpec('overlay', apiName);
-      specStrs[apiName] = await getSpecFromOverlay(overlayStrs[apiName]);
-      const spec: OpenAPIV3_1.Document = await specStrToObj(
-        specStrs[apiName],
-        overlayStrs[apiName],
-      );
-      // console.log(Object.keys(spec.components ?? {}));
-      // console.log('security schemes', spec.components?.securitySchemes);
-      console.log(
-        'selecting security scheme for',
-        apiName,
-        securitySchemeNames[apiName],
-        'from',
-        Object.keys(spec.components?.securitySchemes ?? {}),
-      );
-      securitySchemeObjects[apiName] = spec.components?.securitySchemes?.[
-        securitySchemeNames[apiName]
-      ] as OpenAPIV3_1.SecuritySchemeObject;
-    }),
-  );
+  const { securitySchemeObjects, specStrs, overlayStrs } =
+    await getSecuritySchemeObjects(apiNames, securitySchemeNames);
   console.log(
     'Selected security scheme objects for all APIs',
     securitySchemeObjects,
