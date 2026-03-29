@@ -526,9 +526,12 @@ export class Syncer extends EventEmitter {
         );
     }
   }
-  async fetchAndFillIn (syncableName: string, theseParents: {
-    [pattern: string]: string;
-  }): Promise<object[]> {
+  async fetchAndFillIn(
+    syncableName: string,
+    theseParents: {
+      [pattern: string]: string;
+    },
+  ): Promise<object[]> {
     return (await this.doOneFetch(syncableName, theseParents)).map((obj) => {
       const copy = Object.assign({}, obj);
       Object.keys(theseParents).forEach((pattern) => {
@@ -536,7 +539,7 @@ export class Syncer extends EventEmitter {
       });
       return copy;
     });
-  };
+  }
 
   async fullFetch(
     callback: (syncableName: string, items: object[]) => Promise<void> = () =>
@@ -622,8 +625,12 @@ export class Syncer extends EventEmitter {
         }
         skipped[specName] = false;
         let data;
-    
-        data = await resolveRelations(specName, parents, this.fetchAndFillIn.bind(this)).catch((err) => {
+
+        data = await resolveRelations(
+          specName,
+          parents,
+          this.fetchAndFillIn.bind(this),
+        ).catch((err) => {
           console.log(
             `Error fetching data for syncable ${specName} with parents ${JSON.stringify(parents)}:`,
             err,
