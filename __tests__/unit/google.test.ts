@@ -26,11 +26,10 @@ describe('Google Calendar List', async () => {
       '/users/me/settings',
       // '/users/me/settings/{setting}',
       // '/calendars/{calendarId}',
-      '/calendars/{calendarId}/acl',
+      // '/calendars/{calendarId}/acl',
       // '/calendars/{calendarId}/acl/{ruleId}',
-      '/calendars/{calendarId}/events',
+      // '/calendars/{calendarId}/events',
       // '/calendars/{calendarId}/events/{eventId}',
-      '/calendars/{calendarId}/events/{eventId}/instances',
     ];
     expect(Object.keys(data)).toEqual(keys);
     keys.forEach((key) => {

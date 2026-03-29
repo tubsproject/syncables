@@ -25,7 +25,7 @@ describe('Params', () => {
       pageNumber: { parameter: 'page' },
     };
     const params = {
-      'userId': '/users/#id',
+      userId: '/users/#id',
     };
     const syncer = new Syncer({
       specStr: createSpec(
@@ -39,17 +39,13 @@ describe('Params', () => {
       ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
-    const data = await syncer.fullFetch(
-      () => Promise.resolve(),
-      params,
-    );
+    const data = await syncer.fullFetch(() => Promise.resolve(), params);
     const paths = ['/user/{userId}/widgets/', '/users/'];
     expect(Object.keys(data).sort()).toEqual(paths);
     paths.forEach((path) => {
       let items = [];
       for (let i = 0; i < (path === '/users/' ? 1 : 3); i++) {
-        const userIdAddition =
-          path === '/users/' ? {} : { userId: (i + 1) };
+        const userIdAddition = path === '/users/' ? {} : { userId: i + 1 };
         console.log('userIdAddition:', path, i, userIdAddition);
         items = items.concat(
           mockResponses[0].items.map((item) =>
@@ -98,7 +94,7 @@ describe('Params', () => {
       pageNumber: { parameter: 'page' },
     };
     const params = {
-      'userId': '/users/#id',
+      userId: '/users/#id',
     };
     const syncer = new Syncer({
       specStr: createSpec(
@@ -112,10 +108,7 @@ describe('Params', () => {
       ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
-    const data = await syncer.fullFetch(
-      () => Promise.resolve(),
-      params,
-    );
+    const data = await syncer.fullFetch(() => Promise.resolve(), params);
     expect(data).toEqual({
       '/user/{userId}/widgets/': [
         {
@@ -294,10 +287,7 @@ describe('Params', () => {
       specStr,
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
-    const data = await syncer.fullFetch(
-      () => Promise.resolve(),
-      params,
-    );
+    const data = await syncer.fullFetch(() => Promise.resolve(), params);
     const paths = ['/countries/', '/users/', '/{countryId}/{userId}/widgets/'];
     expect(Object.keys(data).sort()).toEqual(paths);
     paths.forEach((path) => {
@@ -337,94 +327,94 @@ describe('Params', () => {
       if (path === '/{countryId}/{userId}/widgets/') {
         items = [
           {
-            "countryId": 3,
-            "id": 1,
-            "title": "Test Todo 1",
-            "userId": 2,
+            countryId: 3,
+            id: 1,
+            title: 'Test Todo 1',
+            userId: 2,
           },
           {
-            "countryId": 3,
-            "id": 2,
-            "title": "Test Todo 2",
-            "userId": 2,
+            countryId: 3,
+            id: 2,
+            title: 'Test Todo 2',
+            userId: 2,
           },
           {
-            "countryId": 3,
-            "id": 3,
-            "title": "Test Todo 3",
-            "userId": 2,
+            countryId: 3,
+            id: 3,
+            title: 'Test Todo 3',
+            userId: 2,
           },
           {
-            "countryId": 3,
-            "id": 1,
-            "title": "Test Todo 1",
-            "userId": 3,
+            countryId: 3,
+            id: 1,
+            title: 'Test Todo 1',
+            userId: 3,
           },
           {
-            "countryId": 3,
-            "id": 2,
-            "title": "Test Todo 2",
-            "userId": 3,
+            countryId: 3,
+            id: 2,
+            title: 'Test Todo 2',
+            userId: 3,
           },
           {
-            "countryId": 3,
-            "id": 3,
-            "title": "Test Todo 3",
-            "userId": 3,
+            countryId: 3,
+            id: 3,
+            title: 'Test Todo 3',
+            userId: 3,
           },
           {
-            "countryId": 1,
-            "id": 1,
-            "title": "Test Todo 1",
-            "userId": 1,
+            countryId: 1,
+            id: 1,
+            title: 'Test Todo 1',
+            userId: 1,
           },
           {
-            "countryId": 1,
-            "id": 2,
-            "title": "Test Todo 2",
-            "userId": 1,
+            countryId: 1,
+            id: 2,
+            title: 'Test Todo 2',
+            userId: 1,
           },
           {
-            "countryId": 1,
-            "id": 3,
-            "title": "Test Todo 3",
-            "userId": 1,
+            countryId: 1,
+            id: 3,
+            title: 'Test Todo 3',
+            userId: 1,
           },
           {
-            "countryId": 2,
-            "id": 1,
-            "title": "Test Todo 1",
-            "userId": 1,
+            countryId: 2,
+            id: 1,
+            title: 'Test Todo 1',
+            userId: 1,
           },
           {
-            "countryId": 2,
-            "id": 2,
-            "title": "Test Todo 2",
-            "userId": 1,
+            countryId: 2,
+            id: 2,
+            title: 'Test Todo 2',
+            userId: 1,
           },
           {
-            "countryId": 2,
-            "id": 3,
-            "title": "Test Todo 3",
-            "userId": 1,
+            countryId: 2,
+            id: 3,
+            title: 'Test Todo 3',
+            userId: 1,
           },
           {
-            "countryId": 3,
-            "id": 1,
-            "title": "Test Todo 1",
-            "userId": 1,
+            countryId: 3,
+            id: 1,
+            title: 'Test Todo 1',
+            userId: 1,
           },
           {
-            "countryId": 3,
-            "id": 2,
-            "title": "Test Todo 2",
-            "userId": 1,
+            countryId: 3,
+            id: 2,
+            title: 'Test Todo 2',
+            userId: 1,
           },
           {
-            "countryId": 3,
-            "id": 3,
-            "title": "Test Todo 3",
-            "userId": 1,
+            countryId: 3,
+            id: 3,
+            title: 'Test Todo 3',
+            userId: 1,
           },
         ];
       }
@@ -438,93 +428,93 @@ describe('Params', () => {
       ['https://example.com/api/users/?page=2', { headers: {} }],
       ['https://example.com/api/users/?page=3', { headers: {} }],
       [
-        "https://example.com/api/1/1/widgets/?page=1",
+        'https://example.com/api/1/1/widgets/?page=1',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/2/1/widgets/?page=1",
+        'https://example.com/api/2/1/widgets/?page=1',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/3/1/widgets/?page=1",
+        'https://example.com/api/3/1/widgets/?page=1',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/3/2/widgets/?page=1",
+        'https://example.com/api/3/2/widgets/?page=1',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/3/3/widgets/?page=1",
+        'https://example.com/api/3/3/widgets/?page=1',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/1/1/widgets/?page=2",
+        'https://example.com/api/1/1/widgets/?page=2',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/2/1/widgets/?page=2",
+        'https://example.com/api/2/1/widgets/?page=2',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/3/1/widgets/?page=2",
+        'https://example.com/api/3/1/widgets/?page=2',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/3/2/widgets/?page=2",
+        'https://example.com/api/3/2/widgets/?page=2',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/3/3/widgets/?page=2",
+        'https://example.com/api/3/3/widgets/?page=2',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/1/1/widgets/?page=3",
+        'https://example.com/api/1/1/widgets/?page=3',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/2/1/widgets/?page=3",
+        'https://example.com/api/2/1/widgets/?page=3',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/3/1/widgets/?page=3",
+        'https://example.com/api/3/1/widgets/?page=3',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/3/2/widgets/?page=3",
+        'https://example.com/api/3/2/widgets/?page=3',
         {
-          "headers": {},
+          headers: {},
         },
       ],
       [
-        "https://example.com/api/3/3/widgets/?page=3",
+        'https://example.com/api/3/3/widgets/?page=3',
         {
-          "headers": {},
+          headers: {},
         },
       ],
     ];
