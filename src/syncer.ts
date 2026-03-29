@@ -537,8 +537,9 @@ export class Syncer extends EventEmitter {
       [syncableName: string]: object[];
     } = {};
     await this.parseSpec();
-    let newData = false;
+    let newData;
     do {
+      newData = false;
       console.log(
         'Starting loop of fetching all syncables, currently have data for syncables',
         Object.keys(allData),
@@ -590,6 +591,7 @@ export class Syncer extends EventEmitter {
         allData,
         fetchAndFillIn,
       );
+      // console.log('result from resolveRelations', result);
       Object.keys(result).forEach((syncableName) => {
         newData = true;
         allData[syncableName] = (allData[syncableName] || []).concat(

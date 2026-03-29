@@ -24,6 +24,9 @@ describe('Params', () => {
       paginate: 'items',
       pageNumber: { parameter: 'page' },
     };
+    const params = {
+      'userId': '/users/#id',
+    };
     const syncer = new Syncer({
       specStr: createSpec(
         'https://example.com/api',
@@ -36,14 +39,17 @@ describe('Params', () => {
       ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
-    const data = await syncer.fullFetch();
+    const data = await syncer.fullFetch(
+      () => Promise.resolve(),
+      params,
+    );
     const paths = ['/user/{userId}/widgets/', '/users/'];
     expect(Object.keys(data).sort()).toEqual(paths);
     paths.forEach((path) => {
       let items = [];
       for (let i = 0; i < (path === '/users/' ? 1 : 3); i++) {
         const userIdAddition =
-          path === '/users/' ? {} : { userId: (i + 1).toString() };
+          path === '/users/' ? {} : { userId: (i + 1) };
         console.log('userIdAddition:', path, i, userIdAddition);
         items = items.concat(
           mockResponses[0].items.map((item) =>
@@ -63,13 +69,13 @@ describe('Params', () => {
       ['https://example.com/api/users/?page=2', { headers: {} }],
       ['https://example.com/api/users/?page=3', { headers: {} }],
       ['https://example.com/api/user/1/widgets/?page=1', { headers: {} }],
-      ['https://example.com/api/user/1/widgets/?page=2', { headers: {} }],
-      ['https://example.com/api/user/1/widgets/?page=3', { headers: {} }],
       ['https://example.com/api/user/2/widgets/?page=1', { headers: {} }],
-      ['https://example.com/api/user/2/widgets/?page=2', { headers: {} }],
-      ['https://example.com/api/user/2/widgets/?page=3', { headers: {} }],
       ['https://example.com/api/user/3/widgets/?page=1', { headers: {} }],
+      ['https://example.com/api/user/1/widgets/?page=2', { headers: {} }],
+      ['https://example.com/api/user/2/widgets/?page=2', { headers: {} }],
       ['https://example.com/api/user/3/widgets/?page=2', { headers: {} }],
+      ['https://example.com/api/user/1/widgets/?page=3', { headers: {} }],
+      ['https://example.com/api/user/2/widgets/?page=3', { headers: {} }],
       ['https://example.com/api/user/3/widgets/?page=3', { headers: {} }],
     ]);
   });
@@ -91,7 +97,9 @@ describe('Params', () => {
       paginate: 'items',
       pageNumber: { parameter: 'page' },
     };
-
+    const params = {
+      'userId': '/users/#id',
+    };
     const syncer = new Syncer({
       specStr: createSpec(
         'https://example.com/api',
@@ -104,53 +112,56 @@ describe('Params', () => {
       ),
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
-    const data = await syncer.fullFetch();
+    const data = await syncer.fullFetch(
+      () => Promise.resolve(),
+      params,
+    );
     expect(data).toEqual({
       '/user/{userId}/widgets/': [
         {
           id: 1,
           title: 'Test Todo 1',
-          userId: '1',
+          userId: 1,
         },
         {
           id: 2,
           title: 'Test Todo 2',
-          userId: '1',
+          userId: 1,
         },
         {
           id: 3,
           title: 'Test Todo 3',
-          userId: '1',
+          userId: 1,
         },
         {
           id: 1,
           title: 'Test Todo 1',
-          userId: '2',
+          userId: 2,
         },
         {
           id: 2,
           title: 'Test Todo 2',
-          userId: '2',
+          userId: 2,
         },
         {
           id: 3,
           title: 'Test Todo 3',
-          userId: '2',
+          userId: 2,
         },
         {
           id: 1,
           title: 'Test Todo 1',
-          userId: '3',
+          userId: 3,
         },
         {
           id: 2,
           title: 'Test Todo 2',
-          userId: '3',
+          userId: 3,
         },
         {
           id: 3,
           title: 'Test Todo 3',
-          userId: '3',
+          userId: 3,
         },
       ],
       '/users/': [
@@ -194,31 +205,7 @@ describe('Params', () => {
         },
       ],
       [
-        'https://example.com/api/user/1/widgets/?page=2',
-        {
-          headers: {},
-        },
-      ],
-      [
-        'https://example.com/api/user/1/widgets/?page=3',
-        {
-          headers: {},
-        },
-      ],
-      [
         'https://example.com/api/user/2/widgets/?page=1',
-        {
-          headers: {},
-        },
-      ],
-      [
-        'https://example.com/api/user/2/widgets/?page=2',
-        {
-          headers: {},
-        },
-      ],
-      [
-        'https://example.com/api/user/2/widgets/?page=3',
         {
           headers: {},
         },
@@ -230,7 +217,31 @@ describe('Params', () => {
         },
       ],
       [
+        'https://example.com/api/user/1/widgets/?page=2',
+        {
+          headers: {},
+        },
+      ],
+      [
+        'https://example.com/api/user/2/widgets/?page=2',
+        {
+          headers: {},
+        },
+      ],
+      [
         'https://example.com/api/user/3/widgets/?page=2',
+        {
+          headers: {},
+        },
+      ],
+      [
+        'https://example.com/api/user/1/widgets/?page=3',
+        {
+          headers: {},
+        },
+      ],
+      [
+        'https://example.com/api/user/2/widgets/?page=3',
         {
           headers: {},
         },
@@ -262,6 +273,10 @@ describe('Params', () => {
       paginate: 'items',
       pageNumber: { parameter: 'page' },
     };
+    const params = {
+      userId: '/users/#id',
+      countryId: '/countries/#id',
+    };
     const specStr = createSpec(
       'https://example.com/api',
       {
@@ -271,10 +286,7 @@ describe('Params', () => {
       },
       paginationScheme,
       {
-        parameters: {
-          userId: '/users/#id',
-          countryId: '/countries/#id',
-        },
+        parameters: params,
       },
     );
     console.log(specStr);
@@ -282,7 +294,10 @@ describe('Params', () => {
       specStr,
       fetchFunction: fetchMock as unknown as typeof fetch,
     });
-    const data = await syncer.fullFetch();
+    const data = await syncer.fullFetch(
+      () => Promise.resolve(),
+      params,
+    );
     const paths = ['/countries/', '/users/', '/{countryId}/{userId}/widgets/'];
     expect(Object.keys(data).sort()).toEqual(paths);
     paths.forEach((path) => {
@@ -300,8 +315,8 @@ describe('Params', () => {
               return item;
             }
             return Object.assign({}, item, {
-              countryId: countryId.toString(),
-              userId: userId.toString(),
+              countryId: countryId,
+              userId: userId,
             });
           }),
         );
@@ -313,11 +328,105 @@ describe('Params', () => {
               return item;
             }
             return Object.assign({}, item, {
-              countryId: countryId.toString(),
-              userId: userId.toString(),
+              countryId: countryId,
+              userId: userId,
             });
           }),
         );
+      }
+      if (path === '/{countryId}/{userId}/widgets/') {
+        items = [
+          {
+            "countryId": 3,
+            "id": 1,
+            "title": "Test Todo 1",
+            "userId": 2,
+          },
+          {
+            "countryId": 3,
+            "id": 2,
+            "title": "Test Todo 2",
+            "userId": 2,
+          },
+          {
+            "countryId": 3,
+            "id": 3,
+            "title": "Test Todo 3",
+            "userId": 2,
+          },
+          {
+            "countryId": 3,
+            "id": 1,
+            "title": "Test Todo 1",
+            "userId": 3,
+          },
+          {
+            "countryId": 3,
+            "id": 2,
+            "title": "Test Todo 2",
+            "userId": 3,
+          },
+          {
+            "countryId": 3,
+            "id": 3,
+            "title": "Test Todo 3",
+            "userId": 3,
+          },
+          {
+            "countryId": 1,
+            "id": 1,
+            "title": "Test Todo 1",
+            "userId": 1,
+          },
+          {
+            "countryId": 1,
+            "id": 2,
+            "title": "Test Todo 2",
+            "userId": 1,
+          },
+          {
+            "countryId": 1,
+            "id": 3,
+            "title": "Test Todo 3",
+            "userId": 1,
+          },
+          {
+            "countryId": 2,
+            "id": 1,
+            "title": "Test Todo 1",
+            "userId": 1,
+          },
+          {
+            "countryId": 2,
+            "id": 2,
+            "title": "Test Todo 2",
+            "userId": 1,
+          },
+          {
+            "countryId": 2,
+            "id": 3,
+            "title": "Test Todo 3",
+            "userId": 1,
+          },
+          {
+            "countryId": 3,
+            "id": 1,
+            "title": "Test Todo 1",
+            "userId": 1,
+          },
+          {
+            "countryId": 3,
+            "id": 2,
+            "title": "Test Todo 2",
+            "userId": 1,
+          },
+          {
+            "countryId": 3,
+            "id": 3,
+            "title": "Test Todo 3",
+            "userId": 1,
+          },
+        ];
       }
       expect(data[path]).toEqual(items);
     });
@@ -328,19 +437,97 @@ describe('Params', () => {
       ['https://example.com/api/users/?page=1', { headers: {} }],
       ['https://example.com/api/users/?page=2', { headers: {} }],
       ['https://example.com/api/users/?page=3', { headers: {} }],
+      [
+        "https://example.com/api/1/1/widgets/?page=1",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/2/1/widgets/?page=1",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/3/1/widgets/?page=1",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/3/2/widgets/?page=1",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/3/3/widgets/?page=1",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/1/1/widgets/?page=2",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/2/1/widgets/?page=2",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/3/1/widgets/?page=2",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/3/2/widgets/?page=2",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/3/3/widgets/?page=2",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/1/1/widgets/?page=3",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/2/1/widgets/?page=3",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/3/1/widgets/?page=3",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/3/2/widgets/?page=3",
+        {
+          "headers": {},
+        },
+      ],
+      [
+        "https://example.com/api/3/3/widgets/?page=3",
+        {
+          "headers": {},
+        },
+      ],
     ];
-    for (let thisUserId = 1; thisUserId <= 3; thisUserId++) {
-      for (let thisCountryId = 1; thisCountryId <= 3; thisCountryId++) {
-        for (let page = 1; page <= 3; page++) {
-          // console.log('pushing', thisCountryId, thisUserId, page);
-          expectedCalls.push([
-            `https://example.com/api/${thisCountryId}/${thisUserId}/widgets/?page=${page}`,
-            { headers: {} },
-          ]);
-        }
-      }
-    }
-    // console.log('expected calls:', expectedCalls);
     expect(fetchMock.mock.calls).toEqual(expectedCalls);
   });
 });
