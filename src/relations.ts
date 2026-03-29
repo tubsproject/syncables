@@ -57,7 +57,7 @@ export async function resolveRelations(
     }
   });
   const resolution = {};
-  let dataFound: {
+  const dataFound: {
     [url: string]: object[];
   } = {};
   // console.log(`entering level ${level}`, relations);

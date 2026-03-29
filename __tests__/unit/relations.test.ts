@@ -213,7 +213,7 @@ describe('resolveRelations', async () => {
         ],
       },
     ];
-    let data = {};
+    const data = {};
     for (let i = 0; i < 3; i++) {
       const callbackMock = vi.fn(callback);
       const result = await resolveRelations(

@@ -34,7 +34,7 @@ describe('Google Calendar List', async () => {
     ];
     expect(Object.keys(data)).toEqual(keys);
     keys.forEach((key) => {
-      let items = [];
+      const items = [];
       if (key.indexOf('{eventId}') !== -1) {
         for (let calendarId = 1; calendarId < 4; calendarId++) {
           for (let eventId = 1; eventId < 4; eventId++) {
