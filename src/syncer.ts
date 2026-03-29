@@ -543,7 +543,7 @@ export class Syncer extends EventEmitter {
         'Starting loop of fetching all syncables, currently have data for syncables',
         Object.keys(allData),
       );
-      const syncableNames = Object.keys(this.syncables).filter(specName => {
+      const syncableNames = Object.keys(this.syncables).filter((specName) => {
         if (filter && filter.indexOf(specName) === -1) {
           console.log(
             'Skipping syncable',
@@ -560,19 +560,21 @@ export class Syncer extends EventEmitter {
         }
         return true;
       });
-      ;const fetchAndFillIn = async (
+      const fetchAndFillIn = async (
         syncableName: string,
         theseParents: {
           [pattern: string]: string;
         },
       ): Promise<object[]> => {
-        const data = (await this.doOneFetch(syncableName, theseParents)).map((obj) => {
-          const copy = Object.assign({}, obj);
-          Object.keys(theseParents).forEach((pattern) => {
-            copy[pattern] = theseParents[pattern];
-          });
-          return copy;
-        });
+        const data = (await this.doOneFetch(syncableName, theseParents)).map(
+          (obj) => {
+            const copy = Object.assign({}, obj);
+            Object.keys(theseParents).forEach((pattern) => {
+              copy[pattern] = theseParents[pattern];
+            });
+            return copy;
+          },
+        );
         await callback(syncableName, data).catch((err) => {
           console.log(
             `Error in callback for syncable ${syncableName} with parents ${JSON.stringify(theseParents)}:`,
@@ -581,18 +583,20 @@ export class Syncer extends EventEmitter {
           return err;
         });
         return data;
-      }
+      };
       const result = await resolveRelations(
         syncableNames,
         params,
         allData,
         fetchAndFillIn,
       );
-      Object.keys(result).forEach(syncableName => {
+      Object.keys(result).forEach((syncableName) => {
         newData = true;
-        allData[syncableName] = (allData[syncableName] || []).concat(result[syncableName]);
+        allData[syncableName] = (allData[syncableName] || []).concat(
+          result[syncableName],
+        );
       });
-      
+
       console.log(
         'Finished one loop of fetching all syncables, checking if we have all data we need...',
         Object.keys(allData).length,
