@@ -22,5 +22,5 @@ export async function listEvents(
 
 // ...
 const pageNumber = process.argv[2];
-console.log('fetching with', pageNumber);
+// console.log('fetching with', pageNumber);
 listEvents(await getAuthHeaderSet(), pageNumber);

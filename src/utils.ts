@@ -229,21 +229,21 @@ export async function getSecuritySchemeObjects(
       );
       // console.log(Object.keys(spec.components ?? {}));
       // console.log('security schemes', spec.components?.securitySchemes);
-      console.log(
-        'selecting security scheme for',
-        apiName,
-        securitySchemeNames[apiName],
-        'from',
-        Object.keys(spec.components?.securitySchemes ?? {}),
-      );
+      // console.log(
+      //   'selecting security scheme for',
+      //   apiName,
+      //   securitySchemeNames[apiName],
+      //   'from',
+      //   Object.keys(spec.components?.securitySchemes ?? {}),
+      // );
       securitySchemeObjects[apiName] = spec.components?.securitySchemes?.[
         securitySchemeNames[apiName]
       ] as OpenAPIV3_1.SecuritySchemeObject;
     }),
   );
-  console.log(
-    'Selected security scheme objects for all APIs',
-    securitySchemeObjects,
-  );
+  // console.log(
+  //   'Selected security scheme objects for all APIs',
+  //   securitySchemeObjects,
+  // );
   return { specStrs, overlayStrs, securitySchemeObjects };
 }

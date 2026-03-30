@@ -123,6 +123,11 @@ pnpm prettier
 pnpm login
 pnpm publish
 ```
+## Tear Safeness Research
+I created `src/experiment/github` to show that GitHub issue comment pagination is not tear-safe: if a comment on an earlier page is delete while another process is listing the comments, then the first comment on the next page will be skipped, because it will have moved to the previous page, which was already fetched.
+
+Contrasting this with `src/experiment/google-calendar` which uses pageToken and syncToken instead of pageNumber, which guarantees each client stays in a consistent state.
 
 ## Acknowledgements
+This project is sponsored by [NLNet](https://nlnet.nl/project/TUBS).
 The `__tests__/integration/mock-server' folder is a copy of [`@scalar/mock-server`](https://github.com/scalar/scalar/blob/main/packages/mock-server/src) - thanks [Scalar](https://scalar.com)!

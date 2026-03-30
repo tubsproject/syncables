@@ -1,8 +1,8 @@
-import { baseUrl, getAuthHeaderSet } from './common.js';
+import { baseUrlForCreateCalendar, getAuthHeaderSet } from './common.js';
 
-async function createEvent(authHeaders: { [key: string]: string }): Promise<void> {
+async function createCalendar(authHeaders: { [key: string]: string }): Promise<void> {
   const result = await fetch(
-    baseUrl,
+    baseUrlForCreateCalendar,
     {
       method: 'post',
       headers: Object.assign(
@@ -14,12 +14,6 @@ async function createEvent(authHeaders: { [key: string]: string }): Promise<void
       body: JSON.stringify({
         description: 'testing',
         summary: 'testing',
-        start: {
-          date: '2026-04-02',
-        },
-        end: {
-          date: '2026-04-02',
-        },
       }),
     },
   );
@@ -29,4 +23,4 @@ async function createEvent(authHeaders: { [key: string]: string }): Promise<void
 }
 
 // ...
-createEvent(await getAuthHeaderSet());
+createCalendar(await getAuthHeaderSet());

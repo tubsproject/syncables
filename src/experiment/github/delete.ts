@@ -24,5 +24,5 @@ export async function deleteComment(authHeaders: {
 // ...
 // FIXME: unescaped user input, don't try this at home:
 const commentId = process.argv[2];
-console.log('deleting', commentId);
+// console.log('deleting', commentId);
 deleteComment(await getAuthHeaderSet(), commentId);

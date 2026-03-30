@@ -381,7 +381,7 @@ export async function getAuthHeaderSets(
 
   const authHeaders: { [apiName: string]: { [header: string]: string } } = {};
   for (const apiName of apiNames) {
-    console.log(`Checking for existing auth headers for ${apiName}...`);
+    // console.log(`Checking for existing auth headers for ${apiName}...`);
     const tokenPath = `${CREDENTIALS_DIR}/${apiName}.json`;
     try {
       const authHeadersStr = await readFile(tokenPath, 'utf-8');
@@ -403,6 +403,6 @@ export async function getAuthHeaderSets(
       console.log('Completed authorization flow for', apiName);
     }
   }
-  console.log('Obtained auth headers for all APIs');
+  // console.log('Obtained auth headers for all APIs');
   return authHeaders;
 }
