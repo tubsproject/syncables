@@ -5,7 +5,7 @@ const calendarId = `c_cef6fcbc055f9caf91360c48d4bbc09aff42317d1348fd7418ce54935d
 export const baseUrl = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`;
 export const baseUrlForCreateCalendar = `https://www.googleapis.com/calendar/v3/calendars`;
 const securitySchemeNames = {
-    'google-calendar': 'Oauth2c',
+  'google-calendar': 'Oauth2c',
 };
 const apiNames = Object.keys(securitySchemeNames);
 const pageSize = 5;
@@ -19,10 +19,13 @@ export async function getAuthHeaderSet(): Promise<{ [key: string]: string }> {
   return authHeaders['google-calendar'];
 }
 
-export async function listEvents(authHeaders: { [key: string]: string }, queryParams: { [key: string]: string }): Promise<object[]> {
+export async function listEvents(
+  authHeaders: { [key: string]: string },
+  queryParams: { [key: string]: string },
+): Promise<object[]> {
   const url = new URL(baseUrl);
   url.searchParams.append(`maxResults`, pageSize.toString());
-  Object.keys(queryParams).forEach(key => {
+  Object.keys(queryParams).forEach((key) => {
     url.searchParams.append(key, queryParams[key]);
   });
   console.log(url.href);

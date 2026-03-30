@@ -1,8 +1,11 @@
 import { getAuthHeaderSet, baseUrlForDelete } from './common.js';
 
-export async function deleteComment(authHeaders: {
-  [key: string]: string;
-}, commentId: string): Promise<void> {
+export async function deleteComment(
+  authHeaders: {
+    [key: string]: string;
+  },
+  commentId: string,
+): Promise<void> {
   const commentUrl = `${baseUrlForDelete}${commentId}`;
   console.log(commentUrl);
   const result = await fetch(commentUrl, {

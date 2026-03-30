@@ -16,7 +16,7 @@ export async function listEvents(
     headers: Object.assign({}, authHeaders),
   });
   const items = await result.json();
-  console.log(items.map(obj => obj.id));
+  console.log(items.map((obj) => obj.id));
   console.log(result.ok, result.status);
 }
 
