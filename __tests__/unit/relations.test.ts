@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { resolveRelations } from '../../src/relations.js';
+import { TypedObject } from '../../src/schemaStore.js';
 
 describe('resolveRelations', async () => {
   it('can resolve an empty collection with no relations', async () => {
@@ -8,10 +9,10 @@ describe('resolveRelations', async () => {
       resolution: {
         [pattern: string]: string;
       },
-    ): Promise<object[]> {
+    ): Promise<TypedObject> {
       void syncableName;
       void resolution;
-      return [];
+      return { data: [], schema: {} };
     }
     const callbackMock = vi.fn(callback);
     const result = await resolveRelations(
@@ -33,10 +34,10 @@ describe('resolveRelations', async () => {
       resolution: {
         [pattern: string]: string;
       },
-    ): Promise<object[]> {
+    ): Promise<TypedObject> {
       void syncableName;
       void resolution;
-      return items;
+      return { data: items, schema: {} };
     }
     const callbackMock = vi.fn(callback);
     const result = await resolveRelations(
@@ -63,16 +64,16 @@ describe('resolveRelations', async () => {
       resolution: {
         [pattern: string]: string;
       },
-    ): Promise<object[]> {
+    ): Promise<TypedObject> {
       void resolution;
       if (syncableName === '/groups') {
-        return groups;
+        return { data: groups, schema: {} };
       }
       // console.log('filtering items', items, resolution);
-      return items.filter((item) => {
+      return { data: items.filter((item) => {
         // console.log('comparing', item.groupId.toString(), resolution['groupId'], item.groupId.toString() === resolution['groupId']?.toString());
         return item.groupId.toString() === resolution['groupId']?.toString();
-      });
+      }), schema: {} };
     }
     const callbackMock = vi.fn(callback);
     // console.log('starting round 1');
@@ -138,23 +139,23 @@ describe('resolveRelations', async () => {
       resolution: {
         [pattern: string]: string;
       },
-    ): Promise<object[]> {
+    ): Promise<TypedObject> {
       void resolution;
       if (syncableName === '/groups') {
-        return groups;
+        return { data: groups, schema: {} };
       }
       if (syncableName === '/groups/{groupId}/trips') {
         // console.log('filtering trips', resolution);
-        return trips.filter(
+        return { data: trips.filter(
           (trip) =>
             trip.groupId.toString() === resolution['groupId']?.toString(),
-        );
+        ), schema: {} };
       }
       if (syncableName === '/groups/{groupId}/trips/{tripId}/items') {
         // console.log('filtering items on trips', resolution);
-        return items.filter(
+        return { data: items.filter(
           (item) => item.tripId.toString() === resolution['tripId']?.toString(),
-        );
+        ), schema: {} };
       }
       throw new Error(`unanticipated request: ${syncableName}`);
     }

@@ -1,3 +1,5 @@
+import { TypedObject } from './schemaStore.js';
+
 function getPlaceholders(str: string): string[] {
   const placeholders = [];
   str.split('{').forEach((substr) => {
@@ -21,17 +23,17 @@ export async function resolveRelations(
         };
   },
   data: {
-    [url: string]: object[];
+    [url: string]: TypedObject;
   },
   callback: (
     synableName: string,
     resolution: {
       [pattern: string]: string;
     },
-  ) => Promise<object[]>,
+  ) => Promise<TypedObject>,
   level: number = 0,
 ): Promise<{
-  [url: string]: object[];
+  [url: string]: TypedObject;
 }> {
   const relations = {} as {
     [placeholder: string]: {
@@ -59,7 +61,7 @@ export async function resolveRelations(
   });
   const resolution = {};
   const dataFound: {
-    [url: string]: object[];
+    [url: string]: TypedObject;
   } = {};
   // console.log(`entering level ${level}`, relations);
   for (let i = 0; i < Object.keys(relations).length; i++) {
@@ -73,7 +75,7 @@ export async function resolveRelations(
         continue;
       }
       // console.log(`${placeholder} not resolved but have data at level ${level}`, relations, data);
-      const values: string[] = data[relation.collection]
+      const values: string[] = (data[relation.collection].data as object[])
         .filter((obj) => {
           const placeholders = getPlaceholders(relation.collection);
           let ok = true;
@@ -107,7 +109,10 @@ export async function resolveRelations(
         );
         // console.log('new data', relationsCopyStr, newData);
         Object.entries(newData).forEach(([key, value]) => {
-          dataFound[key] = (dataFound[key] || []).concat(value);
+          dataFound[key] = {
+            data: (dataFound[key].data as object[] || []).concat(value),
+            schema: dataFound[key].schema,
+          };
         });
       });
       await Promise.all(promises);
@@ -134,9 +139,10 @@ export async function resolveRelations(
     }
     const dataFoundHere = await callback(syncableNames[i], resolution);
     // console.log(`callback for ${syncableNames[i]} for`, resolution, `at level ${level} gave`, dataFoundHere, `concatinating to`, dataFound[syncableNames[i]]);
-    dataFound[syncableNames[i]] = (dataFound[syncableNames[i]] || []).concat(
-      dataFoundHere,
-    );
+    dataFound[syncableNames[i]] = {
+      data: (dataFound[syncableNames[i]]?.data as object[] || []).concat(dataFoundHere),
+      schema: dataFound[syncableNames[i]]?.schema,
+    };
   }
   // console.log(`returning data found at level ${level}`, dataFound);
   return dataFound;

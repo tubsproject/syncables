@@ -15,5 +15,5 @@ const syncer = new Syncer({
 
 const allTables = await syncer.fullFetch();
 // Data coming out of Syncer adheres to types from .d.ts files, autocomplete works for this in VS Code, e.g.:
-const calendarEntries: Entry[] = allTables.calendars as Entry[];
+const calendarEntries: Entry[] = allTables.calendars.data as Entry[];
 console.log(calendarEntries[0].backgroundColor);

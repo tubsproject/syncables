@@ -204,6 +204,7 @@ export class Syncer extends EventEmitter {
     minNumItemsToExpect: number = 1,
   ): Promise<{
     items: object[];
+    schema: OpenAPIV3_1.SchemaObject;
     hasMore?: boolean;
     nextPageToken?: string;
     nextUrl?: string;
@@ -217,14 +218,17 @@ export class Syncer extends EventEmitter {
         console.log(
           `Warning: received 404 for URL ${url}, returning empty data`,
         );
-        return { items: [] };
+        return { items: [], schema: {} };
       } else {
         throw new Error(
           `Fetch error: ${response.status} ${response.statusText} for URL ${url} (${await response.text()})`,
         );
       }
     }
-
+    const schema =
+      spec.responses[response.status.toString()].content?.[
+        response.headers.get('Content-Type')
+      ]?.schema;
     const responseData = await response.json();
     // console.log('Fetched data from', url, responseData);
     // console.log('looking for items in response data using path', spec.itemsPathInResponse);
@@ -270,6 +274,7 @@ export class Syncer extends EventEmitter {
       hasMore: items.length >= minNumItemsToExpect,
       nextPageToken,
       nextUrl,
+      schema,
     };
   }
   private async pageNumberFetch(
@@ -277,11 +282,11 @@ export class Syncer extends EventEmitter {
     theseParents: {
       [pattern: string]: string;
     },
-  ): Promise<object[]> {
+  ): Promise<{ data: object[]; schema: OpenAPIV3_1.SchemaObject }> {
     let allData: object[] = [];
     let page = 1;
     let hasMore = true;
-
+    let schema;
     while (hasMore) {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       const spec = this.syncables[syncableName].spec;
@@ -300,12 +305,13 @@ export class Syncer extends EventEmitter {
         {},
         this.forcePageSize || spec.defaultPageSize || 1,
       );
+      schema = data.schema;
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       page += 1;
     }
 
-    return allData;
+    return { data: allData, schema };
   }
 
   private async offsetFetch(
@@ -313,7 +319,7 @@ export class Syncer extends EventEmitter {
     theseParents: {
       [pattern: string]: string;
     },
-  ): Promise<object[]> {
+  ): Promise<{ data: object[]; schema: OpenAPIV3_1.SchemaObject }> {
     let allData: object[] = [];
     let offset = 0;
     let hasMore = true;
@@ -341,7 +347,7 @@ export class Syncer extends EventEmitter {
       offset += data.items.length;
     }
 
-    return allData;
+    return { data: allData, schema: {} };
   }
 
   private async pageTokenFetch(
@@ -349,7 +355,7 @@ export class Syncer extends EventEmitter {
     theseParents: {
       [pattern: string]: string;
     },
-  ): Promise<object[]> {
+  ): Promise<{ data: object[]; schema: OpenAPIV3_1.SchemaObject }> {
     let allData: object[] = [];
     let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
@@ -377,14 +383,14 @@ export class Syncer extends EventEmitter {
       nextPageToken = data.nextPageToken || null;
     } while (nextPageToken && ++pages < MAX_PAGES);
 
-    return allData;
+    return { data: allData, schema: {} };
   }
   private async linkHeaderFetch(
     syncableName: string,
     theseParents: {
       [pattern: string]: string;
     },
-  ): Promise<object[]> {
+  ): Promise<{ data: object[]; schema: OpenAPIV3_1.SchemaObject }> {
     let allData: object[] = [];
     const spec = this.syncables[syncableName].spec;
     let url = this.getUrl(this.syncables[syncableName].path, theseParents);
@@ -413,7 +419,7 @@ export class Syncer extends EventEmitter {
       // console.log('URL is now', url);
     } while (url && ++pages < MAX_PAGES);
 
-    return allData;
+    return { data: allData, schema: {} };
   }
 
   private async rangeHeaderFetch(
@@ -421,7 +427,7 @@ export class Syncer extends EventEmitter {
     theseParents: {
       [pattern: string]: string;
     },
-  ): Promise<object[]> {
+  ): Promise<{ data: object[]; schema: OpenAPIV3_1.SchemaObject }> {
     const spec = this.syncables[syncableName].spec;
     let allData: object[] = [];
     const numItemsPerPage = this.forcePageSize || 20;
@@ -452,7 +458,7 @@ export class Syncer extends EventEmitter {
       }
     }
 
-    return allData;
+    return { data: allData, schema: {} };
   }
 
   private async confirmationBasedFetch(
@@ -460,7 +466,7 @@ export class Syncer extends EventEmitter {
     theseParents: {
       [pattern: string]: string;
     },
-  ): Promise<object[]> {
+  ): Promise<{ data: object[]; schema: OpenAPIV3_1.SchemaObject }> {
     const spec = this.syncables[syncableName].spec;
     let allData: object[] = [];
     let thisBatch: {
@@ -494,14 +500,14 @@ export class Syncer extends EventEmitter {
       );
       await promises;
     } while (thisBatch.hasMore && ++pages < MAX_PAGES);
-    return allData;
+    return { data: allData, schema: {} };
   }
   private async doOneFetch(
     syncableName: string,
     theseParents: {
       [pattern: string]: string;
     },
-  ): Promise<object[]> {
+  ): Promise<{ data: object[]; schema: OpenAPIV3_1.SchemaObject }> {
     const spec = this.syncables[syncableName].spec;
     // console.log('switching on pagination strategy', spec.paginationStrategy);
     // console.log(spec);
@@ -529,9 +535,9 @@ export class Syncer extends EventEmitter {
         ).then((res) => {
           console.log('no pagination here', res);
           if (Array.isArray(res.items)) {
-            return res.items;
+            return { data: res.items, schema: res.schema };
           } else {
-            return [res.items];
+            return { data: [res.items], schema: res.schema };
           }
         });
       default:
@@ -542,13 +548,15 @@ export class Syncer extends EventEmitter {
   }
 
   async fullFetch(
-    callback: (syncableName: string, items: TypedObject) => Promise<void> = () =>
-      Promise.resolve(),
+    callback: (
+      syncableName: string,
+      items: TypedObject,
+    ) => Promise<void> = () => Promise.resolve(),
     params: { [placeholder: string]: string } = {},
     filter?: string[],
-  ): Promise<{ [syncableName: string]: object[] }> {
+  ): Promise<{ [syncableName: string]: TypedObject }> {
     const allData: {
-      [syncableName: string]: object[];
+      [syncableName: string]: TypedObject;
     } = {};
     await this.parseSpec();
     Object.keys(this.relations).forEach((placeholder) => {
@@ -585,16 +593,18 @@ export class Syncer extends EventEmitter {
         theseParents: {
           [pattern: string]: string;
         },
-      ): Promise<object[]> => {
-        const data = (await this.doOneFetch(syncableName, theseParents)).map(
-          (obj) => {
-            const copy = Object.assign({}, obj);
-            Object.keys(theseParents).forEach((pattern) => {
-              copy[pattern] = theseParents[pattern];
-            });
-            return copy;
-          },
+      ): Promise<TypedObject> => {
+        const { data: dataIn, schema } = await this.doOneFetch(
+          syncableName,
+          theseParents,
         );
+        const data = dataIn.map((obj) => {
+          const copy = Object.assign({}, obj);
+          Object.keys(theseParents).forEach((pattern) => {
+            copy[pattern] = theseParents[pattern];
+          });
+          return copy;
+        });
         await callback(syncableName, { data, schema: {} }).catch((err) => {
           console.log(
             `Error in callback for syncable ${syncableName} with parents ${JSON.stringify(theseParents)}:`,
@@ -602,7 +612,7 @@ export class Syncer extends EventEmitter {
           );
           return err;
         });
-        return data;
+        return { data, schema };
       };
       const result = await resolveRelations(
         syncableNames,
@@ -613,9 +623,12 @@ export class Syncer extends EventEmitter {
       // console.log('result from resolveRelations', result);
       Object.keys(result).forEach((syncableName) => {
         newData = true;
-        allData[syncableName] = (allData[syncableName] || []).concat(
+        allData[syncableName] = {
+          data: (allData[syncableName].data as object[] || []).concat(
           result[syncableName],
-        );
+        ),
+        schema: allData[syncableName].schema
+      };
       });
 
       console.log(

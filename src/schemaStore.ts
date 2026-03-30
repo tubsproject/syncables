@@ -22,7 +22,6 @@ const ensureDataDirExists = async (apiName: string): Promise<void> => {
 export async function storeData(
   apiName: string,
   path: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   typedData: TypedObject,
 ): Promise<void> {
   const fileName = `${DATA_DIR}/${apiName}/${path.replace(/\//g, '_')}.json`;

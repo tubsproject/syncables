@@ -29,6 +29,7 @@ export type SyncableSpec = SyncableSpecInput & {
   pageTokenParamInQuery?: string;
   nextPageTokenPathInResponse?: string[];
   forcePageSizeParamInQuery?: string;
+  responses?: OpenAPIV3_1.ResponsesObject;
 };
 type JsonPath = string;
 type HeaderSpec = string;
@@ -120,6 +121,7 @@ function parsePaginationScheme(
       input.defaultPageSize = paramObject.schema.default as number;
     }
   }
+  const responses = doc.paths[path]?.[method]?.responses;
   const itemsPathInResponse =
     paginationScheme.paginate.length === 0
       ? []
@@ -128,6 +130,7 @@ function parsePaginationScheme(
   return Object.assign(
     {
       itemsPathInResponse,
+      responses,
     },
     input,
   );
