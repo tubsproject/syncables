@@ -6,6 +6,7 @@ import { OpenAPIV3_1 } from '@scalar/openapi-types';
 import { specStrToObj, getObjectPath } from './utils.js';
 import { SyncableSpec, generateSyncableSpec } from './spec.js';
 import { resolveRelations } from './relations.js';
+import { TypedObject } from './schemaStore.js';
 
 const debug = createDebug('syncable');
 
@@ -541,7 +542,7 @@ export class Syncer extends EventEmitter {
   }
 
   async fullFetch(
-    callback: (syncableName: string, items: object[]) => Promise<void> = () =>
+    callback: (syncableName: string, items: TypedObject) => Promise<void> = () =>
       Promise.resolve(),
     params: { [placeholder: string]: string } = {},
     filter?: string[],
@@ -594,7 +595,7 @@ export class Syncer extends EventEmitter {
             return copy;
           },
         );
-        await callback(syncableName, data).catch((err) => {
+        await callback(syncableName, { data, schema: {} }).catch((err) => {
           console.log(
             `Error in callback for syncable ${syncableName} with parents ${JSON.stringify(theseParents)}:`,
             err,
