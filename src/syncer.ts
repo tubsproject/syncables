@@ -623,7 +623,7 @@ export class Syncer extends EventEmitter {
         fetchAndFillIn,
       );
       // console.log('result from resolveRelations', result);
-      // console.log('allData is now', allData);   
+      // console.log('allData is now', allData);
       Object.keys(result).forEach((syncableName) => {
         newData = true;
         allData[syncableName] = {
@@ -633,7 +633,7 @@ export class Syncer extends EventEmitter {
           schema: allData[syncableName]?.schema,
         };
       });
-      // console.log('added to allData', allData);   
+      // console.log('added to allData', allData);
       console.log(
         'Finished one loop of fetching all syncables, checking if we have all data we need...',
         Object.keys(allData).length,

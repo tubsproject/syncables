@@ -102,7 +102,10 @@ describe('resolveRelations', async () => {
     );
     // console.log(JSON.stringify(round2, null, 2));
     expect(round2).toEqual({
-      '/{groupId}/items': { data: items.filter((item) => item.id < 3), schema: { } },
+      '/{groupId}/items': {
+        data: items.filter((item) => item.id < 3),
+        schema: {},
+      },
     });
     expect(callbackMock.mock.calls).toEqual([
       ['/groups', {}],
@@ -197,7 +200,10 @@ describe('resolveRelations', async () => {
       },
       {
         results: {
-          '/groups/{groupId}/trips/{tripId}/items': { data: [items[0], items[1]], schema: undefined },
+          '/groups/{groupId}/trips/{tripId}/items': {
+            data: [items[0], items[1]],
+            schema: undefined,
+          },
         },
         calls: [
           [

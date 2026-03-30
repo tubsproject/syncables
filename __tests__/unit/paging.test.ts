@@ -29,7 +29,10 @@ test.only('pageNumber paging (unkown page size)', async () => {
   const data = await syncable.fullFetch();
   // console.log('fullFetch end');
   expect(data).toEqual({
-    '/todos/': { data: mockResponses[0].items.concat(mockResponses[1].items), schema: undefined },
+    '/todos/': {
+      data: mockResponses[0].items.concat(mockResponses[1].items),
+      schema: undefined,
+    },
   });
 
   // Check that fetch was called exactly thrice
