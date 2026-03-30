@@ -89,6 +89,7 @@ export class Syncer extends EventEmitter {
             `Invalid collection definition: method ${method} not found for path ${path} in spec`,
           );
         }
+        // console.log('finding responses', pathItem);
         const responseSchema =
           pathItem[method].responses?.['200']?.content?.['application/json']
             ?.schema;
@@ -225,6 +226,7 @@ export class Syncer extends EventEmitter {
         );
       }
     }
+    // console.log('finding responses', spec);
     const schema =
       spec.responses[response.status.toString()].content?.[
         response.headers.get('Content-Type')
@@ -621,16 +623,17 @@ export class Syncer extends EventEmitter {
         fetchAndFillIn,
       );
       // console.log('result from resolveRelations', result);
+      // console.log('allData is now', allData);   
       Object.keys(result).forEach((syncableName) => {
         newData = true;
         allData[syncableName] = {
-          data: ((allData[syncableName].data as object[]) || []).concat(
-            result[syncableName],
+          data: ((allData[syncableName]?.data as object[]) || []).concat(
+            result[syncableName].data,
           ),
-          schema: allData[syncableName].schema,
+          schema: allData[syncableName]?.schema,
         };
       });
-
+      // console.log('added to allData', allData);   
       console.log(
         'Finished one loop of fetching all syncables, checking if we have all data we need...',
         Object.keys(allData).length,

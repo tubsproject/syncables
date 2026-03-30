@@ -12,7 +12,7 @@ describe('resolveRelations', async () => {
     ): Promise<TypedObject> {
       void syncableName;
       void resolution;
-      return { data: [], schema: {} };
+      return { data: [], schema: undefined };
     }
     const callbackMock = vi.fn(callback);
     const result = await resolveRelations(
@@ -89,7 +89,7 @@ describe('resolveRelations', async () => {
       callbackMock,
     );
     expect(round1).toEqual({
-      '/groups': groups,
+      '/groups': { data: groups, schema: undefined },
     });
     // console.log('starting round 2');
     const round2 = await resolveRelations(
@@ -102,7 +102,7 @@ describe('resolveRelations', async () => {
     );
     // console.log(JSON.stringify(round2, null, 2));
     expect(round2).toEqual({
-      '/{groupId}/items': items.filter((item) => item.id < 3),
+      '/{groupId}/items': { data: items.filter((item) => item.id < 3), schema: { } },
     });
     expect(callbackMock.mock.calls).toEqual([
       ['/groups', {}],
@@ -145,7 +145,7 @@ describe('resolveRelations', async () => {
     ): Promise<TypedObject> {
       void resolution;
       if (syncableName === '/groups') {
-        return { data: groups, schema: {} };
+        return { data: groups, schema: undefined };
       }
       if (syncableName === '/groups/{groupId}/trips') {
         // console.log('filtering trips', resolution);
@@ -154,7 +154,7 @@ describe('resolveRelations', async () => {
             (trip) =>
               trip.groupId.toString() === resolution['groupId']?.toString(),
           ),
-          schema: {},
+          schema: undefined,
         };
       }
       if (syncableName === '/groups/{groupId}/trips/{tripId}/items') {
@@ -172,13 +172,13 @@ describe('resolveRelations', async () => {
     const rounds = [
       {
         results: {
-          '/groups': groups,
+          '/groups': { data: groups, schema: undefined },
         },
         calls: [['/groups', {}]],
       },
       {
         results: {
-          '/groups/{groupId}/trips': trips,
+          '/groups/{groupId}/trips': { data: trips, schema: undefined },
         },
         calls: [
           [
@@ -197,7 +197,7 @@ describe('resolveRelations', async () => {
       },
       {
         results: {
-          '/groups/{groupId}/trips/{tripId}/items': [items[0], items[1]],
+          '/groups/{groupId}/trips/{tripId}/items': { data: [items[0], items[1]], schema: undefined },
         },
         calls: [
           [

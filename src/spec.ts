@@ -121,7 +121,6 @@ function parsePaginationScheme(
       input.defaultPageSize = paramObject.schema.default as number;
     }
   }
-  const responses = doc.paths[path]?.[method]?.responses;
   const itemsPathInResponse =
     paginationScheme.paginate.length === 0
       ? []
@@ -130,7 +129,6 @@ function parsePaginationScheme(
   return Object.assign(
     {
       itemsPathInResponse,
-      responses,
     },
     input,
   );
@@ -166,6 +164,7 @@ export function generateSyncableSpec(
     defaultPageSize: input.defaultPageSize,
     forcePageSizeParamInQuery: paginationScheme.pageSize?.parameter,
     idField: input.idField || 'id',
+    responses: doc.paths[path]?.[method]?.responses,
   };
   // console.log('finding path parts', input.itemsPathInResponse, responseSchema);
   if (findPathParts(input.itemsPathInResponse, responseSchema)) {

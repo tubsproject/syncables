@@ -108,7 +108,7 @@ export async function resolveRelations(
           level + 1,
         );
         // console.log('new data', relationsCopyStr, newData);
-        Object.entries(newData).forEach(([key, value]) => {
+        Object.entries(newData.data).forEach(([key, value]) => {
           dataFound[key] = {
             data: ((dataFound[key].data as object[]) || []).concat(value),
             schema: dataFound[key].schema,
@@ -141,7 +141,7 @@ export async function resolveRelations(
     // console.log(`callback for ${syncableNames[i]} for`, resolution, `at level ${level} gave`, dataFoundHere, `concatinating to`, dataFound[syncableNames[i]]);
     dataFound[syncableNames[i]] = {
       data: ((dataFound[syncableNames[i]]?.data as object[]) || []).concat(
-        dataFoundHere,
+        dataFoundHere.data,
       ),
       schema: dataFound[syncableNames[i]]?.schema,
     };
