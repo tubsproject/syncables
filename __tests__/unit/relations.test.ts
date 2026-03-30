@@ -70,10 +70,13 @@ describe('resolveRelations', async () => {
         return { data: groups, schema: {} };
       }
       // console.log('filtering items', items, resolution);
-      return { data: items.filter((item) => {
-        // console.log('comparing', item.groupId.toString(), resolution['groupId'], item.groupId.toString() === resolution['groupId']?.toString());
-        return item.groupId.toString() === resolution['groupId']?.toString();
-      }), schema: {} };
+      return {
+        data: items.filter((item) => {
+          // console.log('comparing', item.groupId.toString(), resolution['groupId'], item.groupId.toString() === resolution['groupId']?.toString());
+          return item.groupId.toString() === resolution['groupId']?.toString();
+        }),
+        schema: {},
+      };
     }
     const callbackMock = vi.fn(callback);
     // console.log('starting round 1');
@@ -146,16 +149,23 @@ describe('resolveRelations', async () => {
       }
       if (syncableName === '/groups/{groupId}/trips') {
         // console.log('filtering trips', resolution);
-        return { data: trips.filter(
-          (trip) =>
-            trip.groupId.toString() === resolution['groupId']?.toString(),
-        ), schema: {} };
+        return {
+          data: trips.filter(
+            (trip) =>
+              trip.groupId.toString() === resolution['groupId']?.toString(),
+          ),
+          schema: {},
+        };
       }
       if (syncableName === '/groups/{groupId}/trips/{tripId}/items') {
         // console.log('filtering items on trips', resolution);
-        return { data: items.filter(
-          (item) => item.tripId.toString() === resolution['tripId']?.toString(),
-        ), schema: {} };
+        return {
+          data: items.filter(
+            (item) =>
+              item.tripId.toString() === resolution['tripId']?.toString(),
+          ),
+          schema: {},
+        };
       }
       throw new Error(`unanticipated request: ${syncableName}`);
     }

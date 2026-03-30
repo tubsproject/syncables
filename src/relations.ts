@@ -110,7 +110,7 @@ export async function resolveRelations(
         // console.log('new data', relationsCopyStr, newData);
         Object.entries(newData).forEach(([key, value]) => {
           dataFound[key] = {
-            data: (dataFound[key].data as object[] || []).concat(value),
+            data: ((dataFound[key].data as object[]) || []).concat(value),
             schema: dataFound[key].schema,
           };
         });
@@ -140,7 +140,9 @@ export async function resolveRelations(
     const dataFoundHere = await callback(syncableNames[i], resolution);
     // console.log(`callback for ${syncableNames[i]} for`, resolution, `at level ${level} gave`, dataFoundHere, `concatinating to`, dataFound[syncableNames[i]]);
     dataFound[syncableNames[i]] = {
-      data: (dataFound[syncableNames[i]]?.data as object[] || []).concat(dataFoundHere),
+      data: ((dataFound[syncableNames[i]]?.data as object[]) || []).concat(
+        dataFoundHere,
+      ),
       schema: dataFound[syncableNames[i]]?.schema,
     };
   }

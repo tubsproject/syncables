@@ -624,11 +624,11 @@ export class Syncer extends EventEmitter {
       Object.keys(result).forEach((syncableName) => {
         newData = true;
         allData[syncableName] = {
-          data: (allData[syncableName].data as object[] || []).concat(
-          result[syncableName],
-        ),
-        schema: allData[syncableName].schema
-      };
+          data: ((allData[syncableName].data as object[]) || []).concat(
+            result[syncableName],
+          ),
+          schema: allData[syncableName].schema,
+        };
       });
 
       console.log(
