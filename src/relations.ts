@@ -96,7 +96,12 @@ export async function resolveRelations(
         .map((obj) => obj[relation.field]);
       const promises = values.map(async (value) => {
         // console.log('dealing with valuation', value);
-        const relationsCopy = Object.assign({}, relations);
+        // Deep-copy each relation object so setting .resolved on one doesn't
+        // mutate the shared object used by other parallel iterations.
+        const relationsCopy: typeof relations = {};
+        Object.keys(relations).forEach((key) => {
+          relationsCopy[key] = Object.assign({}, relations[key]);
+        });
         relationsCopy[placeholder].resolved = value;
         // const relationsCopyStr = JSON.stringify(relationsCopy, null, 2);
         // console.log('recursion', syncableNames, relationsCopyStr);
