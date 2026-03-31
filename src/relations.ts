@@ -111,7 +111,7 @@ export async function resolveRelations(
         Object.entries(newData).forEach(([key, value]) => {
           dataFound[key] = {
             data: ((dataFound[key]?.data as object[]) || []).concat(value.data),
-            schema: dataFound[key]?.schema,
+            schema: dataFound[key]?.schema ?? value.schema,
           };
         });
       });
@@ -143,7 +143,7 @@ export async function resolveRelations(
       data: ((dataFound[syncableNames[i]]?.data as object[]) || []).concat(
         dataFoundHere.data,
       ),
-      schema: dataFound[syncableNames[i]]?.schema,
+      schema: dataFound[syncableNames[i]]?.schema ?? dataFoundHere.schema,
     };
   }
   // console.log(`returning data found at level ${level}`, dataFound);

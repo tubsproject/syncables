@@ -22,7 +22,7 @@ describe('resolveRelations', async () => {
       callbackMock,
     );
     expect(result).toEqual({
-      'test-syncable': { data: [], schema: undefined },
+      'test-syncable': { data: [], schema: {} },
     });
     expect(callbackMock).toHaveBeenCalledTimes(1);
   });
@@ -108,7 +108,7 @@ describe('resolveRelations', async () => {
     expect(round2).toEqual({
       '/{groupId}/items': {
         data: items.filter((item) => item.id < 3),
-        schema: undefined,
+        schema: {},
       },
     });
     expect(callbackMock.mock.calls).toEqual([
@@ -179,13 +179,13 @@ describe('resolveRelations', async () => {
     const rounds = [
       {
         results: {
-          '/groups': { data: groups, schema: undefined },
+          '/groups': { data: groups, schema: {} },
         },
         calls: [['/groups', {}]],
       },
       {
         results: {
-          '/groups/{groupId}/trips': { data: trips, schema: undefined },
+          '/groups/{groupId}/trips': { data: trips, schema: {} },
         },
         calls: [
           [
@@ -206,7 +206,7 @@ describe('resolveRelations', async () => {
         results: {
           '/groups/{groupId}/trips/{tripId}/items': {
             data: [items[0], items[1]],
-            schema: undefined,
+            schema: {},
           },
         },
         calls: [
@@ -255,7 +255,7 @@ describe('resolveRelations', async () => {
           data: ((data[syncableName]?.data as object[]) || []).concat(
             result[syncableName].data,
           ),
-          schema: data[syncableName]?.schema,
+          schema: data[syncableName]?.schema ?? result[syncableName].schema,
         };
       });
       expect(result).toEqual(rounds[i].results);

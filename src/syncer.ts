@@ -641,7 +641,7 @@ export class Syncer extends EventEmitter {
           data: ((allData[syncableName]?.data as object[]) || []).concat(
             result[syncableName].data,
           ),
-          schema: allData[syncableName]?.schema,
+          schema: allData[syncableName]?.schema ?? result[syncableName].schema,
         };
       });
       // console.log('added to allData', allData);
