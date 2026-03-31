@@ -108,10 +108,10 @@ export async function resolveRelations(
           level + 1,
         );
         // console.log('new data', relationsCopyStr, newData);
-        Object.entries(newData.data).forEach(([key, value]) => {
+        Object.entries(newData).forEach(([key, value]) => {
           dataFound[key] = {
-            data: ((dataFound[key].data as object[]) || []).concat(value),
-            schema: dataFound[key].schema,
+            data: ((dataFound[key]?.data as object[]) || []).concat(value.data),
+            schema: dataFound[key]?.schema,
           };
         });
       });

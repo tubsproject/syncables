@@ -21,7 +21,7 @@ describe('resolveRelations', async () => {
       {},
       callbackMock,
     );
-    expect(result).toEqual({ 'test-syncable': [] });
+    expect(result).toEqual({ 'test-syncable': { data: [], schema: undefined } });
     expect(callbackMock).toHaveBeenCalledTimes(1);
   });
   it('can resolve a filled collection with no relations', async () => {
@@ -46,7 +46,7 @@ describe('resolveRelations', async () => {
       {},
       callbackMock,
     );
-    expect(result).toEqual({ 'test-syncable': items });
+    expect(result).toEqual({ 'test-syncable': { data: items, schema: undefined } });
     expect(callbackMock).toHaveBeenCalledTimes(1);
   });
   it('can resolve a single relation', async () => {
@@ -247,9 +247,10 @@ describe('resolveRelations', async () => {
         callbackMock,
       );
       Object.keys(result).forEach((syncableName) => {
-        data[syncableName] = (data[syncableName] || []).concat(
-          result[syncableName],
-        );
+        data[syncableName] = {
+          data: ((data[syncableName]?.data as object[]) || []).concat(result[syncableName].data),
+          schema: data[syncableName]?.schema,
+        };
       });
       expect(result).toEqual(rounds[i].results);
       expect(callbackMock.mock.calls).toEqual(rounds[i].calls);

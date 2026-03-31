@@ -228,7 +228,7 @@ export class Syncer extends EventEmitter {
     }
     // console.log('finding responses', spec);
     const schema =
-      spec.responses[response.status.toString()].content?.[
+      spec.responses?.[response.status.toString()]?.content?.[
         response.headers.get('Content-Type')
       ]?.schema;
     const responseData = await response.json();
