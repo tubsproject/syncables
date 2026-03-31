@@ -49,7 +49,7 @@
     "build:release": "npm run clean && tsc -p tsconfig.release.json",
     "lint": "eslint .",
     "test": "npm run test:unit && npm run test:integration",
-    "test:unit": "vitest run unit --config __tests__/vitest.config.ts",
+    "test:unit": "vitest run unit --config __tests__/vitest.config.ts --reporter=json --outputFile=results.json",
     "test:integration": "vitest run integration --config __tests__/vitest.config.ts",
     "test:coverage": "vitest run unit --config __tests__/vitest.config.ts --coverage.enabled --coverage.all",
     "prettier": "prettier \"{src,__tests__}/**/*.{ts,mts}\" --config .prettierrc --write",

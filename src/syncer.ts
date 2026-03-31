@@ -327,6 +327,7 @@ export class Syncer extends EventEmitter {
     let hasMore = true;
     const spec = this.syncables[syncableName].spec;
     let pages = 0;
+    let schema: OpenAPIV3_1.SchemaObject | undefined;
     while (hasMore && pages++ < MAX_PAGES) {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
@@ -344,12 +345,13 @@ export class Syncer extends EventEmitter {
         {},
         this.forcePageSize || spec.defaultPageSize || 1,
       );
+      schema = schema ?? data.schema;
       allData = allData.concat(data.items);
       hasMore = data.hasMore;
       offset += data.items.length;
     }
 
-    return { data: allData, schema: {} };
+    return { data: allData, schema };
   }
 
   private async pageTokenFetch(
@@ -362,6 +364,7 @@ export class Syncer extends EventEmitter {
     let nextPageToken: string | null = null;
     const spec = this.syncables[syncableName].spec;
     let pages = 0;
+    let schema: OpenAPIV3_1.SchemaObject | undefined;
     do {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
@@ -381,11 +384,12 @@ export class Syncer extends EventEmitter {
         this.forcePageSize || spec.defaultPageSize || 1,
       );
       // console.log('fetched', data);
+      schema = schema ?? data.schema;
       allData = allData.concat(data.items);
       nextPageToken = data.nextPageToken || null;
     } while (nextPageToken && ++pages < MAX_PAGES);
 
-    return { data: allData, schema: {} };
+    return { data: allData, schema };
   }
   private async linkHeaderFetch(
     syncableName: string,
@@ -397,6 +401,7 @@ export class Syncer extends EventEmitter {
     const spec = this.syncables[syncableName].spec;
     let url = this.getUrl(this.syncables[syncableName].path, theseParents);
     let pages = 0;
+    let schema: OpenAPIV3_1.SchemaObject | undefined;
     do {
       Object.entries(spec.query || {}).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -412,6 +417,7 @@ export class Syncer extends EventEmitter {
         this.forcePageSize || spec.defaultPageSize || 1,
       );
       // console.log('fetched', data);
+      schema = schema ?? data.schema;
       allData = allData.concat(data.items);
       if (data.nextUrl) {
         url = new URL(data.nextUrl);
@@ -421,7 +427,7 @@ export class Syncer extends EventEmitter {
       // console.log('URL is now', url);
     } while (url && ++pages < MAX_PAGES);
 
-    return { data: allData, schema: {} };
+    return { data: allData, schema };
   }
 
   private async rangeHeaderFetch(
@@ -435,6 +441,7 @@ export class Syncer extends EventEmitter {
     const numItemsPerPage = this.forcePageSize || 20;
     let rangeHeader = `id ..; max=${numItemsPerPage}`;
     let pages = 0;
+    let schema: OpenAPIV3_1.SchemaObject | undefined;
     while (pages++ < MAX_PAGES) {
       const url = this.getUrl(this.syncables[syncableName].path, theseParents);
       Object.entries(spec.query || {}).forEach(([key, value]) => {
@@ -448,6 +455,7 @@ export class Syncer extends EventEmitter {
         },
         numItemsPerPage,
       );
+      schema = schema ?? data.schema;
       allData = allData.concat(data.items);
       const lastItemId =
         data.items.length > 0
@@ -460,7 +468,7 @@ export class Syncer extends EventEmitter {
       }
     }
 
-    return { data: allData, schema: {} };
+    return { data: allData, schema };
   }
 
   private async confirmationBasedFetch(
@@ -473,10 +481,12 @@ export class Syncer extends EventEmitter {
     let allData: object[] = [];
     let thisBatch: {
       items: object[];
+      schema: OpenAPIV3_1.SchemaObject;
       hasMore?: boolean;
       nextPageToken?: string;
     };
     let pages = 0;
+    let schema: OpenAPIV3_1.SchemaObject | undefined;
     do {
       thisBatch = await this.doFetch(
         spec,
@@ -484,6 +494,7 @@ export class Syncer extends EventEmitter {
       );
       // console.log('fetched batch', thisBatch.items.length, thisBatch);
       // console.log('confirming', spec.confirmOperation);
+      schema = schema ?? thisBatch.schema;
       allData = allData.concat(thisBatch.items);
       const promises = Promise.all(
         thisBatch.items.map(async (item) => {
@@ -502,7 +513,7 @@ export class Syncer extends EventEmitter {
       );
       await promises;
     } while (thisBatch.hasMore && ++pages < MAX_PAGES);
-    return { data: allData, schema: {} };
+    return { data: allData, schema };
   }
   private async doOneFetch(
     syncableName: string,
