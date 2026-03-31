@@ -16,7 +16,7 @@ describe('Google Calendar List', async () => {
     overlayStr,
     fetchFunction: fetchMock as unknown as typeof fetch,
   });
-  it.skip('fetches calendar list entries', async () => {
+  it('fetches calendar list entries', async () => {
     const data = await syncer.fullFetch();
     // console.log('Data fetched by syncer:', data);
     const keys = [
