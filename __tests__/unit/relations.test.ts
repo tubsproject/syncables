@@ -12,7 +12,7 @@ describe('resolveRelations', async () => {
     ): Promise<TypedObject> {
       void syncableName;
       void resolution;
-      return { data: [], schema: undefined };
+      return { data: [], schema: {} };
     }
     const callbackMock = vi.fn(callback);
     const result = await resolveRelations(
@@ -37,7 +37,7 @@ describe('resolveRelations', async () => {
     ): Promise<TypedObject> {
       void syncableName;
       void resolution;
-      return { data: items, schema: {} };
+      return { data: items, schema: undefined };
     }
     const callbackMock = vi.fn(callback);
     const result = await resolveRelations(
@@ -67,7 +67,7 @@ describe('resolveRelations', async () => {
     ): Promise<TypedObject> {
       void resolution;
       if (syncableName === '/groups') {
-        return { data: groups, schema: {} };
+        return { data: groups, schema: undefined };
       }
       // console.log('filtering items', items, resolution);
       return {
@@ -104,7 +104,7 @@ describe('resolveRelations', async () => {
     expect(round2).toEqual({
       '/{groupId}/items': {
         data: items.filter((item) => item.id < 3),
-        schema: {},
+        schema: undefined,
       },
     });
     expect(callbackMock.mock.calls).toEqual([
@@ -148,7 +148,7 @@ describe('resolveRelations', async () => {
     ): Promise<TypedObject> {
       void resolution;
       if (syncableName === '/groups') {
-        return { data: groups, schema: undefined };
+        return { data: groups, schema: {} };
       }
       if (syncableName === '/groups/{groupId}/trips') {
         // console.log('filtering trips', resolution);
@@ -157,7 +157,7 @@ describe('resolveRelations', async () => {
             (trip) =>
               trip.groupId.toString() === resolution['groupId']?.toString(),
           ),
-          schema: undefined,
+          schema: {},
         };
       }
       if (syncableName === '/groups/{groupId}/trips/{tripId}/items') {

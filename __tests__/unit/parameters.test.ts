@@ -58,7 +58,7 @@ describe('Params', () => {
           ),
         );
       }
-      expect(data[path]).toEqual(items);
+      expect(data[path]).toEqual({ data: items, schema: undefined });
     });
     expect(fetchMock.mock.calls).toEqual([
       ['https://example.com/api/users/?page=1', { headers: {} }],
@@ -107,67 +107,28 @@ describe('Params', () => {
     });
     const data = await syncer.fullFetch(() => Promise.resolve(), params);
     expect(data).toEqual({
-      '/user/{userId}/widgets/': [
-        {
-          id: 1,
-          title: 'Test Todo 1',
-          userId: 1,
-        },
-        {
-          id: 2,
-          title: 'Test Todo 2',
-          userId: 1,
-        },
-        {
-          id: 3,
-          title: 'Test Todo 3',
-          userId: 1,
-        },
-        {
-          id: 1,
-          title: 'Test Todo 1',
-          userId: 2,
-        },
-        {
-          id: 2,
-          title: 'Test Todo 2',
-          userId: 2,
-        },
-        {
-          id: 3,
-          title: 'Test Todo 3',
-          userId: 2,
-        },
-        {
-          id: 1,
-          title: 'Test Todo 1',
-          userId: 3,
-        },
-        {
-          id: 2,
-          title: 'Test Todo 2',
-          userId: 3,
-        },
-        {
-          id: 3,
-          title: 'Test Todo 3',
-          userId: 3,
-        },
-      ],
-      '/users/': [
-        {
-          id: 1,
-          title: 'Test Todo 1',
-        },
-        {
-          id: 2,
-          title: 'Test Todo 2',
-        },
-        {
-          id: 3,
-          title: 'Test Todo 3',
-        },
-      ],
+      '/user/{userId}/widgets/': {
+        data: [
+          { id: 1, title: 'Test Todo 1', userId: 1 },
+          { id: 2, title: 'Test Todo 2', userId: 1 },
+          { id: 3, title: 'Test Todo 3', userId: 1 },
+          { id: 1, title: 'Test Todo 1', userId: 2 },
+          { id: 2, title: 'Test Todo 2', userId: 2 },
+          { id: 3, title: 'Test Todo 3', userId: 2 },
+          { id: 1, title: 'Test Todo 1', userId: 3 },
+          { id: 2, title: 'Test Todo 2', userId: 3 },
+          { id: 3, title: 'Test Todo 3', userId: 3 },
+        ],
+        schema: undefined,
+      },
+      '/users/': {
+        data: [
+          { id: 1, title: 'Test Todo 1' },
+          { id: 2, title: 'Test Todo 2' },
+          { id: 3, title: 'Test Todo 3' },
+        ],
+        schema: undefined,
+      },
     });
     expect(fetchMock.mock.calls).toEqual([
       [
@@ -415,7 +376,7 @@ describe('Params', () => {
           },
         ];
       }
-      expect(data[path]).toEqual(items);
+      expect(data[path]).toEqual({ data: items, schema: undefined });
     });
     const expectedCalls = [
       ['https://example.com/api/countries/?page=1', { headers: {} }],
