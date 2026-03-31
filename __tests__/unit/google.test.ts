@@ -22,9 +22,9 @@ describe('Google Calendar List', async () => {
     const keys = [
       '/users/me/calendarList',
       '/users/me/settings',
-      "/calendars/{calendarId}/acl",
-      "/calendars/{calendarId}/events",
-      "/calendars/{calendarId}/events/{eventId}/instances",
+      '/calendars/{calendarId}/acl',
+      '/calendars/{calendarId}/events',
+      '/calendars/{calendarId}/events/{eventId}/instances',
     ];
     expect(Object.keys(data)).toEqual(keys);
     keys.forEach((key) => {
@@ -60,7 +60,9 @@ describe('Google Calendar List', async () => {
           }
         }
       }
-      expect({ [key]: data[key] }).toEqual({ [key]: { data: items, schema: undefined } });
+      expect({ [key]: data[key] }).toEqual({
+        [key]: { data: items, schema: undefined },
+      });
     });
   });
 });
