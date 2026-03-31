@@ -20,16 +20,11 @@ describe('Google Calendar List', async () => {
     const data = await syncer.fullFetch();
     // console.log('Data fetched by syncer:', data);
     const keys = [
-      // '/colors',
       '/users/me/calendarList',
-      // '/users/me/calendarList/{calendarId}',
       '/users/me/settings',
-      // '/users/me/settings/{setting}',
-      // '/calendars/{calendarId}',
-      // '/calendars/{calendarId}/acl',
-      // '/calendars/{calendarId}/acl/{ruleId}',
-      // '/calendars/{calendarId}/events',
-      // '/calendars/{calendarId}/events/{eventId}',
+      '/calendars/{calendarId}/acl',
+      '/calendars/{calendarId}/events',
+      '/calendars/{calendarId}/events/{eventId}/instances',
     ];
     expect(Object.keys(data)).toEqual(keys);
     keys.forEach((key) => {
@@ -39,8 +34,8 @@ describe('Google Calendar List', async () => {
           for (let eventId = 1; eventId < 4; eventId++) {
             for (let itemId = 1; itemId < 4; itemId++) {
               items.push({
-                calendarId: calendarId.toString(),
-                eventId: eventId.toString(),
+                calendarId: calendarId,
+                eventId: eventId,
                 id: itemId,
                 title: `Test Todo ${itemId}`,
               });
@@ -58,14 +53,16 @@ describe('Google Calendar List', async () => {
         for (let calendarId = 1; calendarId < 4; calendarId++) {
           for (let itemId = 1; itemId < 4; itemId++) {
             items.push({
-              calendarId: calendarId.toString(),
+              calendarId: calendarId,
               id: itemId,
               title: `Test Todo ${itemId}`,
             });
           }
         }
       }
-      expect({ [key]: data[key] }).toEqual({ [key]: items });
+      expect({ [key]: data[key] }).toEqual({
+        [key]: { data: items, schema: undefined },
+      });
     });
   });
 });

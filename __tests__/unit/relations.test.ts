@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { resolveRelations } from '../../src/relations.js';
+import { TypedObject } from '../../src/schemaStore.js';
 
 describe('resolveRelations', async () => {
   it('can resolve an empty collection with no relations', async () => {
@@ -8,10 +9,10 @@ describe('resolveRelations', async () => {
       resolution: {
         [pattern: string]: string;
       },
-    ): Promise<object[]> {
+    ): Promise<TypedObject> {
       void syncableName;
       void resolution;
-      return [];
+      return { data: [], schema: {} };
     }
     const callbackMock = vi.fn(callback);
     const result = await resolveRelations(
@@ -20,7 +21,9 @@ describe('resolveRelations', async () => {
       {},
       callbackMock,
     );
-    expect(result).toEqual({ 'test-syncable': [] });
+    expect(result).toEqual({
+      'test-syncable': { data: [], schema: {} },
+    });
     expect(callbackMock).toHaveBeenCalledTimes(1);
   });
   it('can resolve a filled collection with no relations', async () => {
@@ -33,10 +36,10 @@ describe('resolveRelations', async () => {
       resolution: {
         [pattern: string]: string;
       },
-    ): Promise<object[]> {
+    ): Promise<TypedObject> {
       void syncableName;
       void resolution;
-      return items;
+      return { data: items, schema: undefined };
     }
     const callbackMock = vi.fn(callback);
     const result = await resolveRelations(
@@ -45,7 +48,9 @@ describe('resolveRelations', async () => {
       {},
       callbackMock,
     );
-    expect(result).toEqual({ 'test-syncable': items });
+    expect(result).toEqual({
+      'test-syncable': { data: items, schema: undefined },
+    });
     expect(callbackMock).toHaveBeenCalledTimes(1);
   });
   it('can resolve a single relation', async () => {
@@ -63,16 +68,19 @@ describe('resolveRelations', async () => {
       resolution: {
         [pattern: string]: string;
       },
-    ): Promise<object[]> {
+    ): Promise<TypedObject> {
       void resolution;
       if (syncableName === '/groups') {
-        return groups;
+        return { data: groups, schema: undefined };
       }
       // console.log('filtering items', items, resolution);
-      return items.filter((item) => {
-        // console.log('comparing', item.groupId.toString(), resolution['groupId'], item.groupId.toString() === resolution['groupId']?.toString());
-        return item.groupId.toString() === resolution['groupId']?.toString();
-      });
+      return {
+        data: items.filter((item) => {
+          // console.log('comparing', item.groupId.toString(), resolution['groupId'], item.groupId.toString() === resolution['groupId']?.toString());
+          return item.groupId.toString() === resolution['groupId']?.toString();
+        }),
+        schema: {},
+      };
     }
     const callbackMock = vi.fn(callback);
     // console.log('starting round 1');
@@ -85,7 +93,7 @@ describe('resolveRelations', async () => {
       callbackMock,
     );
     expect(round1).toEqual({
-      '/groups': groups,
+      '/groups': { data: groups, schema: undefined },
     });
     // console.log('starting round 2');
     const round2 = await resolveRelations(
@@ -98,7 +106,10 @@ describe('resolveRelations', async () => {
     );
     // console.log(JSON.stringify(round2, null, 2));
     expect(round2).toEqual({
-      '/{groupId}/items': items.filter((item) => item.id < 3),
+      '/{groupId}/items': {
+        data: items.filter((item) => item.id < 3),
+        schema: {},
+      },
     });
     expect(callbackMock.mock.calls).toEqual([
       ['/groups', {}],
@@ -138,36 +149,43 @@ describe('resolveRelations', async () => {
       resolution: {
         [pattern: string]: string;
       },
-    ): Promise<object[]> {
+    ): Promise<TypedObject> {
       void resolution;
       if (syncableName === '/groups') {
-        return groups;
+        return { data: groups, schema: {} };
       }
       if (syncableName === '/groups/{groupId}/trips') {
         // console.log('filtering trips', resolution);
-        return trips.filter(
-          (trip) =>
-            trip.groupId.toString() === resolution['groupId']?.toString(),
-        );
+        return {
+          data: trips.filter(
+            (trip) =>
+              trip.groupId.toString() === resolution['groupId']?.toString(),
+          ),
+          schema: {},
+        };
       }
       if (syncableName === '/groups/{groupId}/trips/{tripId}/items') {
         // console.log('filtering items on trips', resolution);
-        return items.filter(
-          (item) => item.tripId.toString() === resolution['tripId']?.toString(),
-        );
+        return {
+          data: items.filter(
+            (item) =>
+              item.tripId.toString() === resolution['tripId']?.toString(),
+          ),
+          schema: {},
+        };
       }
       throw new Error(`unanticipated request: ${syncableName}`);
     }
     const rounds = [
       {
         results: {
-          '/groups': groups,
+          '/groups': { data: groups, schema: {} },
         },
         calls: [['/groups', {}]],
       },
       {
         results: {
-          '/groups/{groupId}/trips': trips,
+          '/groups/{groupId}/trips': { data: trips, schema: {} },
         },
         calls: [
           [
@@ -186,7 +204,10 @@ describe('resolveRelations', async () => {
       },
       {
         results: {
-          '/groups/{groupId}/trips/{tripId}/items': [items[0], items[1]],
+          '/groups/{groupId}/trips/{tripId}/items': {
+            data: [items[0], items[1]],
+            schema: {},
+          },
         },
         calls: [
           [
@@ -230,9 +251,12 @@ describe('resolveRelations', async () => {
         callbackMock,
       );
       Object.keys(result).forEach((syncableName) => {
-        data[syncableName] = (data[syncableName] || []).concat(
-          result[syncableName],
-        );
+        data[syncableName] = {
+          data: ((data[syncableName]?.data as object[]) || []).concat(
+            result[syncableName].data,
+          ),
+          schema: data[syncableName]?.schema ?? result[syncableName].schema,
+        };
       });
       expect(result).toEqual(rounds[i].results);
       expect(callbackMock.mock.calls).toEqual(rounds[i].calls);

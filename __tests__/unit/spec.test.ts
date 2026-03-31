@@ -41,7 +41,26 @@ describe('Spec parsing', () => {
           itemsPathInResponse: ['items'],
           paginationStrategy: 'pageNumber',
           pageNumberParamInQuery: 'page',
-          parameters: {},
+          responses: {
+            '200': {
+              description: 'A list of items.',
+              content: {
+                'application/json': {
+                  syncables: [Object.assign({}, spec)],
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      items: {
+                        type: 'array',
+                        items: { type: 'object' },
+                      },
+                      hasMore: { type: 'boolean' },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         spec,
       ),

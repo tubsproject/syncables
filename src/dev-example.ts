@@ -3,7 +3,7 @@ import { Syncer } from './syncer.js';
 import { fetchFunction } from './caching-fetch.js';
 import { getAuthHeaderSets } from './auth.js';
 import { getSecuritySchemeObjects } from './utils.js';
-import { storeData, resetStore } from './schemaStore.js';
+import { storeData, resetStore, TypedObject } from './schemaStore.js';
 // import { /* components, */ paths } from './github.js';
 
 // type IssueIn = paths['/repos/{owner}/{repo}/issues']['post']['requestBody']['content']['application/json'];
@@ -68,8 +68,8 @@ async function main(): Promise<void> {
           JSON.stringify(filter),
         );
         await syncer.fullFetch(
-          async (syncableName: string, items: object[]) => {
-            await storeData(specName, syncableName, items, {}).catch((err) => {
+          async (syncableName: string, items: TypedObject) => {
+            await storeData(specName, syncableName, items).catch((err) => {
               console.error(
                 `Error storing data for ${syncableName} of API ${specName}:`,
                 err,
@@ -81,8 +81,8 @@ async function main(): Promise<void> {
         );
       } else {
         await syncer.fullFetch(
-          async (syncableName: string, items: object[]) => {
-            await storeData(specName, syncableName, items, {}).catch((err) => {
+          async (syncableName: string, items: TypedObject) => {
+            await storeData(specName, syncableName, items).catch((err) => {
               console.error(
                 `Error storing data for ${syncableName} of API ${specName}:`,
                 err,

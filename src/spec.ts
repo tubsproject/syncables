@@ -29,6 +29,7 @@ export type SyncableSpec = SyncableSpecInput & {
   pageTokenParamInQuery?: string;
   nextPageTokenPathInResponse?: string[];
   forcePageSizeParamInQuery?: string;
+  responses?: OpenAPIV3_1.ResponsesObject;
 };
 type JsonPath = string;
 type HeaderSpec = string;
@@ -163,6 +164,7 @@ export function generateSyncableSpec(
     defaultPageSize: input.defaultPageSize,
     forcePageSizeParamInQuery: paginationScheme.pageSize?.parameter,
     idField: input.idField || 'id',
+    responses: doc.paths[path]?.[method]?.responses,
   };
   // console.log('finding path parts', input.itemsPathInResponse, responseSchema);
   if (findPathParts(input.itemsPathInResponse, responseSchema)) {

@@ -3,7 +3,7 @@ import { createFetchMock } from '../helpers/createFetchMock.js';
 import { test, expect } from 'vitest';
 import { Syncer } from '../../src/syncer.js';
 
-test('pageNumber paging (unkown page size)', async () => {
+test.only('pageNumber paging (unkown page size)', async () => {
   const { fetchMock, mockResponses } = createFetchMock();
   // console.log('Mock responses:', mockResponses);
   // Call the function and assert the result
@@ -29,7 +29,10 @@ test('pageNumber paging (unkown page size)', async () => {
   const data = await syncable.fullFetch();
   // console.log('fullFetch end');
   expect(data).toEqual({
-    '/todos/': mockResponses[0].items.concat(mockResponses[1].items),
+    '/todos/': {
+      data: mockResponses[0].items.concat(mockResponses[1].items),
+      schema: undefined,
+    },
   });
 
   // Check that fetch was called exactly thrice
