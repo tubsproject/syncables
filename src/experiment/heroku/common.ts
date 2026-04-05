@@ -1,6 +1,7 @@
 import { readFile } from 'fs/promises';
 
-export const baseUrl = `https://api.heroku.com/teams`;
+const appId = 'bcd7d4c3-491f-4576-a01b-e7a1b8e45498';
+export const baseUrl = `https://api.heroku.com/apps/${appId}/domains`;
 const pageSize = 5;
 
 export async function getAuthHeaderSet(): Promise<{ [key: string]: string }> {
@@ -8,14 +9,15 @@ export async function getAuthHeaderSet(): Promise<{ [key: string]: string }> {
   return JSON.parse(buff.toString());
 }
 
-export async function listTeams(
+export async function listItems(
   authHeaders: { [key: string]: string },
+  field: string,
   firstId?: string,
-): Promise<object[]> {
+): Promise<{ [id: string]: string}> {
   const url = new URL(baseUrl);
-  let Range = `id ..; max=${pageSize}`;
+  let Range = `${field} ..; max=${pageSize}`;
   if (firstId !== undefined)  {
-    Range = `id ]${firstId}..; max=${pageSize}`;
+    Range = `${field} ]${firstId}..; max=${pageSize}`;
   }
   console.log({ Range }); 
   const result = await fetch(url, {
@@ -26,10 +28,9 @@ export async function listTeams(
   });
   const items = await result.json();
   console.log(result.ok, result.status);
-  return items.map(item => {
-    return {
-      id: item.id,
-      name: item.name
-    };
+  const ret = {};
+  items.forEach(item => {
+    ret[item.id] = item.hostname;
   });
+  return ret;
 }

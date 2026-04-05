@@ -1,8 +1,8 @@
 import { baseUrl, getAuthHeaderSet } from './common.js';
 
-async function createEvent(authHeaders: {
+async function createItem(authHeaders: {
   [key: string]: string;
-}): Promise<void> {
+}, hostname: string): Promise<void> {
   const result = await fetch(baseUrl, {
     method: 'post',
     headers: Object.assign(
@@ -13,13 +13,17 @@ async function createEvent(authHeaders: {
       authHeaders,
     ),
     body: JSON.stringify({
-      name: `testing-${new Date().getTime()}`,
+      hostname,
+      sni_endpoint: null,
     }),
   });
-  const created = await result.json();
-  console.log(created.id);
+  const created = await result.text();
+  console.log(created);
   console.log(result.ok, result.status);
 }
 
 // ...
-createEvent(await getAuthHeaderSet());
+if (process.argv.length < 3) {
+  console.log('please specify domain name');
+}
+createItem(await getAuthHeaderSet(), process.argv[2]);
