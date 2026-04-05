@@ -41,7 +41,7 @@ describe('Spec parsing', () => {
           itemsPathInResponse: ['items'],
           paginationStrategy: 'pageNumber',
           pageNumberParamInQuery: 'page',
-          parameters: {},
+          // parameters: {},
         },
         spec,
       ),
