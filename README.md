@@ -128,6 +128,16 @@ I created `src/experiment/github` to show that GitHub issue comment pagination i
 
 Contrasting this with `src/experiment/google-calendar` which uses pageToken and syncToken instead of pageNumber, which guarantees each client stays in a consistent state.
 
+```sh
+pnpm build
+rm .credentials/github.json
+rm .credentials/google-calendar.json
+echo "{\"Authorization\":\"Bearer `heroku auth:token`\"}" > .credentials/heroku.json
+node build/src/experiments/github/list.js
+node build/src/experiments/github/list.js 2
+[...]
+```
+
 ## Acknowledgements
 This project is sponsored by [NLNet](https://nlnet.nl/project/TUBS).
 The `__tests__/integration/mock-server' folder is a copy of [`@scalar/mock-server`](https://github.com/scalar/scalar/blob/main/packages/mock-server/src) - thanks [Scalar](https://scalar.com)!
